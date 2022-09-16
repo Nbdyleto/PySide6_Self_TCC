@@ -1,0 +1,1 @@
+from . daily_task_page import *
