@@ -87,13 +87,3 @@ class Ui_StudyCardsWindow(object):
         self.lblDeckName.setText(_translate("StudyCardsWindow", "lblDeckName"))
         self.label_2.setText(_translate("StudyCardsWindow", "Card."))
         self.lblCardsQnt.setText(_translate("StudyCardsWindow", "0/0"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    StudyCardsWindow = QtWidgets.QMainWindow()
-    ui = Ui_StudyCardsWindow()
-    ui.setupUi(StudyCardsWindow)
-    StudyCardsWindow.show()
-    sys.exit(app.exec_())

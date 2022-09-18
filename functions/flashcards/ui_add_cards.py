@@ -89,12 +89,3 @@ class Ui_AddCardsWindow(object):
         self.pushButton_3.setText(_translate("AddCardsWindow", "X"))
         self.label_2.setText(_translate("AddCardsWindow", "Front"))
         self.label_3.setText(_translate("AddCardsWindow", "Verse"))
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    AddCardsWindow = QtWidgets.QMainWindow()
-    ui = Ui_AddCardsWindow()
-    ui.setupUi(AddCardsWindow)
-    AddCardsWindow.show()
-    sys.exit(app.exec())
