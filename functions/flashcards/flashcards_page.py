@@ -11,6 +11,7 @@ from .ui_add_cards import Ui_AddCardsWindow
 from .ui_study_cards import Ui_StudyCardsWindow
 
 import json
+import random
 
 class FCardsMainPage(QWidget):
     def __init__(self):
@@ -30,6 +31,9 @@ class FCardsMainPage(QWidget):
         widgets.btnAddCards.clicked.connect(self.openAddCardsWindow)
 
         self._to_json()
+
+        self.revealpressed = False
+        self.cardsqnt = 0
     
     # MainWindow Functions
 
@@ -168,16 +172,58 @@ class FCardsMainPage(QWidget):
         studyCardsWidgets = self.ui_studyCards
 
         self.loadWindowInfo(rowClicked)
+        self.cardIterator = None
+        self.loadCardsInfo(rowClicked)
 
         self.studyCardsWindow.show()
+
+    def loadCardsInfo(self, rowClicked=None):
+        if self.revealpressed:
+            self.cardsqnt += 1
+        self.revealpressed = False
+
+        studyCardsWidgets.btnRevealAnswer.setVisible(True)
+        studyCardsWidgets.btnUnsatisfactory.setVisible(False)
+        studyCardsWidgets.btnNormal.setVisible(False)
+        studyCardsWidgets.btnVeryGood.setVisible(False)
+
+        if self.cardIterator is None:
+            # Create a cardIterator if is None (always the studyCards page is called).
+            self.cardsqnt = 1
+            with FlashcardsDB() as db:
+                qry = f"SELECT card_question, card_answer from flashcards WHERE topic_id == ?"
+                cards = db.cursor.execute(qry, (rowClicked,)).fetchall()
+            random.shuffle(cards)
+            self.cardIterator = iter(cards)
+
+        try:
+            front, verse = next(self.cardIterator)
+            print(front, verse)
+            studyCardsWidgets.plainTextEdit.setPlainText(front)
+            studyCardsWidgets.btnRevealAnswer.clicked.connect(lambda: self.revealCardAnswer(verse))
+            studyCardsWidgets.lblCardsQnt.setText(f"{self.cardsqnt}/{str(self.cardscount)}")
+        except:
+            if self.cardsqnt > self.cardscount:
+                self.studyCardsWindow.close()
+            print('Stop Iteration')
+
+    def revealCardAnswer(self, verse):
+        self.revealpressed = True
+
+        studyCardsWidgets.plainTextEdit.setPlainText(verse)
+        studyCardsWidgets.btnUnsatisfactory.clicked.connect(lambda: self.loadCardsInfo())
+        studyCardsWidgets.btnNormal.clicked.connect(lambda: self.loadCardsInfo())
+        studyCardsWidgets.btnVeryGood.clicked.connect(lambda: self.loadCardsInfo())
+        studyCardsWidgets.btnRevealAnswer.setVisible(False)
+        studyCardsWidgets.btnUnsatisfactory.setVisible(True)
+        studyCardsWidgets.btnNormal.setVisible(True)
+        studyCardsWidgets.btnVeryGood.setVisible(True)
 
     def loadWindowInfo(self, rowClicked):
         hitsPercentage, topicName = self.getTopicInfo(rowClicked)
         studyCardsWidgets.lblDeckName.setText(topicName)
 
-        cardsRecords, cardsCount = self.getFlashcardsInfo(rowClicked)
-        studyCardsWidgets.lblCardsQnt.setText(f"1/{str(cardsCount)}")
-
+        cardsRecords, self.cardscount = self.getFlashcardsInfo(rowClicked)
         studyCardsWidgets.pBarHitsPercentage.setValue(hitsPercentage)
 
     def getTopicInfo(self, topic_id):
@@ -194,9 +240,9 @@ class FCardsMainPage(QWidget):
             cardsRecords = db.cursor.execute(qry).fetchall()
 
             qry = f"SELECT COUNT(*) FROM flashcards WHERE topic_id == {topic_id}"
-            cardsCount = (db.cursor.execute(qry).fetchone())[0]
+            cardscount = (db.cursor.execute(qry).fetchone())[0]
 
-        return cardsRecords, cardsCount
+        return cardsRecords, cardscount
 
     #######################
 
