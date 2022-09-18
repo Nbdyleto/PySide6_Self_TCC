@@ -3,8 +3,8 @@ from sqlite3 import dbapi2
 from PySide6.QtWidgets import QWidget, QApplication, QAbstractItemView, QListWidgetItem, QTableWidgetItem, QMessageBox, QCheckBox
 from PySide6.QtCore import QDate, QPoint, QSize
 from PySide6.QtGui import QBrush, QColor, QIcon, Qt
-from .ui_daily_task_page import Ui_DailyTaskPage
-from .tasks_db_operations import DailyTaskDB
+from ui_daily_task_page import Ui_DailyTaskPage
+from tasks_db_operations import DailyTaskDB
 
 import sys
 
