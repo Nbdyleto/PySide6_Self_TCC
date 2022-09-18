@@ -137,36 +137,38 @@ class DTaskMainPage(QWidget):
 
             print('NOVA EXECUÇÃO...')
             print(f'new value:{new_value, self.existent_in_db}\n')
-            with DailyTaskDB() as db:
-                if self.existent_in_db:
-                    # existent in db, so, update old data.
-                    query_update = f"UPDATE tasks SET {act_field} = '{new_value}' WHERE task_name = '{task_name}'"
-                    print(query_update)
+            
+            if self.existent_in_db:
+                # existent in db, so, update old data.
+                query_update = f"UPDATE tasks SET {act_field} = '{new_value}' WHERE task_name = '{task_name}'"
+                print(query_update)
+                with DailyTaskDB() as db:
                     db.cursor.execute(query_update)
-                    self.existent_in_db = None
-                    self.load_data_in_table()
+                self.existent_in_db = None
+                self.load_data_in_table()
                         
-                if self.existent_in_db == False: 
-                    # not existent in db, so, create new data.
-                    query_insert = f"INSERT INTO tasks(task_name, status, start_date, end_date, topic_id) VALUES (?,?,?,?,?)"
-                    new_row_data = (new_value, "Not Started", start_date, end_date, 0)
+            if self.existent_in_db == False: 
+                # not existent in db, so, create new data.
+                query_insert = f"INSERT INTO tasks(task_name, status, start_date, end_date, topic_id) VALUES (?,?,?,?,?)"
+                new_row_data = (new_value, "Not Started", start_date, end_date, 0)
+                with DailyTaskDB() as db:
                     db.populate(query_insert, new_row_data)
-                    self.existent_in_db = None
-                    self.load_data_in_table()
+                self.existent_in_db = None
+                self.load_data_in_table()
 
     def is_existent_in_db(self, row, col):
         query = 'SELECT task_name FROM tasks WHERE task_name = ?'
-        with DailyTaskDB() as db:
-            try:
-                self.selected_task = widgets.tblWidgetTasks.item(row, 0).text() # task name.
-                self.selected_task_data = widgets.tblWidgetTasks.item(row, col).text()
+        try:
+            self.selected_task = widgets.tblWidgetTasks.item(row, 0).text() # task name.
+            self.selected_task_data = widgets.tblWidgetTasks.item(row, col).text()
+            with DailyTaskDB() as db:
                 db.cursor.execute(query, [self.selected_task])
-                print(f'task_name: {self.selected_task} EXISTENT!')
-                self.existent_in_db = True
-            except Exception:
-                print('NOT EXISTENT!')
-                self.existent_in_db = False
-            print(self.existent_in_db, '\n')
+            print(f'task_name: {self.selected_task} EXISTENT!')
+            self.existent_in_db = True
+        except Exception:
+            print('NOT EXISTENT!')
+            self.existent_in_db = False
+        print(self.existent_in_db, '\n')
 
         self.slc_row, self.slc_col = row, col
 
