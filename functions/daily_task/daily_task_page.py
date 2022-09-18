@@ -187,10 +187,10 @@ class DTaskMainPage(QWidget):
     def show_calendar(self):
         self.reset_calendar_date()
         widgets.calendarWidget.setVisible(True)
-        X_VALUE, Y_VALUE = 230, 205
+        X_VALUE, Y_VALUE = 265, 205
         if self.slc_col == 3:
-            X_VALUE = 250
-        widgets.calendarWidget.move(X_VALUE, Y_VALUE+(self.slc_row*30))
+            X_VALUE = 350
+        widgets.calendarWidget.move(X_VALUE, Y_VALUE)
         print(f'showing calendar... {self.slc_row, self.slc_col}')
 
     def hide_calendar(self):
@@ -221,8 +221,6 @@ class DTaskMainPage(QWidget):
     
     def show_topics(self):
         widgets.tblTopics.setVisible(True)
-        X_VALUE, Y_VALUE = 690, 171
-        widgets.tblTopics.move(X_VALUE, Y_VALUE+(self.slc_row*30))
         self.load_topics()
         print('showing topics')
     

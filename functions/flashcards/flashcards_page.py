@@ -5,8 +5,12 @@ import sys
 from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtWidgets import QWidget, QApplication
 
-from .ui_flashcards_page import *
-from .db_flashcards_operations import *
+from .ui_flashcards_page import Ui_FlashcardsPage
+from .db_flashcards_operations import FlashcardsDB
+from .ui_add_cards import Ui_AddCardsWindow
+from .ui_study_cards import Ui_StudyCardsWindow
+
+import json
 
 class FCardsMainPage(QWidget):
     def __init__(self):

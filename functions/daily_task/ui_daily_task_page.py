@@ -70,7 +70,7 @@ class Ui_DailyTaskPage(object):
         """)
         self.calendarWidget = QCalendarWidget(Widget)
         self.calendarWidget.setObjectName(u"calendarWidget")
-        self.calendarWidget.setGeometry(QRect(200, 205, 310, 220))
+        self.calendarWidget.setGeometry(QRect(265, 205, 310, 220))
         self.calendarWidget.setVisible(False)
         self.calendarWidget.setStyleSheet("""
         QCalendarWidget QToolButton {
@@ -156,7 +156,7 @@ class Ui_DailyTaskPage(object):
         self.label.setAlignment(Qt.AlignCenter)
 
         self.tblTopics = QTableWidget(Widget)
-        self.tblTopics.setGeometry(QRect(690, 171, 100, 190))
+        self.tblTopics.setGeometry(QRect(650, 205, 140, 190))
         self.tblTopics.setObjectName(u'tblTopics')
         self.tblTopics.setVisible(False)
         self.tblTopics.setColumnCount(1)
