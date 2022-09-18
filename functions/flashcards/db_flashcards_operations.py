@@ -5,7 +5,7 @@ import sqlite3
 #https://blog.rtwilson.com/a-python-sqlite3-context-manager-gotcha/
 
 class FlashcardsDB:
-    __DB_LOCATION = 'widgets/flashcards/db_flashcards_operations.db'
+    __DB_LOCATION = 'functions/flashcards/db_flashcards_operations.db'
 
     def __init__(self):
         self.conn = sqlite3.connect(FlashcardsDB.__DB_LOCATION)

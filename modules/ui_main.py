@@ -12,8 +12,8 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
-from widgets.flashcards import *
-from widgets.daily_task import *
+from functions.flashcards import *
+from functions.daily_task import *
 
 from . resources_rc import *
 

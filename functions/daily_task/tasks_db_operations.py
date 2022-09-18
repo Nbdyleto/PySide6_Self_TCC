@@ -5,7 +5,7 @@ import sqlite3
 #https://blog.rtwilson.com/a-python-sqlite3-context-manager-gotcha/
 
 class DailyTaskDB:
-    __DB_LOCATION = 'widgets/daily_task/tasks_db_operations.db'
+    __DB_LOCATION = 'functions/daily_task/tasks_db_operations.db'
 
     def __init__(self):
         self.conn = sqlite3.connect(DailyTaskDB.__DB_LOCATION)
