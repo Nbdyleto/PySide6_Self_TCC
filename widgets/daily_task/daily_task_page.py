@@ -108,49 +108,51 @@ class DTaskMainPage(QWidget):
     # name, topic, start_date, limit_date, checked.
 
     def update_db(self, item, is_date_type = False):
+        if self.existent_in_db == None:
+            return  # Block Uselless Process
+        else:
+            row, col = item.row(), item.column()
+            new_value = item.text()
+            task_name = self.selected_task
+            start_date = self.slc_start_date
+            end_date = self.slc_end_date
+            topic_id = self.slc_topic_index
 
-        row, col = item.row(), item.column()
-        new_value = item.text()
-        task_name = self.selected_task
-        start_date = self.slc_start_date
-        end_date = self.slc_end_date
-        topic_id = self.slc_topic_index
+            if is_date_type:
+                if self.slc_col == 2:
+                    new_value = start_date
+                elif self.slc_col == 3:
+                    new_value = end_date
+                else:
+                    self.slc_start_date, self.slc_end_date = None, None
+            
+            if self.slc_col == 4:
+                new_value = topic_id
 
-        if is_date_type:
-            if self.slc_col == 2:
-                new_value = start_date
-            elif self.slc_col == 3:
-                new_value = end_date
-            else:
-                self.slc_start_date, self.slc_end_date = None, None
-        
-        if self.slc_col == 4:
-            new_value = topic_id
+            field_list = ['task_name', 'status', 'start_date', 'end_date', 'topic_id']
+            act_field = field_list[col]
 
-        field_list = ['task_name', 'status', 'start_date', 'end_date', 'topic_id']
-        act_field = field_list[col]
+            #print(item.row(), item.column())
+            print(f'actual field: {item.text()}')
 
-        #print(item.row(), item.column())
-        print(f'actual field: {item.text()}')
-
-        print('NOVA EXECUÇÃO...')
-        print(f'new value:{new_value, self.existent_in_db}\n')
-        with DailyTaskDB() as db:
-            if self.existent_in_db:
-                # existent in db, so, update old data.
-                query_update = f"UPDATE tasks SET {act_field} = '{new_value}' WHERE task_name = '{task_name}'"
-                print(query_update)
-                db.cursor.execute(query_update)
-                self.existent_in_db = None
-                self.load_data_in_table()
-                    
-            if self.existent_in_db == False: 
-                # not existent in db, so, create new data.
-                query_insert = f"INSERT INTO tasks(task_name, status, start_date, end_date, topic_id) VALUES (?,?,?,?,?)"
-                new_row_data = (new_value, "Not Started", start_date, end_date, 0)
-                db.populate(query_insert, new_row_data)
-                self.existent_in_db = None
-                self.load_data_in_table()
+            print('NOVA EXECUÇÃO...')
+            print(f'new value:{new_value, self.existent_in_db}\n')
+            with DailyTaskDB() as db:
+                if self.existent_in_db:
+                    # existent in db, so, update old data.
+                    query_update = f"UPDATE tasks SET {act_field} = '{new_value}' WHERE task_name = '{task_name}'"
+                    print(query_update)
+                    db.cursor.execute(query_update)
+                    self.existent_in_db = None
+                    self.load_data_in_table()
+                        
+                if self.existent_in_db == False: 
+                    # not existent in db, so, create new data.
+                    query_insert = f"INSERT INTO tasks(task_name, status, start_date, end_date, topic_id) VALUES (?,?,?,?,?)"
+                    new_row_data = (new_value, "Not Started", start_date, end_date, 0)
+                    db.populate(query_insert, new_row_data)
+                    self.existent_in_db = None
+                    self.load_data_in_table()
 
     def is_existent_in_db(self, row, col):
         query = 'SELECT task_name FROM tasks WHERE task_name = ?'
