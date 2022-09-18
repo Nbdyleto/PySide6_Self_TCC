@@ -87,7 +87,7 @@ class FCardsMainPage(QWidget):
                 return True
             return False
 
-    @QtCore.Slot()
+    @QtCore.zz()
     def addDeck(self):
         new_topic, input_status = QInputDialog.getText(self, "New Topic", "Enter The Name of Topic:")
         if input_status:
