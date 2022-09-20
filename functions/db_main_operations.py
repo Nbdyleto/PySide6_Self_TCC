@@ -10,14 +10,6 @@ class DBMainOperations:
     def __init__(self):
         self.conn = sqlite3.connect(DBMainOperations.__DB_LOCATION)
         self.cursor = self.conn.cursor()
-        
-        self.popTblTopics(0, "Math", 0)
-        self.popTblTopics(1, "Physics", 0)
-        self.popTblTopics(2, "Chemistry", 0)
-        self.popTblTopics(3, "TCC", 0)
-        self.popTblFlashcards("Quantos é 2+3?", "5", 0)
-        self.popTblFlashcards("Raiz quadrada de 7", "49", 0)
-        self.popTblFlashcards("Quantos é 9*7?", "63", 0)
 
     def __enter__(self):
         return self
@@ -72,9 +64,12 @@ class DBMainOperations:
         self.conn.commit()
     
     def hasRecordsInTblFlashcards(self, id): 
-        qry = f"EXISTS(SELECT * FROM flashcards WHERE (topic_id = ?))"
-        exist = self.cursor.execute(qry, (id))
-        return exist
+        qry = f"SELECT COUNT(*) FROM flashcards WHERE (topic_id = ?)"
+        recordscount = self.cursor.execute(qry, str(id)).fetchall()[0][0]
+        if recordscount > 0:
+            return True
+        return False
+
 
     ###########################
     # Daily Task. DB Functions
@@ -102,13 +97,13 @@ class DBMainOperations:
     # General. DB Functions
 
     def getRowCount(self, tbl):
-        return self.cursor.execute("SELECT COUNT(*) FROM ?", (tbl)).fetchone()[0]
+        return self.cursor.execute(f"SELECT COUNT(*) FROM {tbl}").fetchone()[0]
 
-    def getAllRecords(self, tbl, fetchall=True, whclause = None):
+    def getAllRecords(self, tbl, specifcols='*', fetchall=True, whclause = None):
         if whclause is None:
-            self.cursor.execute("SELECT * FROM ?", (tbl))
-        else:
-            self.cursor.execute(f"SELECT * FROM {tbl} WHERE ({whclause})")    
+            self.cursor.execute(f"SELECT {specifcols} FROM {tbl}")
+        elif whclause is not None:
+            self.cursor.execute(f"SELECT {specifcols} FROM {tbl} WHERE ({whclause})")    
         if fetchall:
             return self.cursor.fetchall()
         return self.cursor

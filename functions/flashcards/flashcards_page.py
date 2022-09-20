@@ -26,13 +26,22 @@ class FCardsMainPage(QWidget):
         self.addCardsWindow = None
 
         with DBMainOperations() as db:
-            db.create_table()
+            db.createTblTopics()
+            db.createTblFlashcards()
+            db.createTblTasks()
+            db.popTblTopics((0, "Math", 0))
+            db.popTblTopics((1, "Physics", 0))
+            db.popTblTopics((2, "Chemistry", 0))
+            db.popTblTopics((3, "TCC", 0))
+            db.popTblFlashcards(("Quantos é 2+3?", "5", 0))
+            db.popTblFlashcards(("Raiz quadrada de 7", "49", 0))
+            db.popTblFlashcards(("Quantos é 9*7?", "63", 0))
         
         self.loadTopicsInTable()
         widgets.btnAddCards.clicked.connect(self.openAddCardsWindow)
 
-        self.revealpressed = False
-        self.cardsqnt = 0
+        self.reveal_pressed = False
+        self.studed_cards = 0
     
     # MainWindow Functions
 
@@ -63,18 +72,19 @@ class FCardsMainPage(QWidget):
     def loadWidgetCell(self, tablerow):
         btnStartStudy, btnAddCards = None, None
         with DBMainOperations() as db:
-            if db.hasRecordsInTblFlashcards:
+            print(db.hasRecordsInTblFlashcards(id=tablerow))
+            if db.hasRecordsInTblFlashcards(id=tablerow):
                 btnStartStudy = QtWidgets.QPushButton(widgets.tblWidgetTopics)
                 btnStartStudy.setObjectName(f'btnStartStudy{tablerow}')
                 btnStartStudy.setText('Start Study')
                 widgets.tblWidgetTopics.setCellWidget(tablerow, 2, btnStartStudy)
-                btnStartStudy.clicked.connect(lambda: self.openStudyCardsWindow(rowClicked=tablerow))
+                btnStartStudy.clicked.connect(lambda: self.openStudyCardsWindow(row_clicked=tablerow))
             else:
                 btnAddCards = QtWidgets.QPushButton(widgets.tblWidgetTopics)
                 btnAddCards.setObjectName(f'btnAddCards{tablerow}')
                 btnAddCards.setText('Add Cards')
                 widgets.tblWidgetTopics.setCellWidget(tablerow, 2, btnAddCards)
-                btnAddCards.clicked.connect(lambda: self.openAddCardsWindow(rowClicked=tablerow))
+                btnAddCards.clicked.connect(lambda: self.openAddCardsWindow(row_clicked=tablerow))
     
     @QtCore.Slot()
     def addDeck(self):
@@ -87,9 +97,9 @@ class FCardsMainPage(QWidget):
             self.loadTopicsInTable()
 
     # AddCardsWindow Functions #####################################
-
+    
     @QtCore.Slot()
-    def openAddCardsWindow(self, rowClicked):
+    def openAddCardsWindow(self, row_clicked):
         self.addCardsWindow = QtWidgets.QMainWindow()
         self.ui_addCards = Ui_AddCardsWindow()
         self.ui_addCards.setupUi(self.addCardsWindow)
@@ -97,10 +107,11 @@ class FCardsMainPage(QWidget):
         global cardsWinWidgets
         cardsWinWidgets = self.ui_addCards
         
-        lblActiveTopic = QtWidgets.QLabel(self.addCardsWindow)
-        lblActiveTopic.setGeometry(QtCore.QRect(270, 20, 90, 20))
-        hitsPercentage, topicName = self.getTopicInfo(rowClicked)
-        lblActiveTopic.setText(topicName)
+        lbl_active_topic = QtWidgets.QLabel(self.addCardsWindow)
+        lbl_active_topic.setGeometry(QtCore.QRect(270, 20, 90, 20))
+        with DBMainOperations() as db:
+            topic_name = db.getAllRecords(tbl='topics', specifcols='topic_name')[0][0]
+        lbl_active_topic.setText(topic_name)
 
         cardsWinWidgets.listTopics.setCurrentRow(0)
         self.addCardsWindow.show()
@@ -110,11 +121,10 @@ class FCardsMainPage(QWidget):
     
     def loadTopicsList(self):
         with DBMainOperations() as db:
-            qry_select = "SELECT (topic_name) from topics"
-            topics = db.cursor.execute(qry_select).fetchall()
+            topics = db.getAllRecords(tbl='topics', specifcols='topic_name', fetchall=True)
         print(topics)
-        for topic in topics:
-            cardsWinWidgets.listTopics.addItem(topic[0])
+        for topic_name in topics:
+            cardsWinWidgets.listTopics.addItem(topic_name[0])
 
     @QtCore.Slot()
     def addCards(self):
@@ -124,12 +134,10 @@ class FCardsMainPage(QWidget):
             topic_id = cardsWinWidgets.listTopics.currentRow()
             card_question = cardsWinWidgets.pTextFront.toPlainText()
             card_answer = cardsWinWidgets.pTextVerse.toPlainText()
-            qry_insert = "INSERT INTO flashcards VALUES (?,?,?)"
-            row = (card_question, card_answer, topic_id)
             with DBMainOperations() as db:
                 print('populating...')
-                db.populate(qry_insert, row)
-            self.addCardsClearContents()
+                db.popTblFlashcards(params=(card_question, card_answer, topic_id))
+            self.winAddCardsClearContents()
             self.loadTopicsInTable()
         else:
             retry_msg = QtWidgets.QMessageBox(self.addCardsWindow)
@@ -137,14 +145,14 @@ class FCardsMainPage(QWidget):
             retry_msg.setText('Input something in your card (front and verse)!')
             retry_msg.show()
 
-    def addCardsClearContents(self):
+    def winAddCardsClearContents(self):
         cardsWinWidgets.pTextFront.clear()
         cardsWinWidgets.pTextVerse.clear()
 
     # StudyCards Functions #################################
 
     @QtCore.Slot()
-    def openStudyCardsWindow(self, rowClicked):
+    def openStudyCardsWindow(self, row_clicked):
         self.studyCardsWindow = QtWidgets.QMainWindow()
         self.ui_studyCards = Ui_StudyCardsWindow()
         self.ui_studyCards.setupUi(self.studyCardsWindow)
@@ -152,78 +160,58 @@ class FCardsMainPage(QWidget):
         global studyCardsWidgets
         studyCardsWidgets = self.ui_studyCards
 
-        self.loadWindowInfo(rowClicked)
+        self.infoStudyCardsWindow(row_clicked)
         self.cardIterator = None
-        self.loadCardsInfo(rowClicked)
+        self.infoStudyCards(topic_id=row_clicked)
 
         self.studyCardsWindow.show()
 
-    def loadCardsInfo(self, rowClicked=None):
-        if self.revealpressed:
-            self.cardsqnt += 1
-        self.revealpressed = False
-
+    def infoStudyCardsWindow(self, row_clicked):
+        with DBMainOperations() as db:
+            records = db.getAllRecords(tbl='topics', specifcols='hits_percentage, topic_name', 
+                                       fetchall=True, whclause=f'topic_id={row_clicked}')
+            self.total_cards = db.getRowCount(tbl='flashcards')
+        hits_percentage = records[0][0]
+        studyCardsWidgets.pBarHitsPercentage.setValue(hits_percentage)
+        topic_name = records[0][1]
+        studyCardsWidgets.lblDeckName.setText(topic_name)
+        
+    def infoStudyCards(self, reveal_pressed=False, topic_id=None):
+        if reveal_pressed:
+            self.studed_cards += 1
         studyCardsWidgets.btnRevealAnswer.setVisible(True)
         studyCardsWidgets.btnUnsatisfactory.setVisible(False)
         studyCardsWidgets.btnNormal.setVisible(False)
         studyCardsWidgets.btnVeryGood.setVisible(False)
 
         if self.cardIterator is None:
-            # Create a cardIterator if is None (always the studyCards page is called).
-            self.cardsqnt = 1
+            # Create a cardIterator if no exists (always the studyCards page is called).
+            self.studed_cards = 1
             with DBMainOperations() as db:
-                qry = f"SELECT card_question, card_answer from flashcards WHERE topic_id == ?"
-                cards = db.cursor.execute(qry, (rowClicked,)).fetchall()
+                cards = db.getAllRecords(tbl='flashcards', specifcols='card_question, card_answer',
+                                         fetchall=True, whclause=f'topic_id = {topic_id}')
             random.shuffle(cards)
             self.cardIterator = iter(cards)
 
         try:
             front, verse = next(self.cardIterator)
-            print(front, verse)
             studyCardsWidgets.plainTextEdit.setPlainText(front)
             studyCardsWidgets.btnRevealAnswer.clicked.connect(lambda: self.revealCardAnswer(verse))
-            studyCardsWidgets.lblCardsQnt.setText(f"{self.cardsqnt}/{str(self.cardscount)}")
+            studyCardsWidgets.lblCardsQnt.setText(f"{self.studed_cards}/{str(self.total_cards)}")
         except:
-            if self.cardsqnt > self.cardscount:
+            if self.studed_cards > self.total_cards:
                 self.studyCardsWindow.close()
             print('Stop Iteration')
 
     def revealCardAnswer(self, verse):
-        self.revealpressed = True
-
         studyCardsWidgets.plainTextEdit.setPlainText(verse)
-        studyCardsWidgets.btnUnsatisfactory.clicked.connect(lambda: self.loadCardsInfo())
-        studyCardsWidgets.btnNormal.clicked.connect(lambda: self.loadCardsInfo())
-        studyCardsWidgets.btnVeryGood.clicked.connect(lambda: self.loadCardsInfo())
+        studyCardsWidgets.btnUnsatisfactory.clicked.connect(lambda: self.infoStudyCards(reveal_pressed=True))
+        studyCardsWidgets.btnNormal.clicked.connect(lambda: self.infoStudyCards(reveal_pressed=True))
+        studyCardsWidgets.btnVeryGood.clicked.connect(lambda: self.infoStudyCards(reveal_pressed=True))
         studyCardsWidgets.btnRevealAnswer.setVisible(False)
         studyCardsWidgets.btnUnsatisfactory.setVisible(True)
         studyCardsWidgets.btnNormal.setVisible(True)
         studyCardsWidgets.btnVeryGood.setVisible(True)
-
-    def loadWindowInfo(self, rowClicked):
-        hitsPercentage, topicName = self.getTopicInfo(rowClicked)
-        studyCardsWidgets.lblDeckName.setText(topicName)
-
-        cardsRecords, self.cardscount = self.getFlashcardsInfo(rowClicked)
-        studyCardsWidgets.pBarHitsPercentage.setValue(hitsPercentage)
-
-    def getTopicInfo(self, topic_id):
-        with DBMainOperations() as db:
-            qry = f"SELECT hits_percentage, topic_name FROM topics WHERE topic_id == {topic_id}"
-            results = db.cursor.execute(qry).fetchall()
-            hitsPercentage = results[0][0]
-            topicName = results[0][1]
-        return hitsPercentage, topicName
-
-    def getFlashcardsInfo(self, topic_id):
-        with DBMainOperations() as db:
-            qry = f"SELECT * FROM flashcards WHERE topic_id == {topic_id}"
-            cardsRecords = db.cursor.execute(qry).fetchall()
-
-            qry = f"SELECT COUNT(*) FROM flashcards WHERE topic_id == {topic_id}"
-            cardscount = (db.cursor.execute(qry).fetchone())[0]
-
-        return cardsRecords, cardscount
 
 if __name__ == "__main__":
     app = QApplication([])
