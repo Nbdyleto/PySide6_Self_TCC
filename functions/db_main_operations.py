@@ -69,7 +69,12 @@ class DBMainOperations:
     def popTblFlashcards(self, params):
         qry = "INSERT INTO flashcards (card_question, card_answer, topic_id) VALUES (?,?,?);"
         self.cursor.execute(qry, (params)) 
-        self.conn.commit() 
+        self.conn.commit()
+    
+    def hasRecordsInTblFlashcards(self, id): 
+        qry = f"EXISTS(SELECT * FROM flashcards WHERE (topic_id = ?))"
+        exist = self.cursor.execute(qry, (id))
+        return exist
 
     ###########################
     # Daily Task. DB Functions
@@ -99,7 +104,11 @@ class DBMainOperations:
     def getRowCount(self, tbl):
         return self.cursor.execute("SELECT COUNT(*) FROM ?", (tbl)).fetchone()[0]
 
-    def getAllResults(self, tbl, fetchall=True):
+    def getAllRecords(self, tbl, fetchall=True, whclause = None):
+        if whclause is None:
+            self.cursor.execute("SELECT * FROM ?", (tbl))
+        else:
+            self.cursor.execute(f"SELECT * FROM {tbl} WHERE ({whclause})")    
         if fetchall:
-            return self.cursor.execute("SELECT * FROM ?", (tbl)).fetchall()
-        return self.cursor.execute("SELECT * FROM ?", (tbl))
+            return self.cursor.fetchall()
+        return self.cursor
