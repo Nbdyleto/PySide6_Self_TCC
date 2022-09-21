@@ -99,8 +99,10 @@ class DBMainOperations:
         self.cursor.execute(qry)
         self.conn.commit()
 
-    def getRowCount(self, tbl):
-        return self.cursor.execute(f"SELECT COUNT(*) FROM {tbl}").fetchone()[0]
+    def getRowCount(self, tbl, whclause=None):
+        if whclause is None:
+            return self.cursor.execute(f"SELECT COUNT(*) FROM {tbl}").fetchone()[0]
+        return self.cursor.execute(f"SELECT COUNT(*) FROM {tbl} WHERE ({whclause})").fetchone()[0]
 
     def getAllRecords(self, tbl, specifcols='*', fetchall=True, whclause = None):
         if whclause is None:

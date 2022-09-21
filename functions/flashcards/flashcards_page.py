@@ -34,8 +34,8 @@ class FCardsMainPage(QWidget):
             db.populateTbl(tbl='topics', params=(1, "Physics"))
             db.populateTbl(tbl='topics', params=(2, "Chemistry"))
             db.populateTbl(tbl='topics', params=(3, "TCC"))
-            db.populateTbl(tbl='decks', params=(0, "Equação I Grau",0 ,0))
-            db.populateTbl(tbl='decks', params=(1, "Cálculo I",0, 0))
+            db.populateTbl(tbl='decks', params=(0, "Equação I Grau", 0 ,0))
+            db.populateTbl(tbl='decks', params=(1, "Cálculo I", 0, 0))
             db.populateTbl(tbl='decks', params=(2, "Polaridade", 0, 2))
             db.populateTbl(tbl='decks', params=(3, "Leis de Newton", 0, 1))
             db.populateTbl(tbl='flashcards', params=("Quantos é 2+3?", "5", 0))
@@ -145,7 +145,7 @@ class FCardsMainPage(QWidget):
             self.loadDecksInTable()
         else:
             retry_msg = QtWidgets.QMessageBox(self.addCardsWindow)
-            retry_msg.setStyleSheet("color: black")
+            retry_msg.setStyleSheet("color: #44475a")
             retry_msg.setText('Input something in your card (front and verse)!')
             retry_msg.show()
 
@@ -165,22 +165,24 @@ class FCardsMainPage(QWidget):
         studyCardsWidgets = self.ui_studyCards
 
         self.infoStudyCardsWindow(row_clicked)
-        self.cardIterator = None
+        self.card_iterator = None
         self.infoStudyCards(deck_id=row_clicked)
 
         self.studyCardsWindow.show()
 
     def infoStudyCardsWindow(self, row_clicked):
+        print('row_clicked: ', row_clicked)
         with DBMainOperations() as db:
             records = db.getAllRecords(tbl='decks', specifcols='deck_name, hits_percentage', 
                                        fetchall=True, whclause=f'deck_id={row_clicked}')
-            self.total_cards = db.getRowCount(tbl='flashcards')
+            self.total_cards = db.getRowCount(tbl='flashcards', whclause=f'deck_id={row_clicked}')
         deck_name = records[0][0]
         studyCardsWidgets.lblDeckName.setText(deck_name)
         hits_percentage = records[0][1]
         studyCardsWidgets.pBarHitsPercentage.setValue(hits_percentage)
         
     def infoStudyCards(self, reveal_pressed=False, deck_id=None):
+        print(self.total_cards)
         if reveal_pressed:
             self.studed_cards += 1
         studyCardsWidgets.btnRevealAnswer.setVisible(True)
@@ -188,24 +190,26 @@ class FCardsMainPage(QWidget):
         studyCardsWidgets.btnNormal.setVisible(False)
         studyCardsWidgets.btnVeryGood.setVisible(False)
 
-        if self.cardIterator is None:
-            # Create a cardIterator if no exists (always the studyCards page is called).
+        if self.card_iterator is None:
+            # Create a card_iterator if no exists (always the studyCards page is called from Window).
             self.studed_cards = 1
             with DBMainOperations() as db:
                 cards = db.getAllRecords(tbl='flashcards', specifcols='card_question, card_answer',
                                          fetchall=True, whclause=f'deck_id = {deck_id}')
             random.shuffle(cards)
-            self.cardIterator = iter(cards)
+            self.card_iterator = iter(cards)
 
         try:
-            front, verse = next(self.cardIterator)
+            front, verse = next(self.card_iterator)
             studyCardsWidgets.plainTextEdit.setPlainText(front)
             studyCardsWidgets.btnRevealAnswer.clicked.connect(lambda: self.revealCardAnswer(verse))
             studyCardsWidgets.lblCardsQnt.setText(f"{self.studed_cards}/{str(self.total_cards)}")
         except:
-            if self.studed_cards > self.total_cards:
+            print('studed_cards:',self.studed_cards)
+            if self.studed_cards > self.total_cards+1:
                 self.studyCardsWindow.close()
             print('Stop Iteration')
+        reveal
 
     def revealCardAnswer(self, verse):
         studyCardsWidgets.plainTextEdit.setPlainText(verse)
