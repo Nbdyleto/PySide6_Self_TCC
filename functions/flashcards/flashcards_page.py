@@ -29,13 +29,13 @@ class FCardsMainPage(QWidget):
             db.createTblTopics()
             db.createTblFlashcards()
             db.createTblTasks()
-            db.popTblTopics((0, "Math", 0))
-            db.popTblTopics((1, "Physics", 0))
-            db.popTblTopics((2, "Chemistry", 0))
-            db.popTblTopics((3, "TCC", 0))
-            db.popTblFlashcards(("Quantos é 2+3?", "5", 0))
-            db.popTblFlashcards(("Raiz quadrada de 7", "49", 0))
-            db.popTblFlashcards(("Quantos é 9*7?", "63", 0))
+            db.populateTbl(tbl='topics', params=(0, "Math", 0))
+            db.populateTbl(tbl='topics', params=(1, "Physics", 0))
+            db.populateTbl(tbl='topics', params=(2, "Chemistry", 0))
+            db.populateTbl(tbl='topics', params=(3, "TCC", 0))
+            db.populateTbl(tbl='flashcards', params=("Quantos é 2+3?", "5", 0))
+            db.populateTbl(tbl='flashcards', params=("Raiz quadrada de 7", "49", 0))
+            db.populateTbl(tbl='flashcards', params=("Quantos é 9*7?", "63", 0))
         
         self.loadTopicsInTable()
         widgets.btnAddCards.clicked.connect(self.openAddCardsWindow)
@@ -92,9 +92,8 @@ class FCardsMainPage(QWidget):
         with DBMainOperations() as db:
             if input_status:
                 last_id = db.getRowCount('topics')
-                values = (last_id, new_topic, 0)
-            db.popTblTopics(params=values)
-            self.loadTopicsInTable()
+                db.populateTbl(tbl='topics', params=(last_id, new_topic, 0))
+        self.loadTopicsInTable()
 
     # AddCardsWindow Functions #####################################
     
@@ -136,7 +135,7 @@ class FCardsMainPage(QWidget):
             card_answer = cardsWinWidgets.pTextVerse.toPlainText()
             with DBMainOperations() as db:
                 print('populating...')
-                db.popTblFlashcards(params=(card_question, card_answer, topic_id))
+                db.populateTbl(tbl='flashcards', params=(card_question, card_answer, topic_id))
             self.winAddCardsClearContents()
             self.loadTopicsInTable()
         else:

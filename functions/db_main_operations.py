@@ -36,11 +36,6 @@ class DBMainOperations:
         );"""
         self.cursor.execute(qry_topics)
         print('table topics is ready!')
-    
-    def popTblTopics(self, params):
-        qry = "INSERT INTO topics (topic_id, topic_name, hits_percentage) VALUES (?,?,?);"
-        self.cursor.execute(qry, (params))
-        self.conn.commit()
 
     ###########################
     # Flashcards. DB Functions 
@@ -57,11 +52,6 @@ class DBMainOperations:
             );"""
         self.cursor.execute(qry_flashcards)
         print('table flashcards is ready!')
-
-    def popTblFlashcards(self, params):
-        qry = "INSERT INTO flashcards (card_question, card_answer, topic_id) VALUES (?,?,?);"
-        self.cursor.execute(qry, (params)) 
-        self.conn.commit()
     
     def hasRecordsInTblFlashcards(self, id): 
         qry = f"SELECT COUNT(*) FROM flashcards WHERE (topic_id = ?)"
@@ -69,7 +59,6 @@ class DBMainOperations:
         if recordscount > 0:
             return True
         return False
-
 
     ###########################
     # Daily Task. DB Functions
@@ -89,12 +78,13 @@ class DBMainOperations:
         self.cursor.execute(qry_tasks)
         print('table tasks is ready!')
 
-    def popTblTasks(self, params):
-        qry = "INSERT INTO tasks VALUES (?,?,?,?,?);"
-        self.cursor.execute(qry, (params))
-
     #########################
     # General. DB Functions
+
+    def populateTbl(self, tbl, params):
+        qry = f"INSERT INTO {tbl} VALUES {params};"
+        self.cursor.execute(qry)
+        self.conn.commit()
 
     def getRowCount(self, tbl):
         return self.cursor.execute(f"SELECT COUNT(*) FROM {tbl}").fetchone()[0]
