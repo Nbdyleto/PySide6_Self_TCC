@@ -88,12 +88,12 @@ class FCardsMainPage(QWidget):
     
     @QtCore.Slot()
     def addDeck(self):
-        new_topic, input_status = QInputDialog.getText(self, "New Topic", "Enter The Name of Topic:")
-        if input_status:
-            row = (self.rowcount, new_topic, 0)
+        new_topic, input_status = QtWidgets.QInputDialog.getText(self, "New Topic", "Enter The Name of Topic:")
         with DBMainOperations() as db:
-            qry_insert = "INSERT INTO topics (topic_id, topic_name, hits_percentage) VALUES (?,?,?);"
-            db.populate(qry_insert, row)
+            if input_status:
+                last_id = db.getRowCount('topics')
+                values = (last_id, new_topic, 0)
+            db.popTblTopics(params=values)
             self.loadTopicsInTable()
 
     # AddCardsWindow Functions #####################################
