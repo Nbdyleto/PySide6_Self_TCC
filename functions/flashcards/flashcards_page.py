@@ -27,17 +27,22 @@ class FCardsMainPage(QWidget):
 
         with DBMainOperations() as db:
             db.createTblTopics()
+            db.createTblDecks()
             db.createTblFlashcards()
             db.createTblTasks()
-            db.populateTbl(tbl='topics', params=(0, "Math", 0))
-            db.populateTbl(tbl='topics', params=(1, "Physics", 0))
-            db.populateTbl(tbl='topics', params=(2, "Chemistry", 0))
-            db.populateTbl(tbl='topics', params=(3, "TCC", 0))
+            db.populateTbl(tbl='topics', params=(0, "Math"))
+            db.populateTbl(tbl='topics', params=(1, "Physics"))
+            db.populateTbl(tbl='topics', params=(2, "Chemistry"))
+            db.populateTbl(tbl='topics', params=(3, "TCC"))
+            db.populateTbl(tbl='decks', params=(0, "Equação I Grau",0 ,0))
+            db.populateTbl(tbl='decks', params=(1, "Cálculo I",0, 0))
+            db.populateTbl(tbl='decks', params=(2, "Polaridade", 0, 2))
+            db.populateTbl(tbl='decks', params=(3, "Leis de Newton", 0, 1))
             db.populateTbl(tbl='flashcards', params=("Quantos é 2+3?", "5", 0))
             db.populateTbl(tbl='flashcards', params=("Raiz quadrada de 7", "49", 0))
             db.populateTbl(tbl='flashcards', params=("Quantos é 9*7?", "63", 0))
         
-        self.loadTopicsInTable()
+        self.loadDecksInTable()
         widgets.btnAddCards.clicked.connect(self.openAddCardsWindow)
 
         self.reveal_pressed = False
@@ -45,55 +50,55 @@ class FCardsMainPage(QWidget):
     
     # MainWindow Functions
 
-    def loadTopicsInTable(self):
+    def loadDecksInTable(self):
         with DBMainOperations() as db:
-            rowcount = db.getRowCount(tbl='topics')
-            topics = db.getAllRecords(tbl='topics')
-        widgets.tblWidgetTopics.clearContents()
-        widgets.tblWidgetTopics.setRowCount(rowcount+1)
+            rowcount = db.getRowCount(tbl='decks')
+            decks = db.getAllRecords(tbl='decks')
+        widgets.tblWidgetDecks.clearContents()
+        widgets.tblWidgetDecks.setRowCount(rowcount+1)
         
         tablerow = 0
-        for topic in topics:
-            widgets.tblWidgetTopics.setRowHeight(tablerow, 50)
-            widgets.tblWidgetTopics.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(f'{str(topic[2])}%'))
-            widgets.tblWidgetTopics.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(topic[1]))
+        for deck in decks:
+            widgets.tblWidgetDecks.setRowHeight(tablerow, 50)
+            widgets.tblWidgetDecks.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(f'{str(deck[2])}%'))
+            widgets.tblWidgetDecks.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(deck[1]))
             self.loadWidgetCell(tablerow)
             tablerow+=1
             
         # last row of tblWidget has a 'add deck' option.
         lastrow = rowcount
-        widgets.tblWidgetTopics.setRowHeight(tablerow, 50)
-        widgets.tblWidgetTopics.setItem(lastrow, 1, QtWidgets.QTableWidgetItem('Create New Deck!'))
-        btnAddDeck = QtWidgets.QPushButton(widgets.tblWidgetTopics)
+        widgets.tblWidgetDecks.setRowHeight(tablerow, 50)
+        widgets.tblWidgetDecks.setItem(lastrow, 1, QtWidgets.QTableWidgetItem('Create New Deck!'))
+        btnAddDeck = QtWidgets.QPushButton(widgets.tblWidgetDecks)
         btnAddDeck.setText('+')
-        widgets.tblWidgetTopics.setCellWidget(lastrow, 0, btnAddDeck)
-        widgets.tblWidgetTopics.cellWidget(lastrow, 0).clicked.connect(self.addDeck)
+        widgets.tblWidgetDecks.setCellWidget(lastrow, 0, btnAddDeck)
+        widgets.tblWidgetDecks.cellWidget(lastrow, 0).clicked.connect(self.addDeck)
 
     def loadWidgetCell(self, tablerow):
         btnStartStudy, btnAddCards = None, None
         with DBMainOperations() as db:
             print(db.hasRecordsInTblFlashcards(id=tablerow))
             if db.hasRecordsInTblFlashcards(id=tablerow):
-                btnStartStudy = QtWidgets.QPushButton(widgets.tblWidgetTopics)
+                btnStartStudy = QtWidgets.QPushButton(widgets.tblWidgetDecks)
                 btnStartStudy.setObjectName(f'btnStartStudy{tablerow}')
                 btnStartStudy.setText('Start Study')
-                widgets.tblWidgetTopics.setCellWidget(tablerow, 2, btnStartStudy)
+                widgets.tblWidgetDecks.setCellWidget(tablerow, 2, btnStartStudy)
                 btnStartStudy.clicked.connect(lambda: self.openStudyCardsWindow(row_clicked=tablerow))
             else:
-                btnAddCards = QtWidgets.QPushButton(widgets.tblWidgetTopics)
+                btnAddCards = QtWidgets.QPushButton(widgets.tblWidgetDecks)
                 btnAddCards.setObjectName(f'btnAddCards{tablerow}')
                 btnAddCards.setText('Add Cards')
-                widgets.tblWidgetTopics.setCellWidget(tablerow, 2, btnAddCards)
+                widgets.tblWidgetDecks.setCellWidget(tablerow, 2, btnAddCards)
                 btnAddCards.clicked.connect(lambda: self.openAddCardsWindow(row_clicked=tablerow))
     
     @QtCore.Slot()
     def addDeck(self):
-        new_topic, input_status = QtWidgets.QInputDialog.getText(self, "New Topic", "Enter The Name of Topic:")
+        new_deck, input_status = QtWidgets.QInputDialog.getText(self, "New Deck", "Enter The Name of Deck:")
         with DBMainOperations() as db:
             if input_status:
-                last_id = db.getRowCount('topics')
-                db.populateTbl(tbl='topics', params=(last_id, new_topic, 0))
-        self.loadTopicsInTable()
+                last_id = db.getRowCount('decks')
+                db.populateTbl(tbl='decks', params=(last_id, new_deck, 0))
+        self.loadDecksInTable()
 
     # AddCardsWindow Functions #####################################
     
@@ -106,38 +111,38 @@ class FCardsMainPage(QWidget):
         global cardsWinWidgets
         cardsWinWidgets = self.ui_addCards
         
-        lbl_active_topic = QtWidgets.QLabel(self.addCardsWindow)
-        lbl_active_topic.setGeometry(QtCore.QRect(270, 20, 90, 20))
+        lbl_active_deck = QtWidgets.QLabel(self.addCardsWindow)
+        lbl_active_deck.setGeometry(QtCore.QRect(270, 20, 90, 20))
         with DBMainOperations() as db:
-            topic_name = db.getAllRecords(tbl='topics', specifcols='topic_name')[0][0]
-        lbl_active_topic.setText(topic_name)
+            deck_name = db.getAllRecords(tbl='decks', specifcols='deck_name')[0][0]
+        lbl_active_deck.setText(deck_name)
 
-        cardsWinWidgets.listTopics.setCurrentRow(0)
+        cardsWinWidgets.listDecks.setCurrentRow(0)
         self.addCardsWindow.show()
         cardsWinWidgets.btnAddCard.clicked.connect(self.addCards)
 
-        self.loadTopicsList()
+        self.loadDecksList()
     
-    def loadTopicsList(self):
+    def loadDecksList(self):
         with DBMainOperations() as db:
-            topics = db.getAllRecords(tbl='topics', specifcols='topic_name', fetchall=True)
-        print(topics)
-        for topic_name in topics:
-            cardsWinWidgets.listTopics.addItem(topic_name[0])
+            decks = db.getAllRecords(tbl='decks', specifcols='deck_name', fetchall=True)
+        print(decks)
+        for deck_name in decks:
+            cardsWinWidgets.listDecks.addItem(deck_name[0])
 
     @QtCore.Slot()
     def addCards(self):
         card_question = cardsWinWidgets.pTextFront.toPlainText()
         card_answer = cardsWinWidgets.pTextVerse.toPlainText()
         if card_question and card_answer != "":
-            topic_id = cardsWinWidgets.listTopics.currentRow()
+            deck_id = cardsWinWidgets.listDecks.currentRow()
             card_question = cardsWinWidgets.pTextFront.toPlainText()
             card_answer = cardsWinWidgets.pTextVerse.toPlainText()
             with DBMainOperations() as db:
                 print('populating...')
-                db.populateTbl(tbl='flashcards', params=(card_question, card_answer, topic_id))
+                db.populateTbl(tbl='flashcards', params=(card_question, card_answer, deck_id))
             self.winAddCardsClearContents()
-            self.loadTopicsInTable()
+            self.loadDecksInTable()
         else:
             retry_msg = QtWidgets.QMessageBox(self.addCardsWindow)
             retry_msg.setStyleSheet("color: black")
@@ -161,21 +166,21 @@ class FCardsMainPage(QWidget):
 
         self.infoStudyCardsWindow(row_clicked)
         self.cardIterator = None
-        self.infoStudyCards(topic_id=row_clicked)
+        self.infoStudyCards(deck_id=row_clicked)
 
         self.studyCardsWindow.show()
 
     def infoStudyCardsWindow(self, row_clicked):
         with DBMainOperations() as db:
-            records = db.getAllRecords(tbl='topics', specifcols='hits_percentage, topic_name', 
-                                       fetchall=True, whclause=f'topic_id={row_clicked}')
+            records = db.getAllRecords(tbl='decks', specifcols='deck_name, hits_percentage', 
+                                       fetchall=True, whclause=f'deck_id={row_clicked}')
             self.total_cards = db.getRowCount(tbl='flashcards')
-        hits_percentage = records[0][0]
+        deck_name = records[0][0]
+        studyCardsWidgets.lblDeckName.setText(deck_name)
+        hits_percentage = records[0][1]
         studyCardsWidgets.pBarHitsPercentage.setValue(hits_percentage)
-        topic_name = records[0][1]
-        studyCardsWidgets.lblDeckName.setText(topic_name)
         
-    def infoStudyCards(self, reveal_pressed=False, topic_id=None):
+    def infoStudyCards(self, reveal_pressed=False, deck_id=None):
         if reveal_pressed:
             self.studed_cards += 1
         studyCardsWidgets.btnRevealAnswer.setVisible(True)
@@ -188,7 +193,7 @@ class FCardsMainPage(QWidget):
             self.studed_cards = 1
             with DBMainOperations() as db:
                 cards = db.getAllRecords(tbl='flashcards', specifcols='card_question, card_answer',
-                                         fetchall=True, whclause=f'topic_id = {topic_id}')
+                                         fetchall=True, whclause=f'deck_id = {deck_id}')
             random.shuffle(cards)
             self.cardIterator = iter(cards)
 

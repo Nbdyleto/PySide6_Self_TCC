@@ -67,10 +67,10 @@ class Ui_AddCardsWindow(object):
         self.label_3.setGeometry(QtCore.QRect(210, 50, 67, 18))
         self.label_3.setObjectName("label_3")
 
-        self.listTopics = QtWidgets.QListWidget(self.centralwidget)
-        self.listTopics.setGeometry(QtCore.QRect(90, 10, 101, 41))
-        self.listTopics.setObjectName("listTopics")
-        self.listTopics.setCurrentRow(2)
+        self.listDecks = QtWidgets.QListWidget(self.centralwidget)
+        self.listDecks.setGeometry(QtCore.QRect(90, 10, 101, 41))
+        self.listDecks.setObjectName("listDecks")
+        self.listDecks.setCurrentRow(2)
 
         AddCardsWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(AddCardsWindow)

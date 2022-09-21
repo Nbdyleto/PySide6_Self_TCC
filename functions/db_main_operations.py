@@ -31,8 +31,7 @@ class DBMainOperations:
         self.cursor.execute("DROP TABLE IF EXISTS topics")
         qry_topics = """ CREATE TABLE topics (
             topic_id INTEGUER PRIMARY KEY,
-            topic_name VARCHAR(255) NOT NULL,
-            hits_percentage INTEGUER NOT NULL
+            topic_name VARCHAR(50) NOT NULL
         );"""
         self.cursor.execute(qry_topics)
         print('table topics is ready!')
@@ -40,21 +39,35 @@ class DBMainOperations:
     ###########################
     # Flashcards. DB Functions 
 
+    def createTblDecks(self):
+        # Parent Table of flashcards, Child Table of topics.
+        self.cursor.execute("DROP TABLE IF EXISTS decks")
+        qry_decks = """ CREATE TABLE decks (
+            deck_id INTEGUER PRIMARY KEY,
+            deck_name VARCHAR(50),
+            hits_percentage INTEGUER NOT NULL,
+            topic_id INTEGUER NOT NULL,
+            FOREIGN KEY (topic_id)
+                REFERENCES topics (topic_id)
+        );"""
+        self.cursor.execute(qry_decks)
+        print('table decks is ready!')
+
     def createTblFlashcards(self):
         # Child Table
         self.cursor.execute("DROP TABLE IF EXISTS flashcards")
         qry_flashcards = """ CREATE TABLE flashcards (
             card_question VARCHAR(255) NOT NULL,
             card_answer VARCHAR(255) NOT NULL,
-            topic_id INTEGUER NOT NULL,
-            FOREIGN KEY (topic_id)
-                REFERENCES topics (topic_id)
+            deck_id INTEGUER NOT NULL,
+            FOREIGN KEY (deck_id)
+                REFERENCES topics (deck_id)
             );"""
         self.cursor.execute(qry_flashcards)
         print('table flashcards is ready!')
     
     def hasRecordsInTblFlashcards(self, id): 
-        qry = f"SELECT COUNT(*) FROM flashcards WHERE (topic_id = ?)"
+        qry = f"SELECT COUNT(*) FROM flashcards WHERE (deck_id = ?)"
         recordscount = self.cursor.execute(qry, str(id)).fetchall()[0][0]
         if recordscount > 0:
             return True
@@ -68,7 +81,7 @@ class DBMainOperations:
         self.cursor.execute("DROP TABLE IF EXISTS tasks")
         qry_tasks = """ CREATE TABLE tasks (
             task_name VARCHAR(255) NOT NULL, 
-            status VARCHAR(255) NOT NULL,
+            status VARCHAR(25) NOT NULL,
             start_date DATE NOT NULL,
 	        end_date DATE NOT NULL,	
             topic_id INTEGUER NOT NULL,

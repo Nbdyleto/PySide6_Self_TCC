@@ -9,26 +9,26 @@ class Ui_FlashcardsPage(object):
         Widget.setObjectName("Widget")
         Widget.resize(724, 408)
         
-        self.tblWidgetTopics = QtWidgets.QTableWidget(Widget)
-        self.tblWidgetTopics.setGeometry(QtCore.QRect(60, 230, 650, 350))
-        self.tblWidgetTopics.setObjectName("tblWidgetTopics")
-        self.tblWidgetTopics.setColumnCount(3)
-        self.tblWidgetTopics.setRowCount(1)
-        self.tblWidgetTopics.setShowGrid(False)
-        self.tblWidgetTopics.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.tblWidgetTopics.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
-        self.tblWidgetTopics.horizontalHeader().setVisible(False)
-        self.tblWidgetTopics.verticalHeader().setVisible(False)
+        self.tblWidgetDecks = QtWidgets.QTableWidget(Widget)
+        self.tblWidgetDecks.setGeometry(QtCore.QRect(60, 230, 650, 350))
+        self.tblWidgetDecks.setObjectName("tblWidgetDecks")
+        self.tblWidgetDecks.setColumnCount(3)
+        self.tblWidgetDecks.setRowCount(1)
+        self.tblWidgetDecks.setShowGrid(False)
+        self.tblWidgetDecks.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.tblWidgetDecks.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.tblWidgetDecks.horizontalHeader().setVisible(False)
+        self.tblWidgetDecks.verticalHeader().setVisible(False)
         item = QtWidgets.QTableWidgetItem()
-        self.tblWidgetTopics.setHorizontalHeaderItem(0, item)
+        self.tblWidgetDecks.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tblWidgetTopics.setHorizontalHeaderItem(1, item)
+        self.tblWidgetDecks.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tblWidgetTopics.setHorizontalHeaderItem(2, item)
-        self.tblWidgetTopics.setColumnWidth(0,80)
-        self.tblWidgetTopics.setColumnWidth(1,400)
-        self.tblWidgetTopics.setColumnWidth(2,140)
-        self.tblWidgetTopics.setStyleSheet("""
+        self.tblWidgetDecks.setHorizontalHeaderItem(2, item)
+        self.tblWidgetDecks.setColumnWidth(0,80)
+        self.tblWidgetDecks.setColumnWidth(1,400)
+        self.tblWidgetDecks.setColumnWidth(2,140)
+        self.tblWidgetDecks.setStyleSheet("""
             QTableWidget::item {
                 color: #f8f8f2;                    
                 background-color: #44475a;
@@ -77,11 +77,11 @@ class Ui_FlashcardsPage(object):
         _translate = QtCore.QCoreApplication.translate
         Widget.setWindowTitle(_translate("Widget", u"Flashcards"))
         
-        item = self.tblWidgetTopics.horizontalHeaderItem(0)
+        item = self.tblWidgetDecks.horizontalHeaderItem(0)
         item.setText(_translate("Widget", u"hints_percentage"))
-        item = self.tblWidgetTopics.horizontalHeaderItem(1)
+        item = self.tblWidgetDecks.horizontalHeaderItem(1)
         item.setText(_translate("Widget", u"deck_name"))
-        item = self.tblWidgetTopics.horizontalHeaderItem(2)
+        item = self.tblWidgetDecks.horizontalHeaderItem(2)
         item.setText(_translate("Widget", u"btn_action"))
         
         self.lblDecks.setText(_translate("Widget", u"Decks"))
