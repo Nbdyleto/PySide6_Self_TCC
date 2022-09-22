@@ -31,17 +31,27 @@ class FCardsMainPage(QWidget):
             db.createTblDecks()
             db.createTblFlashcards()
             db.createTblTasks()
-            db.populateTbl(tbl='topics', params=(0, "Math"))
-            db.populateTbl(tbl='topics', params=(1, "Physics"))
-            db.populateTbl(tbl='topics', params=(2, "Chemistry"))
+            db.populateTbl(tbl='topics', params=(0, "Matemática"))
+            db.populateTbl(tbl='topics', params=(1, "Física"))
+            db.populateTbl(tbl='topics', params=(2, "Química"))
             db.populateTbl(tbl='topics', params=(3, "TCC"))
-            db.populateTbl(tbl='decks', params=(0, "Equação I Grau", 0 ,0))
+
+            db.populateTbl(tbl='decks', params=(0, "Cálculos Básicos", 0 ,0))
             db.populateTbl(tbl='decks', params=(1, "Cálculo I", 0, 0))
             db.populateTbl(tbl='decks', params=(2, "Polaridade", 0, 2))
             db.populateTbl(tbl='decks', params=(3, "Leis de Newton", 0, 1))
+
             db.populateTbl(tbl='flashcards', params=("Quantos é 2+3?", "5", 0))
             db.populateTbl(tbl='flashcards', params=("Raiz quadrada de 7", "49", 0))
             db.populateTbl(tbl='flashcards', params=("Quantos é 9*7?", "63", 0))
+
+            db.populateTbl(tbl='flashcards', params=("Quantos é 2+3?", "5", 1))
+            db.populateTbl(tbl='flashcards', params=("Raiz quadrada de 7", "49", 1))
+            db.populateTbl(tbl='flashcards', params=("Quantos é 9*7?", "63", 1))
+
+            db.populateTbl(tbl='flashcards', params=("Quantos é 2+3?", "5", 2))
+            db.populateTbl(tbl='flashcards', params=("Raiz quadrada de 7", "49", 2))
+            db.populateTbl(tbl='flashcards', params=("Quantos é 9*7?", "63", 2))
         
         self.loadDecksInTable()
         widgets.btnAddCards.clicked.connect(self.openAddCardsWindow)
