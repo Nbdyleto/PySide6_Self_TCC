@@ -60,7 +60,7 @@ class FCardsMainPage(QWidget):
         self.studed_cards = 0
 
         import_export = ImportExport()
-        import_export._to_json()
+        import_export._to_json(topic_id=0)
     
     # MainWindow Functions
 

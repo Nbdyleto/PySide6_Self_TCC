@@ -1,7 +1,7 @@
 [
     {
         "deck_id": 0,
-        "deck_name": "Equa\u00e7\u00e3o I Grau",
+        "deck_name": "C\u00e1lculos B\u00e1sicos",
         "hits_percentage": 0,
         "topic_id": 0,
         "flashcards": [
@@ -44,35 +44,5 @@
                 1
             ]
         ]
-    },
-    {
-        "deck_id": 2,
-        "deck_name": "Polaridade",
-        "hits_percentage": 0,
-        "topic_id": 2,
-        "flashcards": [
-            [
-                "Quantos \u00e9 2+3?",
-                "5",
-                2
-            ],
-            [
-                "Raiz quadrada de 7",
-                "49",
-                2
-            ],
-            [
-                "Quantos \u00e9 9*7?",
-                "63",
-                2
-            ]
-        ]
-    },
-    {
-        "deck_id": 3,
-        "deck_name": "Leis de Newton",
-        "hits_percentage": 0,
-        "topic_id": 1,
-        "flashcards": []
     }
 ]
