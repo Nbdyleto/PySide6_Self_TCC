@@ -1,4 +1,4 @@
-from db_flashcards_operations import FlashcardsDB
+from ..db_main_operations import DBMainOperations
 import json
 
 class ImportExport:
@@ -7,22 +7,22 @@ class ImportExport:
 
     def _to_json(self):
         """Convert a sqlite3 database to json"""
-        with FlashcardsDB() as db:
-            results = db.cursor.execute("SELECT * from topics")
-            rows = [row for row in results]
-            cols = [col for col in results.description]
+        with DBMainOperations() as db:
+            decks = db.getAllRecords(tbl='decks', fetchall=False)
+            rows = [row for row in decks]
+            cols = [col[0] for col in decks.description]
+        print(rows)
 
-        topics = []
+        decks = []
         for row in rows:
-            topic = {}
+            deck = {}
             for col_name, val in zip(cols, row):
-                topic[col_name] = val
-            topics.append(row)
+                deck[col_name] = val
+            decks.append(deck)
             
-        with open('functions/flashcards/topics.json', 'w') as json_file:
-            topicsJSON = json.dumps(topics, indent=4)
-            print(f"topics in JSON: {topicsJSON}")
-            json.dump(topicsJSON, json_file)
+        with open('functions/flashcards/decksJSON.json', 'w') as json_file:
+            print(f"decks in JSON: {decks}")
+            json.dump(decks, json_file, indent=4)
     
     def _to_mysql(self):
         """convert a json file to sqlite3 table"""
