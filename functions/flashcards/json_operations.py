@@ -6,7 +6,7 @@ class ImportExport:
         pass
 
     def _to_json(self, topic_id):
-        """Convert a sqlite3 database to json"""
+        """Convert a sqlite3 database to json based on Parent Table ID"""
         with DBMainOperations() as db:
             decks = db.getAllRecords(tbl='decks', fetchall=False, whclause=f'topic_id={topic_id}')
             deck_rows = [row for row in decks]

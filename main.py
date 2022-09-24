@@ -62,6 +62,7 @@ class MainWindow(QMainWindow):
         widgets.btn_home.clicked.connect(self.buttonClick)
         widgets.btn_widgets.clicked.connect(self.buttonClick)
         widgets.btn_flashcards_page.clicked.connect(self.buttonClick)
+        widgets.btn_pomodoro_page.clicked.connect(self.buttonClick)
         widgets.btn_daily_task_page.clicked.connect(self.buttonClick)
 
         # EXTRA LEFT BOX
@@ -121,6 +122,11 @@ class MainWindow(QMainWindow):
         # SHOW FLASHCARDS PAGE
         if btnName == "btn_flashcards_page":
             widgets.stackedWidget.setCurrentWidget(widgets.flashcardsPage) # SET PAGE
+            UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
+            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
+
+        if btnName == "btn_pomodoro_page":
+            widgets.stackedWidget.setCurrentWidget(widgets.pomodoroPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
 

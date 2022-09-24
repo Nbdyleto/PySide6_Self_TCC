@@ -223,7 +223,6 @@ class FCardsMainPage(QWidget):
             if self.studed_cards > self.total_cards+1:
                 self.studyCardsWindow.close()
             print('Stop Iteration')
-        reveal
 
     def revealCardAnswer(self, verse):
         studyCardsWidgets.plainTextEdit.setPlainText(verse)

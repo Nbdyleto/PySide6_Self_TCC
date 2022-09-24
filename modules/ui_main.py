@@ -14,6 +14,7 @@ from PySide6.QtWidgets import *
 
 from functions.flashcards import *
 from functions.daily_task import *
+from functions.pomodoro.pomodoro_page import *
 
 from . resources_rc import *
 
@@ -702,6 +703,18 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addWidget(self.btn_daily_task_page)
 
+        self.btn_pomodoro_page = QPushButton(self.topMenu)
+        self.btn_pomodoro_page.setObjectName(u"btn_pomodoro_page")
+        sizePolicy.setHeightForWidth(self.btn_daily_task_page.sizePolicy().hasHeightForWidth())
+        self.btn_pomodoro_page.setSizePolicy(sizePolicy)
+        self.btn_pomodoro_page.setMinimumSize(QSize(0, 45))
+        self.btn_pomodoro_page.setFont(font)
+        self.btn_pomodoro_page.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_pomodoro_page.setLayoutDirection(Qt.LeftToRight)
+        self.btn_pomodoro_page.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-alarm.png);")
+
+        self.verticalLayout_8.addWidget(self.btn_pomodoro_page)
+
         self.btn_exit = QPushButton(self.topMenu)
         self.btn_exit.setObjectName(u"btn_exit")
         sizePolicy.setHeightForWidth(self.btn_exit.sizePolicy().hasHeightForWidth())
@@ -1045,6 +1058,8 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.flashcardsPage)
         self.dailyTaskPage = DTaskMainPage()
         self.stackedWidget.addWidget(self.dailyTaskPage)
+        self.pomodoroPage = PomodoroMainPage()
+        self.stackedWidget.addWidget(self.pomodoroPage)
 
         self.widgets = QWidget()
         self.widgets.setObjectName(u"widgets")
@@ -1541,6 +1556,7 @@ class Ui_MainWindow(object):
         self.btn_home.setText(QCoreApplication.translate("MainWindow", u"Home", None))
         self.btn_widgets.setText(QCoreApplication.translate("MainWindow", u"Widgets", None))
         self.btn_flashcards_page.setText(QCoreApplication.translate("MainWindow", u"Flashcards", None))
+        self.btn_pomodoro_page.setText(QCoreApplication.translate("MainWindow", u"Pomodoro", None))
         self.btn_daily_task_page.setText(QCoreApplication.translate("MainWindow", u"Daily Task", None))
         self.btn_exit.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
         self.toggleLeftBox.setText(QCoreApplication.translate("MainWindow", u"Left Box", None))
