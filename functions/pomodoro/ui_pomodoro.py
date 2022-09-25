@@ -41,11 +41,9 @@ class Ui_Pomodoro(object):
         self.button.setMaximumSize(QtCore.QSize(40, 40))
         self.button.setBaseSize(QtCore.QSize(0, 0))
         self.button.setStyleSheet("background-color: rgb(255, 37, 51);\n"
-"background-image: url(\"./play.png\");\n"
 "border: 1px solid rgb(255, 37, 51);\n"
 "border-radius: 20px;")
         self.button.setText("")
-        self.button.setFlat(True)
         self.button.setObjectName("button")
         self.verticalLayout.addWidget(self.button, 1, QtCore.Qt.AlignmentFlag.AlignHCenter)
         self.menuBar = QtWidgets.QMenuBar(Widget)
