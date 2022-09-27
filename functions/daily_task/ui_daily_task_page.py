@@ -18,7 +18,7 @@ class Ui_DailyTaskPage(object):
         Widget.resize(950, 514)
 
         self.tblTopics = QTableWidget(Widget)
-        self.tblTopics.setGeometry(QRect(690, 200, 113, 100))
+        self.tblTopics.setGeometry(QRect(850, 200, 113, 100))
         self.tblTopics.setObjectName(u'tblTopics')
         self.tblTopics.setVisible(False)
         self.tblTopics.setColumnCount(1)
@@ -27,9 +27,8 @@ class Ui_DailyTaskPage(object):
         self.tblTopics.setHorizontalHeaderItem(0, item)
         
         self.tblWidgetTasks = QTableWidget(Widget)
-        self.tblWidgetTasks.setGeometry(QRect(40, 150, 800, 320))
+        self.tblWidgetTasks.setGeometry(QRect(140, 150, 950, 320))
         self.tblWidgetTasks.setObjectName(u"tblWidgetTasks")
-        self.tblWidgetTasks.setFocusPolicy(Qt.NoFocus)
         self.tblWidgetTasks.setSelectionMode(QAbstractItemView.SingleSelection)
         self.tblWidgetTasks.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.tblWidgetTasks.setFocusPolicy(Qt.NoFocus)
@@ -51,6 +50,10 @@ class Ui_DailyTaskPage(object):
         self.tblWidgetTasks.setHorizontalHeaderItem(4, item)
 
         self.tblWidgetTasks.setStyleSheet("""
+            QTableWidget {
+                background-color: #282a36;
+                border-radius: 0px;
+            }
             QTableWidget::item {
                 color: #f8f8f2;                    
                 background-color: #44475a;
@@ -58,19 +61,18 @@ class Ui_DailyTaskPage(object):
                 border-radius: 0px;
                 padding-left: 2px;
             }
-            QTableWidget::item:hover {
-                background-color: #6272a4;
-                color : #f8f8f2;
-                selection-color : red
-            }
             QTableWidget::item:selected {
                 background-color: #6272a4;
                 selection-color : #f8f8f2;  
             }
+            QTableWidget::item:hover {
+                background-color: #6272a4;
+                color : #f8f8f2;
+            }
         """)
         self.calendarWidget = QCalendarWidget(Widget)
         self.calendarWidget.setObjectName(u"calendarWidget")
-        self.calendarWidget.setGeometry(QRect(265, 205, 310, 220))
+        self.calendarWidget.setGeometry(QRect(365, 205, 310, 220))
         self.calendarWidget.setVisible(False)
         self.calendarWidget.setStyleSheet("""
         QCalendarWidget QToolButton {
@@ -148,7 +150,7 @@ class Ui_DailyTaskPage(object):
         """)
         self.label = QLabel(Widget)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(0, 0, 800, 101))
+        self.label.setGeometry(QRect(140, 0, 900, 101))
         self.label.setStyleSheet(u"font-size : 24pt;\n"
 "background : #44475a;\n"
 "color:white;\n"
@@ -156,7 +158,7 @@ class Ui_DailyTaskPage(object):
         self.label.setAlignment(Qt.AlignCenter)
 
         self.tblTopics = QTableWidget(Widget)
-        self.tblTopics.setGeometry(QRect(650, 205, 140, 190))
+        self.tblTopics.setGeometry(QRect(900, 205, 140, 190))
         self.tblTopics.setObjectName(u'tblTopics')
         self.tblTopics.setVisible(False)
         self.tblTopics.setColumnCount(1)
@@ -196,17 +198,17 @@ class Ui_DailyTaskPage(object):
     def retranslateUi(self, Widget):
         _translate = QCoreApplication.translate
         Widget.setWindowTitle(_translate("Widget", u"Widget", None))
-        self.label.setText(_translate("Widget", u"Daily Task Planner", None))
+        self.label.setText(_translate("Widget", u"Acompanhador de Tarefas", None))
         item = self.tblWidgetTasks.horizontalHeaderItem(0)
-        item.setText(_translate("Widget", u"Task Name"))
+        item.setText(_translate("Widget", u"Nome da Tarefa"))
         item = self.tblWidgetTasks.horizontalHeaderItem(1)
         item.setText(_translate("Widget", u"Status"))
         item = self.tblWidgetTasks.horizontalHeaderItem(2)
-        item.setText(_translate("Widget", u"Start Date"))
+        item.setText(_translate("Widget", u"Data Inicial"))
         item = self.tblWidgetTasks.horizontalHeaderItem(3)
-        item.setText(_translate("Widget", u"End Date"))
+        item.setText(_translate("Widget", u"Data Final"))
         item = self.tblWidgetTasks.horizontalHeaderItem(4)
-        item.setText(_translate("Widget", u"Topic"))
+        item.setText(_translate("Widget", u"Tópico"))
         item = self.tblTopics.horizontalHeaderItem(0)
         item.setText(_translate("Widget", u"topic_name"))
     # retranslateUi

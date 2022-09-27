@@ -10,7 +10,7 @@ class Ui_FlashcardsPage(object):
         Widget.resize(724, 408)
         
         self.tblWidgetDecks = QtWidgets.QTableWidget(Widget)
-        self.tblWidgetDecks.setGeometry(QtCore.QRect(60, 230, 650, 350))
+        self.tblWidgetDecks.setGeometry(QtCore.QRect(140, 230, 650, 350))
         self.tblWidgetDecks.setObjectName("tblWidgetDecks")
         self.tblWidgetDecks.setColumnCount(3)
         self.tblWidgetDecks.setRowCount(1)
@@ -43,10 +43,10 @@ class Ui_FlashcardsPage(object):
         """)
 
         self.lblDecks = QtWidgets.QLabel(Widget)
-        self.lblDecks.setGeometry(QtCore.QRect(320, 200, 67, 18))
+        self.lblDecks.setGeometry(QtCore.QRect(450, 200, 67, 18))
         self.lblDecks.setObjectName("lblDecks")
         self.lblClass = QtWidgets.QLabel(Widget)
-        self.lblClass.setGeometry(QtCore.QRect(50, 130, 67, 18))
+        self.lblClass.setGeometry(QtCore.QRect(140, 130, 67, 18))
         self.lblClass.setObjectName("lblClass")
 
         self.listView = QtWidgets.QListView(Widget)
@@ -54,16 +54,16 @@ class Ui_FlashcardsPage(object):
         self.listView.setObjectName("listView")
 
         self.pushButton = QtWidgets.QPushButton(Widget)
-        self.pushButton.setGeometry(QtCore.QRect(430, 130, 88, 26))
+        self.pushButton.setGeometry(QtCore.QRect(600, 130, 88, 26))
         self.pushButton.setObjectName("pushButton")
 
         self.btnAddCards = QtWidgets.QPushButton(Widget)
-        self.btnAddCards.setGeometry(QtCore.QRect(530, 130, 88, 26))
+        self.btnAddCards.setGeometry(QtCore.QRect(700, 130, 150, 26))
         self.btnAddCards.setObjectName("btnAddCards")
 
         self.label = QtWidgets.QLabel(Widget)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QtCore.QRect(0, 0, 800, 101))
+        self.label.setGeometry(QtCore.QRect(140, 0, 900, 101))
         self.label.setStyleSheet(u"font-size : 24pt;\n"
 "background : #44475a;\n"
 "color:white;\n"
@@ -85,9 +85,9 @@ class Ui_FlashcardsPage(object):
         item.setText(_translate("Widget", u"btn_action"))
         
         self.lblDecks.setText(_translate("Widget", u"Decks"))
-        self.lblClass.setText(_translate("Widget", u"Class:"))
-        self.pushButton.setText(_translate("Widget", u"More Info"))
-        self.btnAddCards.setText(_translate("Widget", u"Add Cards"))
+        self.lblClass.setText(_translate("Widget", u"Classe:"))
+        self.pushButton.setText(_translate("Widget", u"Opções"))
+        self.btnAddCards.setText(_translate("Widget", u"Adicionar Cards"))
 
         self.label.setText(_translate("Widget", u"Flashcards"))
 

@@ -82,7 +82,7 @@ class FCardsMainPage(QWidget):
         # last row of tblWidget has a 'add deck' option.
         lastrow = rowcount
         widgets.tblWidgetDecks.setRowHeight(tablerow, 50)
-        widgets.tblWidgetDecks.setItem(lastrow, 1, QtWidgets.QTableWidgetItem('Create New Deck!'))
+        widgets.tblWidgetDecks.setItem(lastrow, 1, QtWidgets.QTableWidgetItem('Criar novo deck!'))
         btnAddDeck = QtWidgets.QPushButton(widgets.tblWidgetDecks)
         btnAddDeck.setText('+')
         widgets.tblWidgetDecks.setCellWidget(lastrow, 0, btnAddDeck)
@@ -95,19 +95,19 @@ class FCardsMainPage(QWidget):
             if db.hasRecordsInTblFlashcards(id=tablerow):
                 btnStartStudy = QtWidgets.QPushButton(widgets.tblWidgetDecks)
                 btnStartStudy.setObjectName(f'btnStartStudy{tablerow}')
-                btnStartStudy.setText('Start Study')
+                btnStartStudy.setText('Iniciar Estudo')
                 widgets.tblWidgetDecks.setCellWidget(tablerow, 2, btnStartStudy)
                 btnStartStudy.clicked.connect(lambda: self.openStudyCardsWindow(row_clicked=tablerow))
             else:
                 btnAddCards = QtWidgets.QPushButton(widgets.tblWidgetDecks)
                 btnAddCards.setObjectName(f'btnAddCards{tablerow}')
-                btnAddCards.setText('Add Cards')
+                btnAddCards.setText('Adicionar Cards')
                 widgets.tblWidgetDecks.setCellWidget(tablerow, 2, btnAddCards)
                 btnAddCards.clicked.connect(lambda: self.openAddCardsWindow(row_clicked=tablerow))
     
     @QtCore.Slot()
     def addDeck(self):
-        new_deck, input_status = QtWidgets.QInputDialog.getText(self, "New Deck", "Enter The Name of Deck:")
+        new_deck, input_status = QtWidgets.QInputDialog.getText(self, "Novo Deck", "Entre com o nome do novo deck:")
         with DBMainOperations() as db:
             if input_status:
                 last_id = db.getRowCount('decks')
@@ -126,7 +126,7 @@ class FCardsMainPage(QWidget):
         cardsWinWidgets = self.ui_addCards
         
         lbl_active_deck = QtWidgets.QLabel(self.addCardsWindow)
-        lbl_active_deck.setGeometry(QtCore.QRect(270, 20, 90, 20))
+        lbl_active_deck.setGeometry(QtCore.QRect(230, 20, 150, 20))
         with DBMainOperations() as db:
             deck_name = db.getAllRecords(tbl='decks', specifcols='deck_name')[0][0]
         lbl_active_deck.setText(deck_name)

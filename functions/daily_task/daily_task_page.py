@@ -18,14 +18,14 @@ class DTaskMainPage(QWidget):
         global widgets
         widgets = self.ui
 
-        widgets.tblWidgetTasks.setColumnWidth(0,200)
+        widgets.tblWidgetTasks.setColumnWidth(0,300)
         widgets.tblWidgetTasks.setColumnWidth(1,150)
         widgets.tblWidgetTasks.setColumnWidth(2,150)
         widgets.tblWidgetTasks.setColumnWidth(3,150)
-        widgets.tblWidgetTasks.setColumnWidth(4,100)
+        widgets.tblWidgetTasks.setColumnWidth(4,150)
 
-        #with DailyTaskDB() as db:
-            #db.create_tables()
+        with DailyTaskDB() as db:
+            db.create_tables()
         
         self.load_data_in_table()
 
@@ -150,7 +150,7 @@ class DTaskMainPage(QWidget):
             if self.existent_in_db == False: 
                 # not existent in db, so, create new data.
                 query_insert = f"INSERT INTO tasks(task_name, status, start_date, end_date, topic_id) VALUES (?,?,?,?,?)"
-                new_row_data = (new_value, "Not Started", start_date, end_date, 0)
+                new_row_data = (new_value, "A começar", start_date, end_date, 0)
                 with DailyTaskDB() as db:
                     db.populate(query_insert, new_row_data)
                 self.existent_in_db = None
@@ -187,9 +187,9 @@ class DTaskMainPage(QWidget):
     def show_calendar(self):
         self.reset_calendar_date()
         widgets.calendarWidget.setVisible(True)
-        X_VALUE, Y_VALUE = 265, 205
+        X_VALUE, Y_VALUE = 365, 205
         if self.slc_col == 3:
-            X_VALUE = 350
+            X_VALUE = 450
         widgets.calendarWidget.move(X_VALUE, Y_VALUE)
         print(f'showing calendar... {self.slc_row, self.slc_col}')
 
