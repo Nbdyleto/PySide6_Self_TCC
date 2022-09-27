@@ -73,7 +73,7 @@ class FCardsMainPage(QWidget):
         
         tablerow = 0
         for deck in decks:
-            widgets.tblWidgetDecks.setRowHeight(tablerow, 50)
+            widgets.tblWidgetDecks.setRowHeight(tablerow, 70)
             widgets.tblWidgetDecks.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(f'{str(deck[2])}%'))
             widgets.tblWidgetDecks.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(deck[1]))
             self.loadWidgetCell(tablerow)
@@ -81,7 +81,7 @@ class FCardsMainPage(QWidget):
             
         # last row of tblWidget has a 'add deck' option.
         lastrow = rowcount
-        widgets.tblWidgetDecks.setRowHeight(tablerow, 50)
+        widgets.tblWidgetDecks.setRowHeight(tablerow, 70)
         widgets.tblWidgetDecks.setItem(lastrow, 1, QtWidgets.QTableWidgetItem('Criar novo deck!'))
         btnAddDeck = QtWidgets.QPushButton(widgets.tblWidgetDecks)
         btnAddDeck.setText('+')

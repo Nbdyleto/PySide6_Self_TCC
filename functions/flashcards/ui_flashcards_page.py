@@ -10,7 +10,7 @@ class Ui_FlashcardsPage(object):
         Widget.resize(724, 408)
         
         self.tblWidgetDecks = QtWidgets.QTableWidget(Widget)
-        self.tblWidgetDecks.setGeometry(QtCore.QRect(140, 230, 650, 350))
+        self.tblWidgetDecks.setGeometry(QtCore.QRect(140, 230, 900, 375))
         self.tblWidgetDecks.setObjectName("tblWidgetDecks")
         self.tblWidgetDecks.setColumnCount(3)
         self.tblWidgetDecks.setRowCount(1)
@@ -25,14 +25,14 @@ class Ui_FlashcardsPage(object):
         self.tblWidgetDecks.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
         self.tblWidgetDecks.setHorizontalHeaderItem(2, item)
-        self.tblWidgetDecks.setColumnWidth(0,80)
-        self.tblWidgetDecks.setColumnWidth(1,400)
+        self.tblWidgetDecks.setColumnWidth(0,150)
+        self.tblWidgetDecks.setColumnWidth(1,500)
         self.tblWidgetDecks.setColumnWidth(2,140)
         self.tblWidgetDecks.setStyleSheet("""
             QTableWidget::item {
                 color: #f8f8f2;                    
                 background-color: #44475a;
-                margin-top: 2px;          
+                margin-top: 3px;          
                 border-radius: 0px;
                 padding-left: 2px;
             }
