@@ -111,7 +111,7 @@ class FCardsMainPage(QWidget):
         with DBMainOperations() as db:
             if input_status:
                 last_id = db.getRowCount('decks')
-                db.populateTbl(tbl='decks', params=(last_id, new_deck, 0))
+                db.populateTbl(tbl='decks', params=(last_id, new_deck, 0, 0))
         self.loadDecksInTable()
 
     # AddCardsWindow Functions #####################################
