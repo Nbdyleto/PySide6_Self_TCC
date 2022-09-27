@@ -7,34 +7,8 @@ from PySide6 import QtCore, QtGui, QtWidgets
 class Ui_AddCardsWindow(object):
     def setupUi(self, AddCardsWindow):
         AddCardsWindow.setObjectName("AddCardsWindow")
-        AddCardsWindow.resize(405, 505)
-        AddCardsWindow.setStyleSheet("""
-    /*Window*/
-        #AddCardsWindow {
-            background-color: #282a36
-        }
-    /*QPushButton*/
-        QPushButton {
-            background-color: #6272a4;
-            color: #282a36
-        }
-        QLabel {
-            color: #f8f8f2
-        }
-        QPlainTextEdit {
-            background-color: #44475a;
-            selection-color: #6272a4;
-            selection-background-color: #282a36
-        }
-        QListWidget {
-            background-color: #44475a;
-            color: #f8f8f2;
-            selection-color: #282a36;
-            selection-background-color: #ff79c6
-        }
-        """)
-        
-
+        AddCardsWindow.resize(405, 405)
+    
         self.centralwidget = QtWidgets.QWidget(AddCardsWindow)
         self.centralwidget.setObjectName("centralwidget")
 
@@ -49,14 +23,14 @@ class Ui_AddCardsWindow(object):
         self.pTextVerse.setPlaceholderText("Put the verse content here!")
 
         self.btnAddCard = QtWidgets.QPushButton(self.centralwidget)
-        self.btnAddCard.setGeometry(QtCore.QRect(190, 330, 88, 26))
+        self.btnAddCard.setGeometry(QtCore.QRect(180, 310, 100, 26))
         self.btnAddCard.setObjectName("btnAddCard")
         self.btnClose = QtWidgets.QPushButton(self.centralwidget)
-        self.btnClose.setGeometry(QtCore.QRect(290, 330, 88, 26))
+        self.btnClose.setGeometry(QtCore.QRect(290, 310, 88, 26))
         self.btnClose.setObjectName("btnClose")
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(20, 10, 67, 18))
-        self.label.setObjectName("label")
+        self.lblAddTo = QtWidgets.QLabel(self.centralwidget)
+        self.lblAddTo.setGeometry(QtCore.QRect(20, 10, 100, 18))
+        self.lblAddTo.setObjectName("lblAddTo")
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_3.setGeometry(QtCore.QRect(370, 10, 31, 26))
         self.pushButton_3.setObjectName("pushButton_3")
@@ -68,7 +42,7 @@ class Ui_AddCardsWindow(object):
         self.lblVerse.setObjectName("lblVerse")
 
         self.listDecks = QtWidgets.QListWidget(self.centralwidget)
-        self.listDecks.setGeometry(QtCore.QRect(90, 10, 125, 100))
+        self.listDecks.setGeometry(QtCore.QRect(130, 10, 125, 100))
         self.listDecks.setObjectName("listDecks")
         self.listDecks.setCurrentRow(2)
 
@@ -83,9 +57,9 @@ class Ui_AddCardsWindow(object):
     def retranslateUi(self, AddCardsWindow):
         _translate = QtCore.QCoreApplication.translate
         AddCardsWindow.setWindowTitle(_translate("AddCardsWindow", "AddCardsWindow"))
-        self.btnAddCard.setText(_translate("AddCardsWindow", "Add"))
-        self.btnClose.setText(_translate("AddCardsWindow", "Close"))
-        self.label.setText(_translate("AddCardsWindow", "Add to..."))
+        self.btnAddCard.setText(_translate("AddCardsWindow", "Adicionar"))
+        self.btnClose.setText(_translate("AddCardsWindow", "Fechar"))
+        self.lblAddTo.setText(_translate("AddCardsWindow", "Adicionar a..."))
         self.pushButton_3.setText(_translate("AddCardsWindow", "X"))
-        self.lblFront.setText(_translate("AddCardsWindow", "Front"))
-        self.lblVerse.setText(_translate("AddCardsWindow", "Verse"))
+        self.lblFront.setText(_translate("AddCardsWindow", "Frente"))
+        self.lblVerse.setText(_translate("AddCardsWindow", "Verso"))

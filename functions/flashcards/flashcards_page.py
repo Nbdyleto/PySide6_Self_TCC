@@ -125,11 +125,11 @@ class FCardsMainPage(QWidget):
         global cardsWinWidgets
         cardsWinWidgets = self.ui_addCards
         
-        lbl_active_deck = QtWidgets.QLabel(self.addCardsWindow)
-        lbl_active_deck.setGeometry(QtCore.QRect(230, 20, 150, 20))
-        with DBMainOperations() as db:
-            deck_name = db.getAllRecords(tbl='decks', specifcols='deck_name')[0][0]
-        lbl_active_deck.setText(deck_name)
+        #lbl_active_deck = QtWidgets.QLabel(self.addCardsWindow)
+        #lbl_active_deck.setGeometry(QtCore.QRect(230, 20, 150, 20))
+        #with DBMainOperations() as db:
+        #    deck_name = db.getAllRecords(tbl='decks', specifcols='deck_name')[0][0]
+        #lbl_active_deck.setText(deck_name)
 
         cardsWinWidgets.listDecks.setCurrentRow(0)
         self.addCardsWindow.show()

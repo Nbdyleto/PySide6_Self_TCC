@@ -51,7 +51,7 @@ class Ui_DailyTaskPage(object):
 
         self.tblWidgetTasks.setStyleSheet("""
             QTableWidget {
-                background-color: #282a36;
+                background-color: rgb(40, 44, 52);
                 border-radius: 0px;
             }
             QTableWidget::item {
