@@ -36,10 +36,15 @@ class Ui_FlashcardsPage(object):
                 border-radius: 0px;
                 padding-left: 2px;
             }
+            QTableWidget::item:selected {
+                background-color: #6272a4;
+                selection-color : #f8f8f2;  
+            }
             QTableWidget::item:hover {
                 background-color: #6272a4;
                 color : #f8f8f2;
             }
+            
         """)
 
         self.lblDecks = QtWidgets.QLabel(Widget)

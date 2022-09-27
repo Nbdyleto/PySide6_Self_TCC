@@ -57,7 +57,7 @@ class Ui_DailyTaskPage(object):
             QTableWidget::item {
                 color: #f8f8f2;                    
                 background-color: #44475a;
-                margin-top: 1px;          
+                margin-top: 2px;          
                 border-radius: 0px;
                 padding-left: 2px;
             }

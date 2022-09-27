@@ -92,13 +92,14 @@ class DTaskMainPage(QWidget):
             tablerow = 0
             for row in results:
                 print(str(row[2]))
-                
+                widgets.tblWidgetTasks.setRowHeight(tablerow, 50)
                 widgets.tblWidgetTasks.setItem(tablerow, 0, QTableWidgetItem(row[0]))  #row[0] = task_name
                 widgets.tblWidgetTasks.setItem(tablerow, 1, QTableWidgetItem(row[1]))  #row[1] = status
                 widgets.tblWidgetTasks.setItem(tablerow, 2, QTableWidgetItem(row[2]))  #row[2] = start_date
                 widgets.tblWidgetTasks.setItem(tablerow, 3, QTableWidgetItem(row[3]))  #row[3] = end_date
                 widgets.tblWidgetTasks.setItem(tablerow, 4, QTableWidgetItem(self.topics[row[4]][1])) #row[4] = topic_id
                 tablerow += 1
+            widgets.tblWidgetTasks.setRowHeight(tablerow, 50)
         except Exception:
             print('Não funfou.')
 
