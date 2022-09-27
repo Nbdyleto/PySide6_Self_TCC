@@ -667,17 +667,29 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addWidget(self.btn_home)
 
-        self.btn_widgets = QPushButton(self.topMenu)
-        self.btn_widgets.setObjectName(u"btn_widgets")
-        sizePolicy.setHeightForWidth(self.btn_widgets.sizePolicy().hasHeightForWidth())
-        self.btn_widgets.setSizePolicy(sizePolicy)
-        self.btn_widgets.setMinimumSize(QSize(0, 45))
-        self.btn_widgets.setFont(font)
-        self.btn_widgets.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_widgets.setLayoutDirection(Qt.LeftToRight)
-        self.btn_widgets.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-gamepad.png);")
+        self.btn_progress_page = QPushButton(self.topMenu)
+        self.btn_progress_page.setObjectName(u"btn_progress_page")
+        sizePolicy.setHeightForWidth(self.btn_progress_page.sizePolicy().hasHeightForWidth())
+        self.btn_progress_page.setSizePolicy(sizePolicy)
+        self.btn_progress_page.setMinimumSize(QSize(0, 45))
+        self.btn_progress_page.setFont(font)
+        self.btn_progress_page.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_progress_page.setLayoutDirection(Qt.LeftToRight)
+        self.btn_progress_page.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-chart.png);")
 
-        self.verticalLayout_8.addWidget(self.btn_widgets)
+        self.verticalLayout_8.addWidget(self.btn_progress_page)
+
+        self.btn_revision_page = QPushButton(self.topMenu)
+        self.btn_revision_page.setObjectName(u"btn_revision_page")
+        sizePolicy.setHeightForWidth(self.btn_revision_page.sizePolicy().hasHeightForWidth())
+        self.btn_revision_page.setSizePolicy(sizePolicy)
+        self.btn_revision_page.setMinimumSize(QSize(0, 45))
+        self.btn_revision_page.setFont(font)
+        self.btn_revision_page.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_revision_page.setLayoutDirection(Qt.LeftToRight)
+        self.btn_revision_page.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-cloudy.png);")
+
+        self.verticalLayout_8.addWidget(self.btn_revision_page)
 
         self.btn_flashcards_page = QPushButton(self.topMenu)
         self.btn_flashcards_page.setObjectName(u"btn_flashcards_page")
@@ -844,18 +856,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_11.addWidget(self.btn_share)
 
-        self.btn_adjustments = QPushButton(self.extraTopMenu)
-        self.btn_adjustments.setObjectName(u"btn_adjustments")
-        sizePolicy.setHeightForWidth(self.btn_adjustments.sizePolicy().hasHeightForWidth())
-        self.btn_adjustments.setSizePolicy(sizePolicy)
-        self.btn_adjustments.setMinimumSize(QSize(0, 45))
-        self.btn_adjustments.setFont(font)
-        self.btn_adjustments.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_adjustments.setLayoutDirection(Qt.LeftToRight)
-        self.btn_adjustments.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-equalizer.png);")
-
-        self.verticalLayout_11.addWidget(self.btn_adjustments)
-
         self.btn_more = QPushButton(self.extraTopMenu)
         self.btn_more.setObjectName(u"btn_more")
         sizePolicy.setHeightForWidth(self.btn_more.sizePolicy().hasHeightForWidth())
@@ -867,6 +867,18 @@ class Ui_MainWindow(object):
         self.btn_more.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-layers.png);")
 
         self.verticalLayout_11.addWidget(self.btn_more)
+
+        self.btn_adjustments = QPushButton(self.extraTopMenu)
+        self.btn_adjustments.setObjectName(u"btn_adjustments")
+        sizePolicy.setHeightForWidth(self.btn_adjustments.sizePolicy().hasHeightForWidth())
+        self.btn_adjustments.setSizePolicy(sizePolicy)
+        self.btn_adjustments.setMinimumSize(QSize(0, 45))
+        self.btn_adjustments.setFont(font)
+        self.btn_adjustments.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_adjustments.setLayoutDirection(Qt.LeftToRight)
+        self.btn_adjustments.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-equalizer.png);")
+
+        self.verticalLayout_11.addWidget(self.btn_adjustments)
 
 
         self.verticalLayout_12.addWidget(self.extraTopMenu, 0, Qt.AlignTop)
@@ -1058,8 +1070,8 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.flashcardsPage)
         self.dailyTaskPage = DTaskMainPage()
         self.stackedWidget.addWidget(self.dailyTaskPage)
-        self.pomodoroPage = PomodoroMainPage()
-        self.stackedWidget.addWidget(self.pomodoroPage)
+        #self.pomodoroPage = PomodoroMainPage()
+        #self.stackedWidget.addWidget(self.pomodoroPage)
 
         self.widgets = QWidget()
         self.widgets.setObjectName(u"widgets")
@@ -1550,39 +1562,33 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.titleLeftApp.setText(QCoreApplication.translate("MainWindow", u"PyDracula", None))
-        self.titleLeftDescription.setText(QCoreApplication.translate("MainWindow", u"Modern GUI / Flat Style", None))
+        self.titleLeftApp.setText(QCoreApplication.translate("MainWindow", u"SELF", None))
+        self.titleLeftDescription.setText(QCoreApplication.translate("MainWindow", u"Produtividade e Foco", None))
         self.toggleButton.setText(QCoreApplication.translate("MainWindow", u"Hide", None))
-        self.btn_home.setText(QCoreApplication.translate("MainWindow", u"Home", None))
-        self.btn_widgets.setText(QCoreApplication.translate("MainWindow", u"Widgets", None))
+        self.btn_home.setText(QCoreApplication.translate("MainWindow", u"Principal", None))
+        self.btn_progress_page.setText(QCoreApplication.translate("MainWindow", u"Ver Progresso", None))
+        self.btn_revision_page.setText(QCoreApplication.translate("MainWindow", u"Revisões Esporádicas", None))
         self.btn_flashcards_page.setText(QCoreApplication.translate("MainWindow", u"Flashcards", None))
         self.btn_pomodoro_page.setText(QCoreApplication.translate("MainWindow", u"Pomodoro", None))
         self.btn_daily_task_page.setText(QCoreApplication.translate("MainWindow", u"Daily Task", None))
         self.btn_exit.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
         self.toggleLeftBox.setText(QCoreApplication.translate("MainWindow", u"Left Box", None))
-        self.extraLabel.setText(QCoreApplication.translate("MainWindow", u"Left Box", None))
+        self.extraLabel.setText(QCoreApplication.translate("MainWindow", u"Mais Informações", None))
 #if QT_CONFIG(tooltip)
         self.extraCloseColumnBtn.setToolTip(QCoreApplication.translate("MainWindow", u"Close left box", None))
 #endif // QT_CONFIG(tooltip)
         self.extraCloseColumnBtn.setText("")
-        self.btn_share.setText(QCoreApplication.translate("MainWindow", u"Share", None))
-        self.btn_adjustments.setText(QCoreApplication.translate("MainWindow", u"Adjustments", None))
-        self.btn_more.setText(QCoreApplication.translate("MainWindow", u"More", None))
+        self.btn_share.setText(QCoreApplication.translate("MainWindow", u"Nosso Site", None))
+        self.btn_adjustments.setText(QCoreApplication.translate("MainWindow", u"Ajustes", None))
+        self.btn_more.setText(QCoreApplication.translate("MainWindow", u"Contribua (GitHub)", None))
         self.textEdit.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:600; color:#ff79c6;\">PyDracula</span></p>\n"
-"<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">An interface created using Python and PySide (support for PyQt), and with colors based on the Dracula theme created by Zeno Rocha.</span></p>\n"
-"<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-inde"
-                        "nt:0; text-indent:0px;\"><span style=\" color:#ffffff;\">MIT License</span></p>\n"
-"<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#bd93f9;\">Created by: Wanderson M. Pimenta</span></p>\n"
-"<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:600; color:#ff79c6;\">Convert UI</span></p>\n"
-"<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:9pt; color:#ffffff;\">pyside6-uic main.ui &gt; ui_main.py</span></p>\n"
-"<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:600; color:#ff79c6;\">Convert QRC</span></p>\n"
-"<p align=\"center\" "
-                        "style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:9pt; color:#ffffff;\">pyside6-rcc resources.qrc -o resources_rc.py</span></p></body></html>", None))
-        self.titleRightInfo.setText(QCoreApplication.translate("MainWindow", u"PyDracula APP - Theme with colors based on Dracula for Python.", None))
+"<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:600; color:#ff79c6;\">SELF</span></p>\n"
+"<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">Uma aplicação criada com o objetivo de aumentar a produtividade e o foco nos estudos do usuário. Desenvolvida pelos crias da união Embu da Serra.</span></p>\n"
+"<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#bd93f9;\">João Nogueira, Leonardo Ferreira, Lucas Tamarindo, Max Keven, Rodrigo Caldeira, Vinicius Saldanha </span></p>\n", None))
+        self.titleRightInfo.setText(QCoreApplication.translate("MainWindow", u"SELF: Seu Estudo com Liberdade e Fundamento", None))
 #if QT_CONFIG(tooltip)
         self.settingsTopBtn.setToolTip(QCoreApplication.translate("MainWindow", u"Settings", None))
 #endif // QT_CONFIG(tooltip)
@@ -1668,7 +1674,7 @@ class Ui_MainWindow(object):
         self.btn_message.setText(QCoreApplication.translate("MainWindow", u"Message", None))
         self.btn_print.setText(QCoreApplication.translate("MainWindow", u"Print", None))
         self.btn_logout.setText(QCoreApplication.translate("MainWindow", u"Logout", None))
-        self.creditsLabel.setText(QCoreApplication.translate("MainWindow", u"By: Wanderson M. Pimenta", None))
-        self.version.setText(QCoreApplication.translate("MainWindow", u"v1.0.3", None))
+        self.creditsLabel.setText(QCoreApplication.translate("MainWindow", u"By: Crias Embu da Serra", None))
+        self.version.setText(QCoreApplication.translate("MainWindow", u"v1.0.0", None))
     # retranslateUi
 

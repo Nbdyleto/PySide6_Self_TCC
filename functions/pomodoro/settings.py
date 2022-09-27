@@ -74,7 +74,7 @@ class CherryTomatoSettings:
         settingsBackend = QSettings()
         return cls(settingsBackend)
 
-    """
+    
     
     
     def __getattr__(self, item):
@@ -99,4 +99,3 @@ class CherryTomatoSettings:
             self.settingsBackend.remove(opt.name)
         else:
             super().__delattr__(item)
-"""

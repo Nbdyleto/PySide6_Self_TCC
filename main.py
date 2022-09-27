@@ -41,8 +41,8 @@ class MainWindow(QMainWindow):
 
         # APP NAME
         # ///////////////////////////////////////////////////////////////
-        title = "PyDracula - Modern GUI"
-        description = "PyDracula APP - Theme with colors based on Dracula for Python."
+        title = "SELF - Produtividade e Foco"
+        description = "SELF - Seu Estudo com Liberdade e Fundamento"
         # APPLY TEXTS
         self.setWindowTitle(title)
         widgets.titleRightInfo.setText(description)
@@ -64,7 +64,7 @@ class MainWindow(QMainWindow):
 
         # LEFT MENUS
         widgets.btn_home.clicked.connect(self.buttonClick)
-        widgets.btn_widgets.clicked.connect(self.buttonClick)
+        widgets.btn_progress_page.clicked.connect(self.buttonClick)
         widgets.btn_flashcards_page.clicked.connect(self.buttonClick)
         widgets.btn_pomodoro_page.clicked.connect(self.buttonClick)
         widgets.btn_daily_task_page.clicked.connect(self.buttonClick)
@@ -118,7 +118,7 @@ class MainWindow(QMainWindow):
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
 
         # SHOW WIDGETS PAGE
-        if btnName == "btn_widgets":
+        if btnName == "btn_progress_page":
             widgets.stackedWidget.setCurrentWidget(widgets.widgets)
             UIFunctions.resetStyle(self, btnName)
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
