@@ -82,7 +82,7 @@ class DTaskMainPage(QWidget):
             self.row_topics_count = count+1
             widgets.tblTopics.setRowCount(self.row_topics_count)
 
-            self.topics = db.cursor.execute("SELECT * FROM topics").fetchall()
+            self.topics = ics = db.cursor.execute("SELECT * FROM topics").fetchall()
             print(self.topics)
 
             results = db.cursor.execute("SELECT * FROM tasks ORDER BY start_date").fetchall()
@@ -101,12 +101,7 @@ class DTaskMainPage(QWidget):
                 tablerow += 1
             widgets.tblWidgetTasks.setRowHeight(tablerow, 50)
         except Exception:
-            print('Não funfou.')
-
-        #widgets.tblWidgetTasks.setRowHeight(0, 100)
-
-    # atributtes from each task:
-    # name, topic, start_date, limit_date, checked.
+            print('ERROR')
 
     def update_db(self, item, is_date_type = False):
         if self.existent_in_db == None:

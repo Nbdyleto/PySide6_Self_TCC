@@ -51,10 +51,10 @@ class DailyTaskDB:
 
         poptbl = """INSERT INTO topics (topic_id, topic_name) VALUES (?, ?);"""
         self.populate(poptbl, (0, ""))
-        self.populate(poptbl, (1, "Math"))
-        self.populate(poptbl, (2, "Geography"))
-        self.populate(poptbl, (3, "Chemistry"))
-        self.populate(poptbl, (4, "Physics"))
+        self.populate(poptbl, (1, "Matemática"))
+        self.populate(poptbl, (2, "Geografia"))
+        self.populate(poptbl, (3, "Química"))
+        self.populate(poptbl, (4, "Física"))
         
     def populate(self, qry, row):
         self.cursor.execute(qry, row)

@@ -10,7 +10,7 @@ class Ui_FlashcardsPage(object):
         Widget.resize(724, 408)
         
         self.tblWidgetDecks = QtWidgets.QTableWidget(Widget)
-        self.tblWidgetDecks.setGeometry(QtCore.QRect(140, 230, 900, 375))
+        self.tblWidgetDecks.setGeometry(QtCore.QRect(140, 200, 900, 375))
         self.tblWidgetDecks.setObjectName("tblWidgetDecks")
         self.tblWidgetDecks.setColumnCount(3)
         self.tblWidgetDecks.setRowCount(1)
@@ -48,7 +48,7 @@ class Ui_FlashcardsPage(object):
         """)
 
         self.lblDecks = QtWidgets.QLabel(Widget)
-        self.lblDecks.setGeometry(QtCore.QRect(450, 200, 67, 18))
+        self.lblDecks.setGeometry(QtCore.QRect(450, 170, 67, 18))
         self.lblDecks.setObjectName("lblDecks")
         self.lblClass = QtWidgets.QLabel(Widget)
         self.lblClass.setGeometry(QtCore.QRect(140, 130, 67, 18))
