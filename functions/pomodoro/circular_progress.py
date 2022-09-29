@@ -79,9 +79,8 @@ class CircularProgress(QWidget):
                 paint.end()
 
 
-        def set_value(self, value, text):
+        def set_value(self, value):
                 self.value = value
-                self.text = text
                 self.repaint()
 
         def drawBase(self, p, baseRect):

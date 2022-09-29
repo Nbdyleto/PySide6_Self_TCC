@@ -11,6 +11,7 @@ import os
 import platform
 from functions.pomodoro.settings import CherryTomatoSettings
 from functions.pomodoro.timer_proxy import PomodoroTimerProxy
+from functions.pomodoro.pomodoro_timer import PomodoroTimer
 from functions.pomodoro.utils import CommandExecutor
 from functions.pomodoro.pomodoro_page import PomodoroMainPage
 
@@ -133,7 +134,7 @@ class MainWindow(QMainWindow):
             
             settings = CherryTomatoSettings.createQT()
 
-            pomodoroTimer = PomodoroTimerProxy(settings)
+            pomodoroTimer = PomodoroTimer(settings)
             timerProxy = PomodoroTimerProxy(pomodoroTimer)
                 
             cmdExec = CommandExecutor(settings)
