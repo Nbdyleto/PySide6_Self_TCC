@@ -14,7 +14,6 @@ from PySide6.QtWidgets import *
 
 from functions.flashcards import *
 from functions.daily_task import *
-from functions.pomodoro.pomodoro_page import *
 
 from . resources_rc import *
 

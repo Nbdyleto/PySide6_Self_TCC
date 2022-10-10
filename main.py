@@ -9,11 +9,6 @@
 import sys
 import os
 import platform
-from functions.pomodoro.settings import CherryTomatoSettings
-from functions.pomodoro.timer_proxy import PomodoroTimerProxy
-from functions.pomodoro.pomodoro_timer import PomodoroTimer
-from functions.pomodoro.utils import CommandExecutor
-from functions.pomodoro.pomodoro_page import PomodoroMainPage
 
 # IMPORT / GUI AND MODULES AND WIDGETS
 # ///////////////////////////////////////////////////////////////
@@ -131,21 +126,8 @@ class MainWindow(QMainWindow):
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
 
         if btnName == "btn_pomodoro_page":
-            
-            settings = CherryTomatoSettings.createQT()
 
-            pomodoroTimer = PomodoroTimer(settings)
-            timerProxy = PomodoroTimerProxy(pomodoroTimer)
-                
-            cmdExec = CommandExecutor(settings)
-            timerProxy.onStart.connect(cmdExec.onStart)
-            timerProxy.onStop.connect(cmdExec.onStop)
-            timerProxy.onStateChange.connect(cmdExec.onStateChange)
-
-            self.pomodoroPage = PomodoroMainPage(timerProxy, settings)
-            widgets.stackedWidget.addWidget(self.pomodoroPage)
-
-            widgets.stackedWidget.setCurrentWidget(self.pomodoroPage) # SET PAGE
+            widgets.stackedWidget.setCurrentWidget(self.home) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
 
