@@ -127,7 +127,7 @@ class MainWindow(QMainWindow):
 
         if btnName == "btn_pomodoro_page":
 
-            widgets.stackedWidget.setCurrentWidget(self.home) # SET PAGE
+            widgets.stackedWidget.setCurrentWidget(widgets.pomodoroPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
 
