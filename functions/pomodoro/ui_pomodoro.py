@@ -1,4 +1,32 @@
 from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6.QtWidgets import QSizePolicy
+
+from PySide6.QtCore import Qt, QTime, QTimer, QSettings, QDir
+from PySide6.QtWidgets import (
+    QAbstractItemView,
+    QApplication,
+    QComboBox,
+    QFormLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QHeaderView,
+    QLabel,
+    QLCDNumber,
+    QMainWindow,
+    QMenu,
+    QPushButton,
+    QSizePolicy,
+    QSpinBox,
+    QSystemTrayIcon,
+    QTableWidget,
+    QTableWidgetItem,
+    QTabWidget,
+    QTextEdit,
+    QToolButton,
+    QVBoxLayout,
+    QWidget,
+)
+from .const import *
 
 class Ui_PomodoroPage(object):
     def setupUi(self, Widget):
@@ -59,6 +87,109 @@ class Ui_PomodoroPage(object):
         self.btnReset.setText(_translate("Widget", "Reset"))
         self.btnSettings.setText(_translate("Widget", "Setting"))
 
+class Ui_SettingsWindow(object):
+    def setupUi(self, Widget):
+        Widget.setObjectName("Widget")
+        Widget.resize(200, 200)
+        self.size_policy = sizePolicy = QSizePolicy(
+            QSizePolicy.Expanding, QSizePolicy.Expanding
+        )
+        settings = QSettings()
+
+        self.timerContainer = QWidget(Widget)
+        self.timerContainerLayout = QVBoxLayout(self.timerContainer)
+        self.timerContainer.setLayout(self.timerContainerLayout)
+
+        """ Create work groupbox"""
+        self.workGroupBox = QGroupBox("Work")
+        self.workGroupBoxLayout = QHBoxLayout(self.workGroupBox)
+        self.workGroupBox.setLayout(self.workGroupBoxLayout)
+        self.workHoursSpinBox = QSpinBox(
+            minimum=0,
+            maximum=24,
+            value=int(settings.value(workHoursKey, 0)),
+            suffix="h",
+            sizePolicy=self.size_policy,
+        )
+        self.workMinutesSpinBox = QSpinBox(
+            minimum=0,
+            maximum=60,
+            value=int(settings.value(workMinutesKey, 25)),
+            suffix="m",
+            sizePolicy=self.size_policy,
+        )
+        self.workSecondsSpinBox = QSpinBox(
+            minimum=0,
+            maximum=60,
+            value=int(settings.value(workSecondsKey, 0)),
+            suffix="s",
+            sizePolicy=self.size_policy,
+        )
+        """ Create rest groupbox"""
+        self.restGroupBox = QGroupBox("Rest")
+        self.restGroupBoxLayout = QHBoxLayout(self.restGroupBox)
+        self.restGroupBox.setLayout(self.restGroupBoxLayout)
+        self.restHoursSpinBox = QSpinBox(
+            minimum=0,
+            maximum=24,
+            value=int(settings.value(restHoursKey, 0)),
+            suffix="h",
+            sizePolicy=self.size_policy,
+        )
+        self.restMinutesSpinBox = QSpinBox(
+            minimum=0,
+            maximum=60,
+            value=int(settings.value(restMinutesKey, 5)),
+            suffix="m",
+            sizePolicy=self.size_policy,
+        )
+        self.restSecondsSpinBox = QSpinBox(
+            minimum=0,
+            maximum=60,
+            value=int(settings.value(restSecondsKey, 0)),
+            suffix="s",
+            sizePolicy=self.size_policy,
+        )
+        self.restGroupBoxLayout.addWidget(self.restHoursSpinBox)
+        self.restGroupBoxLayout.addWidget(self.restMinutesSpinBox)
+        self.restGroupBoxLayout.addWidget(self.restSecondsSpinBox)
+
+        """ Create other groupbox"""
+        self.otherGroupBox = QGroupBox("Other")
+        self.otherGroupBoxLayout = QHBoxLayout(self.otherGroupBox)
+        self.otherGroupBox.setLayout(self.otherGroupBoxLayout)
+        self.repetitionsLabel = QLabel("Repetitions")
+        self.repetitionsSpinBox = QSpinBox(
+            minimum=0,
+            maximum=10000,
+            value=0,
+            sizePolicy=self.size_policy,
+            specialValueText="∞",
+        )
+        self.modeLabel = QLabel("Mode")
+        self.modeComboBox = QComboBox(sizePolicy=self.size_policy)
+        self.modeComboBox.addItems(["work", "rest"])
+        self.otherGroupBoxLayout.addWidget(self.repetitionsLabel)
+        self.otherGroupBoxLayout.addWidget(self.repetitionsSpinBox)
+        self.otherGroupBoxLayout.addWidget(self.modeLabel)
+        self.otherGroupBoxLayout.addWidget(self.modeComboBox)
+
+        """ Add widgets to container """
+        self.workGroupBoxLayout.addWidget(self.workHoursSpinBox)
+        self.workGroupBoxLayout.addWidget(self.workMinutesSpinBox)
+        self.workGroupBoxLayout.addWidget(self.workSecondsSpinBox)
+        self.timerContainerLayout.addWidget(self.workGroupBox)
+        self.timerContainerLayout.addWidget(self.restGroupBox)
+        self.timerContainerLayout.addWidget(self.otherGroupBox)
+
+        Widget.setCentralWidget(self.timerContainer)
+
+        self.retranslateUi(Widget)
+        QtCore.QMetaObject.connectSlotsByName(Widget)
+
+    def retranslateUi(self, Widget):
+        _translate = QtCore.QCoreApplication.translate
+        Widget.setWindowTitle(_translate("Widget", "Widget"))
 
 if __name__ == "__main__":
     import sys

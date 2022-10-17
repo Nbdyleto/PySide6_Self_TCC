@@ -3,11 +3,23 @@ from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtWidgets import QWidget, QApplication
 from PySide6.QtCore import QSettings, QTime
 
+from PySide6.QtCore import Qt, QTime, QTimer, QSettings, QDir
+from PySide6.QtWidgets import (
+    QApplication,
+    QComboBox,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QSpinBox,
+    QVBoxLayout,
+    QWidget,
+)
+
 import sys
 
 from .const import *
 
-from functions.pomodoro.ui_pomodoro import Ui_PomodoroPage
+from functions.pomodoro.ui_pomodoro import Ui_PomodoroPage, Ui_SettingsWindow
 
 from enum import Enum
 
@@ -58,10 +70,10 @@ class PomodoroMainPage(QWidget):
     def setupConnections(self):
         widgets.btnAction.clicked.connect(self.startTimer)
         widgets.btnReset.clicked.connect(self.resetTimer)
+        widgets.btnSettings.clicked.connect(self.openSettingsWindow)
 
     def leaveEvent(self, event):
         super(PomodoroMainPage, self).leaveEvent(event)
-        self.tasksTableWidget.clearSelection()
 
     def closeEvent(self, event):
         super(PomodoroMainPage, self).closeEvent(event)
@@ -167,6 +179,13 @@ class PomodoroMainPage(QWidget):
 
     def displayTime(self):
         widgets.timeDisplay.display(self.time.toString(self.timeFormat))
+
+    def openSettingsWindow(self):
+        self.settingsWindow = QtWidgets.QMainWindow()
+        self.ui_settingsWindow = Ui_SettingsWindow()
+        self.ui_settingsWindow.setupUi(self.settingsWindow)
+        self.settingsWindow.show()
+
     
 if __name__ == "__main__":
     app = QApplication([])
