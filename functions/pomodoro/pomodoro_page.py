@@ -1,4 +1,3 @@
-from random import choice
 from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtWidgets import QWidget, QApplication
 from PySide6.QtCore import QSettings, QTime
@@ -38,9 +37,14 @@ class PomodoroMainPage(QWidget):
         self.setupVariables()
         self.ui = Ui_PomodoroPage()
         self.ui.setupUi(self)
-
         global widgets
         widgets = self.ui
+
+        self.settingsWindow = QtWidgets.QMainWindow()
+        self.ui_settingsWindow = Ui_SettingsWindow()
+        self.ui_settingsWindow.setupUi(self.settingsWindow)
+        global settingsWidgets
+        settingsWidgets = self.ui_settingsWindow
 
         self.setupConnections()
 
@@ -78,23 +82,23 @@ class PomodoroMainPage(QWidget):
     def closeEvent(self, event):
         super(PomodoroMainPage, self).closeEvent(event)
         settings = QSettings()
-        settings.setValue(workHoursKey, 0)
+        settings.setValue(workHoursKey, settingsWidgets.workHoursSpinBox.value())
         settings.setValue(
             workMinutesKey,
-            25,
+            settingsWidgets.workMinutesSpinBox.value(),
         )
         settings.setValue(
             workSecondsKey,
-            0,
+            settingsWidgets.workSecondsSpinBox.value(),
         )
-        settings.setValue(restHoursKey, 0)
+        settings.setValue(restHoursKey, settingsWidgets.restHoursSpinBox.value())
         settings.setValue(
             restMinutesKey,
-            5,
+            settingsWidgets.restMinutesSpinBox.value(),
         )
         settings.setValue(
             restSecondsKey,
-            0,
+            settingsWidgets.restSecondsSpinBox.value(),
         )
 
     def startTimer(self):
@@ -181,9 +185,6 @@ class PomodoroMainPage(QWidget):
         widgets.timeDisplay.display(self.time.toString(self.timeFormat))
 
     def openSettingsWindow(self):
-        self.settingsWindow = QtWidgets.QMainWindow()
-        self.ui_settingsWindow = Ui_SettingsWindow()
-        self.ui_settingsWindow.setupUi(self.settingsWindow)
         self.settingsWindow.show()
 
     
