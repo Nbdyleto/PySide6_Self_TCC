@@ -82,27 +82,6 @@ class PomodoroMainPage(QWidget):
     def leaveEvent(self, event):
         super(PomodoroMainPage, self).leaveEvent(event)
 
-    def MakeSettingsChanges(self):
-        print('changing...')
-        self.settings.setValue(workHoursKey, settingsWidgets.workHoursSpinBox.value())
-        self.settings.setValue(
-            workMinutesKey,
-            settingsWidgets.workMinutesSpinBox.value(),
-        )
-        self.settings.setValue(
-            workSecondsKey,
-            settingsWidgets.workSecondsSpinBox.value(),
-        )
-        self.settings.setValue(restHoursKey, settingsWidgets.restHoursSpinBox.value())
-        self.settings.setValue(
-            restMinutesKey,
-            settingsWidgets.restMinutesSpinBox.value(),
-        )
-        self.settings.setValue(
-            restSecondsKey,
-            settingsWidgets.restSecondsSpinBox.value(),
-        )
-
     def startTimer(self):
         try:
             if not self.timer.isActive():
@@ -186,12 +165,36 @@ class PomodoroMainPage(QWidget):
     def displayTime(self):
         widgets.timeDisplay.display(self.time.toString(self.timeFormat))
 
+    ############## Settings Window
+
     def openSettingsWindow(self):
         self.settingsWindow.show()
+
+    def MakeSettingsChanges(self):
+        print('changing...')
+        self.settings.setValue(workHoursKey, settingsWidgets.workHoursSpinBox.value())
+        self.settings.setValue(
+            workMinutesKey,
+            settingsWidgets.workMinutesSpinBox.value(),
+        )
+        self.settings.setValue(
+            workSecondsKey,
+            settingsWidgets.workSecondsSpinBox.value(),
+        )
+        self.settings.setValue(restHoursKey, settingsWidgets.restHoursSpinBox.value())
+        self.settings.setValue(
+            restMinutesKey,
+            settingsWidgets.restMinutesSpinBox.value(),
+        )
+        self.settings.setValue(
+            restSecondsKey,
+            settingsWidgets.restSecondsSpinBox.value(),
+        )
+        self.settingsWindow.close()
 
     
 if __name__ == "__main__":
     app = QApplication([])
     widget = PomodoroMainPage
     widget.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
