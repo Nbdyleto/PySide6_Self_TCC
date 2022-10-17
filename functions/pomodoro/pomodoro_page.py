@@ -16,6 +16,8 @@ from PySide6.QtWidgets import (
 
 import sys
 
+from django.conf import settings
+
 from .const import *
 
 from functions.pomodoro.ui_pomodoro import Ui_PomodoroPage, Ui_SettingsWindow
@@ -49,16 +51,16 @@ class PomodoroMainPage(QWidget):
         self.setupConnections()
 
     def setupVariables(self):
-        settings = QSettings()
+        self.settings = QSettings()
         self.workEndTime = QTime(
-            int(settings.value(workHoursKey, 0)),
-            int(settings.value(workMinutesKey, 25)),
-            int(settings.value(workSecondsKey, 0)),
+            int(self.settings.value(workHoursKey, 0)),
+            int(self.settings.value(workMinutesKey, 25)),
+            int(self.settings.value(workSecondsKey, 0)),
         )
         self.restEndTime = QTime(
-            int(settings.value(restHoursKey, 0)),
-            int(settings.value(restMinutesKey, 5)),
-            int(settings.value(restSecondsKey, 0)),
+            int(self.settings.value(restHoursKey, 0)),
+            int(self.settings.value(restMinutesKey, 5)),
+            int(self.settings.value(restSecondsKey, 0)),
         )
         self.timeFormat = "hh:mm:ss"
         self.time = QTime(0, 0, 0, 0)
@@ -75,28 +77,28 @@ class PomodoroMainPage(QWidget):
         widgets.btnAction.clicked.connect(self.startTimer)
         widgets.btnReset.clicked.connect(self.resetTimer)
         widgets.btnSettings.clicked.connect(self.openSettingsWindow)
+        settingsWidgets.btnChangeSettings.clicked.connect(self.MakeSettingsChanges)
 
     def leaveEvent(self, event):
         super(PomodoroMainPage, self).leaveEvent(event)
 
-    def closeEvent(self, event):
-        super(PomodoroMainPage, self).closeEvent(event)
-        settings = QSettings()
-        settings.setValue(workHoursKey, settingsWidgets.workHoursSpinBox.value())
-        settings.setValue(
+    def MakeSettingsChanges(self):
+        print('changing...')
+        self.settings.setValue(workHoursKey, settingsWidgets.workHoursSpinBox.value())
+        self.settings.setValue(
             workMinutesKey,
             settingsWidgets.workMinutesSpinBox.value(),
         )
-        settings.setValue(
+        self.settings.setValue(
             workSecondsKey,
             settingsWidgets.workSecondsSpinBox.value(),
         )
-        settings.setValue(restHoursKey, settingsWidgets.restHoursSpinBox.value())
-        settings.setValue(
+        self.settings.setValue(restHoursKey, settingsWidgets.restHoursSpinBox.value())
+        self.settings.setValue(
             restMinutesKey,
             settingsWidgets.restMinutesSpinBox.value(),
         )
-        settings.setValue(
+        self.settings.setValue(
             restSecondsKey,
             settingsWidgets.restSecondsSpinBox.value(),
         )

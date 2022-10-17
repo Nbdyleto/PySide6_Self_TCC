@@ -24,7 +24,7 @@ from PySide6.QtWidgets import (
     QTextEdit,
     QToolButton,
     QVBoxLayout,
-    QWidget,
+    QWidget
 )
 from .const import *
 
@@ -181,6 +181,9 @@ class Ui_SettingsWindow(object):
         self.timerContainerLayout.addWidget(self.workGroupBox)
         self.timerContainerLayout.addWidget(self.restGroupBox)
         self.timerContainerLayout.addWidget(self.otherGroupBox)
+
+        self.btnChangeSettings = QPushButton("save")
+        self.timerContainerLayout.addWidget(self.btnChangeSettings)
 
         Widget.setCentralWidget(self.timerContainer)
 
