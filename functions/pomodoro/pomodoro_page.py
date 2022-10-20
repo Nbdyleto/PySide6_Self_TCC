@@ -62,8 +62,8 @@ class PomodoroMainPage(QWidget):
         )
         self.timeFormat = "hh:mm:ss"
         self.time = self.workEndTime
-        self.workTime = self.workEndTime
-        self.restTime = self.restEndTime
+        self.workTime = QTime(0, 0, 0, 0)
+        self.restTime = QTime(0, 0, 0, 0)
         self.totalTime = QTime(0, 0, 0, 0)
         self.currentMode = Mode.work
         self.maxRepetitions = -1
@@ -131,10 +131,11 @@ class PomodoroMainPage(QWidget):
         self.totalTime = self.totalTime.addSecs(-15)
         widgets.progressBar.setValue(self.progress)
         print(f'progress: {self.progress}, seconds: {self.totalsecs}')
+
         if self.activeMode == "work":
-            self.workTime = self.workTime.addSecs(-1)
+            self.workTime = self.workTime.addSecs(15)
         else:
-            self.restTime = self.restTime.addSecs(-1)
+            self.restTime = self.restTime.addSecs(15)
         self.displayTime()
 
     @property
@@ -144,7 +145,7 @@ class PomodoroMainPage(QWidget):
         self.second = self.time.second()
         self.totalsecs = self.hour + self.minute + self.second
 
-        #return int(100 - (self.time.second()) / 25*60 * 100)
+        return int(100 - (self.time.second()) / 25*60 * 100)
 
     def updateMaxRepetitions(self, value):
         if value == 0:
