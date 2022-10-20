@@ -70,6 +70,8 @@ class PomodoroMainPage(QWidget):
         self.currentRepetitions = 0
 
         self.activeMode = "rest"
+
+        self.totalsecs = 0
     
     def setupConnections(self):
         widgets.btnAction.clicked.connect(self.startTimer)
@@ -125,10 +127,10 @@ class PomodoroMainPage(QWidget):
         self.currentMode = Mode.work if mode == "work" else Mode.rest
 
     def updateTime(self):
-        self.time = self.time.addSecs(-1)
-        self.totalTime = self.totalTime.addSecs(-1)
+        self.time = self.time.addSecs(-15)
+        self.totalTime = self.totalTime.addSecs(-15)
         widgets.progressBar.setValue(self.progress)
-        print(self.progress ,'\n', self.time.second())
+        print(f'progress: {self.progress}, seconds: {self.totalsecs}')
         if self.activeMode == "work":
             self.workTime = self.workTime.addSecs(-1)
         else:
@@ -137,7 +139,11 @@ class PomodoroMainPage(QWidget):
 
     @property
     def progress(self):
-        return 100 - (self.time.second() / 25*60 / 100)
+        self.hour = self.time.hour() * 60 * 60
+        self.minute = self.time.minute() * 60
+        self.second = self.time.second()
+        self.totalsecs = self.hour + self.minute + self.second
+
         #return int(100 - (self.time.second()) / 25*60 * 100)
 
     def updateMaxRepetitions(self, value):
