@@ -16,8 +16,6 @@ from PySide6.QtWidgets import (
 
 import sys
 
-from django.conf import settings
-
 from .const import *
 
 from functions.pomodoro.ui_pomodoro import Ui_PomodoroPage, Ui_SettingsWindow
@@ -53,19 +51,19 @@ class PomodoroMainPage(QWidget):
     def setupVariables(self):
         self.settings = QSettings()
         self.workEndTime = QTime(
-            int(self.settings.value(workHoursKey, 0)),
-            int(self.settings.value(workMinutesKey, 25)),
-            int(self.settings.value(workSecondsKey, 0)),
+            int(self.settings.value(workHoursKey)),
+            int(self.settings.value(workMinutesKey)),
+            int(self.settings.value(workSecondsKey)),
         )
         self.restEndTime = QTime(
-            int(self.settings.value(restHoursKey, 0)),
-            int(self.settings.value(restMinutesKey, 5)),
-            int(self.settings.value(restSecondsKey, 0)),
+            int(self.settings.value(restHoursKey)),
+            int(self.settings.value(restMinutesKey)),
+            int(self.settings.value(restSecondsKey)),
         )
         self.timeFormat = "hh:mm:ss"
-        self.time = QTime(0, 0, 0, 0)
-        self.workTime = QTime(0, 0, 0, 0)
-        self.restTime = QTime(0, 0, 0, 0)
+        self.time = self.workEndTime
+        self.workTime = self.workEndTime
+        self.restTime = self.restEndTime
         self.totalTime = QTime(0, 0, 0, 0)
         self.currentMode = Mode.work
         self.maxRepetitions = -1
@@ -78,6 +76,8 @@ class PomodoroMainPage(QWidget):
         widgets.btnReset.clicked.connect(self.resetTimer)
         widgets.btnSettings.clicked.connect(self.openSettingsWindow)
         settingsWidgets.btnChangeSettings.clicked.connect(self.MakeSettingsChanges)
+
+        widgets.timeDisplay.display(self.time.toString(self.timeFormat))
 
     def leaveEvent(self, event):
         super(PomodoroMainPage, self).leaveEvent(event)
@@ -107,7 +107,7 @@ class PomodoroMainPage(QWidget):
     def resetTimer(self):
         try:
             self.pauseTimer()
-            self.time = QTime(0, 0, 0, 0)
+            self.time = self.workEndTime
             self.displayTime()
         except:
             pass
@@ -125,14 +125,14 @@ class PomodoroMainPage(QWidget):
         self.currentMode = Mode.work if mode == "work" else Mode.rest
 
     def updateTime(self):
-        self.time = self.time.addSecs(1)
-        self.totalTime = self.totalTime.addSecs(1)
+        self.time = self.time.addSecs(-1)
+        self.totalTime = self.totalTime.addSecs(-1)
         widgets.progressBar.setValue(self.progress)
         print(self.progress ,'\n', self.time.second())
         if self.activeMode == "work":
-            self.workTime = self.workTime.addSecs(1)
+            self.workTime = self.workTime.addSecs(-1)
         else:
-            self.restTime = self.restTime.addSecs(1)
+            self.restTime = self.restTime.addSecs(-1)
         self.displayTime()
 
     @property
@@ -197,9 +197,21 @@ class PomodoroMainPage(QWidget):
             restSecondsKey,
             settingsWidgets.restSecondsSpinBox.value(),
         )
-        self.settingsWindow.close()
 
-    
+        self.workEndTime = QTime(
+            int(self.settings.value(workHoursKey)),
+            int(self.settings.value(workMinutesKey)),
+            int(self.settings.value(workSecondsKey)),
+        )
+        self.restEndTime = QTime(
+            int(self.settings.value(restHoursKey)),
+            int(self.settings.value(restMinutesKey)),
+            int(self.settings.value(restSecondsKey)),
+        )
+
+        self.settingsWindow.close()
+        self.resetTimer()
+
 if __name__ == "__main__":
     app = QApplication([])
     widget = PomodoroMainPage
