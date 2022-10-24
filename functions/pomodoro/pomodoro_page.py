@@ -77,7 +77,7 @@ class PomodoroMainPage(QWidget):
         widgets.btnAction.clicked.connect(self.startTimer)
         widgets.btnReset.clicked.connect(self.resetTimer)
         widgets.btnSettings.clicked.connect(self.openSettingsWindow)
-        settingsWidgets.btnChangeSettings.clicked.connect(self.MakeSettingsChanges)
+        settingsWidgets.btnChangeSettings.clicked.connect(self.makeSettingsChanges)
 
         widgets.timeDisplay.display(self.time.toString(self.timeFormat))
 
@@ -184,7 +184,7 @@ class PomodoroMainPage(QWidget):
     def openSettingsWindow(self):
         self.settingsWindow.show()
 
-    def MakeSettingsChanges(self):
+    def makeSettingsChanges(self):
         print('changing...')
         self.settings.setValue(workHoursKey, settingsWidgets.workHoursSpinBox.value())
         self.settings.setValue(
