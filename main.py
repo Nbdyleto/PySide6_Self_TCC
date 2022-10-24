@@ -10,6 +10,8 @@ import sys
 import os
 import platform
 
+from functions.db_main_operations import DBMainOperations
+
 # IMPORT / GUI AND MODULES AND WIDGETS
 # ///////////////////////////////////////////////////////////////
 from modules import *
@@ -22,6 +24,50 @@ widgets = None
 
 class MainWindow(QMainWindow):
     def __init__(self):
+
+        with DBMainOperations() as db:
+            db.createTblTopics()
+            db.createTblTasks()
+            db.createTblDecks()
+            db.createTblFlashcards()
+
+            ################# TOPICS
+
+            db.populateTbl(tbl='topics', params=(0, ""))
+            db.populateTbl(tbl='topics', params=(1, "Matemática"))
+            db.populateTbl(tbl='topics', params=(2, "Física"))
+            db.populateTbl(tbl='topics', params=(3, "Química"))
+            db.populateTbl(tbl='topics', params=(4, "TCC"))
+
+            ################# FLASHCARDS
+
+            db.populateTbl(tbl='decks', params=(0, "Cálculos Básicos", 0 ,0))
+            db.populateTbl(tbl='decks', params=(1, "Cálculo I", 0, 0))
+            db.populateTbl(tbl='decks', params=(2, "Polaridade", 0, 2))
+            db.populateTbl(tbl='decks', params=(3, "Leis de Newton", 0, 1))
+
+            db.populateTbl(tbl='flashcards', params=("Quantos é 2+3?", "5", 0))
+            db.populateTbl(tbl='flashcards', params=("Raiz quadrada de 7", "49", 0))
+            db.populateTbl(tbl='flashcards', params=("Quantos é 9*7?", "63", 0))
+            
+            db.populateTbl(tbl='flashcards', params=("Quantos é 2+3?", "5", 1))
+            db.populateTbl(tbl='flashcards', params=("Raiz quadrada de 7", "49", 1))
+            db.populateTbl(tbl='flashcards', params=("Quantos é 9*7?", "63", 1))
+
+            db.populateTbl(tbl='flashcards', params=("Quantos é 2+3?", "5", 2))
+            db.populateTbl(tbl='flashcards', params=("Raiz quadrada de 7", "49", 2))
+            db.populateTbl(tbl='flashcards', params=("Quantos é 9*7?", "63", 2))
+
+            ################# TASKS
+
+            # query_insert = f"INSERT INTO tasks(task_name, status, start_date, end_date, topic_id) VALUES (?,?,?,?,?)"
+            db.populateTbl('tasks', params=('T1', 'Não iniciada', '01 de jan', '02 de jan', 1))
+            db.populateTbl('tasks', params=('T2', 'Não iniciada', '01 de jan', '02 de jan', 1))
+            db.populateTbl('tasks', params=('T3', 'Não iniciada', '01 de jan', '02 de jan', 1))
+            db.populateTbl('tasks', params=('T3', 'Não iniciada', '01 de jan', '02 de jan', 1))
+            db.populateTbl('tasks', params=('T3', 'Não iniciada', '01 de jan', '02 de jan', 1))
+
+
         QMainWindow.__init__(self)
 
         # SET AS GLOBAL WIDGETS

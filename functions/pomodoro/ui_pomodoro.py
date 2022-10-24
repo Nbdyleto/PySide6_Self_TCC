@@ -33,15 +33,37 @@ class Ui_PomodoroPage(object):
         Widget.setObjectName("Widget")
         Widget.resize(800, 600)
         self.tblTasks = QtWidgets.QTableWidget(Widget)
-        self.tblTasks.setGeometry(QtCore.QRect(600, 70, 500, 300))
+        self.tblTasks.setGeometry(QtCore.QRect(500, 110, 320, 200))
         self.tblTasks.setObjectName("tblTasks")
         self.tblTasks.setColumnCount(2)
         self.tblTasks.setRowCount(1)
         self.tblTasks.verticalHeader().setVisible(False)
-        self.tblTasks.horizontalHeader().setVisible(True)
+        self.tblTasks.horizontalHeader().setVisible(False)
         self.tblTasks.setShowGrid(False)
         self.tblTasks.setColumnWidth(0, 300)
         self.tblTasks.setColumnWidth(0, 150)
+        self.tblTasks.setStyleSheet("""
+            QTableWidget {
+                background-color: rgb(40, 44, 52);
+                border-radius: 0px;
+            }
+            QTableWidget::item {
+                color: #f8f8f2;                    
+                background-color: #44475a;
+                margin-top: 2px;          
+                border-radius: 0px;
+                padding-left: 2px;
+            }
+            QTableWidget::item:selected {
+                background-color: #6272a4;
+                selection-color : #f8f8f2;  
+            }
+            QTableWidget::item:hover {
+                background-color: #6272a4;
+                color : #f8f8f2;
+            }
+        """)
+
         self.frame = QtWidgets.QFrame(Widget)
         self.frame.setGeometry(QtCore.QRect(10, 70, 351, 481))
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)

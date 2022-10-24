@@ -35,12 +35,6 @@ class DBMainOperations:
         );"""
         self.cursor.execute(qry_topics)
         print('table topics is ready!')
-        
-        self.populateTbl(tbl='topics', params=(0, ""))
-        self.populateTbl(tbl='topics', params=(1, "Matemática"))
-        self.populateTbl(tbl='topics', params=(2, "Física"))
-        self.populateTbl(tbl='topics', params=(3, "Química"))
-        self.populateTbl(tbl='topics', params=(4, "TCC"))
 
     ###########################
     # Flashcards. DB Functions 

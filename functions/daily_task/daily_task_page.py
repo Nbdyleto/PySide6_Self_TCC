@@ -25,9 +25,6 @@ class DTaskMainPage(QWidget):
         widgets.tblWidgetTasks.setColumnWidth(2,150)
         widgets.tblWidgetTasks.setColumnWidth(3,150)
         widgets.tblWidgetTasks.setColumnWidth(4,150)
-
-        with DBMainOperations() as db:
-            db.createTblTasks()
         
         self.load_data_in_table()
 
@@ -149,7 +146,6 @@ class DTaskMainPage(QWidget):
                         
             if self.existent_in_db == False: 
                 # not existent in db, so, create new data.
-                query_insert = f"INSERT INTO tasks(task_name, status, start_date, end_date, topic_id) VALUES (?,?,?,?,?)"
                 new_row_data = (new_value, "A começar", start_date, end_date, 0)
                 with DBMainOperations() as db:
                     db.populateTbl('tasks', params=new_row_data)

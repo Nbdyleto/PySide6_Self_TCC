@@ -236,7 +236,7 @@ class PomodoroMainPage(QWidget):
 
         with DBMainOperations() as db:
             count = db.cursor.execute("SELECT COUNT(*) FROM tasks").fetchone()[0]
-            self.row_tasks_count = count+1
+            self.row_tasks_count = count
             widgets.tblTasks.setRowCount(self.row_tasks_count)
             
             self.topics = db.cursor.execute("SELECT * FROM topics").fetchall()
