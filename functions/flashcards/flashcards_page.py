@@ -31,10 +31,6 @@ class FCardsMainPage(QWidget):
             db.createTblDecks()
             db.createTblFlashcards()
             db.createTblTasks()
-            db.populateTbl(tbl='topics', params=(0, "Matemática"))
-            db.populateTbl(tbl='topics', params=(1, "Física"))
-            db.populateTbl(tbl='topics', params=(2, "Química"))
-            db.populateTbl(tbl='topics', params=(3, "TCC"))
 
             db.populateTbl(tbl='decks', params=(0, "Cálculos Básicos", 0 ,0))
             db.populateTbl(tbl='decks', params=(1, "Cálculo I", 0, 0))

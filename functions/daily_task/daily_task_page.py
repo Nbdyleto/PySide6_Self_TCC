@@ -4,7 +4,9 @@ from PySide6.QtWidgets import QWidget, QApplication, QAbstractItemView, QListWid
 from PySide6.QtCore import QDate, QPoint, QSize
 from PySide6.QtGui import QBrush, QColor, QIcon, Qt
 from .ui_daily_task_page import Ui_DailyTaskPage
-from .tasks_db_operations import DailyTaskDB
+
+#from .tasks_db_operations import DBMainOperations
+from ..db_main_operations import DBMainOperations
 
 import sys
 
@@ -24,8 +26,8 @@ class DTaskMainPage(QWidget):
         widgets.tblWidgetTasks.setColumnWidth(3,150)
         widgets.tblWidgetTasks.setColumnWidth(4,150)
 
-        with DailyTaskDB() as db:
-            db.create_tables()
+        with DBMainOperations() as db:
+            db.createTblTasks()
         
         self.load_data_in_table()
 
@@ -73,7 +75,7 @@ class DTaskMainPage(QWidget):
     def load_data_in_table(self):
         widgets.tblWidgetTasks.clearContents()
 
-        with DailyTaskDB() as db:
+        with DBMainOperations() as db:
             count = db.cursor.execute("SELECT COUNT(*) FROM tasks").fetchone()[0]
             self.row_tasks_count = count+1
             widgets.tblWidgetTasks.setRowCount(self.row_tasks_count)
@@ -82,11 +84,11 @@ class DTaskMainPage(QWidget):
             self.row_topics_count = count+1
             widgets.tblTopics.setRowCount(self.row_topics_count)
 
-            self.topics = ics = db.cursor.execute("SELECT * FROM topics").fetchall()
-            print(self.topics)
+            self.topics = db.cursor.execute("SELECT * FROM topics").fetchall()
+            print(f'topics: {self.topics}')
 
             results = db.cursor.execute("SELECT * FROM tasks ORDER BY start_date").fetchall()
-        print(f'results:{results}')
+            print(f'results:{results}')
 
         try:
             tablerow = 0
@@ -98,7 +100,9 @@ class DTaskMainPage(QWidget):
                 widgets.tblWidgetTasks.setItem(tablerow, 2, QTableWidgetItem(row[2]))  #row[2] = start_date
                 widgets.tblWidgetTasks.setItem(tablerow, 3, QTableWidgetItem(row[3]))  #row[3] = end_date
                 widgets.tblWidgetTasks.setItem(tablerow, 4, QTableWidgetItem(self.topics[row[4]][1])) #row[4] = topic_id
+                print(tablerow)
                 tablerow += 1
+                
             widgets.tblWidgetTasks.setRowHeight(tablerow, 50)
         except Exception:
             print('ERROR')
@@ -138,7 +142,7 @@ class DTaskMainPage(QWidget):
                 # existent in db, so, update old data.
                 query_update = f"UPDATE tasks SET {act_field} = '{new_value}' WHERE task_name = '{task_name}'"
                 print(query_update)
-                with DailyTaskDB() as db:
+                with DBMainOperations() as db:
                     db.cursor.execute(query_update)
                 self.existent_in_db = None
                 self.load_data_in_table()
@@ -147,8 +151,8 @@ class DTaskMainPage(QWidget):
                 # not existent in db, so, create new data.
                 query_insert = f"INSERT INTO tasks(task_name, status, start_date, end_date, topic_id) VALUES (?,?,?,?,?)"
                 new_row_data = (new_value, "A começar", start_date, end_date, 0)
-                with DailyTaskDB() as db:
-                    db.populate(query_insert, new_row_data)
+                with DBMainOperations() as db:
+                    db.populateTbl('tasks', params=new_row_data)
                 self.existent_in_db = None
                 self.load_data_in_table()
 
@@ -157,7 +161,7 @@ class DTaskMainPage(QWidget):
         try:
             self.selected_task = widgets.tblWidgetTasks.item(row, 0).text() # task name.
             self.selected_task_data = widgets.tblWidgetTasks.item(row, col).text()
-            with DailyTaskDB() as db:
+            with DBMainOperations() as db:
                 db.cursor.execute(query, [self.selected_task])
             print(f'task_name: {self.selected_task} EXISTENT!')
             self.existent_in_db = True
@@ -216,6 +220,7 @@ class DTaskMainPage(QWidget):
     ############# TOPICS CELL 'CLICKED' FUNCTIONS
     
     def show_topics(self):
+        print('visible')
         widgets.tblTopics.setVisible(True)
         self.load_topics()
         print('showing topics')
@@ -250,10 +255,9 @@ class DTaskMainPage(QWidget):
         topic_id = self.row_topics_count
         new_value = item.text()
         
-        query_insert = f"INSERT INTO topics (topic_id, topic_name) VALUES (?, ?)"
         new_row_data = (topic_id, new_value)
-        with DailyTaskDB() as db:
-            db.populate(query_insert, new_row_data)
+        with DBMainOperations() as db:
+            db.populateTbl('topics', params=new_row_data)
             self.topics = db.cursor.execute("SELECT * FROM topics").fetchall() # update topics property
         self.load_topics()
         # self.select_topic(item.row(), item.col())   # Study 'Slots' to work with this 

@@ -1,3 +1,4 @@
+from pydoc_data.topics import topics
 from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtWidgets import QWidget, QApplication
 from PySide6.QtCore import QSettings, QTime
@@ -241,12 +242,11 @@ class PomodoroMainPage(QWidget):
             self.topics = db.cursor.execute("SELECT * FROM topics").fetchall()
 
             results = db.cursor.execute("SELECT task_name, topic_id FROM tasks ORDER BY start_date").fetchall()
-            print(f'results:{results}')
+            print(f'results:{results}, topics:{self.topics}')
 
             try:
                 tablerow = 0
                 for row in results:
-                    print(str(row[2]))
                     widgets.tblTasks.setRowHeight(tablerow, 40)
                     widgets.tblTasks.setItem(tablerow, 0, QTableWidgetItem(row[0]))  #row[0] = task_name
                     widgets.tblTasks.setItem(tablerow, 1, QTableWidgetItem(self.topics[row[1]][1])) #row[1] = topic_id
