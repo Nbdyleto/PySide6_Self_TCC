@@ -12,6 +12,7 @@ from PySide6.QtWidgets import (
     QSpinBox,
     QVBoxLayout,
     QWidget,
+    QTableWidgetItem,
 )
 
 import sys
@@ -21,6 +22,8 @@ from .const import *
 from functions.pomodoro.ui_pomodoro import Ui_PomodoroPage, Ui_SettingsWindow
 
 from enum import Enum
+
+from ..db_main_operations import DBMainOperations
 
 class Mode(Enum):
     work = 1
@@ -47,6 +50,10 @@ class PomodoroMainPage(QWidget):
         settingsWidgets = self.ui_settingsWindow
 
         self.setupConnections()
+
+        self.load_data_in_table()
+
+        print('test')
 
     def setupVariables(self):
         self.settings = QSettings()
@@ -90,6 +97,7 @@ class PomodoroMainPage(QWidget):
                 self.createTimer()
         except:
             self.createTimer()
+        self.load_data_in_table()
 
     def createTimer(self):
         self.timer = QtCore.QTimer()
@@ -129,7 +137,7 @@ class PomodoroMainPage(QWidget):
     def updateTime(self):
         self.time = self.time.addSecs(-15)
         self.totalTime = self.totalTime.addSecs(-15)
-        widgets.progressBar.setValue(self.progress)
+        #widgets.progressBar.setValue(self.progress)
         print(f'progress: {self.progress}, seconds: {self.totalsecs}')
 
         if self.activeMode == "work":
@@ -206,18 +214,46 @@ class PomodoroMainPage(QWidget):
         )
 
         self.workEndTime = QTime(
-            int(self.settings.value(workHoursKey)),
-            int(self.settings.value(workMinutesKey)),
-            int(self.settings.value(workSecondsKey)),
+            int(self.settings.value(workHoursKey, settingsWidgets.workHoursSpinBox.value())),
+            int(self.settings.value(workMinutesKey, settingsWidgets.workHoursSpinBox.value())),
+            int(self.settings.value(workSecondsKey, settingsWidgets.workSecondsSpinBox.value())),
         )
         self.restEndTime = QTime(
-            int(self.settings.value(restHoursKey)),
-            int(self.settings.value(restMinutesKey)),
-            int(self.settings.value(restSecondsKey)),
+            int(self.settings.value(workHoursKey, settingsWidgets.restHoursSpinBox.value())),
+            int(self.settings.value(workMinutesKey, settingsWidgets.restHoursSpinBox.value())),
+            int(self.settings.value(workSecondsKey, settingsWidgets.restSecondsSpinBox.value())),
         )
 
         self.settingsWindow.close()
         self.resetTimer()
+
+    #### TASKS
+
+    def load_data_in_table(self):
+        print("\n ##########################################################")
+        widgets.tblTasks.clearContents()
+
+        with DBMainOperations() as db:
+            count = db.cursor.execute("SELECT COUNT(*) FROM tasks").fetchone()[0]
+            self.row_tasks_count = count+1
+            widgets.tblTasks.setRowCount(self.row_tasks_count)
+            
+            self.topics = db.cursor.execute("SELECT * FROM topics").fetchall()
+
+            results = db.cursor.execute("SELECT task_name, topic_id FROM tasks ORDER BY start_date").fetchall()
+            print(f'results:{results}')
+
+            try:
+                tablerow = 0
+                for row in results:
+                    print(str(row[2]))
+                    widgets.tblTasks.setRowHeight(tablerow, 40)
+                    widgets.tblTasks.setItem(tablerow, 0, QTableWidgetItem(row[0]))  #row[0] = task_name
+                    widgets.tblTasks.setItem(tablerow, 1, QTableWidgetItem(self.topics[row[1]][1])) #row[1] = topic_id
+                    tablerow += 1
+                widgets.tblTasks.setRowHeight(tablerow, 40)
+            except Exception:
+                print('ERROR')
 
 if __name__ == "__main__":
     app = QApplication([])
