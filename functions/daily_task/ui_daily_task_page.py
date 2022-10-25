@@ -32,7 +32,6 @@ class Ui_DailyTaskPage(object):
         self.tblWidgetTasks.setSelectionMode(QAbstractItemView.SingleSelection)
         self.tblWidgetTasks.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.tblWidgetTasks.setFocusPolicy(Qt.NoFocus)
-        self.tblWidgetTasks.setSelectionMode(QAbstractItemView.SingleSelection)
         self.tblWidgetTasks.verticalHeader().setVisible(False)
         self.tblWidgetTasks.horizontalHeader().setVisible(True)
         self.tblWidgetTasks.setShowGrid(False)

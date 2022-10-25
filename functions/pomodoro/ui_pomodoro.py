@@ -33,15 +33,15 @@ class Ui_PomodoroPage(object):
         Widget.setObjectName("Widget")
         Widget.resize(800, 600)
         self.tblTasks = QtWidgets.QTableWidget(Widget)
-        self.tblTasks.setGeometry(QtCore.QRect(500, 110, 320, 200))
+        self.tblTasks.setGeometry(QtCore.QRect(500, 110, 385, 250))
         self.tblTasks.setObjectName("tblTasks")
         self.tblTasks.setColumnCount(2)
         self.tblTasks.setRowCount(1)
         self.tblTasks.verticalHeader().setVisible(False)
         self.tblTasks.horizontalHeader().setVisible(False)
         self.tblTasks.setShowGrid(False)
-        self.tblTasks.setColumnWidth(0, 300)
-        self.tblTasks.setColumnWidth(0, 150)
+        self.tblTasks.setColumnWidth(0, 250)
+        self.tblTasks.setColumnWidth(1, 100)
         self.tblTasks.setStyleSheet("""
             QTableWidget {
                 background-color: rgb(40, 44, 52);

@@ -41,31 +41,29 @@ class MainWindow(QMainWindow):
 
             ################# FLASHCARDS
 
-            db.populateTbl(tbl='decks', params=(0, "Cálculos Básicos", 0 ,0))
-            db.populateTbl(tbl='decks', params=(1, "Cálculo I", 0, 0))
-            db.populateTbl(tbl='decks', params=(2, "Polaridade", 0, 2))
-            db.populateTbl(tbl='decks', params=(3, "Leis de Newton", 0, 1))
+            db.populateTbl(tbl='decks', params=(0, "Cálculos Básicos", 0 , 1))
+            db.populateTbl(tbl='decks', params=(1, "Genética", 0, 3))
+            db.populateTbl(tbl='decks', params=(2, "Polaridade", 0, 3))
+            db.populateTbl(tbl='decks', params=(3, "Leis de Newton", 0, 2))
 
             db.populateTbl(tbl='flashcards', params=("Quantos é 2+3?", "5", 0))
             db.populateTbl(tbl='flashcards', params=("Raiz quadrada de 7", "49", 0))
             db.populateTbl(tbl='flashcards', params=("Quantos é 9*7?", "63", 0))
             
-            db.populateTbl(tbl='flashcards', params=("Quantos é 2+3?", "5", 1))
-            db.populateTbl(tbl='flashcards', params=("Raiz quadrada de 7", "49", 1))
-            db.populateTbl(tbl='flashcards', params=("Quantos é 9*7?", "63", 1))
+            db.populateTbl(tbl='flashcards', params=("Qual o maior osso humano?", "Fêmur", 1))
+            db.populateTbl(tbl='flashcards', params=("Quantos ossos possuem o ser humano?", "206", 1))
 
-            db.populateTbl(tbl='flashcards', params=("Quantos é 2+3?", "5", 2))
-            db.populateTbl(tbl='flashcards', params=("Raiz quadrada de 7", "49", 2))
-            db.populateTbl(tbl='flashcards', params=("Quantos é 9*7?", "63", 2))
+            db.populateTbl(tbl='flashcards', params=("Qual é a primeira lei de Newton?", "Princípio da Inércia", 3))
+            db.populateTbl(tbl='flashcards', params=("No que consiste a primeira lei?", "Um objeto em repouso ou movimento retilíneo uniforme tende a permanecer nesse estado se a força resultante sobre ele é nula.", 3))
 
             ################# TASKS
 
             # query_insert = f"INSERT INTO tasks(task_name, status, start_date, end_date, topic_id) VALUES (?,?,?,?,?)"
-            db.populateTbl('tasks', params=('T1', 'Não iniciada', '01 de jan', '02 de jan', 1))
-            db.populateTbl('tasks', params=('T2', 'Não iniciada', '01 de jan', '02 de jan', 1))
-            db.populateTbl('tasks', params=('T3', 'Não iniciada', '01 de jan', '02 de jan', 1))
-            db.populateTbl('tasks', params=('T3', 'Não iniciada', '01 de jan', '02 de jan', 1))
-            db.populateTbl('tasks', params=('T3', 'Não iniciada', '01 de jan', '02 de jan', 1))
+            db.populateTbl('tasks', params=('Apresentar TCC', 'Em Progresso', '2022-10-24', '2022-10-25', 4))
+            db.populateTbl('tasks', params=('Resolver questões de matemática', 'Não iniciada', '2022-10-22', '2022-10-25', 1))
+            db.populateTbl('tasks', params=('Resolver questões sobre genética', 'Não iniciada', '2022-10-22', '2022-10-22', 3))
+            db.populateTbl('tasks', params=('Desenvolver funcionalidade Pomodoro', 'Em Progresso', '2022-10-20', '2022-10-27', 4))
+            db.populateTbl('tasks', params=('Fazer Simulado do ENEM 2020', 'Não iniciada', '2022-10-20', '2022-10-25', 0))
 
 
         QMainWindow.__init__(self)
@@ -176,6 +174,7 @@ class MainWindow(QMainWindow):
             widgets.stackedWidget.setCurrentWidget(widgets.pomodoroPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
+            widgets.pomodoroPage.load_data_in_table()
 
         # SHOW DAILY TASK PAGE
         if btnName == "btn_daily_task_page":

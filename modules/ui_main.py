@@ -661,18 +661,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addWidget(self.btn_progress_page)
 
-        self.btn_revision_page = QPushButton(self.topMenu)
-        self.btn_revision_page.setObjectName(u"btn_revision_page")
-        sizePolicy.setHeightForWidth(self.btn_revision_page.sizePolicy().hasHeightForWidth())
-        self.btn_revision_page.setSizePolicy(sizePolicy)
-        self.btn_revision_page.setMinimumSize(QSize(0, 45))
-        self.btn_revision_page.setFont(font)
-        self.btn_revision_page.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_revision_page.setLayoutDirection(Qt.LeftToRight)
-        self.btn_revision_page.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-cloudy.png);")
-
-        self.verticalLayout_8.addWidget(self.btn_revision_page)
-
         self.btn_flashcards_page = QPushButton(self.topMenu)
         self.btn_flashcards_page.setObjectName(u"btn_flashcards_page")
         sizePolicy.setHeightForWidth(self.btn_flashcards_page.sizePolicy().hasHeightForWidth())
@@ -1549,7 +1537,6 @@ class Ui_MainWindow(object):
         self.toggleButton.setText(QCoreApplication.translate("MainWindow", u"Hide", None))
         self.btn_home.setText(QCoreApplication.translate("MainWindow", u"Principal", None))
         self.btn_progress_page.setText(QCoreApplication.translate("MainWindow", u"Ver Progresso", None))
-        self.btn_revision_page.setText(QCoreApplication.translate("MainWindow", u"Revisões", None))
         self.btn_flashcards_page.setText(QCoreApplication.translate("MainWindow", u"Flashcards", None))
         self.btn_pomodoro_page.setText(QCoreApplication.translate("MainWindow", u"Pomodoro", None))
         self.btn_daily_task_page.setText(QCoreApplication.translate("MainWindow", u"Tarefas", None))
