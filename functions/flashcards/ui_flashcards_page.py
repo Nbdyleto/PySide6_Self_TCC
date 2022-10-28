@@ -66,15 +66,6 @@ class Ui_FlashcardsPage(object):
         self.btnAddCards.setGeometry(QtCore.QRect(700, 130, 150, 26))
         self.btnAddCards.setObjectName("btnAddCards")
 
-        self.label = QtWidgets.QLabel(Widget)
-        self.label.setObjectName(u"label")
-        self.label.setGeometry(QtCore.QRect(140, 0, 900, 101))
-        self.label.setStyleSheet(u"font-size : 24pt;\n"
-"background : #44475a;\n"
-"color:white;\n"
-"border-radius:8px;")
-        self.label.setAlignment(QtGui.Qt.AlignCenter)
-
         self.retranslateUi(Widget)
         QtCore.QMetaObject.connectSlotsByName(Widget)
 
@@ -93,8 +84,6 @@ class Ui_FlashcardsPage(object):
         self.lblClass.setText(_translate("Widget", u"Classe:"))
         self.pushButton.setText(_translate("Widget", u"Opções"))
         self.btnAddCards.setText(_translate("Widget", u"Adicionar Cards"))
-
-        self.label.setText(_translate("Widget", u"Flashcards"))
 
 if __name__ == "__main__":
     """Test Individual Execution"""

@@ -147,14 +147,6 @@ class Ui_DailyTaskPage(object):
         }
 
         """)
-        self.label = QLabel(Widget)
-        self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(140, 0, 900, 101))
-        self.label.setStyleSheet(u"font-size : 24pt;\n"
-"background : #44475a;\n"
-"color:white;\n"
-"border-radius:8px;")
-        self.label.setAlignment(Qt.AlignCenter)
 
         self.tblTopics = QTableWidget(Widget)
         self.tblTopics.setGeometry(QRect(900, 205, 140, 190))
@@ -197,7 +189,6 @@ class Ui_DailyTaskPage(object):
     def retranslateUi(self, Widget):
         _translate = QCoreApplication.translate
         Widget.setWindowTitle(_translate("Widget", u"Widget", None))
-        self.label.setText(_translate("Widget", u"Acompanhador de Tarefas", None))
         item = self.tblWidgetTasks.horizontalHeaderItem(0)
         item.setText(_translate("Widget", u"Nome da Tarefa"))
         item = self.tblWidgetTasks.horizontalHeaderItem(1)
