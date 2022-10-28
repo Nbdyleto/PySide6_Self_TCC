@@ -68,13 +68,13 @@ class FCardsMainPage(QWidget):
             if db.hasRecordsInTblFlashcards(id=tablerow):
                 btnStartStudy = QtWidgets.QPushButton(widgets.tblWidgetDecks)
                 btnStartStudy.setObjectName(f'btnStartStudy{tablerow}')
-                btnStartStudy.setText('Iniciar Estudo')
+                btnStartStudy.setText('Iniciar')
                 widgets.tblWidgetDecks.setCellWidget(tablerow, 2, btnStartStudy)
                 btnStartStudy.clicked.connect(lambda: self.openStudyCardsWindow(row_clicked=tablerow))
             else:
                 btnAddCards = QtWidgets.QPushButton(widgets.tblWidgetDecks)
                 btnAddCards.setObjectName(f'btnAddCards{tablerow}')
-                btnAddCards.setText('Adicionar Cards')
+                btnAddCards.setText('Adicionar')
                 widgets.tblWidgetDecks.setCellWidget(tablerow, 2, btnAddCards)
                 btnAddCards.clicked.connect(lambda: self.openAddCardsWindow(row_clicked=tablerow))
     
