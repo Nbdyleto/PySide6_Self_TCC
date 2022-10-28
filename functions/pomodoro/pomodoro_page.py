@@ -59,14 +59,14 @@ class PomodoroMainPage(QWidget):
     def setupVariables(self):
         self.settings = QSettings()
         self.workEndTime = QTime(
-            int(self.settings.value(workHoursKey)),
-            int(self.settings.value(workMinutesKey)),
-            int(self.settings.value(workSecondsKey)),
+            int(self.settings.value(workHoursKey, 0)),
+            int(self.settings.value(workMinutesKey, 25)),
+            int(self.settings.value(workSecondsKey, 0)),
         )
         self.restEndTime = QTime(
-            int(self.settings.value(restHoursKey)),
-            int(self.settings.value(restMinutesKey)),
-            int(self.settings.value(restSecondsKey)),
+            int(self.settings.value(restHoursKey, 0)),
+            int(self.settings.value(restMinutesKey, 5)),
+            int(self.settings.value(restSecondsKey, 0)),
         )
         self.timeFormat = "hh:mm:ss"
         self.time = self.workEndTime
@@ -216,12 +216,12 @@ class PomodoroMainPage(QWidget):
 
         self.workEndTime = QTime(
             int(self.settings.value(workHoursKey, settingsWidgets.workHoursSpinBox.value())),
-            int(self.settings.value(workMinutesKey, settingsWidgets.workHoursSpinBox.value())),
+            int(self.settings.value(workMinutesKey, settingsWidgets.workMinutesSpinBox.value())),
             int(self.settings.value(workSecondsKey, settingsWidgets.workSecondsSpinBox.value())),
         )
         self.restEndTime = QTime(
             int(self.settings.value(workHoursKey, settingsWidgets.restHoursSpinBox.value())),
-            int(self.settings.value(workMinutesKey, settingsWidgets.restHoursSpinBox.value())),
+            int(self.settings.value(workMinutesKey, settingsWidgets.restMinutesSpinBox.value())),
             int(self.settings.value(workSecondsKey, settingsWidgets.restSecondsSpinBox.value())),
         )
 
