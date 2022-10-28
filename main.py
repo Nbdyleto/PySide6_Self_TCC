@@ -11,6 +11,7 @@ import os
 import platform
 
 from functions.db_main_operations import DBMainOperations
+from functions.flashcards.json_operations import ImportExport
 
 # IMPORT / GUI AND MODULES AND WIDGETS
 # ///////////////////////////////////////////////////////////////
@@ -65,6 +66,8 @@ class MainWindow(QMainWindow):
             db.populateTbl('tasks', params=('Desenvolver funcionalidade Pomodoro', 'Em Progresso', '2022-10-20', '2022-10-27', 4))
             db.populateTbl('tasks', params=('Fazer Simulado do ENEM 2020', 'Não iniciada', '2022-10-20', '2022-10-25', 0))
 
+            import_export = ImportExport()
+            import_export._to_json(topic_id=1)
 
         QMainWindow.__init__(self)
 

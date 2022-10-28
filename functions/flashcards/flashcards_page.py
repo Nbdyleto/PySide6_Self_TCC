@@ -8,11 +8,9 @@ from PySide6.QtWidgets import QWidget, QApplication
 from .ui_flashcards_page import Ui_FlashcardsPage
 from .ui_add_cards import Ui_AddCardsWindow
 from .ui_study_cards import Ui_StudyCardsWindow
-from .json_operations import ImportExport
 
 from ..db_main_operations import DBMainOperations
 
-import json
 import random
 
 class FCardsMainPage(QWidget):
@@ -31,9 +29,6 @@ class FCardsMainPage(QWidget):
 
         self.reveal_pressed = False
         self.studed_cards = 0
-
-        import_export = ImportExport()
-        import_export._to_json(topic_id=0)
     
     # MainWindow Functions
 
