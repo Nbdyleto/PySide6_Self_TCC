@@ -79,7 +79,10 @@ class PomodoroMainPage(QWidget):
 
         self.activeMode = "rest"
 
-        self.totalsecs = 0
+        ## Progress bar variables
+        self.workSecondPercent = 1/(25*60/100)
+        self.restSecondPercent =  1/(5*60/100)
+        self.progressValue = 0
     
     def setupConnections(self):
         widgets.btnAction.clicked.connect(self.startTimer)
@@ -136,25 +139,19 @@ class PomodoroMainPage(QWidget):
         self.currentMode = Mode.work if mode == "work" else Mode.rest
 
     def updateTime(self):
-        self.time = self.time.addSecs(-15)
-        self.totalTime = self.totalTime.addSecs(-15)
-        #widgets.progressBar.setValue(self.progress)
-        print(f'progress: {self.progress}, seconds: {self.totalsecs}')
+        self.time = self.time.addSecs(-1)
+        self.totalTime = self.totalTime.addSecs(-1)
+        
+        ## Progress bar logic
+        self.progressValue += self.workSecondPercent
+        widgets.progressBar.setValue(self.progressValue)
+        print(f'progress: {self.progressValue}')
 
         if self.activeMode == "work":
-            self.workTime = self.workTime.addSecs(15)
+            self.workTime = self.workTime.addSecs(1)
         else:
-            self.restTime = self.restTime.addSecs(15)
+            self.restTime = self.restTime.addSecs(1)
         self.displayTime()
-
-    @property
-    def progress(self):
-        self.hour = self.time.hour() * 60 * 60
-        self.minute = self.time.minute() * 60
-        self.second = self.time.second()
-        self.totalsecs = self.hour + self.minute + self.second
-
-        return int(100 - (self.time.second()) / 25*60 * 100)
 
     def updateMaxRepetitions(self, value):
         if value == 0:
@@ -224,6 +221,10 @@ class PomodoroMainPage(QWidget):
             int(self.settings.value(workMinutesKey, settingsWidgets.restMinutesSpinBox.value())),
             int(self.settings.value(workSecondsKey, settingsWidgets.restSecondsSpinBox.value())),
         )
+
+        self.workSecondPercent = 1/(workMinutesKey*60/100)
+        self.restSecondPercent =  1/(restMinutesKey*60/100)
+        self.progressValue = 0
 
         self.settingsWindow.close()
         self.resetTimer()
