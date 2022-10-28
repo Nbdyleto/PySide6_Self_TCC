@@ -1,3 +1,4 @@
+from tkinter import Frame
 from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtWidgets import QSizePolicy
 
@@ -65,7 +66,7 @@ class Ui_PomodoroPage(object):
         """)
 
         self.frame = QtWidgets.QFrame(Widget)
-        self.frame.setGeometry(QtCore.QRect(10, 70, 351, 481))
+        self.frame.setGeometry(QtCore.QRect(50, 70, 351, 481))
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
@@ -73,7 +74,7 @@ class Ui_PomodoroPage(object):
         self.btnPomodoro.setGeometry(QtCore.QRect(10, 70, 91, 26))
         self.btnPomodoro.setObjectName("btnPomodoro")
         self.lblTask = QtWidgets.QLabel(self.frame)
-        self.lblTask.setGeometry(QtCore.QRect(40, 380, 361, 20))
+        self.lblTask.setGeometry(QtCore.QRect(40, 320, 361, 20))
         self.lblTask.setObjectName("lblTask")
         self.timeDisplay = QtWidgets.QLCDNumber(8, self.frame)
         self.timeDisplay.setGeometry(QtCore.QRect(10, 110, 331, 181))
@@ -87,17 +88,32 @@ class Ui_PomodoroPage(object):
         self.btnLongRest.setGeometry(QtCore.QRect(230, 70, 111, 26))
         self.btnLongRest.setObjectName("btnLongRest")
         self.btnAction = QtWidgets.QPushButton(self.frame)
-        self.btnAction.setGeometry(QtCore.QRect(100, 310, 91, 41))
+        self.btnAction.setGeometry(QtCore.QRect(100, 230, 91, 41))
         self.btnAction.setObjectName("btnAction")
         self.btnReset = QtWidgets.QPushButton(self.frame)
-        self.btnReset.setGeometry(QtCore.QRect(210, 310, 41, 41))
+        self.btnReset.setGeometry(QtCore.QRect(210, 230, 41, 41))
         self.btnReset.setObjectName("btnReset")
         self.progressBar = QtWidgets.QProgressBar(self.frame)
         self.progressBar.setGeometry(QtCore.QRect(10, 30, 331, 23))
         self.progressBar.setProperty("value", 24)
         self.progressBar.setObjectName("progressBar")
+        self.progressBar.setStyleSheet("""
+        QProgressBar{
+            background-color: rgb(44, 49, 58);
+            border-color: rgb(44, 49, 58);
+            text-align: center;
+        }
+        QProgressBar::chunk {
+            width: 1px;
+            background-color: rgb(189, 147, 249);
+            border: solid grey;
+            border-radius: 15px;
+        }    
+        """)
+        self.progressBar.setTextVisible(False)
+        self.progressBar.setValue(0)
         self.btnSettings = QtWidgets.QPushButton(Widget)
-        self.btnSettings.setGeometry(QtCore.QRect(270, 30, 88, 26))
+        self.btnSettings.setGeometry(QtCore.QRect(300, 45, 88, 26))
         self.btnSettings.setObjectName("btnSettings")
 
         self.retranslateUi(Widget)
@@ -112,7 +128,7 @@ class Ui_PomodoroPage(object):
         self.btnLongRest.setText(_translate("Widget", "Descanso Longo"))
         self.btnAction.setText(_translate("Widget", "Start"))
         self.btnReset.setText(_translate("Widget", "Reset"))
-        self.btnSettings.setText(_translate("Widget", "Setting"))
+        self.btnSettings.setText(_translate("Widget", "Settings"))
 
 class Ui_SettingsWindow(object):
     def setupUi(self, Widget):
