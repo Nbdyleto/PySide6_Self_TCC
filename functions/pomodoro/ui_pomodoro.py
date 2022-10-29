@@ -33,6 +33,20 @@ class Ui_PomodoroPage(object):
     def setupUi(self, Widget):
         Widget.setObjectName("Widget")
         Widget.resize(800, 600)
+        Widget.setStyleSheet("""
+            QPushButton {	
+                background-color: rgb(34, 41, 34);
+                border-radius: 15px
+            }
+            QPushButton:hover {
+                background-color: rgb(42, 48, 41);
+            }
+            QPushButton:pressed {	
+                background-color: rgb(94, 171, 79);
+                color: black;
+            }
+        """
+        )
         self.tblTasks = QtWidgets.QTableWidget(Widget)
         self.tblTasks.setGeometry(QtCore.QRect(500, 110, 385, 250))
         self.tblTasks.setObjectName("tblTasks")
@@ -43,6 +57,8 @@ class Ui_PomodoroPage(object):
         self.tblTasks.setShowGrid(False)
         self.tblTasks.setColumnWidth(0, 250)
         self.tblTasks.setColumnWidth(1, 100)
+
+        ## meu
         self.tblTasks.setStyleSheet("""
             QTableWidget {
                 background-color: rgb(40, 44, 52);
@@ -65,6 +81,42 @@ class Ui_PomodoroPage(object):
             }
         """)
 
+        ## juco
+
+        self.tblTasks.setStyleSheet("""
+            QTableWidget {	
+                background-color: transparent;
+                border-radius: 0px;
+            }
+            QTableWidget::item{
+                background-color: rgb(51, 61, 50);
+                border-color: rgb(33, 51, 34);
+                margin-top: 2px;          
+                border-radius: 0px;
+                padding-left: 2px;
+            }
+            QTableWidget::item:selected{
+                background-color: rgb(162, 219, 85);
+                color: black
+            }
+            QTableWidget::item:hover {
+                background-color: rgb(162, 219, 85);
+                color : black;
+            }
+            QHeaderView::section{
+                background-color: rgb(36, 44, 35); 
+                max-width: 30px;
+                border: 1px solid rgb(51, 61, 50);
+                border-style: none;
+                border-bottom: 1px solid rgb(45, 48, 43);
+                border-right: 1px solid rgb(45, 48, 43);
+            }
+            QHeaderView::section:vertical
+            {
+                border: 1px solid rgb(45, 48, 43);
+            }
+        """)
+
         self.tblTasks.horizontalHeader().setStretchLastSection(True)
         self.tblTasks.setWordWrap(True)
         self.tblTasks.setTextElideMode(Qt.ElideNone)
@@ -76,9 +128,6 @@ class Ui_PomodoroPage(object):
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
-        self.btnPomodoro = QtWidgets.QPushButton(self.frame)
-        self.btnPomodoro.setGeometry(QtCore.QRect(10, 70, 91, 26))
-        self.btnPomodoro.setObjectName("btnPomodoro")
         self.lblTask = QtWidgets.QLabel(self.frame)
         self.lblTask.setGeometry(QtCore.QRect(40, 320, 361, 20))
         self.lblTask.setObjectName("lblTask")
@@ -87,11 +136,14 @@ class Ui_PomodoroPage(object):
         self.timeDisplay.setObjectName("timeDisplay")
         self.timeDisplay.setFixedHeight(100)
         self.timeDisplay.display("00:00:00")
+        self.btnPomodoro = QtWidgets.QPushButton(self.frame)
+        self.btnPomodoro.setGeometry(QtCore.QRect(10, 70, 90, 35))
+        self.btnPomodoro.setObjectName("btnPomodoro")
         self.btnShortRest = QtWidgets.QPushButton(self.frame)
-        self.btnShortRest.setGeometry(QtCore.QRect(110, 70, 111, 26))
+        self.btnShortRest.setGeometry(QtCore.QRect(105, 70, 120, 35))
         self.btnShortRest.setObjectName("btnShortRest")
         self.btnLongRest = QtWidgets.QPushButton(self.frame)
-        self.btnLongRest.setGeometry(QtCore.QRect(230, 70, 111, 26))
+        self.btnLongRest.setGeometry(QtCore.QRect(230, 70, 120, 35))
         self.btnLongRest.setObjectName("btnLongRest")
         self.btnAction = QtWidgets.QPushButton(self.frame)
         self.btnAction.setGeometry(QtCore.QRect(100, 230, 91, 41))
@@ -103,6 +155,8 @@ class Ui_PomodoroPage(object):
         self.progressBar.setGeometry(QtCore.QRect(10, 30, 331, 23))
         self.progressBar.setProperty("value", 24)
         self.progressBar.setObjectName("progressBar")
+        
+        ## Roxo
         self.progressBar.setStyleSheet("""
         QProgressBar{
             background-color: rgb(44, 49, 58);
@@ -116,6 +170,22 @@ class Ui_PomodoroPage(object):
             border-radius: 15px;
         }    
         """)
+
+        ## Verde
+        self.progressBar.setStyleSheet("""
+        QProgressBar{
+            background-color: rgb(34, 41, 34);
+            border-color: rgb(34, 41, 34);
+            text-align: center;
+        }
+        QProgressBar::chunk {
+            width: 1px;
+            background-color: rgb(162, 219, 85);
+            border: solid grey;
+            border-radius: 15px;
+        }    
+        """)
+
         self.progressBar.setTextVisible(False)
         self.progressBar.setValue(0)
         self.btnSettings = QtWidgets.QPushButton(Widget)

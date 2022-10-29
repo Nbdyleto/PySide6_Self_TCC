@@ -48,6 +48,7 @@ class Ui_DailyTaskPage(object):
         item = QTableWidgetItem()
         self.tblWidgetTasks.setHorizontalHeaderItem(4, item)
 
+        ## Roxo
         self.tblWidgetTasks.setStyleSheet("""
             QTableWidget {
                 background-color: rgb(40, 44, 52);
@@ -69,6 +70,42 @@ class Ui_DailyTaskPage(object):
                 color : #f8f8f2;
             }
         """)
+
+        ## juco
+        self.tblWidgetTasks.setStyleSheet("""
+            QTableWidget {	
+                background-color: transparent;
+                border-radius: 0px;
+            }
+            QTableWidget::item{
+                background-color: rgb(51, 61, 50);
+                border-color: rgb(33, 51, 34);
+                margin-top: 2px;          
+                border-radius: 0px;
+                padding-left: 2px;
+            }
+            QTableWidget::item:selected{
+                background-color: rgb(162, 219, 85);
+                color: black
+            }
+            QTableWidget::item:hover {
+                background-color: rgb(162, 219, 85);
+                color : black;
+            }
+            QHeaderView::section{
+                background-color: rgb(36, 44, 35); 
+                max-width: 30px;
+                border: 1px solid rgb(51, 61, 50);
+                border-style: none;
+                border-bottom: 1px solid rgb(45, 48, 43);
+                border-right: 1px solid rgb(45, 48, 43);
+            }
+            QHeaderView::section:vertical
+            {
+                border: 1px solid rgb(45, 48, 43);
+            }
+        """)
+
         self.calendarWidget = QCalendarWidget(Widget)
         self.calendarWidget.setObjectName(u"calendarWidget")
         self.calendarWidget.setGeometry(QRect(365, 205, 310, 220))

@@ -129,8 +129,8 @@ class MainWindow(QMainWindow):
 
         # SET CUSTOM THEME
         # ///////////////////////////////////////////////////////////////
-        useCustomTheme = False
-        themeFile = "themes\py_dracula_light.qss"
+        useCustomTheme = True
+        themeFile = "themes/pyjuco.qss"
 
         # SET THEME AND HACKS
         if useCustomTheme:
@@ -184,6 +184,7 @@ class MainWindow(QMainWindow):
             widgets.stackedWidget.setCurrentWidget(widgets.dailyTaskPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
+            widgets.dailyTaskPage.load_data_in_table()
 
         # PRINT BTN NAME
         print(f'Button "{btnName}" pressed!')

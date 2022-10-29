@@ -8,8 +8,6 @@ from .ui_daily_task_page import Ui_DailyTaskPage
 #from .tasks_db_operations import DBMainOperations
 from ..db_main_operations import DBMainOperations
 
-from ..pomodoro.pomodoro_page import PomodoroMainPage
-
 import sys
 
 class DTaskMainPage(QWidget):

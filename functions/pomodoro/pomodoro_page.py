@@ -242,7 +242,7 @@ class PomodoroMainPage(QWidget):
         widgets.tblTasks.clearContents()
 
         with DBMainOperations() as db:
-            qry = """SELECT COUNT(*) FROM tasks WHERE status != 'Completed';
+            qry = """SELECT COUNT(*) FROM tasks WHERE status != 'Finalizada';
             """
             count = db.cursor.execute(qry).fetchone()[0]
             self.row_tasks_count = count
