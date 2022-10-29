@@ -93,6 +93,10 @@ class PomodoroMainPage(QWidget):
 
         widgets.timeDisplay.display(self.time.toString(self.timeFormat))
 
+        """ Create tablewidget connections """
+        widgets.tblTasks.cellDoubleClicked.connect(self.markTaskAsFinished)
+        widgets.tblTasks.cellClicked.connect(self.showTaskInLabel)
+
     def leaveEvent(self, event):
         super(PomodoroMainPage, self).leaveEvent(event)
 
@@ -238,15 +242,19 @@ class PomodoroMainPage(QWidget):
         widgets.tblTasks.clearContents()
 
         with DBMainOperations() as db:
-            count = db.cursor.execute("SELECT COUNT(*) FROM tasks").fetchone()[0]
+            qry = """SELECT COUNT(*) FROM tasks WHERE status != 'Completed';
+            """
+            count = db.cursor.execute(qry).fetchone()[0]
             self.row_tasks_count = count
             widgets.tblTasks.setRowCount(self.row_tasks_count)
             
             self.topics = db.cursor.execute("SELECT * FROM topics").fetchall()
 
-            results = db.cursor.execute("SELECT task_name, topic_id FROM tasks ORDER BY start_date").fetchall()
-            print(f'results:{results}, topics:{self.topics}')
-
+            ## Show just no completed tasks
+            qry = """SELECT task_name, topic_id FROM tasks
+            WHERE status != 'Finalizada' ORDER BY start_date;"""
+            results = db.cursor.execute(qry).fetchall()
+            
             try:
                 tablerow = 0
                 for row in results:
@@ -257,6 +265,20 @@ class PomodoroMainPage(QWidget):
                 widgets.tblTasks.setRowHeight(tablerow, 40)
             except Exception:
                 print('ERROR')
+
+    def markTaskAsFinished(self, row, col):
+        item = widgets.tblTasks.item(row, 0)
+        font = widgets.tblTasks.item(row, 0).font()
+        font.setStrikeOut(False if item.font().strikeOut() else True)
+        item.setFont(font)
+
+        query_update = f"UPDATE tasks SET status = 'Finalizada' WHERE task_name = '{item.text()}'"
+        with DBMainOperations() as db:
+            db.cursor.execute(query_update)
+
+    def showTaskInLabel(self, row, col):
+        item = widgets.tblTasks.item(row, col)
+        widgets.lblTask.setText(item.text())
 
 if __name__ == "__main__":
     app = QApplication([])

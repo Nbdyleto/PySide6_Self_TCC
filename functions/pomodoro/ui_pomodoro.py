@@ -50,7 +50,7 @@ class Ui_PomodoroPage(object):
             }
             QTableWidget::item {
                 color: #f8f8f2;                    
-                background-color: #44475a;
+                background-color: rgb(44, 49, 58);;
                 margin-top: 2px;          
                 border-radius: 0px;
                 padding-left: 2px;
@@ -64,6 +64,12 @@ class Ui_PomodoroPage(object):
                 color : #f8f8f2;
             }
         """)
+
+        self.tblTasks.horizontalHeader().setStretchLastSection(True)
+        self.tblTasks.setWordWrap(True)
+        self.tblTasks.setTextElideMode(Qt.ElideNone)
+        self.tblTasks.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.tblTasks.setSelectionMode(QAbstractItemView.SingleSelection)
 
         self.frame = QtWidgets.QFrame(Widget)
         self.frame.setGeometry(QtCore.QRect(50, 70, 351, 481))
