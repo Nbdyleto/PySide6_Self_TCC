@@ -28,7 +28,8 @@ from ..db_main_operations import DBMainOperations
 
 class Mode(Enum):
     work = 1
-    rest = 2
+    short_rest = 2
+    long_rest = 3
 
 class Status(Enum):
     workFinished = 1
@@ -123,6 +124,7 @@ class PomodoroMainPage(QWidget):
             self.pauseTimer()
             self.time = self.workEndTime
             self.displayTime()
+            self.progressValue = 0
         except:
             pass
 
