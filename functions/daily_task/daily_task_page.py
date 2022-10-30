@@ -1,8 +1,11 @@
 from ast import With
+from email.utils import formatdate
 from sqlite3 import dbapi2
+from tracemalloc import start
 from PySide6.QtWidgets import QWidget, QApplication, QAbstractItemView, QListWidgetItem, QTableWidgetItem, QMessageBox, QCheckBox
 from PySide6.QtCore import QDate, QPoint, QSize
 from PySide6.QtGui import QBrush, QColor, QIcon, Qt
+
 from .ui_daily_task_page import Ui_DailyTaskPage
 
 #from .tasks_db_operations import DBMainOperations
@@ -90,12 +93,12 @@ class DTaskMainPage(QWidget):
         try:
             tablerow = 0
             for row in results:
-                print(str(row[2]))
                 widgets.tblWidgetTasks.setRowHeight(tablerow, 50)
+                startDate, endDate = self.formatDate(row[2], row[3])
                 widgets.tblWidgetTasks.setItem(tablerow, 0, QTableWidgetItem(row[0]))  #row[0] = task_name
                 widgets.tblWidgetTasks.setItem(tablerow, 1, QTableWidgetItem(row[1]))  #row[1] = status
-                widgets.tblWidgetTasks.setItem(tablerow, 2, QTableWidgetItem(row[2]))  #row[2] = start_date
-                widgets.tblWidgetTasks.setItem(tablerow, 3, QTableWidgetItem(row[3]))  #row[3] = end_date
+                widgets.tblWidgetTasks.setItem(tablerow, 2, QTableWidgetItem(startDate)) #row[3] = start_date
+                widgets.tblWidgetTasks.setItem(tablerow, 3, QTableWidgetItem(endDate)) #row[4] = end_date
                 widgets.tblWidgetTasks.setItem(tablerow, 4, QTableWidgetItem(self.topics[row[4]][1])) #row[4] = topic_id
                 print(tablerow)
                 tablerow += 1
@@ -103,6 +106,13 @@ class DTaskMainPage(QWidget):
             widgets.tblWidgetTasks.setRowHeight(tablerow, 50)
         except Exception:
             print('ERROR')
+
+    def formatDate(self, startDate, endDate):
+        x = startDate.split('-')
+        formatedStartDate = QDate(int(x[0]), int(x[1]), int(x[2])).toString(Qt.RFC2822Date)
+        y = endDate.split('-')
+        formatedEndDate = QDate(int(y[0]), int(y[1]), int(y[2])).toString(Qt.RFC2822Date)
+        return formatedStartDate, formatedEndDate
 
     def update_db(self, item, is_date_type = False):
         if self.existent_in_db == None:
