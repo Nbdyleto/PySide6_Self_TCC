@@ -29,7 +29,7 @@ class Ui_DailyTaskPage(object):
         self.tblWidgetTasks = QTableWidget(Widget)
         self.tblWidgetTasks.setGeometry(QRect(140, 150, 950, 350))
         self.tblWidgetTasks.setObjectName(u"tblWidgetTasks")
-        self.tblWidgetTasks.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.tblWidgetTasks.setSelectionMode(QAbstractItemView.NoSelection)
         self.tblWidgetTasks.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.tblWidgetTasks.setFocusPolicy(Qt.NoFocus)
         self.tblWidgetTasks.verticalHeader().setVisible(False)

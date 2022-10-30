@@ -30,9 +30,12 @@ class Ui_FlashcardsPage(object):
         self.tblWidgetDecks.setRowCount(1)
         self.tblWidgetDecks.setShowGrid(False)
         self.tblWidgetDecks.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.tblWidgetDecks.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.tblWidgetDecks.horizontalHeader().setVisible(False)
         self.tblWidgetDecks.verticalHeader().setVisible(False)
+        self.tblWidgetDecks.setMouseTracking(False)
+        self.tblWidgetDecks.setWordWrap(True)
+        self.tblWidgetDecks.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tblWidgetDecks.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
         item = QtWidgets.QTableWidgetItem()
         self.tblWidgetDecks.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
@@ -89,7 +92,6 @@ class Ui_FlashcardsPage(object):
                 border: 1px solid rgb(45, 48, 43);
             }
         """)
-        self.tblWidgetDecks.setMouseTracking(False)
 
         self.lblDecks = QtWidgets.QLabel(Widget)
         self.lblDecks.setGeometry(QtCore.QRect(450, 170, 67, 18))
