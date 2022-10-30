@@ -52,7 +52,6 @@ Left Menu */
 }
 #topLogo {
 	background-color: rgb(34, 41, 34);
-	background-image: url(:/images/images/images/PyDracula.png);
 	background-position: centered;
 	background-repeat: no-repeat;
 }
@@ -514,6 +513,4 @@ Button */
 	background-color: rgb(38, 51, 42);
 	border: 2px solid rgb(42, 41, 67);
 }
-
-
 
