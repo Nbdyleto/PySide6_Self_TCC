@@ -213,13 +213,6 @@ class DTaskMainPage(QWidget):
     
     def select_status(self, row, col):
         self.update_status()
-        if row == self.row_topics_count-1:  # last row
-            widgets.tblStatus.itemChanged.connect(self.update_status)
-        else:
-            self.slc_topic_index = row
-            self.hide_topics()
-            item = widgets.tblWidgetTasks.item(self.slc_row, self.slc_col)
-            self.update_db(item)
     
     def update_status(self, item):
         qry = """UPDATE """
