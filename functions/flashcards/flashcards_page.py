@@ -41,7 +41,7 @@ class FCardsMainPage(QWidget):
         
         tablerow = 0
         for deck in decks:
-            widgets.tblWidgetDecks.setRowHeight(tablerow, 70)
+            widgets.tblWidgetDecks.setRowHeight(tablerow, 100)
             widgets.tblWidgetDecks.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(f'{str(deck[2])}%'))
             widgets.tblWidgetDecks.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(deck[1]))
             self.loadWidgetCell(tablerow)
@@ -49,7 +49,7 @@ class FCardsMainPage(QWidget):
             
         # last row of tblWidget has a 'add deck' option.
         lastrow = rowcount
-        widgets.tblWidgetDecks.setRowHeight(tablerow, 70)
+        widgets.tblWidgetDecks.setRowHeight(tablerow, 100)
         widgets.tblWidgetDecks.setItem(lastrow, 1, QtWidgets.QTableWidgetItem('Criar novo deck!'))
         
         btnAddDeck = QtWidgets.QPushButton(widgets.tblWidgetDecks)
@@ -59,12 +59,38 @@ class FCardsMainPage(QWidget):
             background-position: center; 
             background-repeat: no-repeat; 
             background-image: url(:/icons/images/icons/cil-library-add.png);
+            border-radius: 45px;
         """)
         widgets.tblWidgetDecks.setCellWidget(lastrow, 0, btnAddDeck)
         widgets.tblWidgetDecks.cellWidget(lastrow, 0).clicked.connect(self.addDeck)
 
     def loadWidgetCell(self, tablerow):
         btnStartStudy, btnAddCards = None, None
+
+        btnEditCards = QtWidgets.QPushButton(widgets.tblWidgetDecks)
+        btnEditCards.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        btnEditCards.setLayoutDirection(QtCore.Qt.LeftToRight)
+        btnEditCards.setObjectName(f'btnEditCards{tablerow}')
+        btnEditCards.setStyleSheet(u"""
+                background-position: center; 
+                background-repeat: no-repeat; 
+                background-image: url(:/icons/images/icons/cil-pencil.png);
+                border-radius: 45px;
+        """)
+        widgets.tblWidgetDecks.setCellWidget(tablerow, 3, btnEditCards)
+
+        btnEditDeck = QtWidgets.QPushButton(widgets.tblWidgetDecks)
+        btnEditDeck.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        btnEditDeck.setLayoutDirection(QtCore.Qt.LeftToRight)
+        btnEditDeck.setObjectName(f'btnEditDecks{tablerow}')
+        btnEditDeck.setStyleSheet(u"""
+                background-position: center; 
+                background-repeat: no-repeat; 
+                background-image: url(:/icons/images/icons/cil-options.png);
+                border-radius: 45px;
+        """)
+        widgets.tblWidgetDecks.setCellWidget(tablerow, 4, btnEditDeck)
+
         with DBMainOperations() as db:
             print(db.hasRecordsInTblFlashcards(id=tablerow))
             if db.hasRecordsInTblFlashcards(id=tablerow):
@@ -76,6 +102,7 @@ class FCardsMainPage(QWidget):
                     background-position: center; 
                     background-repeat: no-repeat; 
                     background-image: url(:/icons/images/icons/cil-media-play.png);
+                    border-radius: 45px;
                 """)
                 widgets.tblWidgetDecks.setCellWidget(tablerow, 2, btnStartStudy)
                 btnStartStudy.clicked.connect(lambda: self.openStudyCardsWindow(row_clicked=tablerow))
@@ -83,11 +110,12 @@ class FCardsMainPage(QWidget):
                 btnAddCards = QtWidgets.QPushButton(widgets.tblWidgetDecks)
                 btnAddCards.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
                 btnAddCards.setLayoutDirection(QtCore.Qt.LeftToRight)
-                btnAddCards.setObjectName(f'btnStartStudy{tablerow}')
+                btnAddCards.setObjectName(f'btnAddCards{tablerow}')
                 btnAddCards.setStyleSheet(u"""
                     background-position: center; 
                     background-repeat: no-repeat; 
                     background-image: url(:/icons/images/icons/cil-plus.png);
+                    border-radius: 45px;
                 """)
                 widgets.tblWidgetDecks.setCellWidget(tablerow, 2, btnAddCards)
                 btnAddCards.clicked.connect(lambda: self.openAddCardsWindow(row_clicked=tablerow))

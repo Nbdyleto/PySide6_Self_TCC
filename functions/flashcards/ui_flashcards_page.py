@@ -24,9 +24,9 @@ class Ui_FlashcardsPage(object):
         )
         
         self.tblWidgetDecks = QtWidgets.QTableWidget(Widget)
-        self.tblWidgetDecks.setGeometry(QtCore.QRect(140, 200, 900, 375))
+        self.tblWidgetDecks.setGeometry(QtCore.QRect(0, 200, 1000, 420))
         self.tblWidgetDecks.setObjectName("tblWidgetDecks")
-        self.tblWidgetDecks.setColumnCount(3)
+        self.tblWidgetDecks.setColumnCount(5)
         self.tblWidgetDecks.setRowCount(1)
         self.tblWidgetDecks.setShowGrid(False)
         self.tblWidgetDecks.setFocusPolicy(QtCore.Qt.NoFocus)
@@ -42,16 +42,21 @@ class Ui_FlashcardsPage(object):
         self.tblWidgetDecks.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
         self.tblWidgetDecks.setHorizontalHeaderItem(2, item)
-        self.tblWidgetDecks.setColumnWidth(0,150)
-        self.tblWidgetDecks.setColumnWidth(1,500)
-        self.tblWidgetDecks.setColumnWidth(2,140)
+        self.tblWidgetDecks.setColumnWidth(0,100)
+        self.tblWidgetDecks.setColumnWidth(1,550)
+        self.tblWidgetDecks.setColumnWidth(2,100)
+        self.tblWidgetDecks.setColumnWidth(3,100)
+        self.tblWidgetDecks.setColumnWidth(4,100)
+        
+        # 
         self.tblWidgetDecks.setStyleSheet("""
             QTableWidget::item {
                 color: #f8f8f2;                    
                 background-color: #44475a;
-                margin-top: 3px;          
+                margin-top: 5px;          
                 border-radius: 0px;
-                padding-left: 2px;
+                padding-left: 10px;
+                font-size: 220px;
             }
             QTableWidget::item:selected {
                 background-color: #6272a4;
@@ -68,13 +73,15 @@ class Ui_FlashcardsPage(object):
             QTableWidget {	
                 background-color: transparent;
                 border-radius: 0px;
+                font-size: 18px;
             }
             QTableWidget::item{
                 background-color: rgb(51, 61, 50);
                 border-color: rgb(33, 51, 34);
                 margin-top: 2px;          
                 border-radius: 0px;
-                padding-left: 2px;
+                padding-left: 5px;
+                text-align: center;
             }
             QTableWidget::item:selected{
                 background-color: rgb(51, 61, 50);
