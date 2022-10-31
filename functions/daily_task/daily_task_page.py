@@ -1,7 +1,4 @@
-from ast import With
-from email.utils import formatdate
 from sqlite3 import dbapi2
-from tracemalloc import start
 from PySide6.QtWidgets import QWidget, QApplication, QAbstractItemView, QListWidgetItem, QTableWidgetItem, QMessageBox, QCheckBox
 from PySide6.QtCore import QDate, QPoint, QSize
 from PySide6.QtGui import QBrush, QColor, QIcon, Qt
@@ -178,15 +175,54 @@ class DTaskMainPage(QWidget):
 
         self.slc_row, self.slc_col = row, col
 
-        if ((col == 2 or col == 3) and self.existent_in_db == True): # start_date or end_date cells
-            self.show_calendar()
+        if ((col == 1) and self.existent_in_db == True): # status cell
+            self.show_statusList()
+            self.hide_calendar()
             self.hide_topics()
-        elif col == 4 and self.existent_in_db == True:  # topics cell
+        elif ((col == 2 or col == 3) and self.existent_in_db == True): # start_date or end_date cells
+            self.show_calendar()
+            self.hide_statusList()
+            self.hide_topics()
+        elif ((col == 4) and self.existent_in_db == True):  # topics cell
             self.show_topics()
+            self.hide_statusList()
             self.hide_calendar()
         else:
+            self.hide_statusList()
             self.hide_calendar()
             self.hide_topics()
+
+    ############# STATUS CELL 'CLICKED' FUNCTIONS
+    
+    def show_statusList(self):
+        print('visible')
+        widgets.tblStatus.setVisible(True)
+        self.load_statusList()
+        print('showing status')
+    
+    def hide_statusList(self):
+        widgets.tblStatus.setVisible(False)
+    
+    def load_statusList(self):
+        widgets.tblStatus.clearContents()
+        print('loading status list')
+        widgets.tblStatus.setRowCount(3)
+        widgets.tblStatus.setItem(0, 0, QTableWidgetItem('Não Iniciada'))
+        widgets.tblStatus.setItem(1, 0, QTableWidgetItem('Em Progresso'))
+        widgets.tblStatus.setItem(2, 0, QTableWidgetItem('Finalizada'))
+    
+    def select_status(self, row, col):
+        self.update_status()
+        if row == self.row_topics_count-1:  # last row
+            widgets.tblStatus.itemChanged.connect(self.update_status)
+        else:
+            self.slc_topic_index = row
+            self.hide_topics()
+            item = widgets.tblWidgetTasks.item(self.slc_row, self.slc_col)
+            self.update_db(item)
+    
+    def update_status(self, item):
+        qry = """UPDATE """
 
     ############# CALENDAR CELLS 'CLICKED' FUNCTIONS
 

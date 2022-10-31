@@ -219,6 +219,40 @@ class Ui_DailyTaskPage(object):
             }
         """)
 
+        self.tblStatus = QTableWidget(Widget)
+        self.tblStatus.setGeometry(QRect(450, 205, 130, 115))
+        self.tblStatus.setObjectName(u'tblTopics')
+        self.tblStatus.setVisible(False)
+        self.tblStatus.setColumnCount(1)
+        self.tblStatus.setRowCount(1)
+        item = QTableWidgetItem()
+        self.tblStatus.setHorizontalHeaderItem(0, item)
+        self.tblStatus.setFocusPolicy(Qt.NoFocus)
+        self.tblStatus.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.tblStatus.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.tblStatus.verticalHeader().setVisible(False)
+        self.tblStatus.horizontalHeader().setVisible(False)
+        self.tblStatus.setShowGrid(False)
+        self.tblStatus.setSortingEnabled(False)
+        self.tblWidgetTasks.setWordWrap(True)
+        self.tblStatus.setStyleSheet("""
+            QTableWidget {
+                background-color:#282a36;
+                selection-color: #000000; 
+            }
+            QTableWidget::item {
+                color: #f8f8f2;                    
+                background-color: #282a36;
+                margin-top: 0px;         
+                padding-left: 2px;
+            }
+            QTableWidget::item:hover {
+                background-color: #6272a4;
+                
+
+            }
+        """)
+
         self.retranslateUi(Widget)
         QMetaObject.connectSlotsByName(Widget)
     # setupUi
