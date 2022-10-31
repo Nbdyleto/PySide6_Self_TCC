@@ -27,7 +27,7 @@ class Ui_DailyTaskPage(object):
         self.tblTopics.setHorizontalHeaderItem(0, item)
         
         self.tblWidgetTasks = QTableWidget(Widget)
-        self.tblWidgetTasks.setGeometry(QRect(140, 150, 950, 350))
+        self.tblWidgetTasks.setGeometry(QRect(0, 200, 1350, 420))
         self.tblWidgetTasks.setObjectName(u"tblWidgetTasks")
         self.tblWidgetTasks.setSelectionMode(QAbstractItemView.NoSelection)
         self.tblWidgetTasks.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -36,7 +36,7 @@ class Ui_DailyTaskPage(object):
         self.tblWidgetTasks.horizontalHeader().setVisible(True)
         self.tblWidgetTasks.setShowGrid(False)
         self.tblWidgetTasks.setSortingEnabled(False)
-        self.tblWidgetTasks.setColumnCount(5)
+        self.tblWidgetTasks.setColumnCount(6)
         item = QTableWidgetItem()
         self.tblWidgetTasks.setHorizontalHeaderItem(0, item)
         item = QTableWidgetItem()
@@ -47,6 +47,14 @@ class Ui_DailyTaskPage(object):
         self.tblWidgetTasks.setHorizontalHeaderItem(3, item)
         item = QTableWidgetItem()
         self.tblWidgetTasks.setHorizontalHeaderItem(4, item)
+        item = QTableWidgetItem()
+        self.tblWidgetTasks.setHorizontalHeaderItem(5, item)
+        self.tblWidgetTasks.setColumnWidth(0,450)
+        self.tblWidgetTasks.setColumnWidth(1,200)
+        self.tblWidgetTasks.setColumnWidth(2,150)
+        self.tblWidgetTasks.setColumnWidth(3,150)
+        self.tblWidgetTasks.setColumnWidth(4,200)
+        self.tblWidgetTasks.setColumnWidth(5,80)
 
         ## Roxo
         self.tblWidgetTasks.setStyleSheet("""
@@ -59,7 +67,7 @@ class Ui_DailyTaskPage(object):
                 background-color: #44475a;
                 margin-top: 2px;          
                 border-radius: 0px;
-                padding-left: 2px;
+                padding-left: 5px;
             }
             QTableWidget::item:selected {
                 background-color: #6272a4;
@@ -76,13 +84,15 @@ class Ui_DailyTaskPage(object):
             QTableWidget {	
                 background-color: transparent;
                 border-radius: 0px;
+                font-size: 15px;
+                
             }
             QTableWidget::item{
                 background-color: rgb(51, 61, 50);
                 border-color: rgb(33, 51, 34);
                 margin-top: 2px;          
                 border-radius: 0px;
-                padding-left: 2px;
+                padding-left: 15px;
             }
             QTableWidget::item:selected{
                 background-color: rgb(162, 219, 85);
@@ -248,8 +258,6 @@ class Ui_DailyTaskPage(object):
             }
             QTableWidget::item:hover {
                 background-color: #6272a4;
-                
-
             }
         """)
 
@@ -270,6 +278,8 @@ class Ui_DailyTaskPage(object):
         item.setText(_translate("Widget", u"Data Final"))
         item = self.tblWidgetTasks.horizontalHeaderItem(4)
         item.setText(_translate("Widget", u"Tópico"))
+        item = self.tblWidgetTasks.horizontalHeaderItem(5)
+        item.setText(_translate("Widget", u""))
         item = self.tblTopics.horizontalHeaderItem(0)
         item.setText(_translate("Widget", u"topic_name"))
     # retranslateUi

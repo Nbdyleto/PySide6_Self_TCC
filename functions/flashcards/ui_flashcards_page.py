@@ -24,9 +24,9 @@ class Ui_FlashcardsPage(object):
         )
         
         self.tblWidgetDecks = QtWidgets.QTableWidget(Widget)
-        self.tblWidgetDecks.setGeometry(QtCore.QRect(0, 200, 1000, 420))
+        self.tblWidgetDecks.setGeometry(QtCore.QRect(0, 200, 1350, 420))
         self.tblWidgetDecks.setObjectName("tblWidgetDecks")
-        self.tblWidgetDecks.setColumnCount(5)
+        self.tblWidgetDecks.setColumnCount(8)
         self.tblWidgetDecks.setRowCount(1)
         self.tblWidgetDecks.setShowGrid(False)
         self.tblWidgetDecks.setFocusPolicy(QtCore.Qt.NoFocus)
@@ -42,11 +42,14 @@ class Ui_FlashcardsPage(object):
         self.tblWidgetDecks.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
         self.tblWidgetDecks.setHorizontalHeaderItem(2, item)
-        self.tblWidgetDecks.setColumnWidth(0,100)
-        self.tblWidgetDecks.setColumnWidth(1,550)
-        self.tblWidgetDecks.setColumnWidth(2,100)
+        self.tblWidgetDecks.setColumnWidth(0,80)
+        self.tblWidgetDecks.setColumnWidth(1,100)
+        self.tblWidgetDecks.setColumnWidth(2,550)
         self.tblWidgetDecks.setColumnWidth(3,100)
         self.tblWidgetDecks.setColumnWidth(4,100)
+        self.tblWidgetDecks.setColumnWidth(5,100)
+        self.tblWidgetDecks.setColumnWidth(6,100)
+        self.tblWidgetDecks.setColumnWidth(7,100)
         
         # 
         self.tblWidgetDecks.setStyleSheet("""
@@ -78,7 +81,7 @@ class Ui_FlashcardsPage(object):
             QTableWidget::item{
                 background-color: rgb(51, 61, 50);
                 border-color: rgb(33, 51, 34);
-                margin-top: 2px;          
+                margin-top: 3px;          
                 border-radius: 0px;
                 padding-left: 5px;
                 text-align: center;

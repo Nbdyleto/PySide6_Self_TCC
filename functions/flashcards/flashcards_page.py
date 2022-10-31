@@ -42,15 +42,15 @@ class FCardsMainPage(QWidget):
         tablerow = 0
         for deck in decks:
             widgets.tblWidgetDecks.setRowHeight(tablerow, 100)
-            widgets.tblWidgetDecks.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(f'{str(deck[2])}%'))
-            widgets.tblWidgetDecks.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(deck[1]))
+            widgets.tblWidgetDecks.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(f'{str(deck[2])}%'))
+            widgets.tblWidgetDecks.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(deck[1]))
             self.loadWidgetCell(tablerow)
             tablerow+=1
             
         # last row of tblWidget has a 'add deck' option.
         lastrow = rowcount
         widgets.tblWidgetDecks.setRowHeight(tablerow, 100)
-        widgets.tblWidgetDecks.setItem(lastrow, 1, QtWidgets.QTableWidgetItem('Criar novo deck!'))
+        widgets.tblWidgetDecks.setItem(lastrow, 2, QtWidgets.QTableWidgetItem('Criar novo deck!'))
         
         btnAddDeck = QtWidgets.QPushButton(widgets.tblWidgetDecks)
         btnAddDeck.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
@@ -61,8 +61,8 @@ class FCardsMainPage(QWidget):
             background-image: url(:/icons/images/icons/cil-library-add.png);
             border-radius: 45px;
         """)
-        widgets.tblWidgetDecks.setCellWidget(lastrow, 0, btnAddDeck)
-        widgets.tblWidgetDecks.cellWidget(lastrow, 0).clicked.connect(self.addDeck)
+        widgets.tblWidgetDecks.setCellWidget(lastrow, 1, btnAddDeck)
+        widgets.tblWidgetDecks.cellWidget(lastrow, 1).clicked.connect(self.addDeck)
 
     def loadWidgetCell(self, tablerow):
         btnStartStudy, btnAddCards = None, None
@@ -77,7 +77,7 @@ class FCardsMainPage(QWidget):
                 background-image: url(:/icons/images/icons/cil-pencil.png);
                 border-radius: 45px;
         """)
-        widgets.tblWidgetDecks.setCellWidget(tablerow, 3, btnEditCards)
+        widgets.tblWidgetDecks.setCellWidget(tablerow, 4, btnEditCards)
 
         btnEditDeck = QtWidgets.QPushButton(widgets.tblWidgetDecks)
         btnEditDeck.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
@@ -89,7 +89,7 @@ class FCardsMainPage(QWidget):
                 background-image: url(:/icons/images/icons/cil-options.png);
                 border-radius: 45px;
         """)
-        widgets.tblWidgetDecks.setCellWidget(tablerow, 4, btnEditDeck)
+        widgets.tblWidgetDecks.setCellWidget(tablerow, 5, btnEditDeck)
 
         with DBMainOperations() as db:
             print(db.hasRecordsInTblFlashcards(id=tablerow))
@@ -104,7 +104,7 @@ class FCardsMainPage(QWidget):
                     background-image: url(:/icons/images/icons/cil-media-play.png);
                     border-radius: 45px;
                 """)
-                widgets.tblWidgetDecks.setCellWidget(tablerow, 2, btnStartStudy)
+                widgets.tblWidgetDecks.setCellWidget(tablerow, 3, btnStartStudy)
                 btnStartStudy.clicked.connect(lambda: self.openStudyCardsWindow(row_clicked=tablerow))
             else:
                 btnAddCards = QtWidgets.QPushButton(widgets.tblWidgetDecks)
@@ -116,8 +116,9 @@ class FCardsMainPage(QWidget):
                     background-repeat: no-repeat; 
                     background-image: url(:/icons/images/icons/cil-plus.png);
                     border-radius: 45px;
+                    margin-topd
                 """)
-                widgets.tblWidgetDecks.setCellWidget(tablerow, 2, btnAddCards)
+                widgets.tblWidgetDecks.setCellWidget(tablerow, 3, btnAddCards)
                 btnAddCards.clicked.connect(lambda: self.openAddCardsWindow(row_clicked=tablerow))
     
     @QtCore.Slot()

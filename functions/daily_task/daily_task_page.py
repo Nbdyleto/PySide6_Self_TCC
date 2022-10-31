@@ -1,7 +1,9 @@
 from sqlite3 import dbapi2
-from PySide6.QtWidgets import QWidget, QApplication, QAbstractItemView, QListWidgetItem, QTableWidgetItem, QMessageBox, QCheckBox
+from PySide6.QtWidgets import QWidget, QApplication, QAbstractItemView, QListWidgetItem, QTableWidgetItem, QPushButton
 from PySide6.QtCore import QDate, QPoint, QSize
 from PySide6.QtGui import QBrush, QColor, QIcon, Qt
+
+from PySide6 import QtCore, QtGui, QtWidgets
 
 from .ui_daily_task_page import Ui_DailyTaskPage
 
@@ -19,12 +21,6 @@ class DTaskMainPage(QWidget):
 
         global widgets
         widgets = self.ui
-
-        widgets.tblWidgetTasks.setColumnWidth(0,300)
-        widgets.tblWidgetTasks.setColumnWidth(1,150)
-        widgets.tblWidgetTasks.setColumnWidth(2,150)
-        widgets.tblWidgetTasks.setColumnWidth(3,150)
-        widgets.tblWidgetTasks.setColumnWidth(4,150)
         
         self.load_data_in_table()
 
@@ -90,17 +86,30 @@ class DTaskMainPage(QWidget):
         try:
             tablerow = 0
             for row in results:
-                widgets.tblWidgetTasks.setRowHeight(tablerow, 50)
+                widgets.tblWidgetTasks.setRowHeight(tablerow, 70)
                 startDate, endDate = self.formatDate(row[2], row[3])
                 widgets.tblWidgetTasks.setItem(tablerow, 0, QTableWidgetItem(row[0]))  #row[0] = task_name
                 widgets.tblWidgetTasks.setItem(tablerow, 1, QTableWidgetItem(row[1]))  #row[1] = status
                 widgets.tblWidgetTasks.setItem(tablerow, 2, QTableWidgetItem(startDate)) #row[3] = start_date
                 widgets.tblWidgetTasks.setItem(tablerow, 3, QTableWidgetItem(endDate)) #row[4] = end_date
                 widgets.tblWidgetTasks.setItem(tablerow, 4, QTableWidgetItem(self.topics[row[4]][1])) #row[4] = topic_id
+                
+                btnTest = QtWidgets.QPushButton(widgets.tblWidgetTasks)
+                btnTest.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+                btnTest.setLayoutDirection(QtCore.Qt.LeftToRight)
+                btnTest.setObjectName(f'btnTest{tablerow}')
+                btnTest.setStyleSheet(u"""
+                    background-position: center; 
+                    background-repeat: no-repeat; 
+                    background-image: url(:/icons/images/icons/cil-fire.png);
+                    border-radius: 45px;
+                """)
+                widgets.tblWidgetTasks.setCellWidget(tablerow, 5, btnTest)
+                
                 print(tablerow)
                 tablerow += 1
                 
-            widgets.tblWidgetTasks.setRowHeight(tablerow, 50)
+            widgets.tblWidgetTasks.setRowHeight(tablerow, 70)
         except Exception:
             print('ERROR')
 
