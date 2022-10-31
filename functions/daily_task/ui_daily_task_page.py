@@ -84,8 +84,7 @@ class Ui_DailyTaskPage(object):
             QTableWidget {	
                 background-color: transparent;
                 border-radius: 0px;
-                font-size: 15px;
-                
+                font-size: 15px;  
             }
             QTableWidget::item{
                 background-color: rgb(51, 61, 50);
@@ -99,8 +98,8 @@ class Ui_DailyTaskPage(object):
                 color: black
             }
             QTableWidget::item:hover {
-                background-color: rgb(162, 219, 85);
-                color : black;
+                background-color: rgb(42, 48, 41);
+                color : white;
             }
             QHeaderView::section{
                 background-color: rgb(36, 44, 35); 
@@ -118,35 +117,34 @@ class Ui_DailyTaskPage(object):
 
         self.calendarWidget = QCalendarWidget(Widget)
         self.calendarWidget.setObjectName(u"calendarWidget")
-        self.calendarWidget.setGeometry(QRect(365, 205, 310, 220))
+        self.calendarWidget.setGeometry(QRect(365, 205, 300, 200))
         self.calendarWidget.setVisible(False)
         self.calendarWidget.setStyleSheet("""
         QCalendarWidget QToolButton {
             height: 30px;
             width: 75px;
             color: #f8f8f2;
-            font-size: 15px;
+            font-size: 12px;
             icon-size: 15px;
-            background-color: #44475a;
+            background-color: rgb(36, 44, 35);
             margin-top: 1px;
         }
         QCalendarWidget QMenu {
             width: 150px;
             left: 20px;
             color: white;
-            font-size: 15px;
-            background-color: #44475a;
+            font-size: 12px;
+            background-color: rgb(36, 44, 35);
         }
         QCalendarWidget QSpinBox { 
             width: 50px; 
-            font-size: 15px; 
+            font-size: 12px; 
             color: #f8f8f2; 
             padding-left: 19px;
-            background-color: #44475a; 
-            selection-background-color: #44475a;
-            selection-color: #f8f8f2;
+            background-color: rgb(36, 44, 35); 
+            selection-background-color: rgb(162, 219, 85);
+            selection-color: black;
         }
-
         QCalendarWidget QSpinBox::up-button { 
             subcontrol-origin: border;  
             subcontrol-position: top right;  
@@ -165,32 +163,25 @@ class Ui_DailyTaskPage(object):
             width:10px; 
             height:10px; 
         }
-        
         /* header row */
         QCalendarWidget QWidget { 
-            alternate-background-color: #6272a4; 
+            alternate-background-color: rgb(42, 48, 41); 
         }
-        
         /* normal days */
-        QCalendarWidget QAbstractItemView:enabled 
-        {
-            font-size:15px;  
+        QCalendarWidget QAbstractItemView:enabled {
+            font-size:12px;  
             color: #f8f8f2;  
-            background-color: #44475a;  
-            selection-background-color: #6272a4; 
+            background-color: rgb(42, 48, 41);  
+            selection-background-color: rgb(162, 219, 85); 
             selection-color: black; 
-        }
-        
+        } 
         /* days in other months */
         /* navigation bar */
-        QCalendarWidget QWidget#qt_calendar_navigationbar
-        { 
-            background-color: #44475a; 
+        QCalendarWidget QWidget#qt_calendar_navigationbar{ 
+            background-color: rgb(36, 44, 35); 
         }
-
-        QCalendarWidget QAbstractItemView:disabled 
-        { 
-            color: #6272a4; 
+        QCalendarWidget QAbstractItemView:disabled { 
+            color: rgb(51, 61, 50); 
         }
 
         """)
@@ -213,22 +204,22 @@ class Ui_DailyTaskPage(object):
         self.tblWidgetTasks.setWordWrap(True)
         self.tblTopics.setStyleSheet("""
             QTableWidget {
-                background-color:#282a36;
-                selection-color: #000000; 
+                background-color:rgb(42, 48, 41);
+                selection-color: #f8f8f2; 
             }
             QTableWidget::item {
                 color: #f8f8f2;                    
-                background-color: #282a36;
-                margin-top: 0px;         
+                background-color: transparent;      
                 padding-left: 2px;
             }
             QTableWidget::item:hover {
-                background-color: #6272a4;
-                
-
+                background-color: rgb(51, 61, 50);
+            }
+            QTableWidget::item:selected{
+                background-color: rgb(51, 61, 50);
+                color: #f8f8f2; 
             }
         """)
-
         self.tblStatus = QTableWidget(Widget)
         self.tblStatus.setGeometry(QRect(450, 205, 130, 115))
         self.tblStatus.setObjectName(u'tblTopics')
@@ -247,17 +238,20 @@ class Ui_DailyTaskPage(object):
         self.tblWidgetTasks.setWordWrap(True)
         self.tblStatus.setStyleSheet("""
             QTableWidget {
-                background-color:#282a36;
-                selection-color: #000000; 
+                background-color:rgb(42, 48, 41);
+                selection-color: #f8f8f2; 
             }
             QTableWidget::item {
                 color: #f8f8f2;                    
-                background-color: #282a36;
-                margin-top: 0px;         
+                background-color: transparent;       
                 padding-left: 2px;
             }
             QTableWidget::item:hover {
-                background-color: #6272a4;
+                background-color: rgb(51, 61, 50);
+            }
+            QTableWidget::item:selected{
+                background-color: rgb(51, 61, 50);
+                color: #f8f8f2;  
             }
         """)
 
