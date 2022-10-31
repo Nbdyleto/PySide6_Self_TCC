@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 
 from PySide6 import QtCore, QtGui, QtWidgets
-from PySide6.QtWidgets import QWidget, QApplication
+from PySide6.QtWidgets import QWidget, QApplication, QSizePolicy
 
 from .ui_flashcards_page import Ui_FlashcardsPage
 from .ui_add_cards import Ui_AddCardsWindow
@@ -51,8 +51,15 @@ class FCardsMainPage(QWidget):
         lastrow = rowcount
         widgets.tblWidgetDecks.setRowHeight(tablerow, 70)
         widgets.tblWidgetDecks.setItem(lastrow, 1, QtWidgets.QTableWidgetItem('Criar novo deck!'))
+        
         btnAddDeck = QtWidgets.QPushButton(widgets.tblWidgetDecks)
-        btnAddDeck.setText('+')
+        btnAddDeck.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        btnAddDeck.setLayoutDirection(QtCore.Qt.LeftToRight)
+        btnAddDeck.setStyleSheet(u"""
+            background-position: center; 
+            background-repeat: no-repeat; 
+            background-image: url(:/icons/images/icons/cil-library-add.png);
+        """)
         widgets.tblWidgetDecks.setCellWidget(lastrow, 0, btnAddDeck)
         widgets.tblWidgetDecks.cellWidget(lastrow, 0).clicked.connect(self.addDeck)
 
@@ -62,14 +69,26 @@ class FCardsMainPage(QWidget):
             print(db.hasRecordsInTblFlashcards(id=tablerow))
             if db.hasRecordsInTblFlashcards(id=tablerow):
                 btnStartStudy = QtWidgets.QPushButton(widgets.tblWidgetDecks)
+                btnStartStudy.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+                btnStartStudy.setLayoutDirection(QtCore.Qt.LeftToRight)
                 btnStartStudy.setObjectName(f'btnStartStudy{tablerow}')
-                btnStartStudy.setText('Iniciar')
+                btnStartStudy.setStyleSheet(u"""
+                    background-position: center; 
+                    background-repeat: no-repeat; 
+                    background-image: url(:/icons/images/icons/cil-media-play.png);
+                """)
                 widgets.tblWidgetDecks.setCellWidget(tablerow, 2, btnStartStudy)
                 btnStartStudy.clicked.connect(lambda: self.openStudyCardsWindow(row_clicked=tablerow))
             else:
                 btnAddCards = QtWidgets.QPushButton(widgets.tblWidgetDecks)
-                btnAddCards.setObjectName(f'btnAddCards{tablerow}')
-                btnAddCards.setText('Adicionar')
+                btnAddCards.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+                btnAddCards.setLayoutDirection(QtCore.Qt.LeftToRight)
+                btnAddCards.setObjectName(f'btnStartStudy{tablerow}')
+                btnAddCards.setStyleSheet(u"""
+                    background-position: center; 
+                    background-repeat: no-repeat; 
+                    background-image: url(:/icons/images/icons/cil-plus.png);
+                """)
                 widgets.tblWidgetDecks.setCellWidget(tablerow, 2, btnAddCards)
                 btnAddCards.clicked.connect(lambda: self.openAddCardsWindow(row_clicked=tablerow))
     
