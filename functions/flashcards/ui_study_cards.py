@@ -8,6 +8,33 @@ class Ui_StudyCardsWindow(object):
     def setupUi(self, StudyCardsWindow):
         StudyCardsWindow.setObjectName("StudyCardsWindow")
         StudyCardsWindow.resize(308, 387)
+        StudyCardsWindow.setStyleSheet("""
+            QPushButton {	
+                color: white;
+                background-color: rgb(34, 41, 34);
+                border-radius: 15px
+            }
+            QPushButton:hover {
+                background-color: rgb(42, 48, 41);
+            }
+            QPushButton:pressed {	
+                background-color: rgb(94, 171, 79);
+                color: black;
+            }
+            
+            QProgressBar{
+                color: white;
+                background-color: rgb(34, 41, 34);
+                border-color: rgb(34, 41, 34);
+                text-align: center;
+            }
+            QProgressBar::chunk {
+                width: 1px;
+                background-color: rgb(162, 219, 85);
+                border: solid grey;
+                border-radius: 15px;
+            }    
+        """)
 
         self.centralwidget = QtWidgets.QWidget(StudyCardsWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -36,7 +63,7 @@ class Ui_StudyCardsWindow(object):
         self.label.setGeometry(QtCore.QRect(30, 57, 41, 18))
         self.label.setObjectName("label")
         self.lblDeckName = QtWidgets.QLabel(self.centralwidget)
-        self.lblDeckName.setGeometry(QtCore.QRect(80, 57, 101, 18))
+        self.lblDeckName.setGeometry(QtCore.QRect(80, 57, 150, 18))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)

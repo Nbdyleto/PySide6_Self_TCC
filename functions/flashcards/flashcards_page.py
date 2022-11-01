@@ -195,6 +195,7 @@ class FCardsMainPage(QWidget):
         self.studyCardsWindow.show()
 
     def infoStudyCardsWindow(self, row_clicked):
+        self.pValue = 0
         print('row_clicked: ', row_clicked)
         with DBMainOperations() as db:
             records = db.getAllRecords(tbl='decks', specifcols='deck_name, hits_percentage', 
@@ -205,7 +206,7 @@ class FCardsMainPage(QWidget):
         hits_percentage = records[0][1]
         studyCardsWidgets.pBarHitsPercentage.setValue(hits_percentage)
         
-    def infoStudyCards(self, reveal_pressed=False, deck_id=None):
+    def infoStudyCards(self, pValue=0, reveal_pressed=False, deck_id=None):
         print(self.total_cards)
         if reveal_pressed:
             self.studed_cards += 1
@@ -213,6 +214,8 @@ class FCardsMainPage(QWidget):
         studyCardsWidgets.btnUnsatisfactory.setVisible(False)
         studyCardsWidgets.btnNormal.setVisible(False)
         studyCardsWidgets.btnVeryGood.setVisible(False)
+        self.pValue += pValue
+        studyCardsWidgets.pBarHitsPercentage.setValue(pValue)
 
         if self.card_iterator is None:
             # Create a card_iterator if no exists (always the studyCards page is called from Window).
@@ -230,15 +233,15 @@ class FCardsMainPage(QWidget):
             studyCardsWidgets.lblCardsQnt.setText(f"{self.studed_cards}/{str(self.total_cards)}")
         except:
             print('studed_cards:',self.studed_cards)
-            if self.studed_cards > self.total_cards+1:
+            if self.studed_cards > self.total_cards+8:
                 self.studyCardsWindow.close()
             print('Stop Iteration')
 
     def revealCardAnswer(self, verse):
         studyCardsWidgets.plainTextEdit.setPlainText(verse)
-        studyCardsWidgets.btnUnsatisfactory.clicked.connect(lambda: self.infoStudyCards(reveal_pressed=True))
-        studyCardsWidgets.btnNormal.clicked.connect(lambda: self.infoStudyCards(reveal_pressed=True))
-        studyCardsWidgets.btnVeryGood.clicked.connect(lambda: self.infoStudyCards(reveal_pressed=True))
+        studyCardsWidgets.btnUnsatisfactory.clicked.connect(lambda: self.infoStudyCards(pValue=-5, reveal_pressed=True))
+        studyCardsWidgets.btnNormal.clicked.connect(lambda: self.infoStudyCards(pValue=5, reveal_pressed=True, ))
+        studyCardsWidgets.btnVeryGood.clicked.connect(lambda: self.infoStudyCards(pValue=10, reveal_pressed=True))
         studyCardsWidgets.btnRevealAnswer.setVisible(False)
         studyCardsWidgets.btnUnsatisfactory.setVisible(True)
         studyCardsWidgets.btnNormal.setVisible(True)
