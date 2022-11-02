@@ -7,7 +7,6 @@ from PySide6 import QtCore, QtGui, QtWidgets
 
 from .ui_daily_task_page import Ui_DailyTaskPage
 
-#from .tasks_db_operations import DBMainOperations
 from ..db_main_operations import DBMainOperations
 
 import sys
@@ -40,6 +39,7 @@ class DTaskMainPage(QWidget):
         self.slc_row, self.slc_col = None, None
 
         self.colors_list = ['#44475a', '#705D8C', '#BB6BBF', '#A366FF', '#7666FF', '#8C80FF']
+
 
     @property
     def row_tasks_count(self):
