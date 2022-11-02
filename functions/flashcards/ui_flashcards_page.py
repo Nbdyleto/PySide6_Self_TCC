@@ -8,20 +8,6 @@ class Ui_FlashcardsPage(object):
     def setupUi(self, Widget):
         Widget.setObjectName("Widget")
         Widget.resize(724, 408)
-        Widget.setStyleSheet("""
-            QPushButton {	
-                background-color: rgb(34, 41, 34);
-                border-radius: 15px
-            }
-            QPushButton:hover {
-                background-color: rgb(42, 48, 41);
-            }
-            QPushButton:pressed {	
-                background-color: rgb(94, 171, 79);
-                color: black;
-            }
-        """
-        )
         
         self.tblWidgetDecks = QtWidgets.QTableWidget(Widget)
         self.tblWidgetDecks.setGeometry(QtCore.QRect(0, 200, 1350, 420))
@@ -50,56 +36,12 @@ class Ui_FlashcardsPage(object):
         self.tblWidgetDecks.setColumnWidth(5,100)
         self.tblWidgetDecks.setColumnWidth(6,100)
         self.tblWidgetDecks.setColumnWidth(7,100)
-        
-        # 
         self.tblWidgetDecks.setStyleSheet("""
-            QTableWidget::item {
-                color: #f8f8f2;                    
-                background-color: #44475a;
-                margin-top: 5px;          
-                border-radius: 0px;
-                padding-left: 10px;
-                font-size: 220px;
-            }
-            QTableWidget::item:selected {
-                background-color: #6272a4;
-                selection-color : #f8f8f2;  
-            }
-            QTableWidget::item:hover {
-                background-color: #6272a4;
-                color : #f8f8f2;
-            }
-        """)
-
-        ## juco
-        self.tblWidgetDecks.setStyleSheet("""
-            QTableWidget {	
-                background-color: transparent;
-                border-radius: 0px;
-                font-size: 18px;
-            }
             QTableWidget::item{
-                background-color: rgb(51, 61, 50);
-                border-color: rgb(33, 51, 34);
                 margin-top: 3px;          
                 border-radius: 0px;
                 padding-left: 5px;
                 text-align: center;
-            }
-            QTableWidget::item:selected{
-                background-color: rgb(51, 61, 50);
-                color: #f8f8f2;
-            }
-            QHeaderView::section{
-                background-color: rgb(36, 44, 35); 
-                max-width: 30px;
-                border: 1px solid rgb(51, 61, 50);
-                border-style: none;
-                border-bottom: 1px solid rgb(45, 48, 43);
-                border-right: 1px solid rgb(45, 48, 43);
-            }
-            QHeaderView::section:vertical{
-                border: 1px solid rgb(45, 48, 43);
             }
         """)
 
