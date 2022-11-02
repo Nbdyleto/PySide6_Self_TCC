@@ -127,20 +127,11 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         self.show()
 
-        # SET CUSTOM THEME
-        # ///////////////////////////////////////////////////////////////
-        useCustomTheme = True
-        themeFile = "themes/pyjuco_purple.qss"
-
-        # SET THEME AND HACKS
-        if useCustomTheme:
-            # LOAD AND APPLY STYLE
-            UIFunctions.theme(self, themeFile, True)
-
-            # SET HACKS
-            #AppFunctions.setThemeHack(self)
-            #AppFunctions.setThemeBlue(self)
-            AppFunctions.setThemePurple(self)
+        self.purpleFile = "themes/pyjuco_purple.qss"
+        self.blueFile = "themes/pyjuco_blue.qss"
+        ### SET DEFAULT THEME
+        UIFunctions.theme(self, self.blueFile, True)
+        AppFunctions.setThemeBlue(self)
 
         # SET HOME PAGE AND SELECT MENU
         # ///////////////////////////////////////////////////////////////
@@ -175,7 +166,6 @@ class MainWindow(QMainWindow):
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
 
         if btnName == "btn_pomodoro_page":
-
             widgets.stackedWidget.setCurrentWidget(widgets.pomodoroPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
