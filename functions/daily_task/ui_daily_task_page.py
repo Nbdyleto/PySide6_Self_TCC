@@ -37,6 +37,7 @@ class Ui_DailyTaskPage(object):
         self.tblWidgetTasks.setShowGrid(False)
         self.tblWidgetTasks.setSortingEnabled(False)
         self.tblWidgetTasks.setColumnCount(6)
+        self.tblWidgetTasks.setWordWrap(True)
         item = QTableWidgetItem()
         self.tblWidgetTasks.setHorizontalHeaderItem(0, item)
         item = QTableWidgetItem()
@@ -55,65 +56,6 @@ class Ui_DailyTaskPage(object):
         self.tblWidgetTasks.setColumnWidth(3,150)
         self.tblWidgetTasks.setColumnWidth(4,200)
         self.tblWidgetTasks.setColumnWidth(5,80)
-
-        ## Roxo
-        self.tblWidgetTasks.setStyleSheet("""
-            QTableWidget {
-                background-color: rgb(40, 44, 52);
-                border-radius: 0px;
-            }
-            QTableWidget::item {
-                color: #f8f8f2;                    
-                background-color: #44475a;
-                margin-top: 2px;          
-                border-radius: 0px;
-                padding-left: 5px;
-            }
-            QTableWidget::item:selected {
-                background-color: #6272a4;
-                selection-color : #f8f8f2;  
-            }
-            QTableWidget::item:hover {
-                background-color: #6272a4;
-                color : #f8f8f2;
-            }
-        """)
-
-        ## juco
-        self.tblWidgetTasks.setStyleSheet("""
-            QTableWidget {	
-                background-color: transparent;
-                border-radius: 0px;
-                font-size: 15px;  
-            }
-            QTableWidget::item{
-                background-color: rgb(51, 61, 50);
-                border-color: rgb(33, 51, 34);
-                margin-top: 2px;          
-                border-radius: 0px;
-                padding-left: 15px;
-            }
-            QTableWidget::item:selected{
-                background-color: rgb(162, 219, 85);
-                color: black
-            }
-            QTableWidget::item:hover {
-                background-color: rgb(42, 48, 41);
-                color : white;
-            }
-            QHeaderView::section{
-                background-color: rgb(36, 44, 35); 
-                max-width: 30px;
-                border: 1px solid rgb(51, 61, 50);
-                border-style: none;
-                border-bottom: 1px solid rgb(45, 48, 43);
-                border-right: 1px solid rgb(45, 48, 43);
-            }
-            QHeaderView::section:vertical
-            {
-                border: 1px solid rgb(45, 48, 43);
-            }
-        """)
 
         self.calendarWidget = QCalendarWidget(Widget)
         self.calendarWidget.setObjectName(u"calendarWidget")
@@ -201,25 +143,7 @@ class Ui_DailyTaskPage(object):
         self.tblTopics.horizontalHeader().setVisible(False)
         self.tblTopics.setShowGrid(False)
         self.tblTopics.setSortingEnabled(False)
-        self.tblWidgetTasks.setWordWrap(True)
-        self.tblTopics.setStyleSheet("""
-            QTableWidget {
-                background-color:rgb(42, 48, 41);
-                selection-color: #f8f8f2; 
-            }
-            QTableWidget::item {
-                color: #f8f8f2;                    
-                background-color: transparent;      
-                padding-left: 2px;
-            }
-            QTableWidget::item:hover {
-                background-color: rgb(51, 61, 50);
-            }
-            QTableWidget::item:selected{
-                background-color: rgb(51, 61, 50);
-                color: #f8f8f2; 
-            }
-        """)
+    
         self.tblStatus = QTableWidget(Widget)
         self.tblStatus.setGeometry(QRect(450, 205, 130, 115))
         self.tblStatus.setObjectName(u'tblTopics')
@@ -236,24 +160,6 @@ class Ui_DailyTaskPage(object):
         self.tblStatus.setShowGrid(False)
         self.tblStatus.setSortingEnabled(False)
         self.tblWidgetTasks.setWordWrap(True)
-        self.tblStatus.setStyleSheet("""
-            QTableWidget {
-                background-color:rgb(42, 48, 41);
-                selection-color: #f8f8f2; 
-            }
-            QTableWidget::item {
-                color: #f8f8f2;                    
-                background-color: transparent;       
-                padding-left: 2px;
-            }
-            QTableWidget::item:hover {
-                background-color: rgb(51, 61, 50);
-            }
-            QTableWidget::item:selected{
-                background-color: rgb(51, 61, 50);
-                color: #f8f8f2;  
-            }
-        """)
 
         self.retranslateUi(Widget)
         QMetaObject.connectSlotsByName(Widget)

@@ -102,7 +102,7 @@ class DTaskMainPage(QWidget):
                     background-position: center; 
                     background-repeat: no-repeat; 
                     background-image: url(:/icons/images/icons/cil-fire.png);
-                    border-radius: 45px;
+                    border-color: transparent
                 """)
                 widgets.tblWidgetTasks.setCellWidget(tablerow, 5, btnTest)
                 
