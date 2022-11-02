@@ -3,22 +3,17 @@ QWidget{
 	font: 10pt "Segoe UI";
 }
 
-QMainWindow {
-	background-color: rgb(37, 37, 51);
-	border: 1px solid rgb(44, 45, 59);
-}
-
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 Tooltip */
 QToolTip {
 	color: #ffffff;
-	background-color: rgba(34, 34, 44, 180);
-	border: 1px solid rgb(44, 45, 59);
+	background-color: rgba(34, 41, 34, 180);
+	border: 1px solid rgb(51, 61, 50);
 	background-image: none;
 	background-position: left center;
     background-repeat: no-repeat;
 	border: none;
-	border-left: 2px solid rgb(106, 118, 255);
+	border-left: 2px solid rgb(123, 250, 73);
 	text-align: left;
 	padding-left: 8px;
 	margin: 0px;
@@ -27,23 +22,23 @@ QToolTip {
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 Bg App */
 #bgApp {	
-	background-color: rgb(37, 37, 51);
-	border: 1px solid rgb(44, 45, 59);
+	background-color: rgb(42, 48, 41);
+	border: 1px solid rgb(51, 61, 50);
 }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 Left Menu */
 #leftMenuBg {	
-	background-color: rgb(34, 34, 44);
+	background-color: rgb(34, 41, 34);
 }
 #topLogo {
-	background-color: rgb(34, 34, 44);
+	background-color: rgb(34, 41, 34);
 	/*background-image: url(:/images/images/images/PyDracula.png);*/
 	background-position: centered;
 	background-repeat: no-repeat;
 }
 #titleLeftApp { font: 63 12pt "Segoe UI Semibold"; }
-#titleLeftDescription { font: 8pt "Segoe UI"; color: rgb(139, 136, 250); }
+#titleLeftDescription { font: 8pt "Segoe UI"; color: rgb(94, 171, 79); }
 
 /* MENUS */
 #topMenu .QPushButton {	
@@ -56,10 +51,10 @@ Left Menu */
 	padding-left: 44px;
 }
 #topMenu .QPushButton:hover {
-	background-color: rgb(37, 37, 51);
+	background-color: rgb(42, 48, 41);
 }
 #topMenu .QPushButton:pressed {	
-	background-color: rgb(139, 136, 250);
+	background-color: rgb(94, 171, 79);
 	color: rgb(255, 255, 255);
 }
 #bottomMenu .QPushButton {	
@@ -72,14 +67,14 @@ Left Menu */
 	padding-left: 44px;
 }
 #bottomMenu .QPushButton:hover {
-	background-color: rgb(37, 37, 51);
+	background-color: rgb(42, 48, 41);
 }
 #bottomMenu .QPushButton:pressed {	
-	background-color: rgb(139, 136, 250);
+	background-color: rgb(94, 171, 79);
 	color: rgb(255, 255, 255);
 }
 #leftMenuFrame{
-	border-top: 3px solid rgb(44, 45, 59);
+	border-top: 3px solid rgb(51, 61, 50);
 }
 
 /* Toggle Button */
@@ -88,16 +83,16 @@ Left Menu */
     background-repeat: no-repeat;
 	border: none;
 	border-left: 20px solid transparent;
-	background-color: rgb(36, 37, 48);
+	background-color: rgb(36, 46, 35);
 	text-align: left;
 	padding-left: 44px;
-	color: rgb(100, 103, 148);
+	color: rgb(110, 147, 108);
 }
 #toggleButton:hover {
-	background-color: rgb(37, 37, 51);
+	background-color: rgb(42, 48, 41);
 }
 #toggleButton:pressed {
-	background-color: rgb(139, 136, 250);
+	background-color: rgb(94, 171, 79);
 }
 
 /* Title Menu */
@@ -107,10 +102,10 @@ Left Menu */
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 Extra Tab */
 #extraLeftBox {	
-	background-color: rgb(44, 45, 59);
+	background-color: rgb(51, 61, 50);
 }
 #extraTopBg{	
-	background-color: rgb(139, 136, 250)
+	background-color: rgb(94, 171, 79)
 }
 
 /* Icon */
@@ -125,12 +120,12 @@ Extra Tab */
 
 /* Btn Close */
 #extraCloseColumnBtn { background-color: rgba(255, 255, 255, 0); border: none;  border-radius: 5px; }
-#extraCloseColumnBtn:hover { background-color: rgb(158, 193, 259); border-style: solid; border-radius: 4px; }
-#extraCloseColumnBtn:pressed { background-color: rgb(147, 147, 240); border-style: solid; border-radius: 4px; }
+#extraCloseColumnBtn:hover { background-color: rgb(138, 250, 133); border-style: solid; border-radius: 4px; }
+#extraCloseColumnBtn:pressed { background-color: rgb(160, 240, 108); border-style: solid; border-radius: 4px; }
 
 /* Extra Content */
 #extraContent{
-	border-top: 3px solid rgb(37, 37, 51);
+	border-top: 3px solid rgb(42, 48, 41);
 }
 
 /* Extra Top Menus */
@@ -144,34 +139,34 @@ background-position: left center;
 	padding-left: 44px;
 }
 #extraTopMenu .QPushButton:hover {
-	background-color: rgb(37, 37, 51);
+	background-color: rgb(42, 48, 41);
 }
 #extraTopMenu .QPushButton:pressed {	
-	background-color: rgb(139, 136, 250);
+	background-color: rgb(94, 171, 79);
 	color: rgb(255, 255, 255);
 }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 Content App */
 #contentTopBg{	
-	background-color: rgb(34, 34, 44);
+	background-color: rgb(34, 41, 34);
 }
 #contentBottom{
-	border-top: 3px solid rgb(44, 45, 59);
+	border-top: 3px solid rgb(51, 61, 50);
 }
 
 /* Top Buttons */
 #rightButtons .QPushButton { background-color: rgba(255, 255, 255, 0); border: none;  border-radius: 5px; }
-#rightButtons .QPushButton:hover { background-color: rgb(44, 45, 58); border-style: solid; border-radius: 4px; }
-#rightButtons .QPushButton:pressed { background-color: rgb(24, 22, 31); border-style: solid; border-radius: 4px; }
+#rightButtons .QPushButton:hover { background-color: rgb(51, 61, 59); border-style: solid; border-radius: 4px; }
+#rightButtons .QPushButton:pressed { background-color: rgb(28, 33, 27); border-style: solid; border-radius: 4px; }
 
 /* Theme Settings */
-#extraRightBox { background-color: rgb(44, 45, 59); }
-#themeSettingsTopDetail { background-color: rgb(139, 136, 250); }
+#extraRightBox { background-color: rgb(51, 61, 50); }
+#themeSettingsTopDetail { background-color: rgb(94, 171, 79); }
 
 /* Bottom Bar */
-#bottomBar { background-color: rgb(44, 45, 59); }
-#bottomBar QLabel { font-size: 11px; color: rgb(100, 103, 148); padding-left: 10px; padding-right: 10px; padding-bottom: 2px; }
+#bottomBar { background-color: rgb(51, 61, 50); }
+#bottomBar QLabel { font-size: 11px; color: rgb(110, 147, 108); padding-left: 10px; padding-right: 10px; padding-bottom: 2px; }
 
 /* CONTENT SETTINGS */
 /* MENUS */
@@ -185,10 +180,10 @@ Content App */
 	padding-left: 44px;
 }
 #contentSettings .QPushButton:hover {
-	background-color: rgb(37, 37, 51);
+	background-color: rgb(42, 48, 41);
 }
 #contentSettings .QPushButton:pressed {	
-	background-color: rgb(139, 136, 250);
+	background-color: rgb(94, 171, 79);
 	color: rgb(255, 255, 255);
 }
 
@@ -199,87 +194,73 @@ QTableWidget {
 	padding: 10px;
 	border-radius: 0px;
 	font-size: 15px;
-	gridline-color: rgb(44, 45, 59);
+	gridline-color: rgb(51, 61, 50);
 	border-bottom: 1px solid rgb(44, 45, 61);
 }
 QTableWidget::item{
-	background-color: rgb(44, 45, 59);
-	border-color: rgb(44, 45, 61);
+	background-color: rgb(51, 61, 50);
+	border-color: rgb(51, 61, 50);
 	margin-top: 2px;
 	padding-left: 15px;
 	padding-right: 5px;
-	gridline-color: rgb(44, 45, 61);
+	gridline-color: rgb(51, 61, 50);
 }
 QTableWidget::item:selected{
-	background-color: rgb(139, 136, 250);
+	background-color: rgb(94, 171, 79);
 }
 QTableWidget::item:hover {
-    background-color: rgb(37, 37, 51);
+    background-color: rgb(42, 48, 41);
     color : #ffffff;
 }
-
 QHeaderView::section{
-	background-color: rgb(34, 34, 44);
+	background-color: rgb(34, 41, 34);
 	max-width: 30px;
-	border: 1px solid rgb(44, 45, 59);
+	border: 1px solid rgb(51, 61, 50);
 	border-style: none;
-    border-bottom: 1px solid rgb(44, 45, 61);
-    border-right: 1px solid rgb(44, 45, 61);
+    border-bottom: 1px solid rgb(45, 48, 43);
+    border-right: 1px solid rgb(45, 48, 43);
 }
 QTableWidget::horizontalHeader {	
-	background-color: rgb(34, 34, 44);
+	background-color: rgb(34, 41, 34);
 }
 QHeaderView::section:horizontal
 {
-    border: 1px solid rgb(34, 34, 44);
-	background-color: rgb(34, 34, 44);
+    border: 1px solid rgb(34, 41, 34);
+	background-color: rgb(34, 41, 34);
 	padding: 3px;
 	border-top-left-radius: 7px;
     border-top-right-radius: 7px;
 }
 QHeaderView::section:vertical
 {
-    border: 1px solid rgb(44, 45, 61);
-}
-
-/* /////////////////////////////////////////////////////////////////////////////////////////////////
-Progress Bar */
-QProgressBar {
-    background-color: rgb(44, 45, 59);
-    text-align: center;
-}
-QProgressBar::chunk {
-    width: 1px;
-    background-color: rgb(139, 136, 250);
-    border: solid grey;
-    border-radius: 15px;
+    border: 1px solid rgb(45, 48, 43);
 }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 LineEdit */
 QLineEdit {
-	background-color: rgb(34, 34, 44);
+	background-color: rgb(34, 41, 34);
 	border-radius: 5px;
-	border: 2px solid rgb(34, 34, 44);
+	border: 2px solid rgb(34, 41, 34);
 	padding-left: 10px;
 	selection-color: rgb(255, 255, 255);
-	selection-background-color: rgb(106, 118, 255);
+	selection-background-color: rgb(123, 250, 73);
 }
 QLineEdit:hover {
-	border: 2px solid rgb(63, 64, 90);
+	border: 2px solid rgb(64, 90, 63);
 }
 QLineEdit:focus {
-	border: 2px solid rgb(90, 88, 124);
+	border: 2px solid rgb(97, 127, 899);
 }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 PlainTextEdit */
 QPlainTextEdit {
-	background-color: rgb(28, 28, 36);
+	background-color: rgb(31, 36, 30);
 	border-radius: 5px;
 	padding: 10px;
 	selection-color: rgb(255, 255, 255);
-	selection-background-color: rgb(106, 118, 255);
+	selection-background-color: rgb(123, 250, 73);
 }
 QPlainTextEdit  QScrollBar:vertical {
     width: 8px;
@@ -288,29 +269,29 @@ QPlainTextEdit  QScrollBar:horizontal {
     height: 8px;
  }
 QPlainTextEdit:hover {
-	border: 2px solid rgb(63, 64, 90);
+	border: 2px solid rgb(64, 90, 63);
 }
 QPlainTextEdit:focus {
-	border: 2px solid rgb(90, 88, 124);
+	border: 2px solid rgb(97, 127, 899);
 }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 ScrollBars */
 QScrollBar:horizontal {
     border: none;
-    background: rgb(49, 50, 71);
+    background: rgb(51, 82, 64);
     height: 8px;
     margin: 0px 21px 0 21px;
 	border-radius: 0px;
 }
 QScrollBar::handle:horizontal {
-    background: rgb(139, 136, 250);
+    background: rgb(94, 171, 79);
     min-width: 25px;
 	border-radius: 4px
 }
 QScrollBar::add-line:horizontal {
     border: none;
-    background: rgb(54, 54, 77);
+    background: rgb(54, 86, 69);
     width: 20px;
 	border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
@@ -319,7 +300,7 @@ QScrollBar::add-line:horizontal {
 }
 QScrollBar::sub-line:horizontal {
     border: none;
-    background: rgb(54, 54, 77);
+    background: rgb(54, 86, 69);
     width: 20px;
 	border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
@@ -336,19 +317,19 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
 }
  QScrollBar:vertical {
 	border: none;
-    background: rgb(49, 50, 71);
+    background: rgb(51, 82, 64);
     width: 8px;
     margin: 21px 0 21px 0;
 	border-radius: 0px;
  }
  QScrollBar::handle:vertical {	
-	background: rgb(139, 136, 250);
+	background: rgb(94, 171, 79);
     min-height: 25px;
 	border-radius: 4px
  }
  QScrollBar::add-line:vertical {
      border: none;
-    background: rgb(54, 54, 77);
+    background: rgb(54, 86, 69);
      height: 20px;
 	border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
@@ -357,7 +338,7 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
  }
  QScrollBar::sub-line:vertical {
 	border: none;
-    background: rgb(54, 54, 77);
+    background: rgb(54, 86, 69);
      height: 20px;
 	border-top-left-radius: 4px;
     border-top-right-radius: 4px;
@@ -375,56 +356,56 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 CheckBox */
 QCheckBox::indicator {
-    border: 3px solid rgb(49, 50, 71);
+    border: 3px solid rgb(51, 82, 64);
 	width: 15px;
 	height: 15px;
 	border-radius: 10px;
-    background: rgb(44, 45, 61);
+    background: rgb(45, 48, 43);
 }
 QCheckBox::indicator:hover {
-    border: 3px solid rgb(58, 59, 81);
+    border: 3px solid rgb(59, 84, 82);
 }
 QCheckBox::indicator:checked {
-    background: 3px solid rgb(49, 50, 71);
-	border: 3px solid rgb(49, 50, 71);	
+    background: 3px solid rgb(51, 82, 64);
+	border: 3px solid rgb(51, 82, 64);	
 	background-image: url(:/icons/images/icons/cil-check-alt.png);
 }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 RadioButton */
 QRadioButton::indicator {
-    border: 3px solid rgb(49, 50, 71);
+    border: 3px solid rgb(51, 82, 64);
 	width: 15px;
 	height: 15px;
 	border-radius: 10px;
-    background: rgb(44, 45, 61);
+    background: rgb(45, 48, 43);
 }
 QRadioButton::indicator:hover {
-    border: 3px solid rgb(58, 59, 81);
+    border: 3px solid rgb(59, 84, 82);
 }
 QRadioButton::indicator:checked {
-    background: 3px solid rgb(93, 93, 130);
-	border: 3px solid rgb(49, 50, 71);	
+    background: 3px solid rgb(92, 131, 96);
+	border: 3px solid rgb(51, 82, 64);	
 }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 ComboBox */
 QComboBox{
-	background-color: rgb(28, 28, 36);
+	background-color: rgb(31, 36, 30);
 	border-radius: 5px;
-	border: 2px solid rgb(34, 34, 44);
+	border: 2px solid rgb(34, 41, 34);
 	padding: 5px;
 	padding-left: 10px;
 }
 QComboBox:hover{
-	border: 2px solid rgb(63, 64, 90);
+	border: 2px solid rgb(64, 90, 63);
 }
 QComboBox::drop-down {
 	subcontrol-origin: padding;
 	subcontrol-position: top right;
 	width: 25px; 
 	border-left-width: 3px;
-	border-left-color: rgba(36, 37, 53, 150);
+	border-left-color: rgba(41, 48, 43, 150);
 	border-left-style: solid;
 	border-top-right-radius: 3px;
 	border-bottom-right-radius: 3px;	
@@ -433,10 +414,10 @@ QComboBox::drop-down {
 	background-repeat: no-reperat;
  }
 QComboBox QAbstractItemView {
-	color: rgb(106, 118, 255);	
-	background-color: rgb(34, 34, 44);
+	color: rgb(123, 250, 73);	
+	background-color: rgb(34, 41, 34);
 	padding: 10px;
-	selection-background-color: rgb(36, 37, 53);
+	selection-background-color: rgb(41, 48, 43);
 }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -445,13 +426,13 @@ QSlider::groove:horizontal {
     border-radius: 5px;
     height: 10px;
 	margin: 0px;
-	background-color: rgb(49, 50, 71);
+	background-color: rgb(51, 82, 64);
 }
 QSlider::groove:horizontal:hover {
 	background-color: rgb(55, 62, 76);
 }
 QSlider::handle:horizontal {
-    background-color: rgb(139, 136, 250);
+    background-color: rgb(94, 171, 79);
     border: none;
     height: 10px;
     width: 10px;
@@ -459,23 +440,23 @@ QSlider::handle:horizontal {
 	border-radius: 5px;
 }
 QSlider::handle:horizontal:hover {
-    background-color: rgb(157, 187, 255);
+    background-color: rgb(139, 244, 139);
 }
 QSlider::handle:horizontal:pressed {
-    background-color: rgb(106, 118, 255);
+    background-color: rgb(123, 250, 73);
 }
 
 QSlider::groove:vertical {
     border-radius: 5px;
     width: 10px;
     margin: 0px;
-	background-color: rgb(49, 50, 71);
+	background-color: rgb(51, 82, 64);
 }
 QSlider::groove:vertical:hover {
 	background-color: rgb(55, 62, 76);
 }
 QSlider::handle:vertical {
-    background-color: rgb(139, 136, 250);
+    background-color: rgb(94, 171, 79);
 	border: none;
     height: 10px;
     width: 10px;
@@ -483,41 +464,41 @@ QSlider::handle:vertical {
 	border-radius: 5px;
 }
 QSlider::handle:vertical:hover {
-    background-color: rgb(157, 187, 255);
+    background-color: rgb(139, 244, 139);
 }
 QSlider::handle:vertical:pressed {
-    background-color: rgb(106, 118, 255);
+    background-color: rgb(123, 250, 73);
 }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 CommandLinkButton */
 QCommandLinkButton {	
-	color: rgb(106, 118, 255);
+	color: rgb(123, 250, 73);
 	border-radius: 5px;
 	padding: 5px;
 }
 QCommandLinkButton:hover {	
-	color: rgb(185, 208, 255);
-	background-color: rgb(44, 45, 61);
+	color: rgb(135, 255, 139);
+	background-color: rgb(45, 48, 43);
 }
 QCommandLinkButton:pressed {	
-	color: rgb(139, 136, 250);
-	background-color: rgb(49, 49, 70);
+	color: rgb(94, 171, 79);
+	background-color: rgb(48, 69, 47);
 }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 Button */
 #pagesContainer QPushButton {
-	border: 2px solid rgb(49, 50, 71);
+	border: 2px solid rgb(51, 82, 64);
 	border-radius: 5px;	
-	background-color: rgb(49, 50, 71);
+	background-color: rgb(51, 82, 64);
 }
 #pagesContainer QPushButton:hover {
-	background-color: rgb(57, 58, 80);
-	border: 2px solid rgb(60, 65, 92);
+	background-color: rgb(57, 80, 64);
+	border: 2px solid rgb(62, 87, 69);
 }
 #pagesContainer QPushButton:pressed {	
-	background-color: rgb(34, 38, 49);
+	background-color: rgb(38, 51, 42);
 	border: 2px solid rgb(43, 50, 61);
 }
 

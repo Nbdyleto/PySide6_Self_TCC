@@ -129,9 +129,10 @@ class MainWindow(QMainWindow):
 
         self.purpleFile = "themes/pyjuco_purple.qss"
         self.blueFile = "themes/pyjuco_blue.qss"
+        self.greenFile = "themes/pyjuco_green.qss"
         ### SET DEFAULT THEME
-        UIFunctions.theme(self, self.blueFile, True)
-        AppFunctions.setThemeBlue(self)
+        UIFunctions.theme(self, self.greenFile, True)
+        AppFunctions.setThemeGreen(self)
 
         # SET HOME PAGE AND SELECT MENU
         # ///////////////////////////////////////////////////////////////
