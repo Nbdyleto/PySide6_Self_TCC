@@ -138,6 +138,9 @@ class FCardsMainPage(QWidget):
         self.ui_addCards = Ui_AddCardsWindow()
         self.ui_addCards.setupUi(self.addCardsWindow)
 
+        str = open('themes/pyjuco_blue.qss', 'r').read()
+        self.ui_addCards.centralwidget.setStyleSheet(str)
+
         global cardsWinWidgets
         cardsWinWidgets = self.ui_addCards
 
