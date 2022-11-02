@@ -33,20 +33,6 @@ class Ui_PomodoroPage(object):
     def setupUi(self, Widget):
         Widget.setObjectName("Widget")
         Widget.resize(800, 600)
-        Widget.setStyleSheet("""
-            QPushButton {	
-                background-color: rgb(34, 41, 34);
-                border-radius: 15px
-            }
-            QPushButton:hover {
-                background-color: rgb(42, 48, 41);
-            }
-            QPushButton:pressed {	
-                background-color: rgb(94, 171, 79);
-                color: black;
-            }
-        """
-        )
         self.tblTasks = QtWidgets.QTableWidget(Widget)
         self.tblTasks.setGeometry(QtCore.QRect(500, 110, 385, 250))
         self.tblTasks.setObjectName("tblTasks")
@@ -57,72 +43,11 @@ class Ui_PomodoroPage(object):
         self.tblTasks.setShowGrid(False)
         self.tblTasks.setColumnWidth(0, 250)
         self.tblTasks.setColumnWidth(1, 100)
-
-        ## meu
-        self.tblTasks.setStyleSheet("""
-            QTableWidget {
-                background-color: rgb(40, 44, 52);
-                border-radius: 0px;
-            }
-            QTableWidget::item {
-                color: #f8f8f2;                    
-                background-color: rgb(44, 49, 58);;
-                margin-top: 2px;          
-                border-radius: 0px;
-                padding-left: 2px;
-            }
-            QTableWidget::item:selected {
-                background-color: #6272a4;
-                selection-color : #f8f8f2;  
-            }
-            QTableWidget::item:hover {
-                background-color: #6272a4;
-                color : #f8f8f2;
-            }
-        """)
-
-        ## juco
-
-        self.tblTasks.setStyleSheet("""
-            QTableWidget {	
-                background-color: transparent;
-                border-radius: 0px;
-            }
-            QTableWidget::item{
-                background-color: rgb(51, 61, 50);
-                border-color: rgb(33, 51, 34);
-                margin-top: 2px;          
-                border-radius: 0px;
-                padding-left: 2px;
-            }
-            QTableWidget::item:selected{
-                background-color: rgb(162, 219, 85);
-                color: black
-            }
-            QTableWidget::item:hover {
-                background-color: rgb(162, 219, 85);
-                color : black;
-            }
-            QHeaderView::section{
-                background-color: rgb(36, 44, 35); 
-                max-width: 30px;
-                border: 1px solid rgb(51, 61, 50);
-                border-style: none;
-                border-bottom: 1px solid rgb(45, 48, 43);
-                border-right: 1px solid rgb(45, 48, 43);
-            }
-            QHeaderView::section:vertical
-            {
-                border: 1px solid rgb(45, 48, 43);
-            }
-        """)
-
         self.tblTasks.horizontalHeader().setStretchLastSection(True)
         self.tblTasks.setWordWrap(True)
         self.tblTasks.setTextElideMode(Qt.ElideNone)
         self.tblTasks.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.tblTasks.setSelectionMode(QAbstractItemView.SingleSelection)
-
         self.frame = QtWidgets.QFrame(Widget)
         self.frame.setGeometry(QtCore.QRect(50, 70, 351, 481))
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -153,41 +78,11 @@ class Ui_PomodoroPage(object):
         self.btnReset.setObjectName("btnReset")
         self.progressBar = QtWidgets.QProgressBar(self.frame)
         self.progressBar.setGeometry(QtCore.QRect(10, 30, 331, 23))
-        self.progressBar.setProperty("value", 24)
+        self.progressBar.setProperty("value", 0)
         self.progressBar.setObjectName("progressBar")
-        
-        ## Roxo
-        self.progressBar.setStyleSheet("""
-        QProgressBar{
-            background-color: rgb(44, 49, 58);
-            border-color: rgb(44, 49, 58);
-            text-align: center;
-        }
-        QProgressBar::chunk {
-            width: 1px;
-            background-color: rgb(189, 147, 249);
-            border: solid grey;
-            border-radius: 15px;
-        }    
-        """)
-
-        ## Verde
-        self.progressBar.setStyleSheet("""
-        QProgressBar{
-            background-color: rgb(34, 41, 34);
-            border-color: rgb(34, 41, 34);
-            text-align: center;
-        }
-        QProgressBar::chunk {
-            width: 1px;
-            background-color: rgb(162, 219, 85);
-            border: solid grey;
-            border-radius: 15px;
-        }    
-        """)
-
         self.progressBar.setTextVisible(False)
-        self.progressBar.setValue(0)
+        self.progressBar.setValue(25)
+
         self.btnSettings = QtWidgets.QPushButton(Widget)
         self.btnSettings.setGeometry(QtCore.QRect(300, 45, 88, 26))
         self.btnSettings.setObjectName("btnSettings")
