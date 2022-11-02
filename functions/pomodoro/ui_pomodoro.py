@@ -81,7 +81,7 @@ class Ui_PomodoroPage(object):
         self.progressBar.setProperty("value", 0)
         self.progressBar.setObjectName("progressBar")
         self.progressBar.setTextVisible(False)
-        self.progressBar.setValue(25)
+        self.progressBar.setValue(0)
 
         self.btnSettings = QtWidgets.QPushButton(Widget)
         self.btnSettings.setGeometry(QtCore.QRect(300, 45, 88, 26))

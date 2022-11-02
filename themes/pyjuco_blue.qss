@@ -192,19 +192,27 @@ QTableWidget */
 QTableWidget {	
 	background-color: transparent;
 	padding: 10px;
-	border-radius: 5px;
+	border-radius: 0px;
+	font-size: 15px;
 	gridline-color: rgb(44, 45, 59);
 	border-bottom: 1px solid rgb(44, 45, 61);
 }
 QTableWidget::item{
+	background-color: rgb(44, 45, 59);
 	border-color: rgb(44, 45, 61);
-	padding-left: 5px;
+	margin-top: 2px;
+	padding-left: 15px;
 	padding-right: 5px;
 	gridline-color: rgb(44, 45, 61);
 }
 QTableWidget::item:selected{
 	background-color: rgb(139, 136, 250);
 }
+QTableWidget::item:hover {
+    background-color: rgb(37, 37, 51);
+    color : #ffffff;
+}
+
 QHeaderView::section{
 	background-color: rgb(34, 34, 44);
 	max-width: 30px;
@@ -227,6 +235,19 @@ QHeaderView::section:horizontal
 QHeaderView::section:vertical
 {
     border: 1px solid rgb(44, 45, 61);
+}
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////
+Progress Bar */
+QProgressBar {
+    background-color: rgb(44, 45, 59);
+    text-align: center;
+}
+QProgressBar::chunk {
+    width: 1px;
+    background-color: rgb(139, 136, 250);
+    border: solid grey;
+    border-radius: 15px;
 }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////

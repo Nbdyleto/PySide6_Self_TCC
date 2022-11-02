@@ -130,7 +130,7 @@ class MainWindow(QMainWindow):
         # SET CUSTOM THEME
         # ///////////////////////////////////////////////////////////////
         useCustomTheme = True
-        themeFile = "themes/pyjuco.qss"
+        themeFile = "themes/pyjuco_purple.qss"
 
         # SET THEME AND HACKS
         if useCustomTheme:
@@ -138,7 +138,9 @@ class MainWindow(QMainWindow):
             UIFunctions.theme(self, themeFile, True)
 
             # SET HACKS
-            AppFunctions.setThemeHack(self)
+            #AppFunctions.setThemeHack(self)
+            #AppFunctions.setThemeBlue(self)
+            AppFunctions.setThemePurple(self)
 
         # SET HOME PAGE AND SELECT MENU
         # ///////////////////////////////////////////////////////////////
