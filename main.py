@@ -112,6 +112,11 @@ class MainWindow(QMainWindow):
         widgets.btn_pomodoro_page.clicked.connect(self.buttonClick)
         widgets.btn_daily_task_page.clicked.connect(self.buttonClick)
 
+        # PALLETE BUTTONS
+        widgets.btnPyJucoPurple.clicked.connect(self.buttonClick)
+        widgets.btnPyJucoBlue.clicked.connect(self.buttonClick)
+        widgets.btnPyJucoGreen.clicked.connect(self.buttonClick)
+
         # EXTRA LEFT BOX
         def openCloseLeftBox():
             UIFunctions.toggleLeftBox(self, True)
@@ -178,6 +183,16 @@ class MainWindow(QMainWindow):
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
             widgets.dailyTaskPage.load_data_in_table()
+
+        if btnName == "btnPyJucoPurple":
+            UIFunctions.theme(self, self.purpleFile, True)
+            AppFunctions.setThemePurple(self)
+        if btnName == "btnPyJucoBlue":
+            UIFunctions.theme(self, self.blueFile, True)
+            AppFunctions.setThemeBlue(self)
+        if btnName == "btnPyJucoGreen":
+            UIFunctions.theme(self, self.greenFile, True)
+            AppFunctions.setThemeGreen(self)
 
         # PRINT BTN NAME
         print(f'Button "{btnName}" pressed!')
