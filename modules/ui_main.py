@@ -16,6 +16,7 @@ from functions.flashcards import *
 from functions.daily_task import *
 from functions.pomodoro.pomodoro_page import PomodoroMainPage
 from functions.test_ui.test_page import MainTestPage
+from functions.test_ui.study_page import MainStudyPage
 
 from . resources_rc import *
 
@@ -530,6 +531,9 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.pomodoroPage)
         self.testNewCardsPage = MainTestPage()
         self.stackedWidget.addWidget(self.testNewCardsPage)
+        
+        self.testStudyCardsPage = MainStudyPage()
+        self.stackedWidget.addWidget(self.testStudyCardsPage)
 
         self.widgets = QWidget()
         self.widgets.setObjectName(u"widgets")

@@ -26,7 +26,7 @@ class MainTestPage(QtWidgets.QWidget):
             QTableWidget::item{
                 margin-top: 3px;          
                 border-radius: 0px;
-                padding-left: 5px;
+                padding-left: 15px;
                 text-align: center;
             }
         """)
@@ -48,69 +48,69 @@ class MainTestPage(QtWidgets.QWidget):
             
             
     def loadWidgetCell(self, tablerow):
-        btnStartStudy, btnAddCards = None, None
+        self.btnStartStudy, self.btnAddCards = None, None
 
-        btnEditCards = QtWidgets.QPushButton(widgets.tblDecks)
-        btnEditCards.setMinimumSize(QtCore.QSize(0, 100))
-        btnEditCards.setMaximumSize(QtCore.QSize(90, 16777215))
-        btnEditCards.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        btnEditCards.setLayoutDirection(QtCore.Qt.LeftToRight)
-        btnEditCards.setObjectName(f'btnEditCards{tablerow}')
-        btnEditCards.setStyleSheet(u"""
+        self.btnEditCards = QtWidgets.QPushButton(widgets.tblDecks)
+        self.btnEditCards.setMinimumSize(QtCore.QSize(0, 100))
+        self.btnEditCards.setMaximumSize(QtCore.QSize(90, 16777215))
+        self.btnEditCards.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btnEditCards.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.btnEditCards.setObjectName(f'btnEditCards{tablerow}')
+        self.btnEditCards.setStyleSheet(u"""
                 background-position: center; 
                 background-repeat: no-repeat; 
                 background-image: url(:/icons/images/icons/cil-pencil.png);
                 border-radius: 45px;
                 border-color: transparent;
         """)
-        widgets.tblDecks.setCellWidget(tablerow, 2, btnEditCards)
+        widgets.tblDecks.setCellWidget(tablerow, 2, self.btnEditCards)
 
-        btnEditDeck = QtWidgets.QPushButton(widgets.tblDecks)
-        btnEditDeck.setMinimumSize(QtCore.QSize(0, 100))
-        btnEditDeck.setMaximumSize(QtCore.QSize(90, 16777215))
-        btnEditDeck.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        btnEditDeck.setLayoutDirection(QtCore.Qt.LeftToRight)
-        btnEditDeck.setObjectName(f'btnEditDecks{tablerow}')
-        btnEditDeck.setStyleSheet(u"""
+        self.btnEditDecks = QtWidgets.QPushButton(widgets.tblDecks)
+        self.btnEditDecks.setMinimumSize(QtCore.QSize(0, 100))
+        self.btnEditDecks.setMaximumSize(QtCore.QSize(90, 16777215))
+        self.btnEditDecks.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btnEditDecks.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.btnEditDecks.setObjectName(f'btnEditDecks{tablerow}')
+        self.btnEditDecks.setStyleSheet(u"""
                 background-position: center; 
                 background-repeat: no-repeat; 
                 background-image: url(:/icons/images/icons/cil-options.png);
                 border-radius: 45px;
                 border-color: transparent;
         """)
-        widgets.tblDecks.setCellWidget(tablerow, 3, btnEditDeck)
+        widgets.tblDecks.setCellWidget(tablerow, 3, self.btnEditDecks)
 
         with DBMainOperations() as db:
             print(db.hasRecordsInTblFlashcards(id=tablerow))
             if db.hasRecordsInTblFlashcards(id=tablerow):
-                btnStartStudy = QtWidgets.QPushButton(widgets.tblDecks)
-                btnStartStudy.setMinimumSize(QtCore.QSize(0, 100))
-                btnStartStudy.setMaximumSize(QtCore.QSize(90, 16777215))
-                btnStartStudy.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-                btnStartStudy.setLayoutDirection(QtCore.Qt.LeftToRight)
-                btnStartStudy.setObjectName(f'btnStartStudy{tablerow}')
-                btnStartStudy.setStyleSheet(u"""
+                self.btnStartStudy = QtWidgets.QPushButton(widgets.tblDecks)
+                self.btnStartStudy.setMinimumSize(QtCore.QSize(0, 100))
+                self.btnStartStudy.setMaximumSize(QtCore.QSize(90, 16777215))
+                self.btnStartStudy.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+                self.btnStartStudy.setLayoutDirection(QtCore.Qt.LeftToRight)
+                self.btnStartStudy.setObjectName(f'btnStartStudy{tablerow}')
+                self.btnStartStudy.setStyleSheet(u"""
                     background-position: center; 
                     background-repeat: no-repeat; 
                     background-image: url(:/icons/images/icons/cil-media-play.png);
                     border-radius: 45px;
                     border-color: transparent;
                 """)
-                widgets.tblDecks.setCellWidget(tablerow, 4, btnStartStudy)
-                btnStartStudy.clicked.connect(lambda: self.openStudyCardsWindow(row_clicked=tablerow))
+                widgets.tblDecks.setCellWidget(tablerow, 4, self.btnStartStudy)
+                #self.btnStartStudy.clicked.connect(lambda: self.openStudyCardsWindow(row_clicked=tablerow))
             else:
-                btnAddCards = QtWidgets.QPushButton(widgets.tblDecks)
-                btnAddCards.setMinimumSize(QtCore.QSize(0, 100))
-                btnAddCards.setMaximumSize(QtCore.QSize(90, 16777215))
-                btnAddCards.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-                btnAddCards.setLayoutDirection(QtCore.Qt.LeftToRight)
-                btnAddCards.setObjectName(f'btnAddCards{tablerow}')
-                btnAddCards.setStyleSheet(u"""
+                self.btnAddCards = QtWidgets.QPushButton(widgets.tblDecks)
+                self.btnAddCards.setMinimumSize(QtCore.QSize(0, 100))
+                self.btnAddCards.setMaximumSize(QtCore.QSize(90, 16777215))
+                self.btnAddCards.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+                self.btnAddCards.setLayoutDirection(QtCore.Qt.LeftToRight)
+                self.btnAddCards.setObjectName(f'btnAddCards{tablerow}')
+                self.btnAddCards.setStyleSheet(u"""
                     background-position: center; 
                     background-repeat: no-repeat; 
                     background-image: url(:/icons/images/icons/cil-plus.png);
                     border-radius: 45px;
                     border-color: transparent;
                 """)
-                widgets.tblDecks.setCellWidget(tablerow, 4, btnAddCards)
-                btnAddCards.clicked.connect(lambda: self.openAddCardsWindow(row_clicked=tablerow))
+                widgets.tblDecks.setCellWidget(tablerow, 4, self.btnAddCards)
+                #self.btnAddCards.clicked.connect(lambda: self.openAddCardsWindow(row_clicked=tablerow))
