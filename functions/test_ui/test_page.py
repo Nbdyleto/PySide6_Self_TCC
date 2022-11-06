@@ -18,9 +18,9 @@ class MainTestPage(QtWidgets.QWidget):
 
         widgets.tblDecks.setColumnWidth(0,80)
         widgets.tblDecks.setColumnWidth(1,550)
-        widgets.tblDecks.setColumnWidth(2,100)
-        widgets.tblDecks.setColumnWidth(3,100)
-        widgets.tblDecks.setColumnWidth(4,100)
+        widgets.tblDecks.setColumnWidth(2,150)
+        widgets.tblDecks.setColumnWidth(3,150)
+        widgets.tblDecks.setColumnWidth(4, 0)
         widgets.tblDecks.setStyleSheet("""
             QTableWidget::item{
                 margin-top: 3px;          
@@ -29,7 +29,13 @@ class MainTestPage(QtWidgets.QWidget):
                 text-align: center;
             }
         """)
-
+        widgets.tblDecks.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        #widgets.tblDecks.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
+        widgets.tblDecks.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
+        widgets.tblDecks.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
+        widgets.tblDecks.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
+        widgets.tblDecks.horizontalHeader().setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
+        
     def loadDecksInTable(self):
         with DBMainOperations() as db:
             rowcount = db.getRowCount(tbl='decks')
@@ -50,6 +56,8 @@ class MainTestPage(QtWidgets.QWidget):
         btnStartStudy, btnAddCards = None, None
 
         btnEditCards = QtWidgets.QPushButton(widgets.tblDecks)
+        btnEditCards.setMinimumSize(QtCore.QSize(0, 100))
+        btnEditCards.setMaximumSize(QtCore.QSize(90, 16777215))
         btnEditCards.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         btnEditCards.setLayoutDirection(QtCore.Qt.LeftToRight)
         btnEditCards.setObjectName(f'btnEditCards{tablerow}')
@@ -58,10 +66,13 @@ class MainTestPage(QtWidgets.QWidget):
                 background-repeat: no-repeat; 
                 background-image: url(:/icons/images/icons/cil-pencil.png);
                 border-radius: 45px;
+                border-color: transparent;
         """)
         widgets.tblDecks.setCellWidget(tablerow, 2, btnEditCards)
 
         btnEditDeck = QtWidgets.QPushButton(widgets.tblDecks)
+        btnEditDeck.setMinimumSize(QtCore.QSize(0, 100))
+        btnEditDeck.setMaximumSize(QtCore.QSize(90, 16777215))
         btnEditDeck.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         btnEditDeck.setLayoutDirection(QtCore.Qt.LeftToRight)
         btnEditDeck.setObjectName(f'btnEditDecks{tablerow}')
@@ -70,6 +81,7 @@ class MainTestPage(QtWidgets.QWidget):
                 background-repeat: no-repeat; 
                 background-image: url(:/icons/images/icons/cil-options.png);
                 border-radius: 45px;
+                border-color: transparent;
         """)
         widgets.tblDecks.setCellWidget(tablerow, 3, btnEditDeck)
 
@@ -77,6 +89,8 @@ class MainTestPage(QtWidgets.QWidget):
             print(db.hasRecordsInTblFlashcards(id=tablerow))
             if db.hasRecordsInTblFlashcards(id=tablerow):
                 btnStartStudy = QtWidgets.QPushButton(widgets.tblDecks)
+                btnStartStudy.setMinimumSize(QtCore.QSize(0, 100))
+                btnStartStudy.setMaximumSize(QtCore.QSize(90, 16777215))
                 btnStartStudy.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
                 btnStartStudy.setLayoutDirection(QtCore.Qt.LeftToRight)
                 btnStartStudy.setObjectName(f'btnStartStudy{tablerow}')
@@ -85,11 +99,14 @@ class MainTestPage(QtWidgets.QWidget):
                     background-repeat: no-repeat; 
                     background-image: url(:/icons/images/icons/cil-media-play.png);
                     border-radius: 45px;
+                    border-color: transparent;
                 """)
                 widgets.tblDecks.setCellWidget(tablerow, 4, btnStartStudy)
                 btnStartStudy.clicked.connect(lambda: self.openStudyCardsWindow(row_clicked=tablerow))
             else:
                 btnAddCards = QtWidgets.QPushButton(widgets.tblDecks)
+                btnAddCards.setMinimumSize(QtCore.QSize(0, 100))
+                btnAddCards.setMaximumSize(QtCore.QSize(90, 16777215))
                 btnAddCards.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
                 btnAddCards.setLayoutDirection(QtCore.Qt.LeftToRight)
                 btnAddCards.setObjectName(f'btnAddCards{tablerow}')
@@ -98,6 +115,7 @@ class MainTestPage(QtWidgets.QWidget):
                     background-repeat: no-repeat; 
                     background-image: url(:/icons/images/icons/cil-plus.png);
                     border-radius: 45px;
+                    border-color: transparent;
                 """)
                 widgets.tblDecks.setCellWidget(tablerow, 4, btnAddCards)
                 btnAddCards.clicked.connect(lambda: self.openAddCardsWindow(row_clicked=tablerow))
