@@ -16,11 +16,12 @@ class MainTestPage(QtWidgets.QWidget):
 
         self.loadDecksInTable()
 
-        widgets.tblDecks.setColumnWidth(0,80)
-        widgets.tblDecks.setColumnWidth(1,550)
-        widgets.tblDecks.setColumnWidth(2,150)
-        widgets.tblDecks.setColumnWidth(3,150)
-        widgets.tblDecks.setColumnWidth(4, 0)
+        widgets.tblDecks.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        widgets.tblDecks.setColumnWidth(1,400)
+        widgets.tblDecks.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
+        widgets.tblDecks.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
+        widgets.tblDecks.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
+        widgets.tblDecks.horizontalHeader().setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
         widgets.tblDecks.setStyleSheet("""
             QTableWidget::item{
                 margin-top: 3px;          
@@ -29,12 +30,6 @@ class MainTestPage(QtWidgets.QWidget):
                 text-align: center;
             }
         """)
-        widgets.tblDecks.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
-        #widgets.tblDecks.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
-        widgets.tblDecks.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
-        widgets.tblDecks.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
-        widgets.tblDecks.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
-        widgets.tblDecks.horizontalHeader().setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
         
     def loadDecksInTable(self):
         with DBMainOperations() as db:
