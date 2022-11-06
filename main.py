@@ -167,7 +167,7 @@ class MainWindow(QMainWindow):
 
         # SHOW FLASHCARDS PAGE
         if btnName == "btn_flashcards_page":
-            widgets.stackedWidget.setCurrentWidget(widgets.flashcardsPage) # SET PAGE
+            widgets.stackedWidget.setCurrentWidget(widgets.testNewCardsPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
 
