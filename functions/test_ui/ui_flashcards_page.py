@@ -11,13 +11,13 @@
 from PySide6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Widget(object):
-    def setupUi(self, Widget):
-        Widget.setObjectName("Widget")
-        Widget.resize(571, 473)
-        self.verticalLayout = QtWidgets.QVBoxLayout(Widget)
+class Ui_FlashcardsPage(object):
+    def setupUi(self, FlashcardsPage):
+        FlashcardsPage.setObjectName("FlashcardsPage")
+        FlashcardsPage.resize(571, 473)
+        self.verticalLayout = QtWidgets.QVBoxLayout(FlashcardsPage)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.frame = QtWidgets.QFrame(Widget)
+        self.frame = QtWidgets.QFrame(FlashcardsPage)
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
@@ -85,7 +85,7 @@ class Ui_Widget(object):
         self.horizontalLayout.addWidget(self.frame_4, 0, QtCore.Qt.AlignRight)
         self.verticalLayout_2.addWidget(self.frame_3)
         self.verticalLayout.addWidget(self.frame)
-        self.frame_2 = QtWidgets.QFrame(Widget)
+        self.frame_2 = QtWidgets.QFrame(FlashcardsPage)
         self.frame_2.setMinimumSize(QtCore.QSize(0, 300))
         self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -135,6 +135,7 @@ class Ui_Widget(object):
 "    padding-left: 15px;\n"
 "    text-align: center;\n"
 " }")
+        self.tblDecks.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.tblDecks.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tblDecks.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tblDecks.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
@@ -163,31 +164,31 @@ class Ui_Widget(object):
         self.verticalLayout_3.addWidget(self.frame_5)
         self.verticalLayout.addWidget(self.frame_2)
 
-        self.retranslateUi(Widget)
-        QtCore.QMetaObject.connectSlotsByName(Widget)
+        self.retranslateUi(FlashcardsPage)
+        QtCore.QMetaObject.connectSlotsByName(FlashcardsPage)
 
-    def retranslateUi(self, Widget):
+    def retranslateUi(self, FlashcardsPage):
         _translate = QtCore.QCoreApplication.translate
-        Widget.setWindowTitle(_translate("Widget", "Widget"))
-        self.lblClassName.setText(_translate("Widget", "ClassName"))
-        self.label.setText(_translate("Widget", "Decks"))
+        FlashcardsPage.setWindowTitle(_translate("FlashcardsPage", "Widget"))
+        self.lblClassName.setText(_translate("FlashcardsPage", "ClassName"))
+        self.label.setText(_translate("FlashcardsPage", "Decks"))
         item = self.tblDecks.horizontalHeaderItem(0)
-        item.setText(_translate("Widget", "Hints Percentage"))
+        item.setText(_translate("FlashcardsPage", "Hints Percentage"))
         item = self.tblDecks.horizontalHeaderItem(1)
-        item.setText(_translate("Widget", "Deck Name"))
+        item.setText(_translate("FlashcardsPage", "Deck Name"))
         item = self.tblDecks.horizontalHeaderItem(2)
-        item.setText(_translate("Widget", "btn1"))
+        item.setText(_translate("FlashcardsPage", "btn1"))
         item = self.tblDecks.horizontalHeaderItem(3)
-        item.setText(_translate("Widget", "btn2"))
+        item.setText(_translate("FlashcardsPage", "btn2"))
         item = self.tblDecks.horizontalHeaderItem(4)
-        item.setText(_translate("Widget", "btn3"))
+        item.setText(_translate("FlashcardsPage", "btn3"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Widget = QtWidgets.QWidget()
-    ui = Ui_Widget()
-    ui.setupUi(Widget)
-    Widget.show()
+    FlashcardsPage = QtWidgets.QWidget()
+    ui = Ui_FlashcardsPage()
+    ui.setupUi(FlashcardsPage)
+    FlashcardsPage.show()
     sys.exit(app.exec_())

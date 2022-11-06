@@ -1,12 +1,12 @@
 from PySide6 import QtCore, QtGui, QtWidgets
 from functions.db_main_operations import DBMainOperations
 
-from functions.test_ui.ui_test import Ui_Widget
+from functions.test_ui.ui_flashcards_page import Ui_FlashcardsPage
 
 class MainTestPage(QtWidgets.QWidget):
     def __init__(self):
         super(MainTestPage, self).__init__()
-        self.ui = Ui_Widget()
+        self.ui = Ui_FlashcardsPage()
         self.ui.setupUi(self)
 
         global widgets

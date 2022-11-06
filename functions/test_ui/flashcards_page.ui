@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Widget</class>
- <widget class="QWidget" name="Widget">
+ <class>FlashcardsPage</class>
+ <widget class="QWidget" name="FlashcardsPage">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -327,6 +327,9 @@ border-radius: 45px;</string>
 	padding-left: 15px;
 	text-align: center;
  }</string>
+           </property>
+           <property name="horizontalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
            </property>
            <property name="sizeAdjustPolicy">
             <enum>QAbstractScrollArea::AdjustToContents</enum>

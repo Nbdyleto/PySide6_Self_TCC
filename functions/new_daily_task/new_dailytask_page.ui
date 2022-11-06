@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DailyTaskPage</class>
+ <widget class="QWidget" name="DailyTaskPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Widget</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QFrame" name="frame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QFrame" name="frame_3">
+        <property name="maximumSize">
+         <size>
+          <width>450</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item alignment="Qt::AlignLeft">
+          <widget class="QPushButton" name="btnOrderByType">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>90</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-repeat: no-repeat; 
+background-image: url(:/icons/images/icons/cil-browser.png);
+border-radius: 20px;
+text-align: center;
+background-position: left center;
+padding-left: 15px;</string>
+           </property>
+           <property name="text">
+            <string>Tipo</string>
+           </property>
+          </widget>
+         </item>
+         <item alignment="Qt::AlignLeft">
+          <widget class="QPushButton" name="btnOrderByStatus">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>90</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-repeat: no-repeat; 
+background-image: url(:/icons/images/icons/cil-check-circle.png);
+border-radius: 20px;
+text-align: center;
+background-position: left center;
+padding-left: 15px;</string>
+           </property>
+           <property name="text">
+            <string>Status</string>
+           </property>
+          </widget>
+         </item>
+         <item alignment="Qt::AlignLeft">
+          <widget class="QPushButton" name="btnOrderByDate">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>90</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-repeat: no-repeat; 
+background-image: url(:/icons/images/icons/cil-calendar-check.png);
+border-radius: 20px;
+text-align: center;
+background-position: left center;
+padding-left: 15px;</string>
+           </property>
+           <property name="text">
+            <string>Data</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_4">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_2">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QTableWidget" name="tblTasks">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::NoSelection</enum>
+        </property>
+        <property name="showGrid">
+         <bool>false</bool>
+        </property>
+        <attribute name="horizontalHeaderHighlightSections">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>Nome</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Status</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Data Inicial</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Data Final</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Tópico</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string/>
+         </property>
+        </column>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

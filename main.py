@@ -136,8 +136,8 @@ class MainWindow(QMainWindow):
         self.blueFile = "themes/pyjuco_blue.qss"
         self.greenFile = "themes/pyjuco_green.qss"
         ### SET DEFAULT THEME
-        UIFunctions.theme(self, self.greenFile, True)
-        AppFunctions.setThemeGreen(self)
+        UIFunctions.theme(self, self.purpleFile, True)
+        AppFunctions.setThemePurple(self)
 
         # SET HOME PAGE AND SELECT MENU
         # ///////////////////////////////////////////////////////////////
@@ -179,7 +179,7 @@ class MainWindow(QMainWindow):
 
         # SHOW DAILY TASK PAGE
         if btnName == "btn_daily_task_page":
-            widgets.stackedWidget.setCurrentWidget(widgets.dailyTaskPage) # SET PAGE
+            widgets.stackedWidget.setCurrentWidget(widgets.newDailyTaskPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
             widgets.dailyTaskPage.load_data_in_table()
