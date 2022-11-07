@@ -172,14 +172,14 @@ class MainWindow(QMainWindow):
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
 
         if btnName == "btn_pomodoro_page":
-            widgets.stackedWidget.setCurrentWidget(widgets.newPomodoroPage) # SET PAGE
+            widgets.stackedWidget.setCurrentWidget(widgets.pomodoroPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
             widgets.pomodoroPage.load_data_in_table()
 
         # SHOW DAILY TASK PAGE
         if btnName == "btn_daily_task_page":
-            widgets.stackedWidget.setCurrentWidget(widgets.newDailyTaskPage) # SET PAGE
+            widgets.stackedWidget.setCurrentWidget(widgets.dailyTaskPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
             widgets.dailyTaskPage.load_data_in_table()

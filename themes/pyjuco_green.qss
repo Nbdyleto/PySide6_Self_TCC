@@ -237,6 +237,19 @@ QHeaderView::section:vertical
 }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
+Progress Bar */
+QProgressBar {
+    background-color: rgb(42, 48, 41);
+    text-align: center;
+}
+QProgressBar::chunk {
+    width: 1px;
+    background-color: rgb(94, 171, 79);
+    border: solid grey;
+    border-radius: 15px;
+}
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////
 LineEdit */
 QLineEdit {
 	background-color: rgb(34, 41, 34);

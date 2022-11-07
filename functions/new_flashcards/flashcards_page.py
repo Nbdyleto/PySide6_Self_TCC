@@ -5,8 +5,6 @@ from functions.new_flashcards.temp_ui_add import Ui_AddCardsWindow # temp
 from functions.new_flashcards.temp_ui_study import Ui_StudyCardsWindow # temp
 from functions.new_flashcards.ui_flashcards_page import Ui_FlashcardsPage
 
-
-
 class MainFlashcardsPage(QtWidgets.QWidget):
     def __init__(self):
         super(MainFlashcardsPage, self).__init__()
@@ -70,7 +68,6 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             btnAction.setObjectName(f'btnAddCards{tablerow}')
             btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-plus.png);")
             btnAction.clicked.connect(lambda: self.openAddCardsWindow(row_clicked=tablerow))
-
         widgets.tblDecks.setCellWidget(tablerow, 2, btnEditCards)
         widgets.tblDecks.setCellWidget(tablerow, 3, btnEditDecks)
         widgets.tblDecks.setCellWidget(tablerow, 4, btnAction)

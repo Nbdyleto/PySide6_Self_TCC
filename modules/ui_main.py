@@ -19,6 +19,8 @@ from functions.new_flashcards.flashcards_page import MainFlashcardsPage
 from functions.new_pomodoro.new_pomodoro_page import NewPomodoroMainPage
 from functions.pomodoro.pomodoro_page import PomodoroMainPage
 
+from functions.daily_task.old_daily_task_page import oldDTaskMainPage # temp
+
 from . resources_rc import *
 
 class Ui_MainWindow(object):
@@ -523,8 +525,8 @@ class Ui_MainWindow(object):
 #"background-repeat: no-repeat;")
         self.stackedWidget.addWidget(self.home)
 
-        #self.dailyTaskPage = DTaskMainPage()
-        #self.stackedWidget.addWidget(self.dailyTaskPage)
+        self.dailyTaskPage = oldDTaskMainPage()
+        self.stackedWidget.addWidget(self.dailyTaskPage)
 
         self.pomodoroPage = PomodoroMainPage()
         self.stackedWidget.addWidget(self.pomodoroPage)

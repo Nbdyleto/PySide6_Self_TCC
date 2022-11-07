@@ -11,9 +11,9 @@ from ..db_main_operations import DBMainOperations
 
 import sys
 
-class DTaskMainPage(QWidget):
+class oldDTaskMainPage(QWidget):
     def __init__(self):
-        super(DTaskMainPage, self).__init__()
+        super(oldDTaskMainPage, self).__init__()
         
         self.ui = Ui_DailyTaskPage()
         self.ui.setupUi(self)
@@ -308,7 +308,7 @@ class DTaskMainPage(QWidget):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = DTaskMainPage()
+    window = oldDTaskMainPage()
     window.setStyleSheet('background-color: #282a36;')
     window.show()
     sys.exit(app.exec())
