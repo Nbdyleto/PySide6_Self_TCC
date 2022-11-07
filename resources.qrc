@@ -2,6 +2,12 @@
   <qresource prefix="images">
     <file>images/images/PyDracula.png</file>
     <file>images/images/PyDracula_vertical.png</file>
+    <file>images/images/SelfPurpleLogo.png</file>
+    <file>images/images/SelfBlueLogo.png</file>
+    <file>images/images/SelfGreenLogo.png</file>
+    <file>images/images/small_SelfPurpleLogo.png</file>
+    <file>images/images/small_SelfBlueLogo.png</file>
+    <file>images/images/small_SelfGreenLogo.png</file>
   </qresource>
   <qresource prefix="icons">
     <file>images/icons/cil-3d.png</file>

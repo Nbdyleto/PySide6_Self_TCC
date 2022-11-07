@@ -60,7 +60,7 @@
            </property>
            <property name="maximumSize">
             <size>
-             <width>90</width>
+             <width>150</width>
              <height>16777215</height>
             </size>
            </property>
@@ -72,11 +72,8 @@
            </property>
            <property name="styleSheet">
             <string notr="true">background-repeat: no-repeat; 
-background-image: url(:/icons/images/icons/cil-browser.png);
 border-radius: 20px;
-text-align: center;
-background-position: left center;
-padding-left: 15px;</string>
+text-align: center;</string>
            </property>
            <property name="text">
             <string>Tipo</string>
@@ -93,7 +90,7 @@ padding-left: 15px;</string>
            </property>
            <property name="maximumSize">
             <size>
-             <width>90</width>
+             <width>150</width>
              <height>16777215</height>
             </size>
            </property>
@@ -105,11 +102,8 @@ padding-left: 15px;</string>
            </property>
            <property name="styleSheet">
             <string notr="true">background-repeat: no-repeat; 
-background-image: url(:/icons/images/icons/cil-check-circle.png);
 border-radius: 20px;
-text-align: center;
-background-position: left center;
-padding-left: 15px;</string>
+text-align: center;</string>
            </property>
            <property name="text">
             <string>Status</string>
@@ -126,7 +120,7 @@ padding-left: 15px;</string>
            </property>
            <property name="maximumSize">
             <size>
-             <width>90</width>
+             <width>150</width>
              <height>16777215</height>
             </size>
            </property>
@@ -138,11 +132,8 @@ padding-left: 15px;</string>
            </property>
            <property name="styleSheet">
             <string notr="true">background-repeat: no-repeat; 
-background-image: url(:/icons/images/icons/cil-calendar-check.png);
 border-radius: 20px;
-text-align: center;
-background-position: left center;
-padding-left: 15px;</string>
+text-align: center;</string>
            </property>
            <property name="text">
             <string>Data</string>

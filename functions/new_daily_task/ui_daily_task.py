@@ -33,41 +33,32 @@ class Ui_DailyTaskPage(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.btnOrderByType = QtWidgets.QPushButton(self.frame_3)
         self.btnOrderByType.setMinimumSize(QtCore.QSize(100, 40))
-        self.btnOrderByType.setMaximumSize(QtCore.QSize(90, 16777215))
+        self.btnOrderByType.setMaximumSize(QtCore.QSize(150, 16777215))
         self.btnOrderByType.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btnOrderByType.setAutoFillBackground(False)
         self.btnOrderByType.setStyleSheet("background-repeat: no-repeat; \n"
-"background-image: url(:/icons/images/icons/cil-browser.png);\n"
 "border-radius: 20px;\n"
-"text-align: center;\n"
-"background-position: left center;\n"
-"padding-left: 15px;")
+"text-align: center;")
         self.btnOrderByType.setObjectName("btnOrderByType")
         self.horizontalLayout_2.addWidget(self.btnOrderByType, 0, QtCore.Qt.AlignLeft)
         self.btnOrderByStatus = QtWidgets.QPushButton(self.frame_3)
         self.btnOrderByStatus.setMinimumSize(QtCore.QSize(100, 40))
-        self.btnOrderByStatus.setMaximumSize(QtCore.QSize(90, 16777215))
+        self.btnOrderByStatus.setMaximumSize(QtCore.QSize(150, 16777215))
         self.btnOrderByStatus.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btnOrderByStatus.setAutoFillBackground(False)
         self.btnOrderByStatus.setStyleSheet("background-repeat: no-repeat; \n"
-"background-image: url(:/icons/images/icons/cil-check-circle.png);\n"
 "border-radius: 20px;\n"
-"text-align: center;\n"
-"background-position: left center;\n"
-"padding-left: 15px;")
+"text-align: center;")
         self.btnOrderByStatus.setObjectName("btnOrderByStatus")
         self.horizontalLayout_2.addWidget(self.btnOrderByStatus, 0, QtCore.Qt.AlignLeft)
         self.btnOrderByDate = QtWidgets.QPushButton(self.frame_3)
         self.btnOrderByDate.setMinimumSize(QtCore.QSize(100, 40))
-        self.btnOrderByDate.setMaximumSize(QtCore.QSize(90, 16777215))
+        self.btnOrderByDate.setMaximumSize(QtCore.QSize(150, 16777215))
         self.btnOrderByDate.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btnOrderByDate.setAutoFillBackground(False)
         self.btnOrderByDate.setStyleSheet("background-repeat: no-repeat; \n"
-"background-image: url(:/icons/images/icons/cil-calendar-check.png);\n"
 "border-radius: 20px;\n"
-"text-align: center;\n"
-"background-position: left center;\n"
-"padding-left: 15px;")
+"text-align: center;")
         self.btnOrderByDate.setObjectName("btnOrderByDate")
         self.horizontalLayout_2.addWidget(self.btnOrderByDate, 0, QtCore.Qt.AlignLeft)
         self.horizontalLayout.addWidget(self.frame_3)

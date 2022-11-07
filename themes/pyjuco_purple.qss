@@ -33,7 +33,7 @@ Left Menu */
 }
 #topLogo {
 	background-color: rgb(39, 32, 43);
-	/*background-image: url(:/images/images/images/PyDracula.png);*/
+	background-image: url(:/images/images/images/small_SelfPurpleLogo.png);
 	background-position: centered;
 	background-repeat: no-repeat;
 }

@@ -6,6 +6,7 @@
 #
 # ///////////////////////////////////////////////////////////////
 
+import resources
 import sys
 import os
 import platform
@@ -113,9 +114,9 @@ class MainWindow(QMainWindow):
         widgets.btn_daily_task_page.clicked.connect(self.buttonClick)
 
         # PALLETE BUTTONS
-        widgets.btnPyJucoPurple.clicked.connect(self.buttonClick)
-        widgets.btnPyJucoBlue.clicked.connect(self.buttonClick)
-        widgets.btnPyJucoGreen.clicked.connect(self.buttonClick)
+        widgets.btnPyJucoPurple.clicked.connect(self.palButtonClick)
+        widgets.btnPyJucoBlue.clicked.connect(self.palButtonClick)
+        widgets.btnPyJucoGreen.clicked.connect(self.palButtonClick)
 
         # EXTRA LEFT BOX
         def openCloseLeftBox():
@@ -153,6 +154,9 @@ class MainWindow(QMainWindow):
         btn = self.sender()
         btnName = btn.objectName()
 
+        self.btnselected = btn
+        self.btnselectedName = btnName
+
         # SHOW HOME PAGE
         if btnName == "btn_home":
             widgets.stackedWidget.setCurrentWidget(widgets.home)
@@ -161,7 +165,7 @@ class MainWindow(QMainWindow):
 
         # SHOW WIDGETS PAGE
         if btnName == "btn_progress_page":
-            widgets.stackedWidget.setCurrentWidget(widgets.widgets)
+            widgets.stackedWidget.setCurrentWidget(widgets.pomodoroPage)
             UIFunctions.resetStyle(self, btnName)
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
 
@@ -172,7 +176,7 @@ class MainWindow(QMainWindow):
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
 
         if btnName == "btn_pomodoro_page":
-            widgets.stackedWidget.setCurrentWidget(widgets.pomodoroPage) # SET PAGE
+            widgets.stackedWidget.setCurrentWidget(widgets.newPomodoroPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
             widgets.pomodoroPage.load_data_in_table()
@@ -184,6 +188,19 @@ class MainWindow(QMainWindow):
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
             widgets.dailyTaskPage.load_data_in_table()
 
+        # PRINT BTN NAME
+        print(f'Button "{btnName}" pressed!')
+
+    def palButtonClick(self):
+        btn = self.sender()
+        btnName = btn.objectName()
+
+        UIFunctions.resetStyle(self, "btn_home")
+        UIFunctions.resetStyle(self, "btn_progress_page")
+        UIFunctions.resetStyle(self, "btn_flashcards_page")
+        UIFunctions.resetStyle(self, "btn_pomodoro_page")
+        UIFunctions.resetStyle(self, "btn_daily_task_page")
+
         if btnName == "btnPyJucoPurple":
             UIFunctions.theme(self, self.purpleFile, True)
             AppFunctions.setThemePurple(self)
@@ -194,8 +211,12 @@ class MainWindow(QMainWindow):
             UIFunctions.theme(self, self.greenFile, True)
             AppFunctions.setThemeGreen(self)
 
+        
+        
+        self.btnselected.setStyleSheet(UIFunctions.selectMenu(self.btnselected.styleSheet()))
+
         # PRINT BTN NAME
-        print(f'Button "{btnName}" pressed!')
+        print(f'Pallete "{btnName}" selected!')
 
 
     # RESIZE EVENTS

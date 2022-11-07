@@ -57,6 +57,10 @@ class AppFunctions(MainWindow):
 "<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">Uma aplicação criada com o objetivo de aumentar a produtividade e o foco nos estudos do usuário. Desenvolvida pelos crias da união Embu da Serra.</span></p>\n"
 "<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:rgb(139, 136, 250);\">João Nogueira, Leonardo Ferreira, Lucas Tamarindo, Max Keven, Rodrigo Caldeira, Vinicius Saldanha </span></p>\n", None))
 
+        #self.ui.home.setStyleSheet(u"background-image: url(:/images/images/images/SelfBlueLogo.png);\n"
+#"background-position: center;\n"
+#"background-repeat: no-repeat;")
+
     def setThemePurple(self):
         Settings.BTN_LEFT_BOX_COLOR = "background-color: rgb(45, 37, 51);"
         Settings.BTN_RIGHT_BOX_COLOR = "background-color: rgb(45, 37, 51);"
@@ -73,6 +77,10 @@ class AppFunctions(MainWindow):
 "<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">Uma aplicação criada com o objetivo de aumentar a produtividade e o foco nos estudos do usuário. Desenvolvida pelos crias da união Embu da Serra.</span></p>\n"
 "<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:rgb(194, 119, 250);\">João Nogueira, Leonardo Ferreira, Lucas Tamarindo, Max Keven, Rodrigo Caldeira, Vinicius Saldanha </span></p>\n", None))
 
+        #self.ui.home.setStyleSheet(u"background-image: url(:/images/images/images/SelfPurpleLogo.png);\n"
+#"background-position: center;\n"
+#"background-repeat: no-repeat;")
+
     def setThemeGreen(self):
             Settings.BTN_LEFT_BOX_COLOR = "background-color: rgb(42, 48, 41);"
             Settings.BTN_RIGHT_BOX_COLOR = "background-color: rgb(42, 48, 41);"
@@ -88,3 +96,7 @@ class AppFunctions(MainWindow):
     "<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:600; color:rgb(94, 171, 79);\">SELF</span></p>\n"
     "<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">Uma aplicação criada com o objetivo de aumentar a produtividade e o foco nos estudos do usuário. Desenvolvida pelos crias da união Embu da Serra.</span></p>\n"
     "<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:rgb(94, 171, 79);\">João Nogueira, Leonardo Ferreira, Lucas Tamarindo, Max Keven, Rodrigo Caldeira, Vinicius Saldanha </span></p>\n", None))
+
+            #self.ui.home.setStyleSheet(u"background-image: url(:/images/images/images/SelfGreenLogo.png);\n"
+    #"background-position: center;\n"
+    #"background-repeat: no-repeat;")
