@@ -6,13 +6,12 @@
 #
 # ///////////////////////////////////////////////////////////////
 
-import resources
+import modules.resources_rc as resources_rc
 import sys
 import os
 import platform
 
 from functions.db_main_operations import DBMainOperations
-from functions.flashcards.json_operations import ImportExport
 
 # IMPORT / GUI AND MODULES AND WIDGETS
 # ///////////////////////////////////////////////////////////////
@@ -66,9 +65,6 @@ class MainWindow(QMainWindow):
             db.populateTbl('tasks', params=('Resolver questões sobre genética', 'Não iniciada', '2022-10-22', '2022-10-22', 3))
             db.populateTbl('tasks', params=('Desenvolver funcionalidade Pomodoro', 'Em Progresso', '2022-10-20', '2022-10-27', 4))
             db.populateTbl('tasks', params=('Fazer Simulado do ENEM 2020', 'Não iniciada', '2022-10-20', '2022-10-25', 0))
-
-            import_export = ImportExport()
-            import_export._to_json(topic_id=1)
 
         QMainWindow.__init__(self)
 
@@ -171,7 +167,7 @@ class MainWindow(QMainWindow):
 
         # SHOW FLASHCARDS PAGE
         if btnName == "btn_flashcards_page":
-            widgets.stackedWidget.setCurrentWidget(widgets.testNewCardsPage) # SET PAGE
+            widgets.stackedWidget.setCurrentWidget(widgets.newFlashcardsPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
 

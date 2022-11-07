@@ -12,13 +12,12 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
-from functions.flashcards import *
 from functions.daily_task import *
 from functions.new_daily_task.dailytask import DTaskMainPage
+from functions.new_flashcards.study_page import MainStudyPage
+from functions.new_flashcards.flashcards_page import MainFlashcardsPage
 from functions.new_pomodoro.new_pomodoro_page import NewPomodoroMainPage
 from functions.pomodoro.pomodoro_page import PomodoroMainPage
-from functions.test_ui.test_page import MainTestPage
-from functions.test_ui.study_page import MainStudyPage
 
 from . resources_rc import *
 
@@ -439,6 +438,7 @@ class Ui_MainWindow(object):
         icon1.addFile(u":/icons/images/icons/icon_settings.png", QSize(), QIcon.Normal, QIcon.Off)
         self.settingsTopBtn.setIcon(icon1)
         self.settingsTopBtn.setIconSize(QSize(20, 20))
+        self.settingsTopBtn.setStyleSheet("background-color: transparent")
 
         self.horizontalLayout_2.addWidget(self.settingsTopBtn)
 
@@ -523,24 +523,21 @@ class Ui_MainWindow(object):
 #"background-repeat: no-repeat;")
         self.stackedWidget.addWidget(self.home)
 
-        # Add Flashcards Functions Test:
-
-        self.flashcardsPage = FCardsMainPage()
-        self.stackedWidget.addWidget(self.flashcardsPage)
         #self.dailyTaskPage = DTaskMainPage()
         #self.stackedWidget.addWidget(self.dailyTaskPage)
+
         self.pomodoroPage = PomodoroMainPage()
         self.stackedWidget.addWidget(self.pomodoroPage)
         # new flashcards:
-        self.testNewCardsPage = MainTestPage()
-        self.stackedWidget.addWidget(self.testNewCardsPage)
+        self.newFlashcardsPage = MainFlashcardsPage()
+        self.stackedWidget.addWidget(self.newFlashcardsPage)
         # new dailytask:
         self.newDailyTaskPage = DTaskMainPage()
         self.stackedWidget.addWidget(self.newDailyTaskPage)
         # new pomodoro:
         self.newPomodoroPage = NewPomodoroMainPage()
         self.stackedWidget.addWidget(self.newPomodoroPage)
-
+        # new study page:
         self.testStudyCardsPage = MainStudyPage()
         self.stackedWidget.addWidget(self.testStudyCardsPage)
 
