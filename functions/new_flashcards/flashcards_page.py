@@ -24,7 +24,10 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         self.loadDecksInTable()
     
     def setupConnections(self):
+        # Main Page Connections
         widgets.btnAddDecks.clicked.connect(self.addNewDeck)
+        ## Study Page Connections
+        widgets.btnBackPage.clicked.connect(lambda: widgets.stackedWidget.setCurrentWidget(widgets.MainPage))
         
     def loadDecksInTable(self):
         with DBMainOperations() as db:
@@ -63,11 +66,11 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         if DBMainOperations().hasRecordsInTblFlashcards(id=tablerow):
             btnAction.setObjectName(f'btnStartStudy{tablerow}')
             btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-media-play.png);")
-            btnAction.clicked.connect(lambda: self.openStudyCardsWindow(row_clicked=tablerow))
+            btnAction.clicked.connect(lambda: widgets.stackedWidget.setCurrentWidget(widgets.StudyPage))
         else:
             btnAction.setObjectName(f'btnAddCards{tablerow}')
             btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-plus.png);")
-            btnAction.clicked.connect(lambda: self.openAddCardsWindow(row_clicked=tablerow))
+            btnAction.clicked.connect(lambda: print('foo'))
         widgets.tblDecks.setCellWidget(tablerow, 2, btnEditCards)
         widgets.tblDecks.setCellWidget(tablerow, 3, btnEditDecks)
         widgets.tblDecks.setCellWidget(tablerow, 4, btnAction)
@@ -79,6 +82,10 @@ class MainFlashcardsPage(QtWidgets.QWidget):
                 lastid = db.getRowCount('decks')
                 db.populateTbl(tbl='decks', params=(lastid, newdeck, 0, 0))
         self.loadDecksInTable()
+
+    ###### Study Cards
+
+    
 
     ######################################## Temporary Code Above!!!!!!!!!!!
 

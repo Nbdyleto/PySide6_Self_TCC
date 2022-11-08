@@ -14,7 +14,6 @@ from PySide6.QtWidgets import *
 
 from functions.daily_task import *
 from functions.new_daily_task.dailytask import DTaskMainPage
-from functions.new_flashcards.study_page import MainStudyPage
 from functions.new_flashcards.flashcards_page import MainFlashcardsPage
 from functions.new_pomodoro.new_pomodoro_page import NewPomodoroMainPage
 from functions.pomodoro.pomodoro_page import PomodoroMainPage
@@ -539,9 +538,6 @@ class Ui_MainWindow(object):
         # new pomodoro:
         self.newPomodoroPage = NewPomodoroMainPage()
         self.stackedWidget.addWidget(self.newPomodoroPage)
-        # new study page:
-        self.testStudyCardsPage = MainStudyPage()
-        self.stackedWidget.addWidget(self.testStudyCardsPage)
 
         self.widgets = QWidget()
         self.widgets.setObjectName(u"widgets")
