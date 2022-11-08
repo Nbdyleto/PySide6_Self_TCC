@@ -13,7 +13,6 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         global widgets
         widgets = self.ui
 
-        self.loadDataInTable() 
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
 
