@@ -152,18 +152,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addWidget(self.btn_home)
 
-        self.btn_progress_page = QPushButton(self.topMenu)
-        self.btn_progress_page.setObjectName(u"btn_progress_page")
-        sizePolicy.setHeightForWidth(self.btn_progress_page.sizePolicy().hasHeightForWidth())
-        self.btn_progress_page.setSizePolicy(sizePolicy)
-        self.btn_progress_page.setMinimumSize(QSize(0, 45))
-        self.btn_progress_page.setFont(font)
-        self.btn_progress_page.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_progress_page.setLayoutDirection(Qt.LeftToRight)
-        self.btn_progress_page.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-chart.png);")
-
-        self.verticalLayout_8.addWidget(self.btn_progress_page)
-
         self.btn_flashcards_page = QPushButton(self.topMenu)
         self.btn_flashcards_page.setObjectName(u"btn_flashcards_page")
         sizePolicy.setHeightForWidth(self.btn_flashcards_page.sizePolicy().hasHeightForWidth())
@@ -199,6 +187,18 @@ class Ui_MainWindow(object):
         self.btn_pomodoro_page.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-alarm.png);")
 
         self.verticalLayout_8.addWidget(self.btn_pomodoro_page)
+
+        self.btn_progress_page = QPushButton(self.topMenu)
+        self.btn_progress_page.setObjectName(u"btn_progress_page")
+        sizePolicy.setHeightForWidth(self.btn_progress_page.sizePolicy().hasHeightForWidth())
+        self.btn_progress_page.setSizePolicy(sizePolicy)
+        self.btn_progress_page.setMinimumSize(QSize(0, 45))
+        self.btn_progress_page.setFont(font)
+        self.btn_progress_page.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_progress_page.setLayoutDirection(Qt.LeftToRight)
+        self.btn_progress_page.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-chart.png);")
+
+        self.verticalLayout_8.addWidget(self.btn_progress_page)
 
         self.verticalMenuLayout.addWidget(self.topMenu, 0, Qt.AlignTop)
 

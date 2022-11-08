@@ -62,7 +62,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         btnAction.setLayoutDirection(QtCore.Qt.LeftToRight)
         if DBMainOperations().hasRecordsInTblFlashcards(id=tablerow):
             btnAction.setObjectName(f'btnStartStudy{tablerow}')
-            btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-media-play.png;")
+            btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-media-play.png);")
             btnAction.clicked.connect(lambda: self.openStudyCardsWindow(row_clicked=tablerow))
         else:
             btnAction.setObjectName(f'btnAddCards{tablerow}')
