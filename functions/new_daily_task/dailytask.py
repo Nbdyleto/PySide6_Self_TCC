@@ -13,8 +13,6 @@ class DTaskMainPage(QtWidgets.QWidget):
         global widgets
         widgets = self.ui
 
-        self.loadDataInTable()
-
         widgets.tblTasks.setColumnWidth(0,350)
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)

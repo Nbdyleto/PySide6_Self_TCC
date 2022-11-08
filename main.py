@@ -182,7 +182,7 @@ class MainWindow(QMainWindow):
             widgets.stackedWidget.setCurrentWidget(widgets.newDailyTaskPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
-            widgets.dailyTaskPage.load_data_in_table()
+            widgets.newDailyTaskPage.loadDataInTable()
 
         # PRINT BTN NAME
         print(f'Button "{btnName}" pressed!')
