@@ -13,7 +13,25 @@
   <property name="windowTitle">
    <string>Widget</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>2</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
     <widget class="QFrame" name="frame">
      <property name="minimumSize">
@@ -28,7 +46,10 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
+      <property name="spacing">
+       <number>2</number>
+      </property>
       <property name="leftMargin">
        <number>0</number>
       </property>
@@ -41,7 +62,7 @@
       <property name="bottomMargin">
        <number>0</number>
       </property>
-      <item>
+      <item alignment="Qt::AlignLeft">
        <widget class="QFrame" name="frame_3">
         <property name="maximumSize">
          <size>
@@ -56,7 +77,22 @@
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item alignment="Qt::AlignLeft">
+         <property name="spacing">
+          <number>2</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
           <widget class="QPushButton" name="btnOrderByType">
            <property name="minimumSize">
             <size>
@@ -79,7 +115,8 @@
            <property name="styleSheet">
             <string notr="true">background-repeat: no-repeat; 
 border-radius: 20px;
-text-align: center;</string>
+text-align: center;
+font-size: 12px;</string>
            </property>
            <property name="text">
             <string>Tipo</string>
@@ -109,7 +146,8 @@ text-align: center;</string>
            <property name="styleSheet">
             <string notr="true">background-repeat: no-repeat; 
 border-radius: 20px;
-text-align: center;</string>
+text-align: center;
+font-size: 12px;</string>
            </property>
            <property name="text">
             <string>Status</string>
@@ -139,7 +177,8 @@ text-align: center;</string>
            <property name="styleSheet">
             <string notr="true">background-repeat: no-repeat; 
 border-radius: 20px;
-text-align: center;</string>
+text-align: center;
+font-size: 12px;</string>
            </property>
            <property name="text">
             <string>Data</string>
@@ -163,7 +202,23 @@ text-align: center;</string>
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_3"/>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <property name="spacing">
+          <number>2</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+        </layout>
        </widget>
       </item>
      </layout>
@@ -178,6 +233,9 @@ text-align: center;</string>
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>2</number>
+      </property>
       <property name="leftMargin">
        <number>0</number>
       </property>
@@ -190,6 +248,16 @@ text-align: center;</string>
       <property name="bottomMargin">
        <number>0</number>
       </property>
+      <item alignment="Qt::AlignHCenter">
+       <widget class="QLabel" name="label">
+        <property name="styleSheet">
+         <string notr="true">font: bold 20px;</string>
+        </property>
+        <property name="text">
+         <string>Tasks</string>
+        </property>
+       </widget>
+      </item>
       <item>
        <widget class="QTableWidget" name="tblTasks">
         <property name="focusPolicy">
