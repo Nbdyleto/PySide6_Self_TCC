@@ -12,15 +12,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.setupVariables()
         self.setupConnections()
-
-        widgets.tblDecks.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
-        widgets.tblDecks.setColumnWidth(1,400)
-        widgets.tblDecks.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
-        widgets.tblDecks.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
-        widgets.tblDecks.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
-        widgets.tblDecks.horizontalHeader().setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
-
-        self.loadDecksInTable()
+        self.setupTable()
     
     def setupVariables(self):
         global widgets
@@ -35,6 +27,15 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.btnBadFeedback.clicked.connect(self.nextFlashcard)
         widgets.btnOkFeedback.clicked.connect(self.nextFlashcard)
         widgets.btnGoodFeedback.clicked.connect(self.nextFlashcard)
+    
+    def setupTable(self):
+        widgets.tblDecks.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        widgets.tblDecks.setColumnWidth(1,400)
+        widgets.tblDecks.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
+        widgets.tblDecks.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
+        widgets.tblDecks.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
+        widgets.tblDecks.horizontalHeader().setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
+        self.loadDecksInTable()
 
     def loadDecksInTable(self):
         with DBMainOperations() as db:
