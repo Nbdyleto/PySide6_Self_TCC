@@ -24,9 +24,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.setupConnections()
         self.setupTableResize()
 
-        timeFormat = "hh:mm:ss"
-        test = QtCore.QTime(2, 10, 0) 
-        widgets.lcdPomodoroTimer.display(test.toString(timeFormat))
+        self.displayTime()
 
     def setupVariables(self):
         global widgets
@@ -35,13 +33,13 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.settings = QtCore.QSettings()
         self.workEndTime = QtCore.QTime(
             int(self.settings.value(workHoursKey, 0)),
-            int(self.settings.value(workMinutesKey, 25)),
-            int(self.settings.value(workSecondsKey, 0)),
+            int(self.settings.value(workMinutesKey, 0)),
+            int(self.settings.value(workSecondsKey, 5)),
         )
         self.restEndTime = QtCore.QTime(
             int(self.settings.value(restHoursKey, 0)),
-            int(self.settings.value(restMinutesKey, 5)),
-            int(self.settings.value(restSecondsKey, 0)),
+            int(self.settings.value(restMinutesKey, 0)),
+            int(self.settings.value(restSecondsKey, 3)),
         )
         self.timeFormat = "hh:mm:ss"
         self.time = self.workEndTime
@@ -51,7 +49,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.currentMode = Mode.work
         self.maxRepetitions = -1
         self.currentRepetitions = 0
-        self.activeMode = "rest"
+        self.activeMode = "short_rest"
         # Progress Bar Variables
         self.workSecondPercent = 1/(25*60/100)
         self.restSecondPercent =  1/(5*60/100)
@@ -111,17 +109,17 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         return started
 
     def updateCurrentMode(self, mode: str):
-        self.currentMode = Mode.work if mode == "work" else Mode.rest
+        self.currentMode = Mode.work if mode == "work" else Mode.short_rest
 
     def updateTime(self):
         self.time = self.time.addSecs(-1)
         self.totalTime = self.totalTime.addSecs(-1)
-        #self.progressValue += self.workSecondPercent
-        #widgets.progressBar.setValue(self.progressValue)
         if self.activeMode == "work":
             self.workTime = self.workTime.addSecs(1)
         else:
             self.restTime = self.restTime.addSecs(1)
+        self.progressValue += self.workSecondPercent
+        widgets.progressBar.setValue(self.progressValue)
         self.displayTime()
 
     def updateMaxRepetitions(self, value):
@@ -134,11 +132,11 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
     def maybeChangeMode(self):
         if self.currentMode is Mode.work and self.time >= self.workEndTime:
             self.resetTimer()
-            self.activeMode = "rest"
+            self.activeMode = "short_rest"
             self.incrementCurrentRepetitions()
             started = self.maybeStartTimer()
             self.showWindowMessage(Status.workFinished if started else Status.repetitionsReached)
-        elif self.currentMode is Mode.rest and self.time >= self.restEndTime:
+        elif self.currentMode is Mode.short_rest and self.time >= self.restEndTime:
             self.resetTimer()
             self.activeMode = "work"
             self.incrementCurrentRepetitions()
@@ -184,3 +182,48 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
 
     def showTaskInLabel(self, row):
         widgets.lblActualTask.setText(widgets.tblTasks.item(row, 0).text())
+
+    # Settings
+    """
+    def openSettingsWindow(self):
+        self.settingsWindow.show()
+
+    def makeSettingsChanges(self):
+        print('changing...')
+        self.settings.setValue(workHoursKey, settingsWidgets.workHoursSpinBox.value())
+        self.settings.setValue(
+            workMinutesKey,
+            settingsWidgets.workMinutesSpinBox.value(),
+        )
+        self.settings.setValue(
+            workSecondsKey,
+            settingsWidgets.workSecondsSpinBox.value(),
+        )
+        self.settings.setValue(restHoursKey, settingsWidgets.restHoursSpinBox.value())
+        self.settings.setValue(
+            restMinutesKey,
+            settingsWidgets.restMinutesSpinBox.value(),
+        )
+        self.settings.setValue(
+            restSecondsKey,
+            settingsWidgets.restSecondsSpinBox.value(),
+        )
+
+        self.workEndTime = QTime(
+            int(self.settings.value(workHoursKey, settingsWidgets.workHoursSpinBox.value())),
+            int(self.settings.value(workMinutesKey, settingsWidgets.workMinutesSpinBox.value())),
+            int(self.settings.value(workSecondsKey, settingsWidgets.workSecondsSpinBox.value())),
+        )
+        self.restEndTime = QTime(
+            int(self.settings.value(workHoursKey, settingsWidgets.restHoursSpinBox.value())),
+            int(self.settings.value(workMinutesKey, settingsWidgets.restMinutesSpinBox.value())),
+            int(self.settings.value(workSecondsKey, settingsWidgets.restSecondsSpinBox.value())),
+        )
+
+        self.workSecondPercent = 1/(workMinutesKey*60/100)
+        self.restSecondPercent =  1/(restMinutesKey*60/100)
+        self.progressValue = 0
+
+        self.settingsWindow.close()
+        self.resetTimer()
+    """
