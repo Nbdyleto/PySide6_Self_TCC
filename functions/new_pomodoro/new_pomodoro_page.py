@@ -10,7 +10,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.setupVariables()
         self.setupConnections()
-        self.setupTable()
+        self.setupTableResize()
 
         timeFormat = "hh:mm:ss"
         test = QtCore.QTime(0, 10, 0) 
@@ -23,16 +23,16 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
     def setupConnections(self):
         pass
 
-    def setupTable(self):
+    def setupTableResize(self):
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
 
     def loadDataInTable(self):
         widgets.tblTasks.clearContents()
         with DBMainOperations() as db:
-            taskscount = db.cursor.execute("SELECT COUNT(*) FROM tasks").fetchone()[0]
-            widgets.tblTasks.setRowCount(taskscount+1)
-            topics = db.cursor.execute("SELECT * FROM topics").fetchall()
+            tasks = db.cursor.execute("SELECT * FROM tasks ORDER BY start_date").fetchall()
+            widgets.tblTasks.setRowCount(len(tasks)+1)
+            topics = db.getAllRecords(tbl='topics')
             tasks = db.cursor.execute("SELECT * FROM tasks ORDER BY start_date").fetchall()
         try:
             tablerow = 0

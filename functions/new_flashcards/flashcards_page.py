@@ -12,7 +12,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.setupVariables()
         self.setupConnections()
-        self.setupTable()
+        self.setupTableResize()
     
     def setupVariables(self):
         global widgets
@@ -28,7 +28,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.btnOkFeedback.clicked.connect(self.nextFlashcard)
         widgets.btnGoodFeedback.clicked.connect(self.nextFlashcard)
     
-    def setupTable(self):
+    def setupTableResize(self):
         widgets.tblDecks.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
         widgets.tblDecks.setColumnWidth(1,400)
         widgets.tblDecks.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
