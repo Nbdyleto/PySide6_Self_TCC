@@ -10,8 +10,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         super(MainFlashcardsPage, self).__init__()
         self.ui = Ui_FlashcardsPage()
         self.ui.setupUi(self)
-        global widgets
-        widgets = self.ui
+        self.setupVariables()
         self.setupConnections()
 
         widgets.tblDecks.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
@@ -23,12 +22,20 @@ class MainFlashcardsPage(QtWidgets.QWidget):
 
         self.loadDecksInTable()
     
+    def setupVariables(self):
+        global widgets
+        widgets = self.ui
+        self.flashcardsIter = None
+
     def setupConnections(self):
         # Main Page Connections
         widgets.btnAddDecks.clicked.connect(self.addNewDeck)
-        ## Study Page Connections
+        # Study Page Connections
         widgets.btnBackPage.clicked.connect(lambda: widgets.stackedWidget.setCurrentWidget(widgets.MainPage))
-        
+        widgets.btnBadFeedback.clicked.connect(self.nextFlashcard)
+        widgets.btnOkFeedback.clicked.connect(self.nextFlashcard)
+        widgets.btnGoodFeedback.clicked.connect(self.nextFlashcard)
+
     def loadDecksInTable(self):
         with DBMainOperations() as db:
             rowcount = db.getRowCount(tbl='decks')
@@ -66,7 +73,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         if DBMainOperations().hasRecordsInTblFlashcards(id=tablerow):
             btnAction.setObjectName(f'btnStartStudy{tablerow}')
             btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-media-play.png);")
-            btnAction.clicked.connect(lambda: widgets.stackedWidget.setCurrentWidget(widgets.StudyPage))
+            btnAction.clicked.connect(lambda: self.loadStudyInfo(tablerow))
         else:
             btnAction.setObjectName(f'btnAddCards{tablerow}')
             btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-plus.png);")
@@ -83,8 +90,38 @@ class MainFlashcardsPage(QtWidgets.QWidget):
                 db.populateTbl(tbl='decks', params=(lastid, newdeck, 0, 0))
         self.loadDecksInTable()
 
-    ###### Study Cards
+    # Study Cards Page
 
+    def loadStudyInfo(self, tablerow):
+        deckcols = 'deck_name, hits_percentage'
+        cardcols = 'card_question, card_answer'
+        with DBMainOperations() as db:
+            deck = db.getAllRecords(tbl='decks', specifcols=(deckcols), whclause=f'deck_id={tablerow}')
+            deckcols = [col for col in deck[0]]
+            deckname, deckperc = deckcols[0], deckcols[1]
+            flashcards = db.getAllRecords(tbl='flashcards', specifcols=(cardcols), whclause=f'deck_id={tablerow}')
+            cardstotal = len(flashcards)
+            random.shuffle(flashcards)
+            self.flashcardsIter = iter(flashcards)
+
+        front, verse = next(self.flashcardsIter)
+        widgets.textEdit.setText(f'question: {front}\nanswer: {verse}')
+        widgets.lblCardsCount.setText(f'1/{cardstotal}')
+        widgets.lblDeckName.setText(deckname)
+        widgets.progressBar.setValue(deckperc)
+        widgets.stackedWidget.setCurrentWidget(widgets.StudyPage)
+    
+    def nextFlashcard(self):
+        try:
+            front, verse = next(self.flashcardsIter)
+            widgets.textEdit.setText(f'question: {front}\nanswer: {verse}')
+        except Exception:
+            self.flashcardsIter = None
+        
+    
+        #widgets.textEdit.setText(next(flashcardsiter[0]))
+
+        
     
 
     ######################################## Temporary Code Above!!!!!!!!!!!
