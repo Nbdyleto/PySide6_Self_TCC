@@ -1,4 +1,7 @@
 from enum import Enum
+from modules.app_functions import AppFunctions
+
+from modules.ui_functions import UIFunctions
 from .const import *
 from PySide6 import QtCore, QtGui, QtWidgets
 from functions.db_main_operations import DBMainOperations
@@ -33,13 +36,13 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.settings = QtCore.QSettings()
         self.workEndTime = QtCore.QTime(
             int(self.settings.value(workHoursKey, 0)),
-            int(self.settings.value(workMinutesKey, 0)),
-            int(self.settings.value(workSecondsKey, 5)),
+            int(self.settings.value(workMinutesKey, 25)),
+            int(self.settings.value(workSecondsKey, 0)),
         )
         self.restEndTime = QtCore.QTime(
             int(self.settings.value(restHoursKey, 0)),
-            int(self.settings.value(restMinutesKey, 0)),
-            int(self.settings.value(restSecondsKey, 3)),
+            int(self.settings.value(restMinutesKey, 5)),
+            int(self.settings.value(restSecondsKey, 0)),
         )
         self.timeFormat = "hh:mm:ss"
         self.time = self.workEndTime
@@ -49,7 +52,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.currentMode = Mode.work
         self.maxRepetitions = -1
         self.currentRepetitions = 0
-        self.activeMode = "short_rest"
+        self.activeMode = "work"
         # Progress Bar Variables
         self.workSecondPercent = 1/(25*60/100)
         self.restSecondPercent =  1/(5*60/100)
@@ -91,9 +94,20 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             pass
 
     def resetTimer(self):
+        self.purpleFile = "themes/pyjuco_purple.qss"
+        self.blueFile = "themes/pyjuco_blue.qss"
+        self.greenFile = "themes/pyjuco_green.qss"
         try:
             self.pauseTimer()
-            self.time = self.workEndTime
+            if self.currentMode == Mode.work:
+                self.time = self.workEndTime
+                
+            elif self.currentMode == Mode.short_rest:
+                self.time = self.restEndTime
+            else:
+                self.time = self.restEndTime
+                UIFunctions.theme(self, self.greenFile, True)
+                AppFunctions.setThemeGreen()
             self.displayTime()
             self.progressValue = 0
         except:
@@ -112,8 +126,8 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.currentMode = Mode.work if mode == "work" else Mode.short_rest
 
     def updateTime(self):
-        self.time = self.time.addSecs(-1)
-        self.totalTime = self.totalTime.addSecs(-1)
+        self.time = self.time.addSecs(-300)
+        self.totalTime = self.totalTime.addSecs(-300)
         if self.activeMode == "work":
             self.workTime = self.workTime.addSecs(1)
         else:
@@ -121,6 +135,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.progressValue += self.workSecondPercent
         widgets.progressBar.setValue(self.progressValue)
         self.displayTime()
+        print('QTIME: ', self.time)
 
     def updateMaxRepetitions(self, value):
         if value == 0:
@@ -130,18 +145,20 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             self.maxRepetitions = 2 * value
 
     def maybeChangeMode(self):
-        if self.currentMode is Mode.work and self.time >= self.workEndTime:
+        print(self.time <= QtCore.QTime(0, 0, 0, 0))
+        if self.currentMode is Mode.work and self.time <= QtCore.QTime(0, 0, 0, 0):
             self.resetTimer()
             self.activeMode = "short_rest"
             self.incrementCurrentRepetitions()
             started = self.maybeStartTimer()
             self.showWindowMessage(Status.workFinished if started else Status.repetitionsReached)
-        elif self.currentMode is Mode.short_rest and self.time >= self.restEndTime:
+        elif self.currentMode is Mode.short_rest and self.time <= QtCore.QTime(0, 0, 0, 0):
             self.resetTimer()
             self.activeMode = "work"
             self.incrementCurrentRepetitions()
             started = self.maybeStartTimer()
             self.showWindowMessage(Status.restFinished if started else Status.repetitionsReached)
+        self.updateCurrentMode(self.activeMode)
 
     def incrementCurrentRepetitions(self):
         if self.maxRepetitions > 0:
@@ -149,6 +166,16 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
 
     def displayTime(self):
         widgets.lcdPomodoroTimer.display(self.time.toString(self.timeFormat))
+
+    def showWindowMessage(self, status):
+        print(self.currentMode)
+        if status is Status.workFinished:
+            print('breaking')
+        elif status is Status.restFinished:
+            print('short rest')
+        else:
+            print('finished')
+            self.resetTimer()
 
     # Task Functions
 

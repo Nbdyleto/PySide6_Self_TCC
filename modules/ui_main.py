@@ -16,7 +16,6 @@ from functions.daily_task import *
 from functions.new_daily_task.dailytask import DTaskMainPage
 from functions.new_flashcards.flashcards_page import MainFlashcardsPage
 from functions.new_pomodoro.new_pomodoro_page import NewPomodoroMainPage
-from functions.pomodoro.pomodoro_page import PomodoroMainPage
 
 from functions.daily_task.old_daily_task_page import oldDTaskMainPage # temp
 
@@ -527,8 +526,6 @@ class Ui_MainWindow(object):
         self.dailyTaskPage = oldDTaskMainPage()
         self.stackedWidget.addWidget(self.dailyTaskPage)
 
-        self.pomodoroPage = PomodoroMainPage()
-        self.stackedWidget.addWidget(self.pomodoroPage)
         # new flashcards:
         self.newFlashcardsPage = MainFlashcardsPage()
         self.stackedWidget.addWidget(self.newFlashcardsPage)
