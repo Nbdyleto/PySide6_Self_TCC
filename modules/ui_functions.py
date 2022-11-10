@@ -200,10 +200,12 @@ class UIFunctions(MainWindow):
                 w.setStyleSheet(UIFunctions.selectMenu(w.styleSheet()))
 
     # RESET SELECTION
-    def resetStyle(self, widget):
+    def resetStyle(self, widget, resetall=False):
         for w in self.ui.topMenu.findChildren(QPushButton):
-            if w.objectName() != widget:
-                w.setStyleSheet(UIFunctions.deselectMenu(w.styleSheet()))
+            if not resetall:
+                if w.objectName() != widget:
+                    w.setStyleSheet(UIFunctions.deselectMenu(w.styleSheet()))
+            else: w.setStyleSheet(UIFunctions.deselectMenu(w.styleSheet()))
 
     # IMPORT THEMES FILES QSS/CSS
     # ///////////////////////////////////////////////////////////////

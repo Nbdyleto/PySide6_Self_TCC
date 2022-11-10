@@ -147,41 +147,38 @@ class MainWindow(QMainWindow):
     # ///////////////////////////////////////////////////////////////
     def buttonClick(self):
         # GET BUTTON CLICKED
-        btn = self.sender()
-        btnName = btn.objectName()
-
-        self.btnselected = btn
-        self.btnselectedName = btnName
+        self.btn = self.sender()
+        btnName = self.btn.objectName()
 
         # SHOW HOME PAGE
         if btnName == "btn_home":
             widgets.stackedWidget.setCurrentWidget(widgets.home)
             UIFunctions.resetStyle(self, btnName)
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
+            self.btn.setStyleSheet(UIFunctions.selectMenu(self.btn.styleSheet()))
 
         # SHOW WIDGETS PAGE
         if btnName == "btn_progress_page":
             widgets.stackedWidget.setCurrentWidget(widgets.pomodoroPage)
             UIFunctions.resetStyle(self, btnName)
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
+            self.btn.setStyleSheet(UIFunctions.selectMenu(self.btn.styleSheet()))
 
         # SHOW FLASHCARDS PAGE
         if btnName == "btn_flashcards_page":
             widgets.stackedWidget.setCurrentWidget(widgets.newFlashcardsPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
+            self.btn.setStyleSheet(UIFunctions.selectMenu(self.btn.styleSheet())) # SELECT MENU
 
         if btnName == "btn_pomodoro_page":
             widgets.stackedWidget.setCurrentWidget(widgets.newPomodoroPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
+            self.btn.setStyleSheet(UIFunctions.selectMenu(self.btn.styleSheet())) # SELECT MENU
             widgets.newPomodoroPage.loadDataInTable()
 
         # SHOW DAILY TASK PAGE
         if btnName == "btn_daily_task_page":
             widgets.stackedWidget.setCurrentWidget(widgets.newDailyTaskPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet())) # SELECT MENU
+            self.btn.setStyleSheet(UIFunctions.selectMenu(self.btn.styleSheet())) # SELECT MENU
             widgets.newDailyTaskPage.loadDataInTable()
 
         # PRINT BTN NAME
@@ -191,11 +188,8 @@ class MainWindow(QMainWindow):
         btn = self.sender()
         btnName = btn.objectName()
 
-        UIFunctions.resetStyle(self, "btn_home")
-        UIFunctions.resetStyle(self, "btn_progress_page")
-        UIFunctions.resetStyle(self, "btn_flashcards_page")
-        UIFunctions.resetStyle(self, "btn_pomodoro_page")
-        UIFunctions.resetStyle(self, "btn_daily_task_page")
+        UIFunctions.resetStyle(self, widget=None, resetall=True)
+        widgets.newPomodoroPage.resetButtonsStyle(widget=None, resetall=True)
 
         if btnName == "btnPyJucoPurple":
             UIFunctions.theme(self, self.purpleFile, True)
@@ -207,9 +201,8 @@ class MainWindow(QMainWindow):
             UIFunctions.theme(self, self.greenFile, True)
             AppFunctions.setThemeGreen(self)
 
-        
-        
-        self.btnselected.setStyleSheet(UIFunctions.selectMenu(self.btnselected.styleSheet()))
+        self.btn.click()    # update menu button click
+        widgets.newPomodoroPage.btn.click() # update pomodoro button click
 
         # PRINT BTN NAME
         print(f'Pallete "{btnName}" selected!')

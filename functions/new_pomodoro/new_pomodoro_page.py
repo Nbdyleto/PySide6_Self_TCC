@@ -1,5 +1,6 @@
 from enum import Enum
 from modules.app_functions import AppFunctions
+from modules.app_settings import Settings
 
 from modules.ui_functions import UIFunctions
 from .const import *
@@ -57,8 +58,12 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.workSecondPercent = 1/(25*60/100)
         self.restSecondPercent =  1/(5*60/100)
         self.progressValue = 0
-    
+
     def setupConnections(self):
+        widgets.btnPomodoro.clicked.connect(self.buttonClick)
+        widgets.btnShortRest.clicked.connect(self.buttonClick)
+        widgets.btnLongRest.clicked.connect(self.buttonClick)
+
         widgets.btnStartTimer.clicked.connect(self.startTimer)
         widgets.btnResetTimer.clicked.connect(self.resetTimer)
         widgets.tblTasks.cellDoubleClicked.connect(self.markTaskAsFinished)
@@ -68,6 +73,30 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
         self.loadDataInTable()
+
+    def buttonClick(self):
+        self.btn = self.sender()
+        btnName = self.btn.objectName()
+        self.resetButtonsStyle(btnName)
+        self.btn.setStyleSheet(self.selectButton(self.btn.styleSheet()))
+    
+    # TEMP SELECT FUNCTIONS
+
+    def selectButton(self, getStyle):
+        select = getStyle + Settings.POMODORO_SELECTED_STYLESHEET
+        return select
+
+    def deselectButton(self, getStyle):
+        deselect = getStyle.replace(Settings.POMODORO_SELECTED_STYLESHEET, "")
+        return deselect
+
+    # RESET SELECTION
+    def resetButtonsStyle(self, widget, resetall=False):
+        for w in widgets.frame_3.findChildren(QtWidgets.QPushButton):
+            if not resetall: 
+                if w.objectName() != widget:
+                    w.setStyleSheet(self.deselectButton(w.styleSheet()))
+            else: w.setStyleSheet(self.deselectButton(w.styleSheet()))
 
     # Pomodoro Timer Functions
 
