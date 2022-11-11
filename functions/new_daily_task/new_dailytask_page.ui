@@ -232,7 +232,7 @@ font-size: 12px;</string>
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
       <property name="spacing">
        <number>2</number>
       </property>
@@ -248,16 +248,6 @@ font-size: 12px;</string>
       <property name="bottomMargin">
        <number>0</number>
       </property>
-      <item alignment="Qt::AlignHCenter">
-       <widget class="QLabel" name="label">
-        <property name="styleSheet">
-         <string notr="true">font: bold 20px;</string>
-        </property>
-        <property name="text">
-         <string>Tasks</string>
-        </property>
-       </widget>
-      </item>
       <item>
        <widget class="QTableWidget" name="tblTasks">
         <property name="focusPolicy">
@@ -308,6 +298,49 @@ font-size: 12px;</string>
           <string/>
          </property>
         </column>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignTop">
+       <widget class="QFrame" name="specialFrame">
+        <property name="maximumSize">
+         <size>
+          <width>250</width>
+          <height>250</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLabel" name="lblSetInfo">
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="frame_5">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QCalendarWidget" name="qCalendar"/>
+            </item>
+            <item>
+             <widget class="QTableWidget" name="tblLists"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>
