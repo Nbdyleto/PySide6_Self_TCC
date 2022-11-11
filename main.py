@@ -110,9 +110,10 @@ class MainWindow(QMainWindow):
         widgets.btn_daily_task_page.clicked.connect(self.buttonClick)
 
         # PALLETE BUTTONS
-        widgets.btnPyJucoPurple.clicked.connect(self.palButtonClick)
-        widgets.btnPyJucoBlue.clicked.connect(self.palButtonClick)
-        widgets.btnPyJucoGreen.clicked.connect(self.palButtonClick)
+        widgets.btnPyJucoPurple.clicked.connect(self.changePallete)
+        widgets.btnPyJucoBlue.clicked.connect(self.changePallete)
+        widgets.btnPyJucoGreen.clicked.connect(self.changePallete)
+        self.pomodoroPallete()
 
         # EXTRA LEFT BOX
         def openCloseLeftBox():
@@ -147,66 +148,69 @@ class MainWindow(QMainWindow):
     # ///////////////////////////////////////////////////////////////
     def buttonClick(self):
         # GET BUTTON CLICKED
-        self.btn = self.sender()
-        btnName = self.btn.objectName()
+        self.btnSelected = self.sender()
+        btnName = self.btnSelected.objectName()
 
         # SHOW HOME PAGE
         if btnName == "btn_home":
             widgets.stackedWidget.setCurrentWidget(widgets.home)
             UIFunctions.resetStyle(self, btnName)
-            self.btn.setStyleSheet(UIFunctions.selectMenu(self.btn.styleSheet()))
+            self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet()))
 
         # SHOW WIDGETS PAGE
         if btnName == "btn_progress_page":
             widgets.stackedWidget.setCurrentWidget(widgets.pomodoroPage)
             UIFunctions.resetStyle(self, btnName)
-            self.btn.setStyleSheet(UIFunctions.selectMenu(self.btn.styleSheet()))
+            self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet()))
 
         # SHOW FLASHCARDS PAGE
         if btnName == "btn_flashcards_page":
             widgets.stackedWidget.setCurrentWidget(widgets.newFlashcardsPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
-            self.btn.setStyleSheet(UIFunctions.selectMenu(self.btn.styleSheet())) # SELECT MENU
+            self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet())) # SELECT MENU
 
         if btnName == "btn_pomodoro_page":
             widgets.stackedWidget.setCurrentWidget(widgets.newPomodoroPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
-            self.btn.setStyleSheet(UIFunctions.selectMenu(self.btn.styleSheet())) # SELECT MENU
+            self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet())) # SELECT MENU
             widgets.newPomodoroPage.loadDataInTable()
 
         # SHOW DAILY TASK PAGE
         if btnName == "btn_daily_task_page":
             widgets.stackedWidget.setCurrentWidget(widgets.newDailyTaskPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
-            self.btn.setStyleSheet(UIFunctions.selectMenu(self.btn.styleSheet())) # SELECT MENU
+            self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet())) # SELECT MENU
             widgets.newDailyTaskPage.loadDataInTable()
 
         # PRINT BTN NAME
         print(f'Button "{btnName}" pressed!')
 
-    def palButtonClick(self):
+    def pomodoroPallete(self):
+        widgets.newPomodoroPage.ui.btnPomodoro.clicked.connect(self.changePallete)
+        widgets.newPomodoroPage.ui.btnShortRest.clicked.connect(self.changePallete)
+        widgets.newPomodoroPage.ui.btnLongRest.clicked.connect(self.changePallete)
+
+    def changePallete(self):
         btn = self.sender()
         btnName = btn.objectName()
 
-        UIFunctions.resetStyle(self, widget=None, resetall=True)
-        widgets.newPomodoroPage.resetButtonsStyle(widget=None, resetall=True)
+        UIFunctions.resetButtonsStyle(self, widget=None, resetall=True) # RESET ALL MENU BUTTONS SELECTED
+        UIFunctions.resetStyle(self, widget=None, resetall=True)    # RESET ALL POMODORO BUTTONS SELECTED
 
-        if btnName == "btnPyJucoPurple":
-            UIFunctions.theme(self, self.purpleFile, True)
-            AppFunctions.setThemePurple(self)
-        if btnName == "btnPyJucoBlue":
+        if btnName == "btnPomodoro" or btnName == "btnPyJucoBlue":
             UIFunctions.theme(self, self.blueFile, True)
             AppFunctions.setThemeBlue(self)
-        if btnName == "btnPyJucoGreen":
+        if btnName == "btnShortRest" or btnName == "btnPyJucoGreen":
             UIFunctions.theme(self, self.greenFile, True)
             AppFunctions.setThemeGreen(self)
+        if btnName == "btnLongRest" or btnName == "btnPyJucoPurple":
+            UIFunctions.theme(self, self.purpleFile, True)
+            AppFunctions.setThemePurple(self)
 
-        self.btn.click()    # update menu button click
-        widgets.newPomodoroPage.btn.click() # update pomodoro button click
-
-        # PRINT BTN NAME
-        print(f'Pallete "{btnName}" selected!')
-
+        UIFunctions.resetStyle(self, self.btnSelected.objectName()) # RESET ANOTHERS MENU BUTTONS
+        self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet())) # SET SELECTED MENU BUTTON
+        UIFunctions.resetButtonsStyle(self, btn.objectName()) # RESET ANOTHERS POMODORO BUTTONS
+        btn.setStyleSheet(UIFunctions.selectButton(btn.styleSheet())) # SET SELECTED POMODORO BUTTON
 
     # RESIZE EVENTS
     # ///////////////////////////////////////////////////////////////

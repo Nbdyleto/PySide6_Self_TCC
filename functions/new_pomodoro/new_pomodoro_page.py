@@ -60,10 +60,6 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.progressValue = 0
 
     def setupConnections(self):
-        widgets.btnPomodoro.clicked.connect(self.buttonClick)
-        widgets.btnShortRest.clicked.connect(self.buttonClick)
-        widgets.btnLongRest.clicked.connect(self.buttonClick)
-
         widgets.btnStartTimer.clicked.connect(self.startTimer)
         widgets.btnResetTimer.clicked.connect(self.resetTimer)
         widgets.tblTasks.cellDoubleClicked.connect(self.markTaskAsFinished)
@@ -73,30 +69,6 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
         self.loadDataInTable()
-
-    def buttonClick(self):
-        self.btn = self.sender()
-        btnName = self.btn.objectName()
-        self.resetButtonsStyle(btnName)
-        self.btn.setStyleSheet(self.selectButton(self.btn.styleSheet()))
-    
-    # TEMP SELECT FUNCTIONS
-
-    def selectButton(self, getStyle):
-        select = getStyle + Settings.POMODORO_SELECTED_STYLESHEET
-        return select
-
-    def deselectButton(self, getStyle):
-        deselect = getStyle.replace(Settings.POMODORO_SELECTED_STYLESHEET, "")
-        return deselect
-
-    # RESET SELECTION
-    def resetButtonsStyle(self, widget, resetall=False):
-        for w in widgets.frame_3.findChildren(QtWidgets.QPushButton):
-            if not resetall: 
-                if w.objectName() != widget:
-                    w.setStyleSheet(self.deselectButton(w.styleSheet()))
-            else: w.setStyleSheet(self.deselectButton(w.styleSheet()))
 
     # Pomodoro Timer Functions
 
@@ -155,8 +127,8 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.currentMode = Mode.work if mode == "work" else Mode.short_rest
 
     def updateTime(self):
-        self.time = self.time.addSecs(-300)
-        self.totalTime = self.totalTime.addSecs(-300)
+        self.time = self.time.addSecs(-1)
+        self.totalTime = self.totalTime.addSecs(-1)
         if self.activeMode == "work":
             self.workTime = self.workTime.addSecs(1)
         else:

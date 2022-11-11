@@ -207,6 +207,24 @@ class UIFunctions(MainWindow):
                     w.setStyleSheet(UIFunctions.deselectMenu(w.styleSheet()))
             else: w.setStyleSheet(UIFunctions.deselectMenu(w.styleSheet()))
 
+    # TEMP SELECT FUNCTIONS
+
+    def selectButton(getStyle):
+        select = getStyle + Settings.POMODORO_SELECTED_STYLESHEET
+        return select
+
+    def deselectButton(getStyle):
+        deselect = getStyle.replace(Settings.POMODORO_SELECTED_STYLESHEET, "")
+        return deselect
+
+    # RESET SELECTION
+    def resetButtonsStyle(self, widget, resetall=False):
+        for w in self.ui.newPomodoroPage.ui.frame_3.findChildren(QPushButton):
+            if not resetall: 
+                if w.objectName() != widget:
+                    w.setStyleSheet(UIFunctions.deselectButton(w.styleSheet()))
+            else: w.setStyleSheet(UIFunctions.deselectButton(w.styleSheet()))
+
     # IMPORT THEMES FILES QSS/CSS
     # ///////////////////////////////////////////////////////////////
     def theme(self, file, useCustomTheme):
