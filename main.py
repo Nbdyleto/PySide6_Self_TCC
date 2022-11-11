@@ -113,7 +113,9 @@ class MainWindow(QMainWindow):
         widgets.btnPyJucoPurple.clicked.connect(self.changePallete)
         widgets.btnPyJucoBlue.clicked.connect(self.changePallete)
         widgets.btnPyJucoGreen.clicked.connect(self.changePallete)
-        self.pomodoroPallete()
+        widgets.newPomodoroPage.ui.btnPomodoro.clicked.connect(self.changePallete)
+        widgets.newPomodoroPage.ui.btnShortRest.clicked.connect(self.changePallete)
+        widgets.newPomodoroPage.ui.btnLongRest.clicked.connect(self.changePallete)
 
         # EXTRA LEFT BOX
         def openCloseLeftBox():
@@ -141,7 +143,6 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         widgets.stackedWidget.setCurrentWidget(widgets.home)
         widgets.btn_home.setStyleSheet(UIFunctions.selectMenu(widgets.btn_home.styleSheet()))
-
 
     # BUTTONS CLICK
     # Post here your functions for clicked buttons
@@ -184,11 +185,6 @@ class MainWindow(QMainWindow):
 
         # PRINT BTN NAME
         print(f'Button "{btnName}" pressed!')
-
-    def pomodoroPallete(self):
-        widgets.newPomodoroPage.ui.btnPomodoro.clicked.connect(self.changePallete)
-        widgets.newPomodoroPage.ui.btnShortRest.clicked.connect(self.changePallete)
-        widgets.newPomodoroPage.ui.btnLongRest.clicked.connect(self.changePallete)
 
     def changePallete(self):
         btn = self.sender()

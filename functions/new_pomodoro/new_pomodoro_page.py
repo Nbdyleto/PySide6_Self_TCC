@@ -64,6 +64,11 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         widgets.btnResetTimer.clicked.connect(self.resetTimer)
         widgets.tblTasks.cellDoubleClicked.connect(self.markTaskAsFinished)
         widgets.tblTasks.cellClicked.connect(self.showTaskInLabel)
+        
+        #widgets.btnPomodoro.clicked.connect(lambda: print('test'))
+        widgets.btnPomodoro.click()
+        #widgets.btnShortRest.clicked.connect(lambda: print('test'))
+        #widgets.btnLongRest.clicked.connect(lambda: print('test'))
 
     def setupTableResize(self):
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
