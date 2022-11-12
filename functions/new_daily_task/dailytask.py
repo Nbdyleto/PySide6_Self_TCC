@@ -15,9 +15,12 @@ class DTaskMainPage(QtWidgets.QWidget):
     def setupVariables(self):
         global widgets
         widgets = self.ui
+        self.selectedTask = None
 
     def setupConnections(self):
         widgets.tblTasks.cellClicked.connect(self.rowClickedFunctions)
+        widgets.tblTasks.itemChanged.connect(self.updateDBRecord)
+        widgets.tblLists.cellClicked.connect(self.updateStatusOrTopic)
 
     def setupWidgets(self):
         widgets.tblTasks.setColumnWidth(0,350)
@@ -44,9 +47,6 @@ class DTaskMainPage(QtWidgets.QWidget):
         with DBMainOperations() as db:
             taskscount = db.cursor.execute("SELECT COUNT(*) FROM tasks").fetchone()[0]
             widgets.tblTasks.setRowCount(taskscount+1)
-            #topicscount = db.cursor.execute("SELECT COUNT(*) FROM topics").fetchone()[0]
-            #tblTopics.setRowCount(topicscount+1)
-            topics = db.cursor.execute("SELECT * FROM topics").fetchall()
             tasks = db.cursor.execute("SELECT * FROM tasks ORDER BY start_date").fetchall()
         try:
             tablerow = 0
@@ -55,8 +55,8 @@ class DTaskMainPage(QtWidgets.QWidget):
                 #startDate, endDate = self.formatDate(row[2], row[3])
                 widgets.tblTasks.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(row[0]))  #row[0] = task_name
                 widgets.tblTasks.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(row[1]))  #row[1] = status
-                widgets.tblTasks.setItem(tablerow, 2, QtWidgets.QTableWidgetItem('startDate')) #row[3] = start_date
-                widgets.tblTasks.setItem(tablerow, 3, QtWidgets.QTableWidgetItem('endDate')) #row[4] = end_date
+                widgets.tblTasks.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(row[2])) #row[3] = start_date
+                widgets.tblTasks.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(row[3])) #row[4] = end_date
                 widgets.tblTasks.setItem(tablerow, 4, QtWidgets.QTableWidgetItem('self.topics[row[4]][1]')) #row[4] = topic_id
                 tablerow += 1
                 
@@ -67,7 +67,7 @@ class DTaskMainPage(QtWidgets.QWidget):
     # Row functions
 
     def rowClickedFunctions(self, row, col):
-        if self.isExistentInDB(row) and col != 0:
+        if self.isExistentInDB(row):
             widgets.lblSetInfo.setVisible(True)
             if col == 1:
                 self.loadStatusList()
@@ -79,17 +79,19 @@ class DTaskMainPage(QtWidgets.QWidget):
                 self.loadTopicsList()
             else: 
                 self.hideAll()
+        else:
+            print('no correspondence in db!')
 
     def isExistentInDB(self, row):
         self.hideAll()
         with DBMainOperations() as db:
             try:
-                selectedrow = widgets.tblTasks.item(row, 0).text()
-                db.getAllRecords(tbl='tasks', specifcols='task_name', whclause=f'task_name = "{selectedrow}"')
-                print('existent!')
+                taskname = widgets.tblTasks.item(row, 0).text()
+                self.selectedTask = db.getAllRecords(tbl='tasks', specifcols='task_name', 
+                                                     whclause=f'task_name = "{taskname}"')[0][0]
                 return True
             except Exception:
-                print('not existent!')
+                self.selectedTask = ''
                 return False
 
     def hideAll(self):
@@ -103,6 +105,7 @@ class DTaskMainPage(QtWidgets.QWidget):
     def loadStatusList(self):
         widgets.lblSetInfo.setText('Status:')
         widgets.tblLists.show()
+        widgets.tblLists.setObjectName('tblStatus')
         widgets.tblLists.setRowCount(3)
         widgets.tblLists.setItem(0, 0, QtWidgets.QTableWidgetItem('Não iniciada.'))
         widgets.tblLists.setItem(1, 0, QtWidgets.QTableWidgetItem('Em progresso...'))
@@ -110,6 +113,7 @@ class DTaskMainPage(QtWidgets.QWidget):
     
     def loadTopicsList(self):
         widgets.tblLists.show()
+        widgets.tblLists.setObjectName('tblTopic')
         widgets.lblSetInfo.setText('Tópico:')
         with DBMainOperations() as db:
             topicscount = db.cursor.execute("SELECT COUNT(*) FROM topics").fetchone()[0]
@@ -128,3 +132,25 @@ class DTaskMainPage(QtWidgets.QWidget):
     def showEndDate(self):
         widgets.lblSetInfo.setText('Data Final:')
         widgets.qCalendar.show()
+
+    def updateStatusOrTopic(self, row):
+        pass
+
+    def updateDBRecord(self, item):
+        if self.selectedTask == '':
+            # not existent in db, so, create new data.
+            sysdate = QtCore.QDate.currentDate().toString(QtCore.Qt.ISODate)
+            newdata = (item.text(), "A começar", sysdate, sysdate, 0)
+            with DBMainOperations() as db:
+                db.populateTbl('tasks', params=newdata)
+            print('adding...')
+        elif self.selectedTask is not None:
+            # existent in db, so, update old data.
+            oldtask = self.selectedTask
+            with DBMainOperations() as db:
+                db.cursor.execute(f"UPDATE tasks SET task_name = '{item.text()}' WHERE task_name = '{oldtask}'")
+            print('changing...')
+        else:
+            return
+        self.selectedTask = None    # reset selection
+        self.loadDataInTable()
