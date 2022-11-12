@@ -13,6 +13,8 @@ class DTaskMainPage(QtWidgets.QWidget):
         self.setupWidgets()
 
     def setupVariables(self):
+        # SET AS GLOBAL WIDGETS
+        # ///////////////////////////////////////////////////////////////
         global widgets
         widgets = self.ui
         self.selectedTask = None
@@ -23,6 +25,8 @@ class DTaskMainPage(QtWidgets.QWidget):
         widgets.tblLists.cellClicked.connect(self.updateStatusOrTopic)
 
     def setupWidgets(self):
+        # tblTasks PARAMETERS
+        # ///////////////////////////////////////////////////////////////
         widgets.tblTasks.setColumnWidth(0,350)
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
@@ -42,6 +46,9 @@ class DTaskMainPage(QtWidgets.QWidget):
         widgets.tblLists.setColumnCount(1)
         widgets.tblLists.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
 
+    # LOAD DATA FUNCTIONS
+    # ///////////////////////////////////////////////////////////////
+
     def loadDataInTable(self):
         widgets.tblTasks.clearContents()
         with DBMainOperations() as db:
@@ -52,19 +59,27 @@ class DTaskMainPage(QtWidgets.QWidget):
             tablerow = 0
             for row in tasks:
                 widgets.tblTasks.setRowHeight(tablerow, 50)
-                #startDate, endDate = self.formatDate(row[2], row[3])
+                startDate, endDate = self.formatDate(row[2], row[3])
                 widgets.tblTasks.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(row[0]))  #row[0] = task_name
                 widgets.tblTasks.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(row[1]))  #row[1] = status
-                widgets.tblTasks.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(row[2])) #row[3] = start_date
-                widgets.tblTasks.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(row[3])) #row[4] = end_date
+                widgets.tblTasks.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(startDate)) #row[3] = start_date
+                widgets.tblTasks.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(endDate)) #row[4] = end_date
                 widgets.tblTasks.setItem(tablerow, 4, QtWidgets.QTableWidgetItem('self.topics[row[4]][1]')) #row[4] = topic_id
                 tablerow += 1
                 
             widgets.tblTasks.setRowHeight(tablerow, 50)
         except Exception:
             print('ERROR')
+
+    def formatDate(self, startDate, endDate):
+        x = startDate.split('-')
+        formatedStartDate = QtCore.QDate(int(x[0]), int(x[1]), int(x[2])).toString(QtCore.Qt.RFC2822Date)
+        y = endDate.split('-')
+        formatedEndDate = QtCore.QDate(int(y[0]), int(y[1]), int(y[2])).toString(QtCore.Qt.RFC2822Date)
+        return formatedStartDate, formatedEndDate
     
-    # Row functions
+    # ROW CLICKED FUNCTIONS
+    # ///////////////////////////////////////////////////////////////
 
     def rowClickedFunctions(self, row, col):
         if self.isExistentInDB(row):
@@ -133,24 +148,27 @@ class DTaskMainPage(QtWidgets.QWidget):
         widgets.lblSetInfo.setText('Data Final:')
         widgets.qCalendar.show()
 
-    def updateStatusOrTopic(self, row):
-        pass
+    # UPDATE IN DB FUNCTIONS
+    # ///////////////////////////////////////////////////////////////
 
     def updateDBRecord(self, item):
         if self.selectedTask == '':
-            # not existent in db, so, create new data.
+            # Not existent in db, so, create new data.
             sysdate = QtCore.QDate.currentDate().toString(QtCore.Qt.ISODate)
             newdata = (item.text(), "A começar", sysdate, sysdate, 0)
             with DBMainOperations() as db:
                 db.populateTbl('tasks', params=newdata)
             print('adding...')
         elif self.selectedTask is not None:
-            # existent in db, so, update old data.
+            # Existent in db, so, update old data.
             oldtask = self.selectedTask
             with DBMainOperations() as db:
                 db.cursor.execute(f"UPDATE tasks SET task_name = '{item.text()}' WHERE task_name = '{oldtask}'")
             print('changing...')
         else:
             return
-        self.selectedTask = None    # reset selection
+        self.selectedTask = None
         self.loadDataInTable()
+
+    def updateStatusOrTopic(self, row):
+        pass
