@@ -17,7 +17,8 @@ from functions.new_daily_task.dailytask import DTaskMainPage
 from functions.new_flashcards.flashcards_page import MainFlashcardsPage
 from functions.new_pomodoro.new_pomodoro_page import NewPomodoroMainPage
 
-from functions.daily_task.old_daily_task_page import oldDTaskMainPage # temp
+from functions.daily_task.old_daily_task_page import oldDTaskMainPage
+from functions.see_progress.see_progress import SeeProgressMainPage # temp
 
 from . resources_rc import *
 
@@ -535,6 +536,9 @@ class Ui_MainWindow(object):
         # new pomodoro:
         self.newPomodoroPage = NewPomodoroMainPage()
         self.stackedWidget.addWidget(self.newPomodoroPage)
+        # see progress:
+        self.seeProgressPage = SeeProgressMainPage()
+        self.stackedWidget.addWidget(self.seeProgressPage)
 
         self.widgets = QWidget()
         self.widgets.setObjectName(u"widgets")

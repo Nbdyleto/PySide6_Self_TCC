@@ -160,7 +160,7 @@ class MainWindow(QMainWindow):
 
         # SHOW WIDGETS PAGE
         if btnName == "btn_progress_page":
-            widgets.stackedWidget.setCurrentWidget(widgets.pomodoroPage)
+            widgets.stackedWidget.setCurrentWidget(widgets.seeProgressPage)
             UIFunctions.resetStyle(self, btnName)
             self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet()))
 
