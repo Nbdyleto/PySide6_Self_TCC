@@ -32,7 +32,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <property name="tabsClosable">
       <bool>false</bool>
@@ -165,6 +165,9 @@
                </property>
               </widget>
              </item>
+             <item>
+              <widget class="QListWidget" name="listWidget"/>
+             </item>
             </layout>
            </widget>
           </item>
@@ -184,6 +187,9 @@
                </property>
               </widget>
              </item>
+             <item>
+              <widget class="QListWidget" name="listWidget_2"/>
+             </item>
             </layout>
            </widget>
           </item>
@@ -191,7 +197,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QFrame" name="framePieChart_flashcards">
+        <widget class="QFrame" name="frame_19">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -200,7 +206,25 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_7">
           <item>
-           <widget class="QComboBox" name="comboBox"/>
+           <widget class="QFrame" name="framePieChart_flashcards">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_18">
+             <item>
+              <widget class="QComboBox" name="qCBoxFlashcards">
+               <item>
+                <property name="text">
+                 <string>Geral</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -288,7 +312,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QListWidget" name="listWidget_2"/>
+              <widget class="QListWidget" name="listWidget_3"/>
              </item>
             </layout>
            </widget>
@@ -310,7 +334,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QListWidget" name="listWidget"/>
+              <widget class="QListWidget" name="listWidget_4"/>
              </item>
             </layout>
            </widget>
@@ -319,13 +343,30 @@
         </widget>
        </item>
        <item>
-        <widget class="QFrame" name="framePieChart_tasks">
+        <widget class="QFrame" name="frame_9">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
+         <layout class="QVBoxLayout" name="verticalLayout_17">
+          <item>
+           <widget class="QFrame" name="framePieChart_tasks">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_20">
+             <item>
+              <widget class="QComboBox" name="qCBoxTasks"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -333,9 +374,6 @@
      <widget class="QWidget" name="tabPomodoroPage">
       <attribute name="title">
        <string>Pomodoro</string>
-      </attribute>
-      <attribute name="whatsThis">
-       <string>pomodoro</string>
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_5">
        <item>
@@ -419,24 +457,37 @@
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_16">
-             <item>
-              <widget class="QListWidget" name="listWidget_3"/>
-             </item>
-            </layout>
+            <layout class="QVBoxLayout" name="verticalLayout_16"/>
            </widget>
           </item>
          </layout>
         </widget>
        </item>
        <item>
-        <widget class="QFrame" name="frameCharts_pomodoro">
+        <widget class="QFrame" name="frame_20">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
+         <layout class="QVBoxLayout" name="verticalLayout_19">
+          <item>
+           <widget class="QFrame" name="frameCharts_pomodoro">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_21">
+             <item>
+              <widget class="QComboBox" name="qCBoxPomodoro"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
