@@ -58,10 +58,11 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.progressValue = 0
 
     def setupConnections(self):
-        widgets.btnStartTimer.clicked.connect(self.startTimer)
-        widgets.btnResetTimer.clicked.connect(self.resetTimer)
         widgets.tblTasks.cellDoubleClicked.connect(self.markTaskAsFinished)
         widgets.tblTasks.cellClicked.connect(self.showTaskInLabel)
+
+        #widgets.btnPomodoro.clicked.connect(lambda: self.updateMode(Mode.work))
+        #widgets.btnShortRest.clicked.connect(lambda: self.updateMode(Mode.short_rest))
 
         widgets.btnStartTimer.clicked.connect(self.startTimer)
         widgets.btnStartTimer.clicked.connect(lambda: widgets.btnStartTimer.setDisabled(True))
@@ -117,6 +118,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
                 self.time = self.restEndTime
             self.displayTime()
             self.progressValue = 0
+            widgets.progressBar.setValue(self.progressValue)
         except:
             pass
 
@@ -178,8 +180,6 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             #started = self.maybeStartTimer()
             #self.showWindowMessage(Status.restFinished if started else Status.repetitionsReached)
             
-            
-
     def incrementCurrentRepetitions(self):
         if self.maxRepetitions > 0:
             self.currentRepetitions += 1
