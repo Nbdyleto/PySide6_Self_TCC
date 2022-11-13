@@ -515,5 +515,19 @@ Button */
 	border: 2px solid rgb(43, 50, 61);
 }
 
-
+QTabWidget::tab-bar {
+   border: 3px solid gray;
+}
+QTabBar::tab {
+  background: rgb(34, 41, 34);
+  color: white;
+  padding: 10px;
+ }
+QTabBar::tab:selected {
+  background: gray;
+}
+QTabWidget::pane {
+background-color: rgb(34, 41, 34);
+   border: none;
+}
 
