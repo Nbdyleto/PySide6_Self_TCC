@@ -62,10 +62,19 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         widgets.btnResetTimer.clicked.connect(self.resetTimer)
         widgets.tblTasks.cellDoubleClicked.connect(self.markTaskAsFinished)
         widgets.tblTasks.cellClicked.connect(self.showTaskInLabel)
-        
-        #widgets.btnPomodoro.clicked.connect(lambda: print('test'))
-        #widgets.btnShortRest.clicked.connect(lambda: print('test'))
-        #widgets.btnLongRest.clicked.connect(lambda: print('test'))
+
+        widgets.btnStartTimer.clicked.connect(self.startTimer)
+        widgets.btnStartTimer.clicked.connect(lambda: widgets.btnStartTimer.setDisabled(True))
+        widgets.btnStartTimer.clicked.connect(lambda: widgets.btnPauseTimer.setDisabled(False))
+        widgets.btnStartTimer.clicked.connect(lambda: widgets.btnResetTimer.setDisabled(False))
+        widgets.btnPauseTimer.clicked.connect(self.pauseTimer)
+        widgets.btnPauseTimer.clicked.connect(lambda: widgets.btnStartTimer.setDisabled(False))
+        widgets.btnPauseTimer.clicked.connect(lambda: widgets.btnPauseTimer.setDisabled(True))
+        widgets.btnPauseTimer.clicked.connect(lambda: widgets.btnResetTimer.setDisabled(False))
+        widgets.btnResetTimer.clicked.connect(self.resetTimer)
+        widgets.btnResetTimer.clicked.connect(lambda: widgets.btnStartTimer.setDisabled(False))
+        widgets.btnResetTimer.clicked.connect(lambda: widgets.btnPauseTimer.setDisabled(True))
+        widgets.btnResetTimer.clicked.connect(lambda: widgets.btnResetTimer.setDisabled(True))
 
     def setupTableResize(self):
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
@@ -148,6 +157,9 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             self.currentMode = Mode.short_rest
             self.resetTimer()
             widgets.btnShortRest.click()
+            widgets.btnPauseTimer.setEnabled(False)
+            widgets.btnResetTimer.setEnabled(False)
+            widgets.btnStartTimer.setEnabled(True)
             #self.incrementCurrentRepetitions()
             #started = self.maybeStartTimer()
             #print(started)
@@ -159,6 +171,9 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             self.currentMode = Mode.work
             self.resetTimer()
             widgets.btnPomodoro.click()
+            widgets.btnPauseTimer.setEnabled(False)
+            widgets.btnResetTimer.setEnabled(False)
+            widgets.btnStartTimer.setEnabled(True)
             #self.incrementCurrentRepetitions()
             #started = self.maybeStartTimer()
             #self.showWindowMessage(Status.restFinished if started else Status.repetitionsReached)
