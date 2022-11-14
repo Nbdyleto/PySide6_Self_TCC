@@ -56,6 +56,7 @@ class DTaskMainPage(QtWidgets.QWidget):
             taskscount = db.cursor.execute("SELECT COUNT(*) FROM tasks").fetchone()[0]
             widgets.tblTasks.setRowCount(taskscount+1)
             tasks = db.cursor.execute("SELECT * FROM tasks ORDER BY start_date").fetchall()
+            topics = db.getAllRecords('topics')
         try:
             tablerow = 0
             for row in tasks:
@@ -65,7 +66,7 @@ class DTaskMainPage(QtWidgets.QWidget):
                 widgets.tblTasks.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(row[1]))  #row[1] = status
                 widgets.tblTasks.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(startDate)) #row[3] = start_date
                 widgets.tblTasks.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(endDate)) #row[4] = end_date
-                widgets.tblTasks.setItem(tablerow, 4, QtWidgets.QTableWidgetItem('self.topics[row[4]][1]')) #row[4] = topic_id
+                widgets.tblTasks.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(str(row[4]))) #row[4] = topic_id
                 tablerow += 1
                 
             widgets.tblTasks.setRowHeight(tablerow, 50)
@@ -177,15 +178,18 @@ class DTaskMainPage(QtWidgets.QWidget):
 
     def updateStatusOrTopic(self, row):
         print(self.selectedTask)
-        newvalue = widgets.tblLists.item(row, 0).text()
         col = None
         if self.activeTable == 'tblStatus':
-            col = 'status'
+            with DBMainOperations() as db:
+                newstatus = widgets.tblLists.item(row, 0).text()
+                db.cursor.execute(f"UPDATE tasks SET status = '{newstatus}' WHERE task_name = '{self.selectedTask}'")
         elif self.activeTable == 'tblTopics':
-            col = 'topic_id'
+            topicname = widgets.tblLists.item(row, 0).text()
+            with DBMainOperations() as db:
+                newid = db.getAllRecords(tbl='topics', whclause=f'topic_name = "{topicname}"')[0][0] # get topic_id
+                db.cursor.execute(f"UPDATE tasks SET topic_id = '{newid}' WHERE task_name = '{self.selectedTask}'")
         else:
             return
-        with DBMainOperations() as db:
-            db.cursor.execute(f"UPDATE tasks SET {col} = '{newvalue}' WHERE task_name = '{self.selectedTask}'")
         self.selectedTask = None
+        self.hideAll()
         self.loadDataInTable()
