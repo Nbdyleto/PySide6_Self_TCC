@@ -109,6 +109,8 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.resetTimer()
 
     def startTimer(self):
+        if self.currentMode == Mode.work:
+            widgets.btnPomodoro.click()
         try:
             if not self.timer.isActive():
                 self.createTimer()
