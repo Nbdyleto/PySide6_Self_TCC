@@ -56,22 +56,28 @@ class DTaskMainPage(QtWidgets.QWidget):
             taskscount = db.cursor.execute("SELECT COUNT(*) FROM tasks").fetchone()[0]
             widgets.tblTasks.setRowCount(taskscount+1)
             tasks = db.cursor.execute("SELECT * FROM tasks ORDER BY start_date").fetchall()
-            topics = db.getAllRecords('topics')
+            
         try:
             tablerow = 0
             for row in tasks:
                 widgets.tblTasks.setRowHeight(tablerow, 50)
                 startDate, endDate = self.formatDate(row[2], row[3])
+                topic = self.getTopicName(row[4])
                 widgets.tblTasks.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(row[0]))  #row[0] = task_name
                 widgets.tblTasks.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(row[1]))  #row[1] = status
-                widgets.tblTasks.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(startDate)) #row[3] = start_date
-                widgets.tblTasks.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(endDate)) #row[4] = end_date
-                widgets.tblTasks.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(str(row[4]))) #row[4] = topic_id
+                widgets.tblTasks.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(startDate)) #row[2] = start_date
+                widgets.tblTasks.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(endDate)) #row[3] = end_date
+                widgets.tblTasks.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(topic)) #row[4] = topic_id
                 tablerow += 1
                 
             widgets.tblTasks.setRowHeight(tablerow, 50)
         except Exception:
             print('ERROR')
+
+    def getTopicName(self, topicid):
+        with DBMainOperations() as db:
+            name = db.getAllRecords(tbl='topics', whclause=f'topic_id = "{topicid}"')[0][1] # get topic_name
+        return name
 
     def formatDate(self, startDate, endDate):
         x = startDate.split('-')
