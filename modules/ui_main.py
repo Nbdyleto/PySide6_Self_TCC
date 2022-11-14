@@ -11,13 +11,9 @@
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
-
-from functions.daily_task import *
 from functions.new_daily_task.dailytask import DTaskMainPage
 from functions.new_flashcards.flashcards_page import MainFlashcardsPage
 from functions.new_pomodoro.new_pomodoro_page import NewPomodoroMainPage
-
-from functions.daily_task.old_daily_task_page import oldDTaskMainPage
 from functions.see_progress.see_progress import SeeProgressMainPage # temp
 
 from . resources_rc import *
@@ -524,15 +520,12 @@ class Ui_MainWindow(object):
 #"background-repeat: no-repeat;")
         self.stackedWidget.addWidget(self.home)
 
-        self.dailyTaskPage = oldDTaskMainPage()
-        self.stackedWidget.addWidget(self.dailyTaskPage)
-
-        # new flashcards:
-        self.newFlashcardsPage = MainFlashcardsPage()
-        self.stackedWidget.addWidget(self.newFlashcardsPage)
         # new dailytask:
         self.newDailyTaskPage = DTaskMainPage()
         self.stackedWidget.addWidget(self.newDailyTaskPage)
+        # new flashcards:
+        self.newFlashcardsPage = MainFlashcardsPage()
+        self.stackedWidget.addWidget(self.newFlashcardsPage)
         # new pomodoro:
         self.newPomodoroPage = NewPomodoroMainPage()
         self.stackedWidget.addWidget(self.newPomodoroPage)
