@@ -137,11 +137,11 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         widgets.btnStartTimer.setDisabled(False)
         widgets.btnPauseTimer.setDisabled(True)
         widgets.btnResetTimer.setDisabled(False)
-        self.workSecondPercent = 1/(int(self.settings.value(workMinutesKey))*60/100)
-        self.restSecondPercent =  1/(int(self.settings.value(shortMinutesKey))*60/100)
-        self.longRestSecondPercent = 1/(int(self.settings.value(longMinutesKey))*60/100)
+        self.workSecondPercent = 1/(int(self.settings.value(workMinutesKey, 25))*60/100)
+        self.shortRestSecondPercent =  1/(int(self.settings.value(shortMinutesKey, 5))*60/100)
+        self.longRestSecondPercent = 1/(int(self.settings.value(longMinutesKey, 15))*60/100)
         
-        print(self.workSecondPercent, self.restSecondPercent)
+        print(self.workSecondPercent, self.shortRestSecondPercent, self.longRestSecondPercent)
 
         try:
             self.pauseTimer()
@@ -179,9 +179,10 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             self.progressValue += self.shortRestSecondPercent
         elif self.currentMode is Mode.long_rest:
             self.restTime = self.restTime.addSecs(1)
-            self.progressValue += self.longRestEndTime
+            self.progressValue += self.longRestSecondPercent
         else:
             pass 
+        print(self.workSecondPercent, self.shortRestSecondPercent, self.longRestSecondPercent)
 
         widgets.progressBar.setValue(self.progressValue)
         self.displayTime()
