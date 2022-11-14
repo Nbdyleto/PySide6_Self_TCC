@@ -17,13 +17,14 @@ class DTaskMainPage(QtWidgets.QWidget):
         # ///////////////////////////////////////////////////////////////
         global widgets
         widgets = self.ui
-        self.activeTable = None
-        self.selectedTask = None
+        self.selectedTask, self.activeCalendar, self.activeTable = None, None, None
+        
 
     def setupConnections(self):
         widgets.tblTasks.cellClicked.connect(self.rowClickedFunctions)
         widgets.tblTasks.itemChanged.connect(self.updateDBRecord)
         widgets.tblLists.cellClicked.connect(self.updateStatusOrTopic)
+        widgets.qCalendar.selectionChanged.connect(self.updateCalendarDate)
 
     def setupWidgets(self):
         # tblTasks PARAMETERS
@@ -153,12 +154,16 @@ class DTaskMainPage(QtWidgets.QWidget):
             tablerow += 1
 
     def showInitialDate(self):
-        widgets.lblSetInfo.setText('Data Inicial:')
+        self.activeCalendar = 'calInitialDate'
+        widgets.qCalendar.setObjectName('calInitialDate')
         widgets.qCalendar.show()
+        widgets.lblSetInfo.setText('Data Inicial:')
 
     def showEndDate(self):
-        widgets.lblSetInfo.setText('Data Final:')
+        self.activeCalendar = 'calEndDate'
+        widgets.qCalendar.setObjectName('calEndDate')
         widgets.qCalendar.show()
+        widgets.lblSetInfo.setText('Data Final:')
 
     # UPDATE IN DB FUNCTIONS
     # ///////////////////////////////////////////////////////////////
@@ -183,8 +188,6 @@ class DTaskMainPage(QtWidgets.QWidget):
         self.loadDataInTable()
 
     def updateStatusOrTopic(self, row):
-        print(self.selectedTask)
-        col = None
         if self.activeTable == 'tblStatus':
             with DBMainOperations() as db:
                 newstatus = widgets.tblLists.item(row, 0).text()
@@ -196,6 +199,19 @@ class DTaskMainPage(QtWidgets.QWidget):
                 db.cursor.execute(f"UPDATE tasks SET topic_id = '{newid}' WHERE task_name = '{self.selectedTask}'")
         else:
             return
-        self.selectedTask = None
-        self.hideAll()
+        self.selectedTask, self.activeTable = None, None
         self.loadDataInTable()
+        self.hideAll()
+
+    def updateCalendarDate(self):
+        newdate = widgets.qCalendar.selectedDate().toString(QtCore.Qt.ISODate)
+        print(newdate)
+        if self.activeCalendar == 'calInitialDate':
+            with DBMainOperations() as db: 
+                db.cursor.execute(f"UPDATE tasks SET start_date = '{newdate}' WHERE task_name = '{self.selectedTask}'")
+        elif self.activeCalendar == 'calEndDate':
+            with DBMainOperations() as db: 
+                db.cursor.execute(f"UPDATE tasks SET end_date = '{newdate}' WHERE task_name = '{self.selectedTask}'")
+        self.selectedTask, self.activeCalendar = None, None
+        self.loadDataInTable()
+        self.hideAll()
