@@ -36,16 +36,6 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         # QTime Variables
         self.settings = QtCore.QSettings()
 
-        self.settings.value(workHoursKey, 0)
-        self.settings.value(workMinutesKey, 25)
-        self.settings.value(workSecondsKey, 0)
-        self.settings.value(shortHoursKey, 0)
-        self.settings.value(shortMinutesKey, 5)
-        self.settings.value(shortSecondsKey, 0)
-        self.settings.value(longHoursKey, 0)
-        self.settings.value(longMinutesKey, 15)
-        self.settings.value(longSecondsKey, 0)
-
         self.workEndTime = QtCore.QTime(
             int(self.settings.value(workHoursKey, 0)),
             int(self.settings.value(workMinutesKey, 25)),
@@ -70,11 +60,11 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.maxRepetitions = -1
         self.currentRepetitions = 0
         # Progress Bar Variables
-        print('testing: ', self.settings.value(workMinutesKey))
-        print('testing: ', self.settings.value(shortMinutesKey))
-        self.workSecondPercent = 1/(int(self.settings.value(workMinutesKey))*60/100)
-        self.shortRestSecondPercent =  1/(int(self.settings.value(shortMinutesKey))*60/100)
-        self.longRestSecondPercent = 1/(int(self.settings.value(longMinutesKey))*60/100)
+        #print('testing: ', self.settings.value(workMinutesKey))
+        #print('testing: ', self.settings.value(shortMinutesKey))
+        self.workSecondPercent = 1/(int(self.settings.value(workMinutesKey, 25))*60/100)
+        self.shortRestSecondPercent =  1/(int(self.settings.value(shortMinutesKey, 5))*60/100)
+        self.longRestSecondPercent = 1/(int(self.settings.value(longMinutesKey, 15))*60/100)
         self.progressValue = 0
 
     def setupConnections(self):
@@ -107,9 +97,9 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
         self.loadDataInTable()
 
-        widgets.workMinutesSpinBox.setValue(int(self.settings.value(workMinutesKey)))
-        widgets.shortMinutesSpinBox.setValue(int(self.settings.value(shortMinutesKey)))
-        widgets.longMinutesSpinBox.setValue(int(self.settings.value(longMinutesKey)))
+        widgets.workMinutesSpinBox.setValue(int(self.settings.value(workMinutesKey, 25)))
+        widgets.shortMinutesSpinBox.setValue(int(self.settings.value(shortMinutesKey, 5)))
+        widgets.longMinutesSpinBox.setValue(int(self.settings.value(longMinutesKey, 15)))
 
     # Pomodoro Timer Functions
 
