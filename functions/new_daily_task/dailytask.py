@@ -17,6 +17,7 @@ class DTaskMainPage(QtWidgets.QWidget):
         # ///////////////////////////////////////////////////////////////
         global widgets
         widgets = self.ui
+        self.activeTable = None
         self.selectedTask = None
 
     def setupConnections(self):
@@ -104,12 +105,14 @@ class DTaskMainPage(QtWidgets.QWidget):
                 taskname = widgets.tblTasks.item(row, 0).text()
                 self.selectedTask = db.getAllRecords(tbl='tasks', specifcols='task_name', 
                                                      whclause=f'task_name = "{taskname}"')[0][0]
+                print(self.selectedTask)
                 return True
             except Exception:
                 self.selectedTask = ''
                 return False
 
     def hideAll(self):
+        self.activeTable = None
         widgets.tblLists.clearContents()
         widgets.qCalendar.clearMask()
         widgets.lblSetInfo.setVisible(False)
@@ -118,6 +121,7 @@ class DTaskMainPage(QtWidgets.QWidget):
         widgets.lblSetInfo.setVisible(False)
 
     def loadStatusList(self):
+        self.activeTable = 'tblStatus'
         widgets.lblSetInfo.setText('Status:')
         widgets.tblLists.show()
         widgets.tblLists.setObjectName('tblStatus')
@@ -127,8 +131,9 @@ class DTaskMainPage(QtWidgets.QWidget):
         widgets.tblLists.setItem(2, 0, QtWidgets.QTableWidgetItem('Concluida!'))
     
     def loadTopicsList(self):
+        self.activeTable = 'tblTopics'
         widgets.tblLists.show()
-        widgets.tblLists.setObjectName('tblTopic')
+        widgets.tblLists.setObjectName('tblTopics')
         widgets.lblSetInfo.setText('Tópico:')
         with DBMainOperations() as db:
             topicscount = db.cursor.execute("SELECT COUNT(*) FROM topics").fetchone()[0]
@@ -171,4 +176,16 @@ class DTaskMainPage(QtWidgets.QWidget):
         self.loadDataInTable()
 
     def updateStatusOrTopic(self, row):
-        pass
+        print(self.selectedTask)
+        newvalue = widgets.tblLists.item(row, 0).text()
+        col = None
+        if self.activeTable == 'tblStatus':
+            col = 'status'
+        elif self.activeTable == 'tblTopics':
+            col = 'topic_id'
+        else:
+            return
+        with DBMainOperations() as db:
+            db.cursor.execute(f"UPDATE tasks SET {col} = '{newvalue}' WHERE task_name = '{self.selectedTask}'")
+        self.selectedTask = None
+        self.loadDataInTable()
