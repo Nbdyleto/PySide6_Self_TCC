@@ -66,8 +66,8 @@
        <widget class="QFrame" name="frame_3">
         <property name="maximumSize">
          <size>
-          <width>450</width>
-          <height>200</height>
+          <width>400</width>
+          <height>150</height>
          </size>
         </property>
         <property name="frameShape">
@@ -81,16 +81,16 @@
           <number>2</number>
          </property>
          <property name="leftMargin">
-          <number>0</number>
+          <number>6</number>
          </property>
          <property name="topMargin">
-          <number>0</number>
+          <number>6</number>
          </property>
          <property name="rightMargin">
-          <number>0</number>
+          <number>6</number>
          </property>
          <property name="bottomMargin">
-          <number>0</number>
+          <number>6</number>
          </property>
          <item>
           <widget class="QFrame" name="frame_6">
@@ -101,6 +101,21 @@
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
+            <property name="spacing">
+             <number>2</number>
+            </property>
+            <property name="leftMargin">
+             <number>6</number>
+            </property>
+            <property name="topMargin">
+             <number>6</number>
+            </property>
+            <property name="rightMargin">
+             <number>6</number>
+            </property>
+            <property name="bottomMargin">
+             <number>6</number>
+            </property>
             <item>
              <widget class="QPushButton" name="btnOrderByTopic">
               <property name="minimumSize">
@@ -132,7 +147,7 @@ font-size: 12px;</string>
               </property>
              </widget>
             </item>
-            <item>
+            <item alignment="Qt::AlignHCenter">
              <widget class="QFrame" name="frameByTopic">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
@@ -141,8 +156,29 @@ font-size: 12px;</string>
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
+               <property name="spacing">
+                <number>2</number>
+               </property>
+               <property name="leftMargin">
+                <number>6</number>
+               </property>
+               <property name="topMargin">
+                <number>6</number>
+               </property>
+               <property name="rightMargin">
+                <number>6</number>
+               </property>
+               <property name="bottomMargin">
+                <number>6</number>
+               </property>
                <item>
                 <widget class="QListWidget" name="listByTopic">
+                 <property name="maximumSize">
+                  <size>
+                   <width>150</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
                  <property name="cursor" stdset="0">
                   <cursorShape>PointingHandCursor</cursorShape>
                  </property>
@@ -172,6 +208,21 @@ font-size: 12px;</string>
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_4">
+            <property name="spacing">
+             <number>2</number>
+            </property>
+            <property name="leftMargin">
+             <number>6</number>
+            </property>
+            <property name="topMargin">
+             <number>6</number>
+            </property>
+            <property name="rightMargin">
+             <number>6</number>
+            </property>
+            <property name="bottomMargin">
+             <number>6</number>
+            </property>
             <item>
              <widget class="QPushButton" name="btnOrderByStatus">
               <property name="minimumSize">
@@ -203,7 +254,7 @@ font-size: 12px;</string>
               </property>
              </widget>
             </item>
-            <item>
+            <item alignment="Qt::AlignHCenter">
              <widget class="QFrame" name="frameByStatus">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
@@ -212,84 +263,30 @@ font-size: 12px;</string>
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_6">
-               <item>
-                <widget class="QCheckBox" name="notStartedCheckBox">
-                 <property name="text">
-                  <string>Não iniciada.</string>
+               <property name="spacing">
+                <number>2</number>
+               </property>
+               <property name="leftMargin">
+                <number>6</number>
+               </property>
+               <property name="topMargin">
+                <number>6</number>
+               </property>
+               <property name="rightMargin">
+                <number>6</number>
+               </property>
+               <property name="bottomMargin">
+                <number>6</number>
+               </property>
+               <item alignment="Qt::AlignLeft">
+                <widget class="QListWidget" name="listByStatus">
+                 <property name="maximumSize">
+                  <size>
+                   <width>150</width>
+                   <height>16777215</height>
+                  </size>
                  </property>
                 </widget>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="inProgressCheckBox">
-                 <property name="text">
-                  <string>Em progresso...</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="finishedCheckBox">
-                 <property name="text">
-                  <string>Concluida!</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QFrame" name="frame_8">
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_5">
-            <item>
-             <widget class="QPushButton" name="btnOrderByDate">
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>150</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-              <property name="autoFillBackground">
-               <bool>false</bool>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-repeat: no-repeat; 
-border-radius: 20px;
-text-align: center;
-font-size: 12px;</string>
-              </property>
-              <property name="text">
-               <string>Data</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QFrame" name="frameByData">
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_7">
-               <item>
-                <widget class="QListWidget" name="listByData"/>
                </item>
               </layout>
              </widget>
@@ -319,16 +316,16 @@ font-size: 12px;</string>
           <number>2</number>
          </property>
          <property name="leftMargin">
-          <number>0</number>
+          <number>6</number>
          </property>
          <property name="topMargin">
-          <number>0</number>
+          <number>6</number>
          </property>
          <property name="rightMargin">
-          <number>0</number>
+          <number>6</number>
          </property>
          <property name="bottomMargin">
-          <number>0</number>
+          <number>6</number>
          </property>
         </layout>
        </widget>
