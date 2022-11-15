@@ -60,6 +60,8 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             self.loadWidgetsInRow(tablerow)
             tablerow+=1
 
+        print(decks)
+
     def loadTopicsInComboBox(self):
         with DBMainOperations() as db:
             topics = db.getAllRecords(tbl='topics')
@@ -74,27 +76,28 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         idx = widgets.classComboBox.currentIndex()
         topicname = widgets.classComboBox.currentText()
         if idx == 0:    # Show geral
-            self.loadDecksInTable(showall=True)
+            self.topicid = -1
+            self.loadDecksInTable(showall=True, topicid=self.topicid)
         else:   # Show specific decks
             with DBMainOperations() as db:
                 self.topicid = db.getAllRecords(tbl='topics', specifcols='topic_id', whclause=f'topic_name = "{topicname}"')[0][0]
             self.loadDecksInTable(showall=False, topicid=self.topicid)
 
     def loadWidgetsInRow(self, tablerow):
-        btnEditCards = QtWidgets.QPushButton(widgets.tblDecks)
-        btnEditCards.setMinimumSize(QtCore.QSize(0, 100))
-        btnEditCards.setMaximumSize(QtCore.QSize(90, 16777215))
-        btnEditCards.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        btnEditCards.setLayoutDirection(QtCore.Qt.LeftToRight)
-        btnEditCards.setObjectName(f'btnEditCards{tablerow}')
-        btnEditCards.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-pencil.png);")
         btnEditDecks = QtWidgets.QPushButton(widgets.tblDecks)
         btnEditDecks.setMinimumSize(QtCore.QSize(0, 100))
         btnEditDecks.setMaximumSize(QtCore.QSize(90, 16777215))
         btnEditDecks.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         btnEditDecks.setLayoutDirection(QtCore.Qt.LeftToRight)
         btnEditDecks.setObjectName(f'btnEditDecks{tablerow}')
-        btnEditDecks.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-options.png);")
+        btnEditDecks.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-pencil.png);")
+        btnEditCards = QtWidgets.QPushButton(widgets.tblDecks)
+        btnEditCards.setMinimumSize(QtCore.QSize(0, 100))
+        btnEditCards.setMaximumSize(QtCore.QSize(90, 16777215))
+        btnEditCards.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        btnEditCards.setLayoutDirection(QtCore.Qt.LeftToRight)
+        btnEditCards.setObjectName(f'btnEditCards{tablerow}')
+        btnEditCards.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-options.png);")
         btnAction = QtWidgets.QPushButton(widgets.tblDecks)
         btnAction.setMinimumSize(QtCore.QSize(0, 100))
         btnAction.setMaximumSize(QtCore.QSize(90, 16777215))
@@ -104,6 +107,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             deckname = widgets.tblDecks.item(tablerow, 1).text()
             deckid = db.getAllRecords(tbl='decks', specifcols='deck_id', whclause=f'deck_name = "{deckname}"')[0][0]
             hasflashcards = db.hasRecordsInTblFlashcards(id=deckid)
+            btnEditDecks.clicked.connect(lambda: self.editDeck(deckid))
         if hasflashcards:
             btnAction.setObjectName(f'btnStartStudy{tablerow}')
             btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-media-play.png);")
@@ -112,8 +116,8 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             btnAction.setObjectName(f'btnAddCards{tablerow}')
             btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-plus.png);")
             btnAction.clicked.connect(lambda: print('foo'))
-        widgets.tblDecks.setCellWidget(tablerow, 2, btnEditCards)
-        widgets.tblDecks.setCellWidget(tablerow, 3, btnEditDecks)
+        widgets.tblDecks.setCellWidget(tablerow, 2, btnEditDecks)
+        widgets.tblDecks.setCellWidget(tablerow, 3, btnEditCards)
         widgets.tblDecks.setCellWidget(tablerow, 4, btnAction)
 
     def addNewDeck(self):
@@ -123,7 +127,16 @@ class MainFlashcardsPage(QtWidgets.QWidget):
                 lastid = db.getRowCount('decks')
                 db.populateTbl(tbl='decks', params=(lastid, newdeck, 0, self.topicid))
         self.loadDecksInTable(showall=False, topicid=self.topicid)
-
+    
+    def editDeck(self, deckid):
+        newvalue, inputstatus = QtWidgets.QInputDialog.getText(self, "Alterar Nome", "Entre com o novo nome do deck:")
+        with DBMainOperations() as db:
+            if inputstatus:
+                db.cursor.execute(f"UPDATE decks SET deck_name = '{newvalue}' WHERE deck_id == {deckid}").fetchall()
+        if self.topicid == -1:
+            self.loadDecksInTable(showall=True, topicid=-1)
+        else:
+            self.loadDecksInTable(showall=False, topicid=self.topicid)
     # Study Cards Page
 
     def loadStudyInfo(self, deckid):
