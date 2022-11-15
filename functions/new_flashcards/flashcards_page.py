@@ -36,15 +36,17 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.tblDecks.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
         widgets.tblDecks.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
         widgets.tblDecks.horizontalHeader().setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
-        self.loadDecksInTable()
+        self.loadDecksInTable(showall=True, topicid=-1)
         self.loadTopicsInComboBox()
 
     def loadDecksInTable(self, showall=True, topicid=-1):
         if showall and topicid == -1:
+            widgets.btnAddDecks.setDisabled(True)
             with DBMainOperations() as db:
                 rowcount = db.getRowCount(tbl='decks')
                 decks = db.getAllRecords(tbl='decks')
         else:
+            widgets.btnAddDecks.setDisabled(False)
             with DBMainOperations() as db:
                 rowcount = db.getRowCount(tbl='decks', whclause=f'topic_id = {topicid}')
                 decks = db.getAllRecords(tbl='decks', whclause=f'topic_id = {topicid}')
@@ -75,8 +77,8 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             self.loadDecksInTable(showall=True)
         else:   # Show specific decks
             with DBMainOperations() as db:
-                topicid = db.getAllRecords(tbl='topics', specifcols='topic_id', whclause=f'topic_name = "{topicname}"')[0][0]
-            self.loadDecksInTable(showall=False, topicid=topicid)
+                self.topicid = db.getAllRecords(tbl='topics', specifcols='topic_id', whclause=f'topic_name = "{topicname}"')[0][0]
+            self.loadDecksInTable(showall=False, topicid=self.topicid)
 
     def loadWidgetsInRow(self, tablerow):
         btnEditCards = QtWidgets.QPushButton(widgets.tblDecks)
@@ -115,8 +117,8 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         with DBMainOperations() as db:
             if inputstatus:
                 lastid = db.getRowCount('decks')
-                db.populateTbl(tbl='decks', params=(lastid, newdeck, 0, 0))
-        self.loadDecksInTable()
+                db.populateTbl(tbl='decks', params=(lastid, newdeck, 0, self.topicid))
+        self.loadDecksInTable(showall=False, topicid=self.topicid)
 
     # Study Cards Page
 
