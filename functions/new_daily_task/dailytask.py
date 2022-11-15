@@ -1,3 +1,4 @@
+from functools import reduce
 from PySide6 import QtCore, QtGui, QtWidgets
 from functions.db_main_operations import DBMainOperations
 
@@ -18,13 +19,18 @@ class DTaskMainPage(QtWidgets.QWidget):
         global widgets
         widgets = self.ui
         self.selectedTask, self.activeCalendar, self.activeTable = None, None, None
-        
+
+        self.orderByState = False
+        self.orderByTopics = []
 
     def setupConnections(self):
         widgets.tblTasks.cellClicked.connect(self.rowClickedFunctions)
         widgets.tblTasks.itemChanged.connect(self.updateDBRecord)
         widgets.tblLists.cellClicked.connect(self.updateStatusOrTopic)
         widgets.qCalendar.selectionChanged.connect(self.updateCalendarDate)
+        widgets.btnOrderByTopic.clicked.connect(self.loadTopicsInList)
+        
+        widgets.listByTopic.itemChanged.connect(self.testCheck)
 
     def setupWidgets(self):
         # tblTasks PARAMETERS
@@ -48,16 +54,36 @@ class DTaskMainPage(QtWidgets.QWidget):
         widgets.tblLists.setColumnCount(1)
         widgets.tblLists.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
 
+        widgets.btnOrderByTopic.clicked.connect(lambda: widgets.frameByTopic.setVisible(True))
+        widgets.btnOrderByTopic.clicked.connect(lambda: widgets.frameByStatus.setVisible(False))
+        widgets.btnOrderByTopic.clicked.connect(lambda: widgets.frameByData.setVisible(False))
+        widgets.btnOrderByStatus.clicked.connect(lambda: widgets.frameByTopic.setVisible(False))
+        widgets.btnOrderByStatus.clicked.connect(lambda: widgets.frameByStatus.setVisible(True))
+        widgets.btnOrderByStatus.clicked.connect(lambda: widgets.frameByData.setVisible(False))
+        widgets.btnOrderByDate.clicked.connect(lambda: widgets.frameByTopic.setVisible(False))
+        widgets.btnOrderByDate.clicked.connect(lambda: widgets.frameByStatus.setVisible(False))
+        widgets.btnOrderByDate.clicked.connect(lambda: widgets.frameByData.setVisible(True))
     # LOAD DATA FUNCTIONS
     # ///////////////////////////////////////////////////////////////
 
-    def loadDataInTable(self):
+    def loadDataInTable(self, orderByTopic=False, topics=None):
         widgets.tblTasks.clearContents()
         with DBMainOperations() as db:
-            taskscount = db.cursor.execute("SELECT COUNT(*) FROM tasks").fetchone()[0]
-            widgets.tblTasks.setRowCount(taskscount+1)
-            tasks = db.cursor.execute("SELECT * FROM tasks ORDER BY start_date").fetchall()
             
+            if orderByTopic:
+                qry = "SELECT * FROM tasks WHERE (topic_id=?) ORDER BY start_date"
+                _tasks = []
+                taskscount = 0
+                for topicid in topics:
+                    _tasks.append(db.cursor.execute(qry, (topicid,)).fetchall())
+                    taskscount += db.getAllRecords(tbl='tasks', specifcols='COUNT(*)', whclause=f'topic_id={topicid}')[0][0]
+                widgets.tblTasks.setRowCount(taskscount)
+                tasks = reduce(lambda a, b: a+b, _tasks) # Merge all tasks.
+            else:
+                qry = "SELECT * FROM tasks ORDER BY start_date"
+                taskscount = db.cursor.execute("SELECT COUNT(*) FROM tasks").fetchone()[0]
+                widgets.tblTasks.setRowCount(taskscount+1)
+                tasks = db.cursor.execute(qry).fetchall()
         try:
             tablerow = 0
             for row in tasks:
@@ -215,3 +241,38 @@ class DTaskMainPage(QtWidgets.QWidget):
         self.selectedTask, self.activeCalendar = None, None
         self.loadDataInTable()
         self.hideAll()
+
+    # ORDER BY FUNCTIONS
+    # ///////////////////////////////////////////////////////////////
+
+    def loadTopicsInList(self):
+        widgets.listByTopic.clear()
+        with DBMainOperations() as db:
+            topics = db.getAllRecords(tbl='topics', specifcols='topic_name')
+        for topic in topics:
+            item = QtWidgets.QListWidgetItem()
+            item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
+            item.setText(topic[0])
+            item.setCheckState(QtCore.Qt.Unchecked)
+            if topic[0] == '':
+                item.setText('Sem tópico')
+            widgets.listByTopic.addItem(item)
+
+    def itemSelected(self):
+        # item clicked
+        pass
+
+    def testCheck(self, item):  
+        with DBMainOperations() as db:
+            topicname = item.text()
+            topicid = db.getAllRecords(tbl='topics', whclause=f'topic_name = "{topicname}"')[0][0]
+        if item.checkState():
+            self.orderByTopics.append(topicid)  # if checked, append in list to filter
+        else:
+            self.orderByTopics.remove(topicid)  # if unchecked, remove from list
+
+        self.orderByState = False if len(self.orderByTopics) == 0 else True
+        self.loadDataInTable(
+            orderByTopic=self.orderByState, 
+            topics=self.orderByTopics
+        )
