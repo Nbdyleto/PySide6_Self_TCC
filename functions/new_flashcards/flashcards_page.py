@@ -103,7 +103,11 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         if DBMainOperations().hasRecordsInTblFlashcards(id=tablerow):
             btnAction.setObjectName(f'btnStartStudy{tablerow}')
             btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-media-play.png);")
-            btnAction.clicked.connect(lambda: self.loadStudyInfo(tablerow))
+            with DBMainOperations() as db:
+                deckname = widgets.tblDecks.item(tablerow, 1).text()
+                print(deckname)
+                deckid = db.getAllRecords(tbl='decks', specifcols='deck_id', whclause=f'deck_name = "{deckname}"')[0][0]
+            btnAction.clicked.connect(lambda: self.loadStudyInfo(deckid))
         else:
             btnAction.setObjectName(f'btnAddCards{tablerow}')
             btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-plus.png);")
@@ -122,14 +126,14 @@ class MainFlashcardsPage(QtWidgets.QWidget):
 
     # Study Cards Page
 
-    def loadStudyInfo(self, tablerow):
+    def loadStudyInfo(self, deckid):
         deckcols = 'deck_name, hits_percentage'
         cardcols = 'card_question, card_answer'
         with DBMainOperations() as db:
-            deck = db.getAllRecords(tbl='decks', specifcols=(deckcols), whclause=f'deck_id={tablerow}')
+            deck = db.getAllRecords(tbl='decks', specifcols=(deckcols), whclause=f'deck_id={deckid}')
             deckcols = [col for col in deck[0]]
             deckname, deckperc = deckcols[0], deckcols[1]
-            flashcards = db.getAllRecords(tbl='flashcards', specifcols=(cardcols), whclause=f'deck_id={tablerow}')
+            flashcards = db.getAllRecords(tbl='flashcards', specifcols=(cardcols), whclause=f'deck_id={deckid}')
             cardstotal = len(flashcards)
             random.shuffle(flashcards)
             self.flashcardsIter = iter(flashcards)
