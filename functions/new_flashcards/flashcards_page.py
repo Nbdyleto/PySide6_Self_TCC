@@ -100,13 +100,13 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         btnAction.setMaximumSize(QtCore.QSize(90, 16777215))
         btnAction.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         btnAction.setLayoutDirection(QtCore.Qt.LeftToRight)
-        if DBMainOperations().hasRecordsInTblFlashcards(id=tablerow):
+        with DBMainOperations() as db:
+            deckname = widgets.tblDecks.item(tablerow, 1).text()
+            deckid = db.getAllRecords(tbl='decks', specifcols='deck_id', whclause=f'deck_name = "{deckname}"')[0][0]
+            hasflashcards = db.hasRecordsInTblFlashcards(id=deckid)
+        if hasflashcards:
             btnAction.setObjectName(f'btnStartStudy{tablerow}')
             btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-media-play.png);")
-            with DBMainOperations() as db:
-                deckname = widgets.tblDecks.item(tablerow, 1).text()
-                print(deckname)
-                deckid = db.getAllRecords(tbl='decks', specifcols='deck_id', whclause=f'deck_name = "{deckname}"')[0][0]
             btnAction.clicked.connect(lambda: self.loadStudyInfo(deckid))
         else:
             btnAction.setObjectName(f'btnAddCards{tablerow}')
