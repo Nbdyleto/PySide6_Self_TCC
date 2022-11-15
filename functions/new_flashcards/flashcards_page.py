@@ -12,7 +12,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.setupVariables()
         self.setupConnections()
-        self.setupTableResize()
+        self.setupWidgets()
     
     def setupVariables(self):
         global widgets
@@ -22,13 +22,14 @@ class MainFlashcardsPage(QtWidgets.QWidget):
     def setupConnections(self):
         # Main Page Connections
         widgets.btnAddDecks.clicked.connect(self.addNewDeck)
+        widgets.classComboBox.currentIndexChanged.connect(self.selectTopicInComboBox)
         # Study Page Connections
         widgets.btnBackPage.clicked.connect(lambda: widgets.stackedWidget.setCurrentWidget(widgets.MainPage))
         widgets.btnBadFeedback.clicked.connect(self.nextFlashcard)
         widgets.btnOkFeedback.clicked.connect(self.nextFlashcard)
         widgets.btnGoodFeedback.clicked.connect(self.nextFlashcard)
     
-    def setupTableResize(self):
+    def setupWidgets(self):
         widgets.tblDecks.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
         widgets.tblDecks.setColumnWidth(1,400)
         widgets.tblDecks.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
@@ -36,11 +37,17 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.tblDecks.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
         widgets.tblDecks.horizontalHeader().setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
         self.loadDecksInTable()
+        self.loadTopicsInComboBox()
 
-    def loadDecksInTable(self):
-        with DBMainOperations() as db:
-            rowcount = db.getRowCount(tbl='decks')
-            decks = db.getAllRecords(tbl='decks')
+    def loadDecksInTable(self, showall=True, topicid=-1):
+        if showall and topicid == -1:
+            with DBMainOperations() as db:
+                rowcount = db.getRowCount(tbl='decks')
+                decks = db.getAllRecords(tbl='decks')
+        else:
+            with DBMainOperations() as db:
+                rowcount = db.getRowCount(tbl='decks', whclause=f'topic_id = {topicid}')
+                decks = db.getAllRecords(tbl='decks', whclause=f'topic_id = {topicid}')
         widgets.tblDecks.setRowCount(rowcount)
         widgets.tblDecks.clearContents()
         tablerow = 0
@@ -50,6 +57,26 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             widgets.tblDecks.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(deck[1]))  #deck_name
             self.loadWidgetsInRow(tablerow)
             tablerow+=1
+
+    def loadTopicsInComboBox(self):
+        with DBMainOperations() as db:
+            topics = db.getAllRecords(tbl='topics')
+        tablerow = 0
+        for row in topics:
+            if row[0] == 0: # Ignore the first topic, that is empty.
+                continue
+            widgets.classComboBox.addItem(row[1])
+            tablerow += 1
+
+    def selectTopicInComboBox(self):
+        idx = widgets.classComboBox.currentIndex()
+        topicname = widgets.classComboBox.currentText()
+        if idx == 0:    # Show geral
+            self.loadDecksInTable(showall=True)
+        else:   # Show specific decks
+            with DBMainOperations() as db:
+                topicid = db.getAllRecords(tbl='topics', specifcols='topic_id', whclause=f'topic_name = "{topicname}"')[0][0]
+            self.loadDecksInTable(showall=False, topicid=topicid)
 
     def loadWidgetsInRow(self, tablerow):
         btnEditCards = QtWidgets.QPushButton(widgets.tblDecks)

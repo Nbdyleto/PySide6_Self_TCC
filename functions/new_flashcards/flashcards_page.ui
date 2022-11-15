@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>584</width>
+    <width>598</width>
     <height>434</height>
    </rect>
   </property>
@@ -32,7 +32,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="StudyPage">
       <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -392,22 +392,15 @@ border-radius: 45px;</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="lblClassName">
-                  <property name="font">
-                   <font>
-                    <pointsize>-1</pointsize>
-                    <italic>false</italic>
-                    <bold>true</bold>
-                    <underline>false</underline>
-                   </font>
-                  </property>
+                 <widget class="QComboBox" name="classComboBox">
                   <property name="styleSheet">
-                   <string notr="true">font: bold 25px;
-</string>
+                   <string notr="true">font: bold 25px;</string>
                   </property>
-                  <property name="text">
-                   <string>ClassName</string>
-                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Geral</string>
+                   </property>
+                  </item>
                  </widget>
                 </item>
                </layout>

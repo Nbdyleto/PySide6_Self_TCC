@@ -14,7 +14,7 @@ from PySide6 import QtCore, QtGui, QtWidgets
 class Ui_FlashcardsPage(object):
     def setupUi(self, FlashcardsPage):
         FlashcardsPage.setObjectName("FlashcardsPage")
-        FlashcardsPage.resize(584, 434)
+        FlashcardsPage.resize(598, 434)
         self.verticalLayout = QtWidgets.QVBoxLayout(FlashcardsPage)
         self.verticalLayout.setContentsMargins(6, 6, 6, 6)
         self.verticalLayout.setSpacing(9)
@@ -171,17 +171,11 @@ class Ui_FlashcardsPage(object):
         self.btnClassIcon.setText("")
         self.btnClassIcon.setObjectName("btnClassIcon")
         self.horizontalLayout_2.addWidget(self.btnClassIcon)
-        self.lblClassName = QtWidgets.QLabel(self.frame_6)
-        font = QtGui.QFont()
-        font.setPointSize(-1)
-        font.setBold(True)
-        font.setItalic(False)
-        font.setUnderline(False)
-        self.lblClassName.setFont(font)
-        self.lblClassName.setStyleSheet("font: bold 25px;\n"
-"")
-        self.lblClassName.setObjectName("lblClassName")
-        self.horizontalLayout_2.addWidget(self.lblClassName)
+        self.classComboBox = QtWidgets.QComboBox(self.frame_6)
+        self.classComboBox.setStyleSheet("font: bold 25px;")
+        self.classComboBox.setObjectName("classComboBox")
+        self.classComboBox.addItem("")
+        self.horizontalLayout_2.addWidget(self.classComboBox)
         self.horizontalLayout.addWidget(self.frame_6)
         self.frame_4 = QtWidgets.QFrame(self.frame_3)
         self.frame_4.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -297,7 +291,7 @@ class Ui_FlashcardsPage(object):
         self.verticalLayout.addWidget(self.stackedWidget)
 
         self.retranslateUi(FlashcardsPage)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(FlashcardsPage)
 
     def retranslateUi(self, FlashcardsPage):
@@ -314,7 +308,7 @@ class Ui_FlashcardsPage(object):
         self.btnBadFeedback.setText(_translate("FlashcardsPage", ":("))
         self.btnOkFeedback.setText(_translate("FlashcardsPage", ":I"))
         self.btnGoodFeedback.setText(_translate("FlashcardsPage", ":D"))
-        self.lblClassName.setText(_translate("FlashcardsPage", "ClassName"))
+        self.classComboBox.setItemText(0, _translate("FlashcardsPage", "Geral"))
         self.label.setText(_translate("FlashcardsPage", "Decks"))
         item = self.tblDecks.horizontalHeaderItem(0)
         item.setText(_translate("FlashcardsPage", "Hints Percentage"))
