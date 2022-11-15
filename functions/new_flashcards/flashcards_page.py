@@ -125,6 +125,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         btnRemoveDeck.setLayoutDirection(QtCore.Qt.LeftToRight)
         btnRemoveDeck.setObjectName(f'btnRemoveDeck{tablerow}')
         btnRemoveDeck.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-x-circle.png);")
+        btnRemoveDeck.clicked.connect(lambda: self.removeDeck(deckid))
 
         widgets.tblDecks.setCellWidget(tablerow, 2, btnAction)
         widgets.tblDecks.setCellWidget(tablerow, 3, btnEditDecks)
@@ -135,7 +136,9 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         newdeck, inputstatus = QtWidgets.QInputDialog.getText(self, "Novo Deck", "Entre com o nome do novo deck:")
         with DBMainOperations() as db:
             if inputstatus:
-                lastid = db.getRowCount('decks')
+                qry = 'SELECT * FROM decks ORDER BY deck_id DESC LIMIT 1;'
+                lastid = db.cursor.execute(qry).fetchall()[0][0]+1
+                print('lastid:', lastid)
                 db.populateTbl(tbl='decks', params=(lastid, newdeck, 0, self.topicid))
         self.loadDecksInTable(showall=False, topicid=self.topicid)
     
@@ -143,11 +146,20 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         newvalue, inputstatus = QtWidgets.QInputDialog.getText(self, "Alterar Nome", "Entre com o novo nome do deck:")
         with DBMainOperations() as db:
             if inputstatus:
-                db.cursor.execute(f"UPDATE decks SET deck_name = '{newvalue}' WHERE deck_id == {deckid}").fetchall()
+                db.cursor.execute(f"UPDATE decks SET deck_name = '{newvalue}' WHERE deck_id == {deckid}")
         if self.topicid == -1:
             self.loadDecksInTable(showall=True, topicid=-1)
         else:
             self.loadDecksInTable(showall=False, topicid=self.topicid)
+
+    def removeDeck(self, deckid):
+        with DBMainOperations() as db:
+            db.cursor.execute(f"DELETE from decks WHERE deck_id={deckid}")
+        if self.topicid == -1:
+            self.loadDecksInTable(showall=True, topicid=-1)
+        else:
+            self.loadDecksInTable(showall=False, topicid=self.topicid)
+    
     # Study Cards Page
 
     def loadStudyInfo(self, deckid):
