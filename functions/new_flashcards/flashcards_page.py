@@ -206,6 +206,10 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             retrymsg = QtWidgets.QMessageBox(self.addCardsWindow)
             retrymsg.setText('Coloque informações na carta! (frente e verso)')
             retrymsg.show()
+        if self.topicid == -1:
+            self.loadDecksInTable(showall=True, topicid=-1)
+        else:
+            self.loadDecksInTable(showall=False, topicid=self.topicid)
 
     """
 
