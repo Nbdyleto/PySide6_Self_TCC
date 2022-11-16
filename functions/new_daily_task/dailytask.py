@@ -101,18 +101,42 @@ class DTaskMainPage(QtWidgets.QWidget):
             tablerow = 0
             for row in tasks:
                 widgets.tblTasks.setRowHeight(tablerow, 50)
-                startDate, endDate = self.formatDate(row[2], row[3])
-                topic = self.getTopicName(row[4])
-                widgets.tblTasks.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(row[0]))  #row[0] = task_name
-                widgets.tblTasks.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(row[1]))  #row[1] = status
-                widgets.tblTasks.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(startDate)) #row[2] = start_date
-                widgets.tblTasks.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(endDate)) #row[3] = end_date
-                widgets.tblTasks.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(topic)) #row[4] = topic_id
+                taskid, taskname, status = row[0], row[1], row[2]
+                startDate, endDate = self.formatDate(row[3], row[4])
+                topic = self.getTopicName(row[5])
+                btnRemoveTask = self.buttonToPutInRow(tablerow, taskid)
+                widgets.tblTasks.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(taskname))  #row[1] = task_name
+                widgets.tblTasks.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(status))  #row[2] = status
+                widgets.tblTasks.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(startDate)) #row[3] = start_date
+                widgets.tblTasks.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(endDate)) #row[4] = end_date
+                widgets.tblTasks.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(topic)) #row[5] = topic_id
+                widgets.tblTasks.setCellWidget(tablerow, 5, btnRemoveTask)
                 tablerow += 1
                 
             widgets.tblTasks.setRowHeight(tablerow, 50)
-        except Exception:
+        except:
             print('ERROR')
+
+    def buttonToPutInRow(self, tablerow, taskid):
+        btnRemoveTask = QtWidgets.QPushButton(widgets.tblTasks)
+        btnRemoveTask.setMinimumSize(QtCore.QSize(0, 100))
+        btnRemoveTask.setMaximumSize(QtCore.QSize(90, 16777215))
+        btnRemoveTask.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        btnRemoveTask.setLayoutDirection(QtCore.Qt.LeftToRight)
+        btnRemoveTask.setObjectName(f'btnRemoveTask{tablerow}')
+        btnRemoveTask.setStyleSheet(u"""
+            background-image: url(:/icons/images/icons/cil-x-circle.png);
+            background-repeat: no-repeat;
+            margin-top: 15px; 
+            border-color: transparent;
+        """)
+        btnRemoveTask.clicked.connect(lambda: self.removeTask(taskid))
+        return btnRemoveTask
+
+    def removeTask(self, taskid):
+        with DBMainOperations() as db:
+            db.cursor.execute(f"DELETE from tasks WHERE task_id={taskid}")
+        self.loadDataInTable()
 
     def filterTasksTable(self):
         with DBMainOperations() as db:
@@ -229,9 +253,11 @@ class DTaskMainPage(QtWidgets.QWidget):
     def updateDBRecord(self, item):
         if self.selectedTask == '':
             # Not existent in db, so, create new data.
-            sysdate = QtCore.QDate.currentDate().toString(QtCore.Qt.ISODate)
-            newdata = (item.text(), "A começar", sysdate, sysdate, 0)
             with DBMainOperations() as db:
+                qry = 'SELECT * FROM tasks ORDER BY task_id DESC LIMIT 1;'
+                lastid = db.cursor.execute(qry).fetchall()[0][0]+1
+                sysdate = QtCore.QDate.currentDate().toString(QtCore.Qt.ISODate)
+                newdata = (lastid, item.text(), "A começar", sysdate, sysdate, 0)
                 db.populateTbl('tasks', params=newdata)
             print('adding...')
         elif self.selectedTask is not None:

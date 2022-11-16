@@ -57,6 +57,7 @@ class DBMainOperations:
         # Child Table
         self.cursor.execute("DROP TABLE IF EXISTS flashcards")
         qry_flashcards = """ CREATE TABLE flashcards (
+            card_id INTEGUER PRIMARY KEY,
             card_question VARCHAR(255) NOT NULL,
             card_answer VARCHAR(255) NOT NULL,
             deck_id INTEGUER NOT NULL,
@@ -80,6 +81,7 @@ class DBMainOperations:
         # Child Table
         self.cursor.execute("DROP TABLE IF EXISTS tasks")
         qry_tasks = """ CREATE TABLE tasks (
+            task_id INTEGUER PRIMARY KEY,
             task_name VARCHAR(255) NOT NULL, 
             status VARCHAR(25) NOT NULL,
             start_date DATE NOT NULL,

@@ -47,24 +47,23 @@ class MainWindow(QMainWindow):
             db.populateTbl(tbl='decks', params=(2, "Polaridade", 0, 3))
             db.populateTbl(tbl='decks', params=(3, "Leis de Newton", 0, 2))
 
-            db.populateTbl(tbl='flashcards', params=("Quantos é 2+3?", "5", 0))
-            db.populateTbl(tbl='flashcards', params=("Raiz quadrada de 7", "49", 0))
-            db.populateTbl(tbl='flashcards', params=("Quantos é 9*7?", "63", 0))
+            db.populateTbl(tbl='flashcards', params=(0, "Quantos é 2+3?", "5", 0))
+            db.populateTbl(tbl='flashcards', params=(1, "Raiz quadrada de 7", "49", 0))
+            db.populateTbl(tbl='flashcards', params=(2, "Quantos é 9*7?", "63", 0))
             
-            db.populateTbl(tbl='flashcards', params=("Qual o maior osso humano?", "Fêmur", 1))
-            db.populateTbl(tbl='flashcards', params=("Quantos ossos possuem o ser humano?", "206", 1))
+            db.populateTbl(tbl='flashcards', params=(3, "Qual o maior osso humano?", "Fêmur", 1))
+            db.populateTbl(tbl='flashcards', params=(4, "Quantos ossos possuem o ser humano?", "206", 1))
 
-            db.populateTbl(tbl='flashcards', params=("Qual é a primeira lei de Newton?", "Princípio da Inércia", 3))
-            db.populateTbl(tbl='flashcards', params=("No que consiste a primeira lei?", "Um objeto em repouso ou movimento retilíneo uniforme tende a permanecer nesse estado se a força resultante sobre ele é nula.", 3))
+            db.populateTbl(tbl='flashcards', params=(5, "Qual é a primeira lei de Newton?", "Princípio da Inércia", 3))
+            db.populateTbl(tbl='flashcards', params=(6, "No que consiste a primeira lei?", "Um objeto em repouso ou movimento retilíneo uniforme tende a permanecer nesse estado se a força resultante sobre ele é nula.", 3))
 
             ################# TASKS
 
-            # query_insert = f"INSERT INTO tasks(task_name, status, start_date, end_date, topic_id) VALUES (?,?,?,?,?)"
-            db.populateTbl('tasks', params=('Apresentar TCC', 'Em Progresso', '2022-10-24', '2022-10-25', 4))
-            db.populateTbl('tasks', params=('Resolver questões de matemática', 'Não iniciada', '2022-10-22', '2022-10-25', 1))
-            db.populateTbl('tasks', params=('Resolver questões sobre genética', 'Não iniciada', '2022-10-22', '2022-10-22', 3))
-            db.populateTbl('tasks', params=('Desenvolver funcionalidade Pomodoro', 'Em Progresso', '2022-10-20', '2022-10-27', 4))
-            db.populateTbl('tasks', params=('Fazer Simulado do ENEM 2020', 'Não iniciada', '2022-10-20', '2022-10-25', 0))
+            db.populateTbl('tasks', params=(0, 'Apresentar TCC', 'Em Progresso...', '2022-10-24', '2022-10-25', 4))
+            db.populateTbl('tasks', params=(1, 'Resolver questões de matemática', 'Não iniciada.', '2022-10-22', '2022-10-25', 1))
+            db.populateTbl('tasks', params=(2, 'Resolver questões sobre genética', 'Não iniciada.', '2022-10-22', '2022-10-22', 3))
+            db.populateTbl('tasks', params=(3, 'Desenvolver funcionalidade Pomodoro', 'Em Progresso...', '2022-10-20', '2022-10-27', 4))
+            db.populateTbl('tasks', params=(4, 'Fazer Simulado do ENEM 2020', 'Não iniciada...', '2022-10-20', '2022-10-25', 0))
 
         QMainWindow.__init__(self)
 
