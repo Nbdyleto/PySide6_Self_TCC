@@ -1,8 +1,8 @@
 import random
 from PySide6 import QtCore, QtGui, QtWidgets
 from functions.db_main_operations import DBMainOperations
-from functions.new_flashcards.temp_ui_add import Ui_AddCardsWindow # temp
-from functions.new_flashcards.temp_ui_study import Ui_StudyCardsWindow # temp
+from functions.new_flashcards.temp_ui_study import Ui_StudyCardsWindow
+from functions.new_flashcards.ui_add_cards import Ui_addCardsWindow
 from functions.new_flashcards.ui_flashcards_page import Ui_FlashcardsPage
 
 class MainFlashcardsPage(QtWidgets.QWidget):
@@ -25,10 +25,10 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.btnAddDecks.clicked.connect(self.addNewDeck)
         widgets.classComboBox.currentIndexChanged.connect(self.selectTopicInComboBox)
         # Study Page Connections
-        widgets.btnBackPage.clicked.connect(lambda: widgets.stackedWidget.setCurrentWidget(widgets.MainPage))
-        widgets.btnBadFeedback.clicked.connect(self.nextFlashcard)
-        widgets.btnOkFeedback.clicked.connect(self.nextFlashcard)
-        widgets.btnGoodFeedback.clicked.connect(self.nextFlashcard)
+        #widgets.btnBackPage.clicked.connect(lambda: widgets.stackedWidget.setCurrentWidget(widgets.MainPage))
+        #widgets.btnBadFeedback.clicked.connect(self.nextFlashcard)
+        #widgets.btnOkFeedback.clicked.connect(self.nextFlashcard)
+        #widgets.btnGoodFeedback.clicked.connect(self.nextFlashcard)
     
     def setupWidgets(self):
         widgets.tblDecks.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
@@ -101,7 +101,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         else:
             btnAction.setObjectName(f'btnAddCards{tablerow}')
             btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-plus.png);")
-            btnAction.clicked.connect(lambda: print('foo'))
+            btnAction.clicked.connect(lambda: self.openAddCardsWindow(deckid, deckname))
 
         btnEditDecks = QtWidgets.QPushButton(widgets.tblDecks)
         btnEditDecks.setMinimumSize(QtCore.QSize(0, 100))
@@ -159,8 +159,6 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             self.loadDecksInTable(showall=True, topicid=-1)
         else:
             self.loadDecksInTable(showall=False, topicid=self.topicid)
-    
-    # Study Cards Page
 
     def loadStudyInfo(self, deckid):
         deckcols = 'deck_name, hits_percentage'
@@ -180,68 +178,36 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.lblDeckName.setText(deckname)
         widgets.progressBar.setValue(deckperc)
         widgets.stackedWidget.setCurrentWidget(widgets.StudyPage)
-    
-    def nextFlashcard(self):
-        try:
-            front, verse = next(self.flashcardsIter)
-            widgets.textEdit.setText(f'question: {front}\nanswer: {verse}')
-        except Exception:
-            self.flashcardsIter = None
-        
-    
-        #widgets.textEdit.setText(next(flashcardsiter[0]))
 
-        
-    
-
-    ######################################## Temporary Code Above!!!!!!!!!!!
-
+    ########################################
     # AddCardsWindow Functions #####################################
-    
-    @QtCore.Slot()
-    def openAddCardsWindow(self, row_clicked):
+
+    def openAddCardsWindow(self, deckid, deckname):
         self.addCardsWindow = QtWidgets.QMainWindow()
-        self.ui_addCards = Ui_AddCardsWindow()
+        self.ui_addCards = Ui_addCardsWindow()
         self.ui_addCards.setupUi(self.addCardsWindow)
-
-        global cardsWinWidgets
-        cardsWinWidgets = self.ui_addCards
-
-        cardsWinWidgets.listDecks.setCurrentRow(0)
         self.addCardsWindow.show()
-        cardsWinWidgets.btnAddCard.clicked.connect(self.addCards)
-
-        self.loadDecksList()
+        global widgetsAdd
+        widgetsAdd = self.ui_addCards
+        widgetsAdd.lblDeckName.setText(deckname)
+        widgetsAdd.btnAddCardInDeck.clicked.connect(lambda: self.addCardsInDeck(deckid))
     
-    def loadDecksList(self):
-        with DBMainOperations() as db:
-            decks = db.getAllRecords(tbl='decks', specifcols='deck_name', fetchall=True)
-        print(decks)
-        for deck_name in decks:
-            cardsWinWidgets.listDecks.addItem(deck_name[0])
-
-    @QtCore.Slot()
-    def addCards(self):
-        card_question = cardsWinWidgets.pTextFront.toPlainText()
-        card_answer = cardsWinWidgets.pTextVerse.toPlainText()
-        if card_question and card_answer != "":
-            deck_id = cardsWinWidgets.listDecks.currentRow()
-            card_question = cardsWinWidgets.pTextFront.toPlainText()
-            card_answer = cardsWinWidgets.pTextVerse.toPlainText()
+    def addCardsInDeck(self, deckid):
+        front = widgetsAdd.plainTextEditFront.toPlainText()
+        verse = widgetsAdd.plainTextEditVerse.toPlainText()
+        if front and verse != "":
             with DBMainOperations() as db:
-                print('populating...')
-                db.populateTbl(tbl='flashcards', params=(card_question, card_answer, deck_id))
-            self.winAddCardsClearContents()
-            self.loadDecksInTable()
+                lastid = db.cursor.execute('SELECT * FROM flashcards ORDER BY card_id DESC LIMIT 1;').fetchall()[0][0]+1
+                db.populateTbl(tbl='flashcards', params=(lastid, front, verse, deckid))
+                print(f'added: front: {front}, verse: {verse}')
+                widgetsAdd.plainTextEditFront.clear()
+                widgetsAdd.plainTextEditVerse.clear()
         else:
-            retry_msg = QtWidgets.QMessageBox(self.addCardsWindow)
-            retry_msg.setStyleSheet("color: #44475a")
-            retry_msg.setText('Input something in your card (front and verse)!')
-            retry_msg.show()
+            retrymsg = QtWidgets.QMessageBox(self.addCardsWindow)
+            retrymsg.setText('Coloque informações na carta! (frente e verso)')
+            retrymsg.show()
 
-    def winAddCardsClearContents(self):
-        cardsWinWidgets.pTextFront.clear()
-        cardsWinWidgets.pTextVerse.clear()
+    """
 
     # StudyCards Functions #################################
 
@@ -312,3 +278,5 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         studyCardsWidgets.btnUnsatisfactory.setVisible(True)
         studyCardsWidgets.btnNormal.setVisible(True)
         studyCardsWidgets.btnVeryGood.setVisible(True)
+
+    """
