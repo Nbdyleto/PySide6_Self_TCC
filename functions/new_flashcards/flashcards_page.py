@@ -18,19 +18,31 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         global widgets
         widgets = self.ui
         self.flashcardsIter = None
-        self.topicid = -1
+        self.topicID = -1
 
     def setupConnections(self):
         # Main Page Connections
         widgets.btnAddDecks.clicked.connect(self.addNewDeck)
         widgets.classComboBox.currentIndexChanged.connect(self.selectTopicInComboBox)
         # Study Page Connections
-        #widgets.btnBackPage.clicked.connect(lambda: widgets.stackedWidget.setCurrentWidget(widgets.MainPage))
-        #widgets.btnBadFeedback.clicked.connect(self.nextFlashcard)
-        #widgets.btnOkFeedback.clicked.connect(self.nextFlashcard)
-        #widgets.btnGoodFeedback.clicked.connect(self.nextFlashcard)
+        widgets.btnBackPage.clicked.connect(lambda: widgets.stackedWidget.setCurrentWidget(widgets.MainPage))
+        
+        widgets.btnRevealAnswer.clicked.connect(self.revealAnswer)
+        widgets.btnRevealAnswer.clicked.connect(lambda: widgets.btnRevealAnswer.setVisible(False))
+        widgets.btnRevealAnswer.clicked.connect(lambda: widgets.btnBadFeedback.setVisible(True))
+        widgets.btnRevealAnswer.clicked.connect(lambda: widgets.btnOkFeedback.setVisible(True))
+        widgets.btnRevealAnswer.clicked.connect(lambda: widgets.btnGoodFeedback.setVisible(True))
+        widgets.btnBadFeedback.clicked.connect(lambda: self.nextFlashcard(value=10))
+        widgets.btnBadFeedback.clicked.connect(lambda: widgets.btnRevealAnswer.setVisible(True))
+        widgets.btnOkFeedback.clicked.connect(lambda: self.nextFlashcard(value=40))
+        widgets.btnOkFeedback.clicked.connect(lambda: widgets.btnRevealAnswer.setVisible(True))
+        widgets.btnGoodFeedback.clicked.connect(lambda: self.nextFlashcard(value=60))
+        widgets.btnGoodFeedback.clicked.connect(lambda: widgets.btnRevealAnswer.setVisible(True))
     
     def setupWidgets(self):
+        widgets.btnBadFeedback.setVisible(False)
+        widgets.btnOkFeedback.setVisible(False)
+        widgets.btnGoodFeedback.setVisible(False)
         widgets.tblDecks.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
         widgets.tblDecks.setColumnWidth(1,400)
         widgets.tblDecks.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
@@ -77,12 +89,12 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         idx = widgets.classComboBox.currentIndex()
         topicname = widgets.classComboBox.currentText()
         if idx == 0:    # Show geral
-            self.topicid = -1
-            self.loadDecksInTable(showall=True, topicid=self.topicid)
+            self.topicID = -1
+            self.loadDecksInTable(showall=True, topicid=self.topicID)
         else:   # Show specific decks
             with DBMainOperations() as db:
-                self.topicid = db.getAllRecords(tbl='topics', specifcols='topic_id', whclause=f'topic_name = "{topicname}"')[0][0]
-            self.loadDecksInTable(showall=False, topicid=self.topicid)
+                self.topicID = db.getAllRecords(tbl='topics', specifcols='topic_id', whclause=f'topic_name = "{topicname}"')[0][0]
+            self.loadDecksInTable(showall=False, topicid=self.topicID)
 
     def loadWidgetsInRow(self, tablerow):
         btnAction = QtWidgets.QPushButton(widgets.tblDecks)
@@ -97,7 +109,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         if hasflashcards:
             btnAction.setObjectName(f'btnStartStudy{tablerow}')
             btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-media-play.png);")
-            btnAction.clicked.connect(lambda: self.loadStudyInfo(deckid))
+            btnAction.clicked.connect(lambda: self.loadStudyInfo(deckid=deckid))
         else:
             btnAction.setObjectName(f'btnAddCards{tablerow}')
             btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-plus.png);")
@@ -139,26 +151,29 @@ class MainFlashcardsPage(QtWidgets.QWidget):
                 qry = 'SELECT * FROM decks ORDER BY deck_id DESC LIMIT 1;'
                 lastid = db.cursor.execute(qry).fetchall()[0][0]+1
                 print('lastid:', lastid)
-                db.populateTbl(tbl='decks', params=(lastid, newdeck, 0, self.topicid))
-        self.loadDecksInTable(showall=False, topicid=self.topicid)
+                db.populateTbl(tbl='decks', params=(lastid, newdeck, 0, self.topicID))
+        self.loadDecksInTable(showall=False, topicid=self.topicID)
     
     def editDeck(self, deckid):
         newvalue, inputstatus = QtWidgets.QInputDialog.getText(self, "Alterar Nome", "Entre com o novo nome do deck:")
         with DBMainOperations() as db:
             if inputstatus:
                 db.cursor.execute(f"UPDATE decks SET deck_name = '{newvalue}' WHERE deck_id == {deckid}")
-        if self.topicid == -1:
+        if self.topicID == -1:
             self.loadDecksInTable(showall=True, topicid=-1)
         else:
-            self.loadDecksInTable(showall=False, topicid=self.topicid)
+            self.loadDecksInTable(showall=False, topicid=self.topicID)
 
     def removeDeck(self, deckid):
         with DBMainOperations() as db:
             db.cursor.execute(f"DELETE from decks WHERE deck_id={deckid}")
-        if self.topicid == -1:
+        if self.topicID == -1:
             self.loadDecksInTable(showall=True, topicid=-1)
         else:
-            self.loadDecksInTable(showall=False, topicid=self.topicid)
+            self.loadDecksInTable(showall=False, topicid=self.topicID)
+
+    ########################################
+    # Study Cards Functions #####################################
 
     def loadStudyInfo(self, deckid):
         deckcols = 'deck_name, hits_percentage'
@@ -178,6 +193,15 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.lblDeckName.setText(deckname)
         widgets.progressBar.setValue(deckperc)
         widgets.stackedWidget.setCurrentWidget(widgets.StudyPage)
+
+    def revealAnswer(self):
+        pass
+
+    def nextFlashcard(self, value=0):
+        widgets.btnRevealAnswer.setVisible(True)
+        widgets.btnBadFeedback.setVisible(False)
+        widgets.btnOkFeedback.setVisible(False)
+        widgets.btnGoodFeedback.setVisible(False)
 
     ########################################
     # AddCardsWindow Functions #####################################
@@ -206,10 +230,10 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             retrymsg = QtWidgets.QMessageBox(self.addCardsWindow)
             retrymsg.setText('Coloque informações na carta! (frente e verso)')
             retrymsg.show()
-        if self.topicid == -1:
+        if self.topicID == -1:
             self.loadDecksInTable(showall=True, topicid=-1)
         else:
-            self.loadDecksInTable(showall=False, topicid=self.topicid)
+            self.loadDecksInTable(showall=False, topicid=self.topicID)
 
     """
 
