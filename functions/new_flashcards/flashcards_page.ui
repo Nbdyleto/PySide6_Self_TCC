@@ -32,7 +32,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="StudyPage">
       <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -45,7 +45,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(54, 43, 60);</string>
+          <string notr="true"/>
          </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -92,7 +92,7 @@
              <item alignment="Qt::AlignHCenter">
               <widget class="QLabel" name="btnClassName">
                <property name="styleSheet">
-                <string notr="true">font: bold 15px;</string>
+                <string notr="true">font: bold 18px;</string>
                </property>
                <property name="text">
                 <string>ClassName</string>
@@ -110,19 +110,18 @@
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <widget class="QProgressBar" name="progressBar">
-             <property name="geometry">
-              <rect>
-               <x>10</x>
-               <y>10</y>
-               <width>261</width>
-               <height>23</height>
-              </rect>
-             </property>
-             <property name="value">
-              <number>24</number>
-             </property>
-            </widget>
+            <layout class="QVBoxLayout" name="verticalLayout_11">
+             <item alignment="Qt::AlignHCenter">
+              <widget class="QProgressBar" name="progressBar">
+               <property name="value">
+                <number>24</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
@@ -145,6 +144,11 @@
               <height>100</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">.QLabel{
+font: 18px;
+}</string>
+            </property>
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
             </property>
@@ -159,8 +163,11 @@
                </property>
               </widget>
              </item>
-             <item>
+             <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="lblDeckName">
+               <property name="styleSheet">
+                <string notr="true">font: bold;</string>
+               </property>
                <property name="text">
                 <string>DeckName</string>
                </property>
@@ -173,8 +180,11 @@
                </property>
               </widget>
              </item>
-             <item>
+             <item alignment="Qt::AlignLeft">
               <widget class="QLabel" name="lblCardsCount">
+               <property name="styleSheet">
+                <string notr="true">font: bold;</string>
+               </property>
                <property name="text">
                 <string>0/0</string>
                </property>
@@ -208,9 +218,24 @@
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_8">
                 <item>
-                 <widget class="QTextEdit" name="textEdit">
+                 <widget class="QTextEdit" name="textEditQuestion">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
                   <property name="styleSheet">
-                   <string notr="true">background-color: rgb(39, 32, 43);</string>
+                   <string notr="true">background-color: black;
+text-align: center;
+font: 18px;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QTextEdit" name="textEditAnswer">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: black;
+padding-left: 15px;
+text-align: center;
+font: bold 20px;</string>
                   </property>
                  </widget>
                 </item>
@@ -241,22 +266,40 @@
                <layout class="QHBoxLayout" name="horizontalLayout_5">
                 <item>
                  <widget class="QPushButton" name="btnBadFeedback">
+                  <property name="styleSheet">
+                   <string notr="true">background-position: center;  
+background-repeat: no-repeat; 
+background-image: url(:/icons/images/icons/cil-frown.png);
+border-radius: 45px;</string>
+                  </property>
                   <property name="text">
-                   <string>:(</string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QPushButton" name="btnOkFeedback">
+                  <property name="styleSheet">
+                   <string notr="true">background-position: center;  
+background-repeat: no-repeat; 
+background-image: url(:/icons/images/icons/cil-smile.png);
+border-radius: 45px;</string>
+                  </property>
                   <property name="text">
-                   <string>:I</string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QPushButton" name="btnGoodFeedback">
+                  <property name="styleSheet">
+                   <string notr="true">background-position: center;  
+background-repeat: no-repeat; 
+background-image: url(:/icons/images/icons/cil-mood-good.png);
+border-radius: 45px;</string>
+                  </property>
                   <property name="text">
-                   <string>:D</string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -615,7 +658,7 @@ border-color: transparent;
 
 QToolTip {
 background-repeat: no-repeat;
-background-image: transparent
+background-image: none;
 }
 </string>
                </property>

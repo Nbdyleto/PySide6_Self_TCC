@@ -27,7 +27,7 @@ class Ui_FlashcardsPage(object):
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         self.frame_12 = QtWidgets.QFrame(self.StudyPage)
         self.frame_12.setMinimumSize(QtCore.QSize(250, 0))
-        self.frame_12.setStyleSheet("background-color: rgb(54, 43, 60);")
+        self.frame_12.setStyleSheet("")
         self.frame_12.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_12.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_12.setObjectName("frame_12")
@@ -48,7 +48,7 @@ class Ui_FlashcardsPage(object):
         self.btnClassIcon_2.setObjectName("btnClassIcon_2")
         self.verticalLayout_10.addWidget(self.btnClassIcon_2, 0, QtCore.Qt.AlignHCenter)
         self.btnClassName = QtWidgets.QLabel(self.frame_13)
-        self.btnClassName.setStyleSheet("font: bold 15px;")
+        self.btnClassName.setStyleSheet("font: bold 18px;")
         self.btnClassName.setObjectName("btnClassName")
         self.verticalLayout_10.addWidget(self.btnClassName, 0, QtCore.Qt.AlignHCenter)
         self.verticalLayout_9.addWidget(self.frame_13)
@@ -56,10 +56,13 @@ class Ui_FlashcardsPage(object):
         self.frame_14.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_14.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_14.setObjectName("frame_14")
+        self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.frame_14)
+        self.verticalLayout_11.setObjectName("verticalLayout_11")
         self.progressBar = QtWidgets.QProgressBar(self.frame_14)
-        self.progressBar.setGeometry(QtCore.QRect(10, 10, 261, 23))
         self.progressBar.setProperty("value", 24)
+        self.progressBar.setOrientation(QtCore.Qt.Vertical)
         self.progressBar.setObjectName("progressBar")
+        self.verticalLayout_11.addWidget(self.progressBar, 0, QtCore.Qt.AlignHCenter)
         self.verticalLayout_9.addWidget(self.frame_14)
         self.horizontalLayout_6.addWidget(self.frame_12)
         self.frame_7 = QtWidgets.QFrame(self.StudyPage)
@@ -70,6 +73,9 @@ class Ui_FlashcardsPage(object):
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.frame_8 = QtWidgets.QFrame(self.frame_7)
         self.frame_8.setMinimumSize(QtCore.QSize(0, 100))
+        self.frame_8.setStyleSheet(".QLabel{\n"
+"font: 18px;\n"
+"}")
         self.frame_8.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_8.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_8.setObjectName("frame_8")
@@ -79,14 +85,16 @@ class Ui_FlashcardsPage(object):
         self.label_2.setObjectName("label_2")
         self.horizontalLayout_4.addWidget(self.label_2)
         self.lblDeckName = QtWidgets.QLabel(self.frame_8)
+        self.lblDeckName.setStyleSheet("font: bold;")
         self.lblDeckName.setObjectName("lblDeckName")
-        self.horizontalLayout_4.addWidget(self.lblDeckName)
+        self.horizontalLayout_4.addWidget(self.lblDeckName, 0, QtCore.Qt.AlignLeft)
         self.label_3 = QtWidgets.QLabel(self.frame_8)
         self.label_3.setObjectName("label_3")
         self.horizontalLayout_4.addWidget(self.label_3)
         self.lblCardsCount = QtWidgets.QLabel(self.frame_8)
+        self.lblCardsCount.setStyleSheet("font: bold;")
         self.lblCardsCount.setObjectName("lblCardsCount")
-        self.horizontalLayout_4.addWidget(self.lblCardsCount)
+        self.horizontalLayout_4.addWidget(self.lblCardsCount, 0, QtCore.Qt.AlignLeft)
         self.verticalLayout_6.addWidget(self.frame_8)
         self.frame_9 = QtWidgets.QFrame(self.frame_7)
         self.frame_9.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -101,10 +109,20 @@ class Ui_FlashcardsPage(object):
         self.frame_10.setObjectName("frame_10")
         self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.frame_10)
         self.verticalLayout_8.setObjectName("verticalLayout_8")
-        self.textEdit = QtWidgets.QTextEdit(self.frame_10)
-        self.textEdit.setStyleSheet("background-color: rgb(39, 32, 43);")
-        self.textEdit.setObjectName("textEdit")
-        self.verticalLayout_8.addWidget(self.textEdit)
+        self.textEditQuestion = QtWidgets.QTextEdit(self.frame_10)
+        self.textEditQuestion.setEnabled(True)
+        self.textEditQuestion.setStyleSheet("background-color: black;\n"
+"text-align: center;\n"
+"font: 18px;")
+        self.textEditQuestion.setObjectName("textEditQuestion")
+        self.verticalLayout_8.addWidget(self.textEditQuestion)
+        self.textEditAnswer = QtWidgets.QTextEdit(self.frame_10)
+        self.textEditAnswer.setStyleSheet("background-color: black;\n"
+"padding-left: 15px;\n"
+"text-align: center;\n"
+"font: bold 20px;")
+        self.textEditAnswer.setObjectName("textEditAnswer")
+        self.verticalLayout_8.addWidget(self.textEditAnswer)
         self.btnRevealAnswer = QtWidgets.QPushButton(self.frame_10)
         self.btnRevealAnswer.setObjectName("btnRevealAnswer")
         self.verticalLayout_8.addWidget(self.btnRevealAnswer)
@@ -117,12 +135,27 @@ class Ui_FlashcardsPage(object):
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.frame_11)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.btnBadFeedback = QtWidgets.QPushButton(self.frame_11)
+        self.btnBadFeedback.setStyleSheet("background-position: center;  \n"
+"background-repeat: no-repeat; \n"
+"background-image: url(:/icons/images/icons/cil-frown.png);\n"
+"border-radius: 45px;")
+        self.btnBadFeedback.setText("")
         self.btnBadFeedback.setObjectName("btnBadFeedback")
         self.horizontalLayout_5.addWidget(self.btnBadFeedback)
         self.btnOkFeedback = QtWidgets.QPushButton(self.frame_11)
+        self.btnOkFeedback.setStyleSheet("background-position: center;  \n"
+"background-repeat: no-repeat; \n"
+"background-image: url(:/icons/images/icons/cil-smile.png);\n"
+"border-radius: 45px;")
+        self.btnOkFeedback.setText("")
         self.btnOkFeedback.setObjectName("btnOkFeedback")
         self.horizontalLayout_5.addWidget(self.btnOkFeedback)
         self.btnGoodFeedback = QtWidgets.QPushButton(self.frame_11)
+        self.btnGoodFeedback.setStyleSheet("background-position: center;  \n"
+"background-repeat: no-repeat; \n"
+"background-image: url(:/icons/images/icons/cil-mood-good.png);\n"
+"border-radius: 45px;")
+        self.btnGoodFeedback.setText("")
         self.btnGoodFeedback.setObjectName("btnGoodFeedback")
         self.horizontalLayout_5.addWidget(self.btnGoodFeedback)
         self.verticalLayout_7.addWidget(self.frame_11)
@@ -262,7 +295,7 @@ class Ui_FlashcardsPage(object):
 "\n"
 "QToolTip {\n"
 "background-repeat: no-repeat;\n"
-"background-image: transparent\n"
+"background-image: none;\n"
 "}\n"
 "")
         self.tblDecks.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
@@ -297,7 +330,7 @@ class Ui_FlashcardsPage(object):
         self.verticalLayout.addWidget(self.stackedWidget)
 
         self.retranslateUi(FlashcardsPage)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(FlashcardsPage)
 
     def retranslateUi(self, FlashcardsPage):
@@ -311,9 +344,6 @@ class Ui_FlashcardsPage(object):
         self.label_3.setText(_translate("FlashcardsPage", "Cards:"))
         self.lblCardsCount.setText(_translate("FlashcardsPage", "0/0"))
         self.btnRevealAnswer.setText(_translate("FlashcardsPage", "Revelar"))
-        self.btnBadFeedback.setText(_translate("FlashcardsPage", ":("))
-        self.btnOkFeedback.setText(_translate("FlashcardsPage", ":I"))
-        self.btnGoodFeedback.setText(_translate("FlashcardsPage", ":D"))
         self.classComboBox.setItemText(0, _translate("FlashcardsPage", "Geral"))
         self.label.setText(_translate("FlashcardsPage", "Decks"))
         item = self.tblDecks.horizontalHeaderItem(0)

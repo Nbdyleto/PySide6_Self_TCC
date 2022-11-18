@@ -40,6 +40,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.btnGoodFeedback.clicked.connect(lambda: widgets.btnRevealAnswer.setVisible(True))
     
     def setupWidgets(self):
+        widgets.stackedWidget.setCurrentIndex(1)
         widgets.btnBadFeedback.setVisible(False)
         widgets.btnOkFeedback.setVisible(False)
         widgets.btnGoodFeedback.setVisible(False)
@@ -193,16 +194,19 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             self.flashcardsIter = iter(flashcards)
 
         front, verse = next(self.flashcardsIter)
-        widgets.textEdit.setText(f'question: {front}\nanswer: {verse}')
+        widgets.textEditQuestion.setText(f'question: {front}')
+        widgets.textEditAnswer.setText(f'answer: {verse}')
+        widgets.textEditAnswer.setVisible(False)
         widgets.lblCardsCount.setText(f'1/{cardstotal}')
         widgets.lblDeckName.setText(deckname)
         widgets.progressBar.setValue(deckperc)
         widgets.stackedWidget.setCurrentWidget(widgets.StudyPage)
 
     def revealAnswer(self):
-        pass
+        widgets.textEditAnswer.setVisible(True)
 
     def nextFlashcard(self, value=0):
+        widgets.textEditAnswer.setVisible(False)
         widgets.btnRevealAnswer.setVisible(True)
         widgets.btnBadFeedback.setVisible(False)
         widgets.btnOkFeedback.setVisible(False)
