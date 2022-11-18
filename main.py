@@ -115,6 +115,7 @@ class MainWindow(QMainWindow):
         widgets.newPomodoroPage.ui.btnPomodoro.clicked.connect(self.changePallete)
         widgets.newPomodoroPage.ui.btnShortRest.clicked.connect(self.changePallete)
         widgets.newPomodoroPage.ui.btnLongRest.clicked.connect(self.changePallete)
+        
 
         # EXTRA LEFT BOX
         def openCloseLeftBox():
@@ -186,26 +187,28 @@ class MainWindow(QMainWindow):
         print(f'Button "{btnName}" pressed!')
 
     def changePallete(self):
-        btn = self.sender()
-        btnName = btn.objectName()
+        if widgets.newPomodoroPage.allowChangeModeManually:
 
-        UIFunctions.resetButtonsStyle(self, widget=None, resetall=True) # RESET ALL MENU BUTTONS SELECTED
-        UIFunctions.resetStyle(self, widget=None, resetall=True)    # RESET ALL POMODORO BUTTONS SELECTED
+            btn = self.sender()
+            btnName = btn.objectName()
 
-        if btnName == "btnPomodoro" or btnName == "btnPyJucoBlue":
-            UIFunctions.theme(self, self.blueFile, True)
-            AppFunctions.setThemeBlue(self)
-        if btnName == "btnShortRest" or btnName == "btnPyJucoGreen":
-            UIFunctions.theme(self, self.greenFile, True)
-            AppFunctions.setThemeGreen(self)
-        if btnName == "btnLongRest" or btnName == "btnPyJucoPurple":
-            UIFunctions.theme(self, self.purpleFile, True)
-            AppFunctions.setThemePurple(self)
+            UIFunctions.resetButtonsStyle(self, widget=None, resetall=True) # RESET ALL MENU BUTTONS SELECTED
+            UIFunctions.resetStyle(self, widget=None, resetall=True)    # RESET ALL POMODORO BUTTONS SELECTED
 
-        UIFunctions.resetStyle(self, self.btnSelected.objectName()) # RESET ANOTHERS MENU BUTTONS
-        self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet())) # SET SELECTED MENU BUTTON
-        UIFunctions.resetButtonsStyle(self, btn.objectName()) # RESET ANOTHERS POMODORO BUTTONS
-        btn.setStyleSheet(UIFunctions.selectButton(btn.styleSheet())) # SET SELECTED POMODORO BUTTON
+            if btnName == "btnPomodoro" or btnName == "btnPyJucoBlue":
+                UIFunctions.theme(self, self.blueFile, True)
+                AppFunctions.setThemeBlue(self)
+            if btnName == "btnShortRest" or btnName == "btnPyJucoGreen":
+                UIFunctions.theme(self, self.greenFile, True)
+                AppFunctions.setThemeGreen(self)
+            if btnName == "btnLongRest" or btnName == "btnPyJucoPurple":
+                UIFunctions.theme(self, self.purpleFile, True)
+                AppFunctions.setThemePurple(self)
+
+            UIFunctions.resetStyle(self, self.btnSelected.objectName()) # RESET ANOTHERS MENU BUTTONS
+            self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet())) # SET SELECTED MENU BUTTON
+            UIFunctions.resetButtonsStyle(self, btn.objectName()) # RESET ANOTHERS POMODORO BUTTONS
+            btn.setStyleSheet(UIFunctions.selectButton(btn.styleSheet())) # SET SELECTED POMODORO BUTTON
 
     # RESIZE EVENTS
     # ///////////////////////////////////////////////////////////////

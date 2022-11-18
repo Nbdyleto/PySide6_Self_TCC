@@ -25,7 +25,7 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tabWidgetPage1" native="true">
+     <widget class="QWidget" name="tabWidgetPage1">
       <attribute name="title">
        <string>Pomodoro</string>
       </attribute>
@@ -185,19 +185,38 @@ font: bold;</string>
         </widget>
        </item>
        <item>
-        <widget class="QLCDNumber" name="lcdPomodoroTimer">
-         <property name="font">
-          <font>
-           <italic>false</italic>
-           <bold>false</bold>
-          </font>
+        <widget class="QFrame" name="frame">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
          </property>
-         <property name="digitCount">
-          <number>5</number>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
          </property>
-         <property name="intValue" stdset="0">
-          <number>0</number>
-         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QLCDNumber" name="lcdPomodoroTimer">
+            <property name="font">
+             <font>
+              <italic>false</italic>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="digitCount">
+             <number>5</number>
+            </property>
+            <property name="intValue" stdset="0">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lblStudyCount">
+            <property name="text">
+             <string>Número de estudos:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>

@@ -57,15 +57,15 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.restTime = QtCore.QTime(0, 0, 0, 0)
         self.totalTime = QtCore.QTime(0, 0, 0, 0)
         self.currentMode = Mode.work
-        self.maxRepetitions = -1
-        self.currentRepetitions = 0
+        self.currentPomodoros = 1
+        self.maxPomodoros = 4
         # Progress Bar Variables
-        #print('testing: ', self.settings.value(workMinutesKey))
-        #print('testing: ', self.settings.value(shortMinutesKey))
         self.workSecondPercent = 1/(int(self.settings.value(workMinutesKey, 25))*60/100)
         self.shortRestSecondPercent =  1/(int(self.settings.value(shortMinutesKey, 5))*60/100)
         self.longRestSecondPercent = 1/(int(self.settings.value(longMinutesKey, 15))*60/100)
         self.progressValue = 0
+        # Pallete Variables
+        self.allowChangeModeManually = True
 
     def setupConnections(self):
         widgets.tblTasks.cellDoubleClicked.connect(self.markTaskAsFinished)
@@ -101,16 +101,33 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         widgets.shortMinutesSpinBox.setValue(int(self.settings.value(shortMinutesKey, 5)))
         widgets.longMinutesSpinBox.setValue(int(self.settings.value(longMinutesKey, 15)))
 
+        self.showNumPomodoros(0)
+
     # Pomodoro Timer Functions
 
     def updateCurrentMode(self, mode):
+        if not self.allowChangeModeManually:
+            msgBox = QtWidgets.QMessageBox(self)
+            msgBox.setText("Pomodoro ainda em andamento...")
+            msgBox.setInformativeText("Trocar de estado resetará o atual progresso")
+            msgBox.setStandardButtons(QtWidgets.QMessageBox.Cancel | QtWidgets.QMessageBox.Apply)
+            msgBox.setDefaultButton(QtWidgets.QMessageBox.Cancel)
+            msgBox.show()
+            ret = msgBox.exec()
+
+            if ret == QtWidgets.QMessageBox.Cancel:
+                self.allowChangeModeManually = False
+                return
+            else:
+                self.allowChangeModeManually = True
+                self.currentPomodoros = 1
         self.currentMode = mode
-        print(self.currentMode)
         self.resetTimer()
 
     def startTimer(self):
         if self.currentMode == Mode.work:
             widgets.btnPomodoro.click()
+            self.allowChangeModeManually = False
         try:
             if not self.timer.isActive():
                 self.createTimer()
@@ -133,6 +150,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             pass
 
     def resetTimer(self):
+        self.allowChangeModeManually = True
         self.purpleFile = "themes/pyjuco_purple.qss"
         self.blueFile = "themes/pyjuco_blue.qss"
         self.greenFile = "themes/pyjuco_green.qss"
@@ -142,8 +160,6 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.workSecondPercent = 1/(int(self.settings.value(workMinutesKey, 25))*60/100)
         self.shortRestSecondPercent =  1/(int(self.settings.value(shortMinutesKey, 5))*60/100)
         self.longRestSecondPercent = 1/(int(self.settings.value(longMinutesKey, 15))*60/100)
-        
-        print(self.workSecondPercent, self.shortRestSecondPercent, self.longRestSecondPercent)
 
         try:
             self.pauseTimer()
@@ -161,17 +177,8 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         except:
             pass
 
-    def maybeStartTimer(self):
-        if self.currentRepetitions != self.maxRepetitions:
-            self.startTimer()
-            started = True
-        else:
-            self.currentRepetitions = 0
-            started = False
-        return started
-
     def updateTime(self):
-        self.time = self.time.addSecs(-1)
+        self.time = self.time.addSecs(-30)
         self.totalTime = self.totalTime.addSecs(-1)
         if self.currentMode is Mode.work:
             self.workTime = self.workTime.addSecs(1)
@@ -184,51 +191,61 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             self.progressValue += self.longRestSecondPercent
         else:
             pass 
-        print(self.workSecondPercent, self.shortRestSecondPercent, self.longRestSecondPercent)
 
         widgets.progressBar.setValue(self.progressValue)
         self.displayTime()
 
-    def updateMaxRepetitions(self, value):
-        if value == 0:
-            self.currentRepetitions = 0
-            self.maxRepetitions = -1
-        else:
-            self.maxRepetitions = 2 * value
-
     def maybeChangeMode(self):
         print("="*50)
         print(f'current mode: {self.currentMode}\nself.time: {self.time}')
+        print(f'change to long rest? {self.changeToLongRest()}')
+        print(f'current pomodoros {self.currentPomodoros}')
+        print(f'percentage of progress: {self.workSecondPercent} {self.shortRestSecondPercent} {self.longRestSecondPercent}')
         print("="*50)
         print(self.currentMode is Mode.work and self.time <= QtCore.QTime(0, 0, 0, 0))
-        if self.currentMode is Mode.work and self.time <= QtCore.QTime(0, 0, 0, 0):
+        if self.currentMode is Mode.work and self.time <= QtCore.QTime(0, 0, 0, 0) and not self.changeToLongRest():
+            self.showNumPomodoros(self.currentPomodoros)
             print("rest time!")
             self.currentMode = Mode.short_rest
+            self.setButtonsEnabled()
             self.resetTimer()
             widgets.btnShortRest.click()
-            widgets.btnPauseTimer.setEnabled(False)
-            widgets.btnResetTimer.setEnabled(False)
-            widgets.btnStartTimer.setEnabled(True)
-            #self.incrementCurrentRepetitions()
-            #started = self.maybeStartTimer()
-            #print(started)
-            #self.showWindowMessage(Status.workFinished if started else Status.repetitionsReached)
-            
-        elif self.currentMode is Mode.short_rest and self.time <= QtCore.QTime(0, 0, 0, 0):
+        elif self.currentMode is Mode.short_rest and self.time <= QtCore.QTime(0, 0, 0, 0) and not self.changeToLongRest():
             print("work time!")
+            self.currentMode = Mode.work
+            self.currentPomodoros += 1
+            self.setButtonsEnabled()
+            self.resetTimer()
+            widgets.btnPomodoro.click()
+        elif self.time <= QtCore.QTime(0, 0, 0, 0) and self.changeToLongRest():
+            self.showNumPomodoros(self.currentPomodoros)
+            print("long rest time")
+            self.currentMode = Mode.long_rest
+            self.currentPomodoros = 1
+            self.setButtonsEnabled()
+            self.resetTimer()
+            widgets.btnLongRest.click()
+        elif self.currentMode is Mode.long_rest and self.time <= QtCore.QTime(0, 0, 0, 0):
+            self.showNumPomodoros(0)
+            print("back to new pomodoro cycle!")
             self.currentMode = Mode.work
             self.resetTimer()
             widgets.btnPomodoro.click()
-            widgets.btnPauseTimer.setEnabled(False)
-            widgets.btnResetTimer.setEnabled(False)
-            widgets.btnStartTimer.setEnabled(True)
-            #self.incrementCurrentRepetitions()
-            #started = self.maybeStartTimer()
-            #self.showWindowMessage(Status.restFinished if started else Status.repetitionsReached)
+            self.setButtonsEnabled()
             
-    def incrementCurrentRepetitions(self):
-        if self.maxRepetitions > 0:
-            self.currentRepetitions += 1
+        else:
+            pass
+
+    def setButtonsEnabled(self):
+        widgets.btnPauseTimer.setEnabled(False)
+        widgets.btnResetTimer.setEnabled(False)
+        widgets.btnStartTimer.setEnabled(True)
+
+    def changeToLongRest(self):
+        return self.currentPomodoros == self.maxPomodoros
+
+    def showNumPomodoros(self, value):
+        widgets.lblStudyCount.setText(f'Número de estudos: {value}')
 
     def displayTime(self):
         print(self.time.toString(self.timeFormat))
@@ -277,6 +294,10 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         widgets.lblActualTask.setText(widgets.tblTasks.item(row, 0).text())
 
     # Settings
+
+    def updateMaxPomodoros(self):
+        value = 3
+        self.maxPomodoros = value
 
     def updateWorkValue(self):
         workNewValue = widgets.workMinutesSpinBox.value()
