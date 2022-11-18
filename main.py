@@ -116,7 +116,6 @@ class MainWindow(QMainWindow):
         widgets.newPomodoroPage.ui.btnShortRest.clicked.connect(self.changePallete)
         widgets.newPomodoroPage.ui.btnLongRest.clicked.connect(self.changePallete)
         
-
         # EXTRA LEFT BOX
         def openCloseLeftBox():
             UIFunctions.toggleLeftBox(self, True)

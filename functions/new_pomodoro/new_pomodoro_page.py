@@ -57,8 +57,8 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.restTime = QtCore.QTime(0, 0, 0, 0)
         self.totalTime = QtCore.QTime(0, 0, 0, 0)
         self.currentMode = Mode.work
-        self.currentPomodoros = 1
-        self.maxPomodoros = 4
+        self.currentPomodoros = 0
+        self.maxPomodoros = 3
         # Progress Bar Variables
         self.workSecondPercent = 1/(int(self.settings.value(workMinutesKey, 25))*60/100)
         self.shortRestSecondPercent =  1/(int(self.settings.value(shortMinutesKey, 5))*60/100)
@@ -120,14 +120,13 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
                 return
             else:
                 self.allowChangeModeManually = True
-                self.currentPomodoros = 1
+                self.currentPomodoros = 0
+                self.showNumPomodoros(self.currentPomodoros)
         self.currentMode = mode
         self.resetTimer()
 
     def startTimer(self):
-        if self.currentMode == Mode.work:
-            widgets.btnPomodoro.click()
-            self.allowChangeModeManually = False
+        self.allowChangeModeManually = False
         try:
             if not self.timer.isActive():
                 self.createTimer()
@@ -175,7 +174,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             self.progressValue = 0
             widgets.progressBar.setValue(self.progressValue)
         except:
-            pass
+            print('not enable reset!')
 
     def updateTime(self):
         self.time = self.time.addSecs(-30)
@@ -204,32 +203,41 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         print("="*50)
         print(self.currentMode is Mode.work and self.time <= QtCore.QTime(0, 0, 0, 0))
         if self.currentMode is Mode.work and self.time <= QtCore.QTime(0, 0, 0, 0) and not self.changeToLongRest():
+            self.currentPomodoros += 1
             self.showNumPomodoros(self.currentPomodoros)
-            print("rest time!")
-            self.currentMode = Mode.short_rest
-            self.setButtonsEnabled()
-            self.resetTimer()
-            widgets.btnShortRest.click()
+            print("rest time, change to long rest? ", self.changeToLongRest())
+            if not self.changeToLongRest():
+                self.currentMode = Mode.short_rest
+                self.setButtonsEnabled()
+                self.resetTimer()
+                widgets.btnLongRest.setDisabled(True)
+                widgets.btnShortRest.click()
+            else:
+                msgBox = QtWidgets.QMessageBox(self)
+                msgBox.setText("Ciclo de estudo finalizado!")
+                msgBox.setInformativeText("Inicie o descanso longo")
+                msgBox.show()
+                self.currentMode = Mode.long_rest
+                self.setButtonsEnabled()
+                self.resetTimer()
+                widgets.btnLongRest.setDisabled(False)
+                widgets.btnLongRest.click()
+
         elif self.currentMode is Mode.short_rest and self.time <= QtCore.QTime(0, 0, 0, 0) and not self.changeToLongRest():
+            self.showNumPomodoros(self.currentPomodoros)
             print("work time!")
             self.currentMode = Mode.work
-            self.currentPomodoros += 1
             self.setButtonsEnabled()
             self.resetTimer()
+            widgets.btnLongRest.setDisabled(True)
             widgets.btnPomodoro.click()
-        elif self.time <= QtCore.QTime(0, 0, 0, 0) and self.changeToLongRest():
-            self.showNumPomodoros(self.currentPomodoros)
-            print("long rest time")
-            self.currentMode = Mode.long_rest
-            self.currentPomodoros = 1
-            self.setButtonsEnabled()
-            self.resetTimer()
-            widgets.btnLongRest.click()
         elif self.currentMode is Mode.long_rest and self.time <= QtCore.QTime(0, 0, 0, 0):
             self.showNumPomodoros(0)
             print("back to new pomodoro cycle!")
             self.currentMode = Mode.work
+            self.currentPomodoros = 0
             self.resetTimer()
+            widgets.btnLongRest.setDisabled(True)
             widgets.btnPomodoro.click()
             self.setButtonsEnabled()
             
@@ -242,7 +250,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         widgets.btnStartTimer.setEnabled(True)
 
     def changeToLongRest(self):
-        return self.currentPomodoros == self.maxPomodoros
+        return self.currentPomodoros >= self.maxPomodoros
 
     def showNumPomodoros(self, value):
         widgets.lblStudyCount.setText(f'Número de estudos: {value}')
