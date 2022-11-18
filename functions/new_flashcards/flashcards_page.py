@@ -110,10 +110,12 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             btnAction.setObjectName(f'btnStartStudy{tablerow}')
             btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-media-play.png);")
             btnAction.clicked.connect(lambda: self.loadStudyInfo(deckid=deckid))
+            btnAction.setToolTip('Iniciar estudos')
         else:
             btnAction.setObjectName(f'btnAddCards{tablerow}')
             btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-plus.png);")
             btnAction.clicked.connect(lambda: self.openAddCardsWindow(deckid, deckname))
+            btnAction.setToolTip('Adicionar cards')
 
         btnEditDecks = QtWidgets.QPushButton(widgets.tblDecks)
         btnEditDecks.setMinimumSize(QtCore.QSize(0, 100))
@@ -122,6 +124,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         btnEditDecks.setLayoutDirection(QtCore.Qt.LeftToRight)
         btnEditDecks.setObjectName(f'btnEditDecks{tablerow}')
         btnEditDecks.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-pencil.png);")
+        btnEditDecks.setToolTip('Editar deck')
         btnEditDecks.clicked.connect(lambda: self.editDeck(deckid))
         btnEditCards = QtWidgets.QPushButton(widgets.tblDecks)
         btnEditCards.setMinimumSize(QtCore.QSize(0, 100))
@@ -129,6 +132,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         btnEditCards.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         btnEditCards.setLayoutDirection(QtCore.Qt.LeftToRight)
         btnEditCards.setObjectName(f'btnEditCards{tablerow}')
+        btnEditCards.setToolTip('Editar cards')
         btnEditCards.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-options.png);")
         btnRemoveDeck = QtWidgets.QPushButton(widgets.tblDecks)
         btnRemoveDeck.setMinimumSize(QtCore.QSize(0, 100))
@@ -137,6 +141,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         btnRemoveDeck.setLayoutDirection(QtCore.Qt.LeftToRight)
         btnRemoveDeck.setObjectName(f'btnRemoveDeck{tablerow}')
         btnRemoveDeck.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-x-circle.png);")
+        btnRemoveDeck.setToolTip('Remover deck')
         btnRemoveDeck.clicked.connect(lambda: self.removeDeck(deckid))
 
         widgets.tblDecks.setCellWidget(tablerow, 2, btnAction)

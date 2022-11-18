@@ -615,7 +615,7 @@ border-color: transparent;
 
 QToolTip {
 background-repeat: no-repeat;
-background-image: transparent
+background-image: transparent;
 }
 </string>
                </property>

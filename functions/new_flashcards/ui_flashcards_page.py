@@ -258,7 +258,13 @@ class Ui_FlashcardsPage(object):
 "background-repeat: no-repeat; \n"
 "border-radius: 45px;\n"
 "border-color: transparent;\n"
-"}")
+"}\n"
+"\n"
+"QToolTip {\n"
+"background-repeat: no-repeat;\n"
+"background-image: transparent\n"
+"}\n"
+"")
         self.tblDecks.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.tblDecks.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tblDecks.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
