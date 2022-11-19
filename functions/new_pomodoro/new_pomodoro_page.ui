@@ -23,7 +23,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tabWidgetPage1">
       <attribute name="title">
@@ -209,13 +209,6 @@ font: bold;</string>
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QLabel" name="lblStudyCount">
-            <property name="text">
-             <string>Número de estudos:</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </widget>
        </item>
@@ -323,14 +316,21 @@ text-align: center;</string>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+         <layout class="QVBoxLayout" name="verticalLayout_9">
+          <item alignment="Qt::AlignHCenter">
            <widget class="QLabel" name="lblActualTask">
             <property name="styleSheet">
              <string notr="true">font: bold 20px;</string>
             </property>
             <property name="text">
              <string/>
+            </property>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="lblStudyCount">
+            <property name="text">
+             <string>Número de estudos:</string>
             </property>
            </widget>
           </item>
@@ -344,12 +344,12 @@ text-align: center;</string>
        <string>Tarefas</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_6">
-       <item>
+       <item alignment="Qt::AlignHCenter">
         <widget class="QFrame" name="frame_6">
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>50</height>
+           <height>150</height>
           </size>
          </property>
          <property name="frameShape">
@@ -371,52 +371,43 @@ text-align: center;</string>
           <property name="bottomMargin">
            <number>0</number>
           </property>
-          <item alignment="Qt::AlignHCenter">
-           <widget class="QPushButton" name="pushButton">
-            <property name="minimumSize">
-             <size>
-              <width>120</width>
-              <height>40</height>
-             </size>
+          <item alignment="Qt::AlignLeft">
+           <widget class="QFrame" name="frame_2">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
             </property>
-            <property name="maximumSize">
-             <size>
-              <width>200</width>
-              <height>16777215</height>
-             </size>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
             </property>
-            <property name="styleSheet">
-             <string notr="true">background-repeat: no-repeat; 
+            <layout class="QVBoxLayout" name="verticalLayout_7">
+             <item>
+              <widget class="QPushButton" name="pushButton">
+               <property name="minimumSize">
+                <size>
+                 <width>120</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>200</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-repeat: no-repeat; 
 border-radius: 20px;
 text-align: center;</string>
-            </property>
-            <property name="text">
-             <string>Data</string>
-            </property>
-           </widget>
-          </item>
-          <item alignment="Qt::AlignHCenter">
-           <widget class="QPushButton" name="pushButton_2">
-            <property name="minimumSize">
-             <size>
-              <width>120</width>
-              <height>40</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>200</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-repeat: no-repeat; 
-border-radius: 20px;
-text-align: center;</string>
-            </property>
-            <property name="text">
-             <string>Tópico</string>
-            </property>
+               </property>
+               <property name="text">
+                <string>Ordenar por Tópico</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QListWidget" name="listByTopic"/>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
@@ -458,7 +449,7 @@ text-align: center;</string>
              <enum>Qt::NoFocus</enum>
             </property>
             <property name="editTriggers">
-             <set>QAbstractItemView::DoubleClicked</set>
+             <set>QAbstractItemView::NoEditTriggers</set>
             </property>
             <property name="selectionMode">
              <enum>QAbstractItemView::NoSelection</enum>

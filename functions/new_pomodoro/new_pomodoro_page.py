@@ -66,6 +66,9 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.progressValue = 0
         # Pallete Variables
         self.allowChangeModeManually = True
+        # Filter Variables
+        self.filterByTopic, self.filterByDate = False, False
+        self.activeTopicId, self.activeDate = None, None
 
     def setupConnections(self):
         widgets.tblTasks.cellDoubleClicked.connect(self.markTaskAsFinished)
@@ -92,6 +95,8 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         widgets.shortMinutesSpinBox.valueChanged.connect(self.updateShortRestValue)
         widgets.longMinutesSpinBox.valueChanged.connect(self.updateLongRestValue)
 
+        widgets.listByTopic.itemClicked.connect(self.checkTopicFilter)
+
     def setupWidgets(self):
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
@@ -102,6 +107,8 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         widgets.longMinutesSpinBox.setValue(int(self.settings.value(longMinutesKey, 15)))
 
         self.showNumPomodoros(0)
+
+        self.loadTopicsInList()
 
     # Pomodoro Timer Functions
 
@@ -177,7 +184,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             print('not enable reset!')
 
     def updateTime(self):
-        self.time = self.time.addSecs(-30)
+        self.time = self.time.addSecs(-1)
         self.totalTime = self.totalTime.addSecs(-1)
         if self.currentMode is Mode.work:
             self.workTime = self.workTime.addSecs(1)
@@ -272,6 +279,111 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
 
     def loadDataInTable(self):
         widgets.tblTasks.clearContents()
+        qry = f"""SELECT * FROM TASKS WHERE (status != 'Finalizada!')"""    # Default
+        ### FILTER OPTIONS
+        if self.filterByTopic and not self.filterByDate:
+            print("FILTERING JUST BY TOPIC")
+            qry = f"""SELECT * FROM TASKS
+                      WHERE (topic_id = {self.activeTopicId}) AND 
+                            (status != 'Finalizada!')"""
+        elif self.filterByDate and not self.filterByTopic:
+            print("FILTERING JUST BY DATE")
+            qry = f"""SELECT * FROM TASKS
+                      WHERE (end_date = '{self.activeEndDate}' AND 
+                            (status != 'Finalizada!'))"""
+        elif self.filterByDate and self.filterByTopic:
+            print("FILTERING BY DATE AND BY TOPIC")
+            qry = f"""SELECT * FROM TASKS
+                      WHERE (topic_id = {self.activeTopicId}) AND 
+                            (end_date = '{self.activeEndDate}') AND
+                            (status != 'Finalizada!'))"""
+        else:
+            pass
+        print(f'\nQUERY: {qry}')
+
+        try:
+            with DBMainOperations() as db:
+                tasks = db.cursor.execute(qry).fetchall()
+                print(f'{tasks}')
+                widgets.tblTasks.setRowCount(len(tasks))
+            tablerow = 0
+            for row in tasks:
+                #print('\n', row)
+                widgets.tblTasks.setRowHeight(tablerow, 50)
+                taskid, taskname = row[0], row[1]
+                topic = self.getTopicName(row[5])
+                widgets.tblTasks.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(taskname))
+                widgets.tblTasks.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(topic))
+                tablerow += 1 
+            widgets.tblTasks.setRowHeight(tablerow, 50)
+        except Exception as e:
+            print('ERROR: ', e)
+
+    def getTopicName(self, topicid):
+        with DBMainOperations() as db:
+            name = db.getAllRecords(tbl='topics', whclause=f'topic_id = "{topicid}"')[0][1] # get topic_name
+        return name
+    
+    # ORDER BY FUNCTIONS
+    # ///////////////////////////////////////////////////////////////
+
+    def loadTopicsInList(self):
+        widgets.listByTopic.clear()
+        item = QtWidgets.QListWidgetItem()
+        item.setText('Geral')
+        widgets.listByTopic.addItem(item)
+        with DBMainOperations() as db:
+            topics = db.getAllRecords(tbl='topics', specifcols='topic_name')
+        for topic in topics:
+            item = QtWidgets.QListWidgetItem()
+            item.setText(topic[0])
+            if topic[0] == '':
+                item.setText('Sem tópico')
+            #qradiobtn = QtWidgets.QRadioButton(f'{topic}')
+            #widgets.listByTopic.setItemWidget(item, qradiobtn)
+            widgets.listByTopic.addItem(item)
+    
+    def checkTopicFilter(self, item):
+        if item.text() == 'Geral':
+            self.filterByTopic = False
+            self.activeTopicId = -1
+        elif item.text() == 'Sem tópico':
+            self.filterByTopic = True
+            self.activeTopicId = 0
+        else:
+            with DBMainOperations() as db:
+                self.filterByTopic = True
+                self.activeTopicId = db.getAllRecords(tbl='topics', specifcols='topic_id', whclause=f'topic_name = "{item.text()}"')[0][0]
+        self.loadDataInTable()
+    
+    def loadStatusInList(self):
+        widgets.listByStatus.clear()
+        statuslist = ['Geral', 'Não Iniciada.', 'Em Progresso...', 'Finalizada!']
+        for status in statuslist:
+            item = QtWidgets.QListWidgetItem()
+            item.setText(status)
+            widgets.listByStatus.addItem(item)
+
+    def checkStatusFilter(self, item):
+        statuslist = ['Geral', 'Não Iniciada.', 'Em Progresso...', 'Finalizada!']
+        self.filterByStatus = True
+        if item.text() == statuslist[0]:
+            self.activeStatus = None
+            self.filterByStatus = False
+        elif item.text() == statuslist[1]:
+            self.activeStatus = statuslist[1]
+        elif item.text() == statuslist[2]:
+            self.activeStatus = statuslist[2]
+        elif item.text() == statuslist[3]:
+            self.activeStatus = statuslist[3]
+        else: pass
+        
+        self.loadDataInTable()
+
+    ## TEMP
+    """
+    def loadDataInTable(self):
+        widgets.tblTasks.clearContents()
         with DBMainOperations() as db:
             tasks = db.cursor.execute("SELECT * FROM tasks ORDER BY start_date").fetchall()
             widgets.tblTasks.setRowCount(len(tasks))
@@ -288,6 +400,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             widgets.tblTasks.setRowHeight(tablerow, 50)
         except Exception:
             print('ERROR')
+    """
 
     def markTaskAsFinished(self, row):
         item = widgets.tblTasks.item(row, 0)
@@ -295,7 +408,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         font.setStrikeOut(False if item.font().strikeOut() else True)
         item.setFont(font)
         with DBMainOperations() as db:
-            qry = f"UPDATE tasks SET status = 'Finalizada' WHERE task_name = '{item.text()}'"
+            qry = f"UPDATE tasks SET status = 'Finalizada!' WHERE task_name = '{item.text()}'"
             db.cursor.execute(qry)
 
     def showTaskInLabel(self, row):
