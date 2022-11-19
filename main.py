@@ -60,10 +60,10 @@ class MainWindow(QMainWindow):
             ################# TASKS
 
             db.populateTbl('tasks', params=(0, 'Apresentar TCC', 'Em Progresso...', '2022-10-24', '2022-10-25', 4))
-            db.populateTbl('tasks', params=(1, 'Resolver questões de matemática', 'Não iniciada.', '2022-10-22', '2022-10-25', 1))
-            db.populateTbl('tasks', params=(2, 'Resolver questões sobre genética', 'Não iniciada.', '2022-10-22', '2022-10-22', 3))
+            db.populateTbl('tasks', params=(1, 'Resolver questões de matemática', 'Não Iniciada.', '2022-10-22', '2022-10-25', 1))
+            db.populateTbl('tasks', params=(2, 'Resolver questões sobre genética', 'Não Iniciada.', '2022-10-22', '2022-10-22', 3))
             db.populateTbl('tasks', params=(3, 'Desenvolver funcionalidade Pomodoro', 'Em Progresso...', '2022-10-20', '2022-10-27', 4))
-            db.populateTbl('tasks', params=(4, 'Fazer Simulado do ENEM 2020', 'Não iniciada...', '2022-10-20', '2022-10-25', 0))
+            db.populateTbl('tasks', params=(4, 'Fazer Simulado do ENEM 2020', 'Não Iniciada.', '2022-10-20', '2022-10-25', 0))
 
         QMainWindow.__init__(self)
 

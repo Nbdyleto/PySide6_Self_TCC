@@ -20,10 +20,8 @@ class DTaskMainPage(QtWidgets.QWidget):
         widgets = self.ui
         self.selectedTask, self.activeCalendar, self.activeTable = None, None, None
 
-        self.orderByTopicsState = False
-        self.orderByTopics = []
-        self.orderByStatusState = False
-        self.orderByStatus = []
+        self.filterByTopic, self.filterByStatus = False, False
+        self.activeTopicId, self.activeStatus = None, None
 
     def setupConnections(self):
         widgets.tblTasks.cellClicked.connect(self.rowClickedFunctions)
@@ -32,8 +30,8 @@ class DTaskMainPage(QtWidgets.QWidget):
         widgets.qCalendar.selectionChanged.connect(self.updateCalendarDate)
         widgets.btnOrderByTopic.clicked.connect(self.loadTopicsInList)
         widgets.btnOrderByStatus.clicked.connect(self.loadStatusInList)
-        widgets.listByTopic.itemChanged.connect(self.checkTopicFilter)
-        widgets.listByStatus.itemChanged.connect(self.checkStatusFilter)
+        widgets.listByTopic.itemClicked.connect(self.checkTopicFilter)
+        widgets.listByStatus.itemClicked.connect(self.checkStatusFilter)
 
     def setupWidgets(self):
         # tblTasks PARAMETERS
@@ -65,41 +63,39 @@ class DTaskMainPage(QtWidgets.QWidget):
     # LOAD DATA FUNCTIONS
     # ///////////////////////////////////////////////////////////////
 
-    """
-    with DBMainOperations() as db:
-                
-                if orderByTopic:
-                    qry = "SELECT * FROM tasks WHERE (topic_id=?) ORDER BY start_date"
-                    _tasks = []
-                    taskscount = 0
-                    for topicid in topics:
-                        _tasks.append(db.cursor.execute(qry, (topicid,)).fetchall())
-                        taskscount += db.getAllRecords(tbl='tasks', specifcols='COUNT(*)', whclause=f'topic_id={topicid}')[0][0]
-                    widgets.tblTasks.setRowCount(taskscount)
-                    tasks = reduce(lambda a, b: a+b, _tasks) # Merge all tasks.
-                elif orderByStatus:
-                    qry = "SELECT * FROM tasks WHERE (status=?) ORDER BY start_date"
-                    _tasks = []
-                    taskscount = 0
-                    for statusname in status:
-                        print(statusname)
-                        _tasks.append(db.cursor.execute(qry, (statusname,)).fetchall())
-                        taskscount += db.getAllRecords(tbl='tasks', specifcols='COUNT(*)', whclause=f'status={statusname}')[0][0]
-                    widgets.tblTasks.setRowCount(taskscount)
-                    tasks = reduce(lambda a, b: a+b, _tasks) # Merge all tasks.
-                else:
-                    qry = "SELECT * FROM tasks ORDER BY start_date"
-                    taskscount = db.cursor.execute("SELECT COUNT(*) FROM tasks").fetchone()[0]
-                    widgets.tblTasks.setRowCount(taskscount+1)
-                    tasks = db.cursor.execute(qry).fetchall()
-        """
-
-    def loadDataInTable(self, orderByTopic=False, topics=None, orderByStatus=False, status=None):
+    def loadDataInTable(self):
         widgets.tblTasks.clearContents()
-        tasks = self.filterTasksTable()
+        qry = f"""SELECT * FROM TASKS"""    # Default
+        showemptyrow = True
+        ### FILTER OPTIONS
+        if self.filterByTopic and not self.filterByStatus:
+            print("FILTERING JUST BY TOPIC")
+            qry = f"""SELECT * FROM TASKS
+                      WHERE (topic_id = {self.activeTopicId})"""
+        elif self.filterByStatus and not self.filterByTopic:
+            print("FILTERING JUST BY STATUS")
+            qry = f"""SELECT * FROM TASKS
+                      WHERE (status = '{self.activeStatus}')"""
+            showemptyrow = False
+        elif self.filterByStatus and self.filterByTopic:
+            print("FILTERING BY TOPIC AND BY STATUS")
+            qry = f"""SELECT * FROM TASKS
+                      WHERE (topic_id = {self.activeTopicId}) AND 
+                            (status = '{self.activeStatus}')"""
+            showemptyrow = False
+        else:
+            pass
+        print(f'\nQUERY: {qry}')
+
         try:
+            with DBMainOperations() as db:
+                tasks = db.cursor.execute(qry).fetchall()
+                print(f'{tasks}')
+                rowcount = len(tasks)+1 if showemptyrow else len(tasks)
+                widgets.tblTasks.setRowCount(rowcount)
             tablerow = 0
             for row in tasks:
+                #print('\n', row)
                 widgets.tblTasks.setRowHeight(tablerow, 50)
                 taskid, taskname, status = row[0], row[1], row[2]
                 startDate, endDate = self.formatDate(row[3], row[4])
@@ -111,11 +107,10 @@ class DTaskMainPage(QtWidgets.QWidget):
                 widgets.tblTasks.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(endDate)) #row[4] = end_date
                 widgets.tblTasks.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(topic)) #row[5] = topic_id
                 widgets.tblTasks.setCellWidget(tablerow, 5, btnRemoveTask)
-                tablerow += 1
-                
+                tablerow += 1 
             widgets.tblTasks.setRowHeight(tablerow, 50)
-        except:
-            print('ERROR')
+        except Exception as e:
+            print('ERROR: ', e)
 
     def buttonToPutInRow(self, tablerow, taskid):
         btnRemoveTask = QtWidgets.QPushButton(widgets.tblTasks)
@@ -137,25 +132,6 @@ class DTaskMainPage(QtWidgets.QWidget):
         with DBMainOperations() as db:
             db.cursor.execute(f"DELETE from tasks WHERE task_id={taskid}")
         self.loadDataInTable()
-
-    def filterTasksTable(self):
-        with DBMainOperations() as db:
-            qry = "SELECT * FROM tasks ORDER BY start_date"
-            taskscount = db.cursor.execute("SELECT COUNT(*) FROM tasks").fetchone()[0]
-            widgets.tblTasks.setRowCount(taskscount+1)
-            tasks = db.cursor.execute(qry).fetchall()
-            _tasks = tasks
-            if self.orderByTopicsState:
-                for topicid in self.orderByTopics:
-                    for row in _tasks:
-                        if row[4] != topicid:
-                            _tasks.remove(row)
-                            print(f'removing {row[0]} - {row[4]}')
-                            continue
-                        print(f'mantaining {row[0]} - {row[4]}')
-            print(_tasks)
-            print('#'*50)
-        return _tasks
 
     def getTopicName(self, topicid):
         with DBMainOperations() as db:
@@ -216,8 +192,8 @@ class DTaskMainPage(QtWidgets.QWidget):
         widgets.tblLists.show()
         widgets.tblLists.setObjectName('tblStatus')
         widgets.tblLists.setRowCount(3)
-        widgets.tblLists.setItem(0, 0, QtWidgets.QTableWidgetItem('Não iniciada.'))
-        widgets.tblLists.setItem(1, 0, QtWidgets.QTableWidgetItem('Em progresso...'))
+        widgets.tblLists.setItem(0, 0, QtWidgets.QTableWidgetItem('Não Iniciada.'))
+        widgets.tblLists.setItem(1, 0, QtWidgets.QTableWidgetItem('Em Progresso...'))
         widgets.tblLists.setItem(2, 0, QtWidgets.QTableWidgetItem('Finalizada!'))
     
     def loadTopicsList(self):
@@ -257,7 +233,7 @@ class DTaskMainPage(QtWidgets.QWidget):
                 qry = 'SELECT * FROM tasks ORDER BY task_id DESC LIMIT 1;'
                 lastid = db.cursor.execute(qry).fetchall()[0][0]+1
                 sysdate = QtCore.QDate.currentDate().toString(QtCore.Qt.ISODate)
-                newdata = (lastid, item.text(), "A começar", sysdate, sysdate, 0)
+                newdata = (lastid, item.text(), "Não Iniciada.", sysdate, sysdate, 0)
                 db.populateTbl('tasks', params=newdata)
             print('adding...')
         elif self.selectedTask is not None:
@@ -305,48 +281,53 @@ class DTaskMainPage(QtWidgets.QWidget):
 
     def loadTopicsInList(self):
         widgets.listByTopic.clear()
+        item = QtWidgets.QListWidgetItem()
+        item.setText('Geral')
+        widgets.listByTopic.addItem(item)
         with DBMainOperations() as db:
             topics = db.getAllRecords(tbl='topics', specifcols='topic_name')
         for topic in topics:
             item = QtWidgets.QListWidgetItem()
-            item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
             item.setText(topic[0])
-            item.setCheckState(QtCore.Qt.Unchecked)
             if topic[0] == '':
                 item.setText('Sem tópico')
+            #qradiobtn = QtWidgets.QRadioButton(f'{topic}')
+            #widgets.listByTopic.setItemWidget(item, qradiobtn)
             widgets.listByTopic.addItem(item)
+    
+    def checkTopicFilter(self, item):
+        if item.text() == 'Geral':
+            self.filterByTopic = False
+            self.activeTopicId = -1
+        elif item.text() == 'Sem tópico':
+            self.filterByTopic = True
+            self.activeTopicId = 0
+        else:
+            with DBMainOperations() as db:
+                self.filterByTopic = True
+                self.activeTopicId = db.getAllRecords(tbl='topics', specifcols='topic_id', whclause=f'topic_name = "{item.text()}"')[0][0]
+        self.loadDataInTable()
     
     def loadStatusInList(self):
         widgets.listByStatus.clear()
-        statuslist = ['Não iniciada.', 'Em Progresso...', 'Finalizada']
+        statuslist = ['Geral', 'Não Iniciada.', 'Em Progresso...', 'Finalizada!']
         for status in statuslist:
             item = QtWidgets.QListWidgetItem()
-            item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
             item.setText(status)
-            item.setCheckState(QtCore.Qt.Unchecked)
             widgets.listByStatus.addItem(item)
 
-    def itemSelected(self):
-        # item clicked
-        pass
-
-    def checkTopicFilter(self, item):  
-        with DBMainOperations() as db:
-            topicname = item.text()
-            topicid = db.getAllRecords(tbl='topics', specifcols='topic_id', whclause=f'topic_name = "{topicname}"')[0][0]
-        if item.checkState():
-            self.orderByTopics.append(topicid)  # if checked, append in list to filter
-        else:
-            self.orderByTopics.remove(topicid)  # if unchecked, remove from list
-        self.orderByTopicsState = False if len(self.orderByTopics) == 0 else True
-        self.loadDataInTable()
-
     def checkStatusFilter(self, item):
-        with DBMainOperations() as db:
-            statusname = item.text()
-        if item.checkState():
-            self.orderByStatus.append(statusname)
-        else:
-            self.orderByStatus.remove(statusname)
-        self.orderByStatusState = False if len(self.orderByStatus) == 0 else True
+        statuslist = ['Geral', 'Não Iniciada.', 'Em Progresso...', 'Finalizada!']
+        self.filterByStatus = True
+        if item.text() == statuslist[0]:
+            self.activeStatus = None
+            self.filterByStatus = False
+        elif item.text() == statuslist[1]:
+            self.activeStatus = statuslist[1]
+        elif item.text() == statuslist[2]:
+            self.activeStatus = statuslist[2]
+        elif item.text() == statuslist[3]:
+            self.activeStatus = statuslist[3]
+        else: pass
+        
         self.loadDataInTable()
