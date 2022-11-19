@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>598</width>
-    <height>434</height>
+    <width>561</width>
+    <height>448</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -42,6 +42,12 @@
           <size>
            <width>250</width>
            <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>300</width>
+           <height>16777215</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -102,7 +108,7 @@
             </layout>
            </widget>
           </item>
-          <item>
+          <item alignment="Qt::AlignTop">
            <widget class="QFrame" name="frame_14">
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
@@ -111,13 +117,16 @@
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_11">
-             <item alignment="Qt::AlignHCenter">
+             <item>
               <widget class="QProgressBar" name="progressBar">
                <property name="value">
-                <number>24</number>
+                <number>50</number>
                </property>
                <property name="orientation">
-                <enum>Qt::Vertical</enum>
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="invertedAppearance">
+                <bool>false</bool>
                </property>
               </widget>
              </item>

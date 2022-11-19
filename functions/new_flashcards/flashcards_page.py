@@ -19,6 +19,8 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets = self.ui
         self.flashcardsIter = None
         self.topicID = -1
+        self.cardsTotal = 1
+        self.studedCards = 1
 
     def setupConnections(self):
         # Main Page Connections
@@ -26,7 +28,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.classComboBox.currentIndexChanged.connect(self.selectTopicInComboBox)
         # Study Page Connections
         widgets.btnBackPage.clicked.connect(lambda: widgets.stackedWidget.setCurrentWidget(widgets.MainPage))
-        
+        widgets.btnBackPage.clicked.connect(self.resetPage)
         widgets.btnRevealAnswer.clicked.connect(self.revealAnswer)
         widgets.btnRevealAnswer.clicked.connect(lambda: widgets.btnRevealAnswer.setVisible(False))
         widgets.btnRevealAnswer.clicked.connect(lambda: widgets.btnBadFeedback.setVisible(True))
@@ -52,6 +54,9 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.tblDecks.horizontalHeader().setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
         self.loadDecksInTable(showall=True, topicid=-1)
         self.loadTopicsInComboBox()
+    
+    def resetPage(self):
+        self.studedCards = 1
 
     def loadDecksInTable(self, showall=True, topicid=-1):
         if showall and topicid == -1:
@@ -189,7 +194,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             deckcols = [col for col in deck[0]]
             deckname, deckperc = deckcols[0], deckcols[1]
             flashcards = db.getAllRecords(tbl='flashcards', specifcols=(cardcols), whclause=f'deck_id={deckid}')
-            cardstotal = len(flashcards)
+            self.cardsTotal = len(flashcards)
             random.shuffle(flashcards)
             self.flashcardsIter = iter(flashcards)
 
@@ -197,7 +202,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.textEditQuestion.setText(f'question: {front}')
         widgets.textEditAnswer.setText(f'answer: {verse}')
         widgets.textEditAnswer.setVisible(False)
-        widgets.lblCardsCount.setText(f'1/{cardstotal}')
+        widgets.lblCardsCount.setText(f'{self.studedCards}/{self.cardsTotal}')
         widgets.lblDeckName.setText(deckname)
         widgets.progressBar.setValue(deckperc)
         widgets.stackedWidget.setCurrentWidget(widgets.StudyPage)
@@ -206,12 +211,25 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.textEditAnswer.setVisible(True)
 
     def nextFlashcard(self, value=0):
+        self.studedCards += 1
         widgets.textEditAnswer.setVisible(False)
         widgets.btnRevealAnswer.setVisible(True)
         widgets.btnBadFeedback.setVisible(False)
         widgets.btnOkFeedback.setVisible(False)
         widgets.btnGoodFeedback.setVisible(False)
-
+        try:
+            front, verse = next(self.flashcardsIter)
+            widgets.textEditQuestion.setText(f'question: {front}')
+            widgets.textEditAnswer.setText(f'answer: {verse}')
+            widgets.textEditAnswer.setVisible(False)
+        except Exception:
+            msgBox = QtWidgets.QMessageBox(self)
+            msgBox.setText(f"Muito bem, estudo de deck finalizado!")
+            msgBox.setInformativeText("Inicie, caso queira, um novo estudo de flashcards.") # later, put feedback, hints percentage etc.
+            msgBox.show()
+            widgets.btnBackPage.click()
+        widgets.progressBar.setValue(value)
+        widgets.lblCardsCount.setText(f'{self.studedCards}/{self.cardsTotal}')
     ########################################
     # AddCardsWindow Functions #####################################
 
