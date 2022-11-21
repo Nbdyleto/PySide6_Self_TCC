@@ -158,7 +158,7 @@ class DTaskMainPage(QtWidgets.QWidget):
             elif col == 3:
                 self.showEndDate()
             elif col == 4:
-                self.loadTopicsList()
+                self.loadTopicInTable()
             else: 
                 self.hideAll()
         else:
@@ -196,14 +196,14 @@ class DTaskMainPage(QtWidgets.QWidget):
         widgets.tblLists.setItem(1, 0, QtWidgets.QTableWidgetItem('Em Progresso...'))
         widgets.tblLists.setItem(2, 0, QtWidgets.QTableWidgetItem('Finalizada!'))
     
-    def loadTopicsList(self):
+    def loadTopicInTable(self):
         self.activeTable = 'tblTopics'
         widgets.tblLists.show()
         widgets.tblLists.setObjectName('tblTopics')
         widgets.lblSetInfo.setText('Tópico:')
         with DBMainOperations() as db:
             topicscount = db.cursor.execute("SELECT COUNT(*) FROM topics").fetchone()[0]
-            widgets.tblLists.setRowCount(topicscount)
+            widgets.tblLists.setRowCount(topicscount+1)
             topics = db.getAllRecords(tbl='topics')
             print(f'topics: {topics}')
         tablerow = 0
@@ -248,20 +248,42 @@ class DTaskMainPage(QtWidgets.QWidget):
         self.loadDataInTable()
 
     def updateStatusOrTopic(self, row):
-        if self.activeTable == 'tblStatus':
-            with DBMainOperations() as db:
-                newstatus = widgets.tblLists.item(row, 0).text()
-                db.cursor.execute(f"UPDATE tasks SET status = '{newstatus}' WHERE task_name = '{self.selectedTask}'")
-        elif self.activeTable == 'tblTopics':
-            topicname = widgets.tblLists.item(row, 0).text()
-            with DBMainOperations() as db:
-                newid = db.getAllRecords(tbl='topics', whclause=f'topic_name = "{topicname}"')[0][0] # get topic_id
-                db.cursor.execute(f"UPDATE tasks SET topic_id = '{newid}' WHERE task_name = '{self.selectedTask}'")
+        # verify if clicked row is the last row.
+        print(f'row: {row} and rowcount: {widgets.tblLists.rowCount()}')
+        if row == widgets.tblLists.rowCount()-1 and self.activeTable == 'tblTopics':
+            # Add new topic.
+            print('last row!')
+            self.addNewTopic()
+            self.activeTable == 'tblTopics'
         else:
-            return
-        self.selectedTask, self.activeTable = None, None
-        self.loadDataInTable()
+            # Update topic.
+            if self.activeTable == 'tblStatus':
+                with DBMainOperations() as db:
+                    newstatus = widgets.tblLists.item(row, 0).text()
+                    db.cursor.execute(f"UPDATE tasks SET status = '{newstatus}' WHERE task_name = '{self.selectedTask}'")
+            elif self.activeTable == 'tblTopics':
+                topicname = widgets.tblLists.item(row, 0).text()
+                with DBMainOperations() as db:
+                    newid = db.getAllRecords(tbl='topics', whclause=f'topic_name = "{topicname}"')[0][0] # get topic_id
+                    db.cursor.execute(f"UPDATE tasks SET topic_id = '{newid}' WHERE task_name = '{self.selectedTask}'")
+            else:
+                return
+            self.selectedTask, self.activeTable = None, None
+            self.loadDataInTable()
+            self.hideAll()
+
+    def addNewTopic(self):
+        newtopic, inputstatus = QtWidgets.QInputDialog.getText(
+            self, "Novo Tópico", "Entre com o nome do novo tópico:")
+        with DBMainOperations() as db:
+            if inputstatus:
+                qry = 'SELECT * FROM topics ORDER BY topic_id DESC LIMIT 1;'
+                lastid = db.cursor.execute(qry).fetchall()[0][0]+1
+                print('lastid:', lastid)
+                db.populateTbl(tbl='topics', params=(lastid, newtopic))
         self.hideAll()
+        self.loadTopicInTable()
+        #self.loadDataInTable()
 
     def updateCalendarDate(self):
         newdate = widgets.qCalendar.selectedDate().toString(QtCore.Qt.ISODate)

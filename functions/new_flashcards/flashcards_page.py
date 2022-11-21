@@ -230,6 +230,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             widgets.btnBackPage.click()
         widgets.progressBar.setValue(value)
         widgets.lblCardsCount.setText(f'{self.studedCards}/{self.cardsTotal}')
+        
     ########################################
     # AddCardsWindow Functions #####################################
 
@@ -261,77 +262,3 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             self.loadDecksInTable(showall=True, topicid=-1)
         else:
             self.loadDecksInTable(showall=False, topicid=self.topicID)
-
-    """
-
-    # StudyCards Functions #################################
-
-    @QtCore.Slot()
-    def openStudyCardsWindow(self, row_clicked):
-        self.studyCardsWindow = QtWidgets.QMainWindow()
-        self.ui_studyCards = Ui_StudyCardsWindow()
-        self.ui_studyCards.setupUi(self.studyCardsWindow)
-
-        global studyCardsWidgets
-        studyCardsWidgets = self.ui_studyCards
-
-        self.infoStudyCardsWindow(row_clicked)
-        self.card_iterator = None
-        self.infoStudyCards(deck_id=row_clicked)
-
-        self.studyCardsWindow.show()
-
-    def infoStudyCardsWindow(self, row_clicked):
-        self.pValue = 0
-        print('row_clicked: ', row_clicked)
-        with DBMainOperations() as db:
-            records = db.getAllRecords(tbl='decks', specifcols='deck_name, hits_percentage', 
-                                       fetchall=True, whclause=f'deck_id={row_clicked}')
-            self.total_cards = db.getRowCount(tbl='flashcards', whclause=f'deck_id={row_clicked}')
-        deck_name = records[0][0]
-        studyCardsWidgets.lblDeckName.setText(deck_name)
-        hits_percentage = records[0][1]
-        studyCardsWidgets.pBarHitsPercentage.setValue(hits_percentage)
-        
-    def infoStudyCards(self, pValue=0, reveal_pressed=False, deck_id=None):
-        print(self.total_cards)
-        if reveal_pressed:
-            self.studed_cards += 1
-        studyCardsWidgets.btnRevealAnswer.setVisible(True)
-        studyCardsWidgets.btnUnsatisfactory.setVisible(False)
-        studyCardsWidgets.btnNormal.setVisible(False)
-        studyCardsWidgets.btnVeryGood.setVisible(False)
-        self.pValue += pValue
-        studyCardsWidgets.pBarHitsPercentage.setValue(pValue)
-
-        if self.card_iterator is None:
-            # Create a card_iterator if no exists (always the studyCards page is called from Window).
-            self.studed_cards = 1
-            with DBMainOperations() as db:
-                cards = db.getAllRecords(tbl='flashcards', specifcols='card_question, card_answer',
-                                         fetchall=True, whclause=f'deck_id = {deck_id}')
-            random.shuffle(cards)
-            self.card_iterator = iter(cards)
-
-        try:
-            front, verse = next(self.card_iterator)
-            studyCardsWidgets.plainTextEdit.setPlainText(front)
-            studyCardsWidgets.btnRevealAnswer.clicked.connect(lambda: self.revealCardAnswer(verse))
-            studyCardsWidgets.lblCardsQnt.setText(f"{self.studed_cards}/{str(self.total_cards)}")
-        except:
-            print('studed_cards:',self.studed_cards)
-            if self.studed_cards > self.total_cards+8:
-                self.studyCardsWindow.close()
-            print('Stop Iteration')
-
-    def revealCardAnswer(self, verse):
-        studyCardsWidgets.plainTextEdit.setPlainText(verse)
-        studyCardsWidgets.btnUnsatisfactory.clicked.connect(lambda: self.infoStudyCards(pValue=-5, reveal_pressed=True))
-        studyCardsWidgets.btnNormal.clicked.connect(lambda: self.infoStudyCards(pValue=5, reveal_pressed=True, ))
-        studyCardsWidgets.btnVeryGood.clicked.connect(lambda: self.infoStudyCards(pValue=10, reveal_pressed=True))
-        studyCardsWidgets.btnRevealAnswer.setVisible(False)
-        studyCardsWidgets.btnUnsatisfactory.setVisible(True)
-        studyCardsWidgets.btnNormal.setVisible(True)
-        studyCardsWidgets.btnVeryGood.setVisible(True)
-
-    """
