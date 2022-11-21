@@ -82,25 +82,49 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         print(decks)
 
     def loadTopicsInComboBox(self):
+        widgets.classComboBox.clear()
         with DBMainOperations() as db:
             topics = db.getAllRecords(tbl='topics')
         tablerow = 0
         for row in topics:
-            if row[0] == 0: # Ignore the first topic, that is empty.
+            if row[0] == 0:
+                widgets.classComboBox.addItem('Geral')
                 continue
             widgets.classComboBox.addItem(row[1])
             tablerow += 1
+        widgets.classComboBox.addItem('Inserir novo tópico...')
 
     def selectTopicInComboBox(self):
         idx = widgets.classComboBox.currentIndex()
+        print('IDX É O SEGUINTE', idx)
         topicname = widgets.classComboBox.currentText()
         if idx == 0:    # Show geral
             self.topicID = -1
             self.loadDecksInTable(showall=True, topicid=self.topicID)
+        elif idx == widgets.classComboBox.count()-1 and idx != -1: # Add topic
+            self.topicID = -1
+            print('last row!')
+            self.addNewTopic()
         else:   # Show specific decks
             with DBMainOperations() as db:
                 self.topicID = db.getAllRecords(tbl='topics', specifcols='topic_id', whclause=f'topic_name = "{topicname}"')[0][0]
             self.loadDecksInTable(showall=False, topicid=self.topicID)
+
+    def addNewTopic(self):
+        newtopic, inputstatus = QtWidgets.QInputDialog.getText(
+            self, "Novo Tópico", "Entre com o nome do novo tópico:")
+        with DBMainOperations() as db:
+            if inputstatus:
+                qry = 'SELECT * FROM topics ORDER BY topic_id DESC LIMIT 1;'
+                lastid = db.cursor.execute(qry).fetchall()[0][0]+1
+                print('lastid:', lastid)
+                db.populateTbl(tbl='topics', params=(lastid, newtopic))
+                self.loadTopicsInComboBox()
+                msgBox = QtWidgets.QMessageBox(self)
+                msgBox.setText(f"O tópico '{newtopic}' foi adicionado!")
+                msgBox.setInformativeText("Selecione-o e adicione novos decks.")
+                msgBox.show()
+
 
     def loadWidgetsInRow(self, tablerow):
         btnAction = QtWidgets.QPushButton(widgets.tblDecks)

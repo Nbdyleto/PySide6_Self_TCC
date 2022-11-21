@@ -168,6 +168,7 @@ class MainWindow(QMainWindow):
             widgets.stackedWidget.setCurrentWidget(widgets.newFlashcardsPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
             self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet())) # SELECT MENU
+            widgets.newFlashcardsPage.loadTopicsInComboBox()
 
         if btnName == "btn_pomodoro_page":
             widgets.stackedWidget.setCurrentWidget(widgets.newPomodoroPage) # SET PAGE
@@ -181,6 +182,7 @@ class MainWindow(QMainWindow):
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
             self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet())) # SELECT MENU
             widgets.newDailyTaskPage.loadDataInTable()
+            widgets.newDailyTaskPage.hideAll()
 
         # PRINT BTN NAME
         print(f'Button "{btnName}" pressed!')
