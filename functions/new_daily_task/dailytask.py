@@ -158,7 +158,7 @@ class DTaskMainPage(QtWidgets.QWidget):
             elif col == 3:
                 self.showEndDate()
             elif col == 4:
-                self.loadTopicInTable()
+                self.loadTopicsInTable()
             else: 
                 self.hideAll()
         else:
@@ -196,7 +196,7 @@ class DTaskMainPage(QtWidgets.QWidget):
         widgets.tblLists.setItem(1, 0, QtWidgets.QTableWidgetItem('Em Progresso...'))
         widgets.tblLists.setItem(2, 0, QtWidgets.QTableWidgetItem('Finalizada!'))
     
-    def loadTopicInTable(self):
+    def loadTopicsInTable(self):
         self.activeTable = 'tblTopics'
         widgets.tblLists.show()
         widgets.tblLists.setObjectName('tblTopics')
@@ -210,6 +210,8 @@ class DTaskMainPage(QtWidgets.QWidget):
         for row in topics:
             widgets.tblLists.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(row[1]))
             tablerow += 1
+        lastrow = len(topics)
+        widgets.tblLists.setItem(lastrow, 0, QtWidgets.QTableWidgetItem('Inserir novo tópico...'))
 
     def showInitialDate(self):
         self.activeCalendar = 'calInitialDate'
@@ -282,7 +284,7 @@ class DTaskMainPage(QtWidgets.QWidget):
                 print('lastid:', lastid)
                 db.populateTbl(tbl='topics', params=(lastid, newtopic))
         self.hideAll()
-        self.loadTopicInTable()
+        self.loadTopicsInTable()
         #self.loadDataInTable()
 
     def updateCalendarDate(self):
