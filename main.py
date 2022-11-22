@@ -31,6 +31,7 @@ class MainWindow(QMainWindow):
             db.createTblTasks()
             db.createTblDecks()
             db.createTblFlashcards()
+            db.createTblPomodoroProgress()
 
             ################# TOPICS
 
@@ -167,20 +168,20 @@ class MainWindow(QMainWindow):
         if btnName == "btn_flashcards_page":
             widgets.stackedWidget.setCurrentWidget(widgets.newFlashcardsPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
-            self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet())) # SELECT MENU
+            self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet()))
             widgets.newFlashcardsPage.loadTopicsInComboBox()
 
         if btnName == "btn_pomodoro_page":
             widgets.stackedWidget.setCurrentWidget(widgets.newPomodoroPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
-            self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet())) # SELECT MENU
+            self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet())) 
             widgets.newPomodoroPage.loadDataInTable()
 
         # SHOW DAILY TASK PAGE
         if btnName == "btn_daily_task_page":
             widgets.stackedWidget.setCurrentWidget(widgets.newDailyTaskPage) # SET PAGE
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
-            self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet())) # SELECT MENU
+            self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet()))
             widgets.newDailyTaskPage.loadDataInTable()
             widgets.newDailyTaskPage.hideAll()
 

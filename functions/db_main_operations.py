@@ -93,11 +93,30 @@ class DBMainOperations:
         self.cursor.execute(qry_tasks)
         print('table tasks is ready!')
 
+    ###########################
+    # See Progress. DB Functions
+
+    def createTblPomodoroProgress(self):
+        # Child Table
+        self.cursor.execute("DROP TABLE IF EXISTS pomodoroProgress")
+        qry_pomoprogress = """ CREATE TABLE pomodoroProgress (
+            pomo_id INTEGUER PRIMARY KEY,
+            completed BOOL NOT NULL,
+            study_date DATE NOT NULL,
+            total_time TIME NOT NULL,
+            topic_id INTEGUER NOT NULL,
+            FOREIGN KEY (topic_id)
+                REFERENCES topics (topic_id)
+        );"""
+        self.cursor.execute(qry_pomoprogress)
+        print('table pomodoro progress ready!')
+
     #########################
     # General. DB Functions
 
     def populateTbl(self, tbl, params):
         qry = f"INSERT INTO {tbl} VALUES {params};"
+        print(qry)
         self.cursor.execute(qry)
         self.conn.commit()
 

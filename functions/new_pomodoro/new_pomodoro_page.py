@@ -69,6 +69,9 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         # Filter Variables
         self.filterByTopic, self.filterByDate = False, False
         self.activeTopicId, self.activeDate = None, None
+        # Progress Variables
+        self.activeTaskTopicID = 0
+        self.activePomodoroID = -1
 
     def setupConnections(self):
         widgets.tblTasks.cellDoubleClicked.connect(self.markTaskAsFinished)
@@ -134,11 +137,38 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
 
     def startTimer(self):
         self.allowChangeModeManually = False
+        if self.currentMode == Mode.work:
+            self.createPomodoroInDB()
         try:
             if not self.timer.isActive():
                 self.createTimer()
         except:
             self.createTimer()
+
+    def createPomodoroInDB(self):
+        with DBMainOperations() as db:
+            try:
+                qry = 'SELECT * FROM topics ORDER BY pomo_id DESC LIMIT 1;'
+                lastid = db.cursor.execute(qry).fetchall()[0][0]+1
+            except:
+                lastid = 0
+            self.activePomodoroID = lastid
+            studydate = QtCore.QDate.currentDate().toString(QtCore.Qt.ISODate)
+            params = (self.activePomodoroID, False, studydate, QtCore.QTime(0, 0, 0).toString(), self.activeTaskTopicID)
+            db.populateTbl(tbl='pomodoroProgress', params=params)
+            toprint = db.getAllRecords(tbl='pomodoroProgress')
+            print('pomo adicionado:', toprint)
+
+    def updateTimeInDB(self):
+        with DBMainOperations() as db:
+            qry = f"UPDATE pomodoroProgress SET total_time = '{self.workTime}' WHERE pomo_id = {self.activePomodoroID};" 
+            db.cursor.execute(qry)
+            print('UPDATING...\n', db.getAllRecords(tbl='pomodoroProgress'))
+
+    def setCompletedInDB(self):
+        with DBMainOperations() as db:
+            qry = f"UPDATE pomodoroProgress SET completed = True WHERE pomo_id = {self.activePomodoroID};"
+            db.cursor.execute(qry)
 
     def createTimer(self):
         self.timer = QtCore.QTimer()
@@ -186,6 +216,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
     def updateTime(self):
         self.time = self.time.addSecs(-1)
         self.totalTime = self.totalTime.addSecs(-1)
+        self.updateTimeInDB()
         if self.currentMode is Mode.work:
             self.workTime = self.workTime.addSecs(1)
             self.progressValue += self.workSecondPercent
@@ -211,6 +242,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         print(self.currentMode is Mode.work and self.time <= QtCore.QTime(0, 0, 0, 0))
         if self.currentMode is Mode.work and self.time <= QtCore.QTime(0, 0, 0, 0) and not self.changeToLongRest():
             self.currentPomodoros += 1
+            self.setCompletedInDB()
             self.showNumPomodoros(self.currentPomodoros)
             print("rest time, change to long rest? ", self.changeToLongRest())
             if not self.changeToLongRest():
@@ -250,6 +282,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             
         else:
             pass
+
 
     def setButtonsEnabled(self):
         widgets.btnPauseTimer.setEnabled(False)
@@ -380,28 +413,6 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         
         self.loadDataInTable()
 
-    ## TEMP
-    """
-    def loadDataInTable(self):
-        widgets.tblTasks.clearContents()
-        with DBMainOperations() as db:
-            tasks = db.cursor.execute("SELECT * FROM tasks ORDER BY start_date").fetchall()
-            widgets.tblTasks.setRowCount(len(tasks))
-            topics = db.getAllRecords(tbl='topics')
-            tasks = db.cursor.execute("SELECT * FROM tasks ORDER BY start_date").fetchall()
-        try:
-            tablerow = 0
-            for row in tasks:
-                widgets.tblTasks.setRowHeight(tablerow, 50)
-                #startDate, endDate = self.formatDate(row[2], row[3])
-                widgets.tblTasks.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(row[0]))  #row[0] = task_name
-                widgets.tblTasks.setItem(tablerow, 1, QtWidgets.QTableWidgetItem('self.topics[row[4]][1]')) #row[4] = topic_id
-                tablerow += 1
-            widgets.tblTasks.setRowHeight(tablerow, 50)
-        except Exception:
-            print('ERROR')
-    """
-
     def markTaskAsFinished(self, row):
         item = widgets.tblTasks.item(row, 0)
         font = widgets.tblTasks.item(row, 0).font()
@@ -412,7 +423,13 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             db.cursor.execute(qry)
 
     def showTaskInLabel(self, row):
-        widgets.lblActualTask.setText(widgets.tblTasks.item(row, 0).text())
+        taskname = widgets.tblTasks.item(row, 0).text()
+        topicname = widgets.tblTasks.item(row, 1).text()
+        widgets.lblActualTask.setText(f'{taskname} : {topicname}')
+        with DBMainOperations() as db:
+            topicid = db.getAllRecords(tbl='topics', specifcols='topic_id', 
+                                        whclause=f'topic_name = "{topicname}"')[0][0]            
+        self.activeTaskTopicID = topicid
 
     # Settings
 
