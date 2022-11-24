@@ -1,7 +1,7 @@
 from enum import Enum
 from modules.app_functions import AppFunctions
 from modules.app_settings import Settings
-
+from playsound import playsound
 from modules.ui_functions import UIFunctions
 from .const import *
 from PySide6 import QtCore, QtGui, QtWidgets
@@ -72,6 +72,12 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         # Progress Variables
         self.activeTaskTopicID = 0
         self.activePomodoroID = -1
+        # Settings Variables
+        self.autoPause = self.settings.value(autoPauseKey, defaultValue='No')
+        self.autoPomo = self.settings.value(autoPomoKey, defaultValue='No')
+        self.activeAlarm = self.settings.value(alarmKey, defaultValue='Actived')
+        print('testing setttings 1:')
+        print(f'auto pomo? {self.autoPomo}, auto pause? {self.autoPause}, alarm active? {self.activeAlarm}')
 
     def setupConnections(self):
         widgets.tblTasks.cellDoubleClicked.connect(self.markTaskAsFinished)
@@ -100,6 +106,8 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
 
         widgets.listByTopic.itemClicked.connect(self.checkTopicFilter)
 
+        widgets.btnSaveSettings.clicked.connect(self.updateSettings)
+
     def setupWidgets(self):
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
@@ -110,8 +118,78 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         widgets.longMinutesSpinBox.setValue(int(self.settings.value(longMinutesKey, 15)))
 
         self.showNumPomodoros(0)
-
+        print('testing setttings 2:')
+        print(f'auto pomo? {self.autoPomo}, auto pause? {self.autoPause}, alarm active? {self.activeAlarm}')
         self.loadTopicsInList()
+        if self.autoPause == 'Yes':
+            widgets.rdbtnYesPauseAuto.setChecked(True)
+            widgets.rdbtnNoPauseAuto.setChecked(False)
+        else:
+            widgets.rdbtnYesPauseAuto.setChecked(False)
+            widgets.rdbtnNoPauseAuto.setChecked(True)
+        if self.autoPomo == 'Yes':
+            widgets.rdbtnYesPomoAuto.setChecked(True)
+            widgets.rdbtnNoPomoAuto.setChecked(False)
+        else: 
+            widgets.rdbtnYesPomoAuto.setChecked(False)
+            widgets.rdbtnNoPomoAuto.setChecked(True)
+        if self.activeAlarm == 'Actived':
+            widgets.rdbtnActivedAlarm.setChecked(True)
+            widgets.rdbtnDeactivedAlarm.setChecked(False)
+        else:
+            widgets.rdbtnActivedAlarm.setChecked(False)
+            widgets.rdbtnDeactivedAlarm.setChecked(True)
+
+    # Settings
+
+    def updateMaxPomodoros(self):
+        value = 3
+        self.maxPomodoros = value
+
+    def updateWorkValue(self):
+        workNewValue = widgets.workMinutesSpinBox.value()
+        self.settings.setValue(workMinutesKey, workNewValue)
+        self.workEndTime = QtCore.QTime(0, workNewValue, 0)
+
+    def updateShortRestValue(self):
+        restNewValue = widgets.shortMinutesSpinBox.value()
+        self.settings.setValue(shortMinutesKey, restNewValue)
+        self.shortRestEndTime = QtCore.QTime(0, restNewValue, 0)
+
+    def updateLongRestValue(self):
+        restNewValue = widgets.longMinutesSpinBox.value()
+        self.settings.setValue(longMinutesKey, restNewValue)
+        self.longRestEndTime = QtCore.QTime(0, restNewValue, 0)
+
+    def updateSettings(self):
+        msgBox = QtWidgets.QMessageBox(self)
+        msgBox.setText("Configurações aplicadas!")
+        msgBox.setInformativeText("As configurações estarão ativas a partir do próximo estudo!")
+        msgBox.show()
+        print('ALEGRIAA')
+        if widgets.rdbtnYesPomoAuto.isChecked():
+            self.settings.setValue(autoPomoKey, 'Yes')
+        else:
+            self.settings.setValue(autoPomoKey, 'No')
+
+        if widgets.rdbtnYesPauseAuto.isChecked():
+            self.settings.setValue(autoPauseKey, 'Yes')
+        else:
+            self.settings.setValue(autoPauseKey, 'No')
+
+        if widgets.rdbtnActivedAlarm.isChecked():
+            self.settings.setValue(alarmKey, 'Actived')
+        else:
+            self.settings.setValue(alarmKey, 'Deactived')
+
+        self.autoPause = self.settings.value(autoPauseKey, defaultValue='No')
+        self.autoPomo = self.settings.value(autoPomoKey, defaultValue='No')
+        self.activeAlarm = self.settings.value(alarmKey, defaultValue='Actived')
+
+        print('new pause: ', self.settings.value(autoPauseKey))
+        print('new pomo: ', self.settings.value(autoPomoKey))
+        print('new alarm: ', self.settings.value(alarmKey))
+        
 
     # Pomodoro Timer Functions
 
@@ -214,7 +292,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             print('not enable reset!')
 
     def updateTime(self):
-        self.time = self.time.addSecs(-1)
+        self.time = self.time.addSecs(-30)
         self.totalTime = self.totalTime.addSecs(-1)
         self.updateTimeInDB()
         if self.currentMode is Mode.work:
@@ -241,6 +319,8 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         print("="*50)
         print(self.currentMode is Mode.work and self.time <= QtCore.QTime(0, 0, 0, 0))
         if self.currentMode is Mode.work and self.time <= QtCore.QTime(0, 0, 0, 0) and not self.changeToLongRest():
+            if self.activeAlarm == 'Actived':
+                playsound('././sounds/forest-birds.wav')
             self.currentPomodoros += 1
             self.setCompletedInDB()
             self.showNumPomodoros(self.currentPomodoros)
@@ -261,6 +341,8 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
                 self.resetTimer()
                 widgets.btnLongRest.setDisabled(False)
                 widgets.btnLongRest.click()
+            if self.autoPause == 'true':
+                self.startTimer()
 
         elif self.currentMode is Mode.short_rest and self.time <= QtCore.QTime(0, 0, 0, 0) and not self.changeToLongRest():
             self.showNumPomodoros(self.currentPomodoros)
@@ -270,6 +352,8 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             self.resetTimer()
             widgets.btnLongRest.setDisabled(True)
             widgets.btnPomodoro.click()
+            if self.autoPomo == 'true':
+                self.startTimer()
         elif self.currentMode is Mode.long_rest and self.time <= QtCore.QTime(0, 0, 0, 0):
             self.showNumPomodoros(0)
             print("back to new pomodoro cycle!")
@@ -430,25 +514,3 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             topicid = db.getAllRecords(tbl='topics', specifcols='topic_id', 
                                         whclause=f'topic_name = "{topicname}"')[0][0]            
         self.activeTaskTopicID = topicid
-
-    # Settings
-
-    def updateMaxPomodoros(self):
-        value = 3
-        self.maxPomodoros = value
-
-    def updateWorkValue(self):
-        workNewValue = widgets.workMinutesSpinBox.value()
-        self.settings.setValue(workMinutesKey, workNewValue)
-        self.workEndTime = QtCore.QTime(0, workNewValue, 0)
-
-    def updateShortRestValue(self):
-        restNewValue = widgets.shortMinutesSpinBox.value()
-        self.settings.setValue(shortMinutesKey, restNewValue)
-        self.shortRestEndTime = QtCore.QTime(0, restNewValue, 0)
-
-    def updateLongRestValue(self):
-        restNewValue = widgets.longMinutesSpinBox.value()
-        self.settings.setValue(longMinutesKey, restNewValue)
-        self.longRestEndTime = QtCore.QTime(0, restNewValue, 0)
-        

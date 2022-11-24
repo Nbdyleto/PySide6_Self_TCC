@@ -1,4 +1,5 @@
 from PySide6 import QtCore, QtGui, QtWidgets, QtCharts
+from functions.db_main_operations import DBMainOperations
 
 from functions.see_progress.ui_see_progress import Ui_SeeProgressPage
 
@@ -9,6 +10,7 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.setupVariables()
         self.setupWidgets()
+        self.getTotalTime()
         self.setupCharts()
 
     def setupVariables(self):
@@ -17,6 +19,35 @@ class SeeProgressMainPage(QtWidgets.QWidget):
 
     def setupWidgets(self):
         widgets.tabSeeProgress.setStyleSheet('background-color: rgb(54, 43, 60); color: white; font: 15px;')
+        widgets.lblTotalTime.setText(f'00:00:00')
+
+
+    def setupCharts(self):
+        widgets.lblTotalPomodoros = 0
+        widgets.lblTotalTime = 0
+    
+    ######## POMODORO
+
+    def getTotalTime(self):
+        with DBMainOperations() as db:
+            pomodoros = db.getAllRecords(tbl='pomodoroProgress')
+            #totaltime = QtCore.QTime(0, 0, 0, 0)
+            tothours, totmins, totsecs = 0, 0, 0
+            # pomo[0] = pomo_id
+            # pomo[1] = completed
+            # pomo[2] = study_date
+            # pomo[3] = total_time
+            # pomo[4] = topic_id
+            for pomo in pomodoros:
+                pomosplit = pomo[3].split(':')
+                tothours += int(pomosplit[0])
+                totmins += int(pomosplit[1])
+                totsecs += int(pomosplit[2])
+                #qpomo = QtCore.QTime(int(hours), int(mins), int(secs))
+        print('')
+        print(f'{tothours}:{totmins}:{totsecs}')
+            
+    """
 
     def setupCharts(self):
         # flashcards temp
@@ -87,3 +118,4 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         self._chart_view3.setRenderHint(QtGui.QPainter.Antialiasing)
 
         widgets.verticalLayout_21.addWidget(self._chart_view3)
+    """

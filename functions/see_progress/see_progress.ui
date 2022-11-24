@@ -32,7 +32,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <property name="tabsClosable">
       <bool>false</bool>
@@ -43,7 +43,7 @@
      <property name="tabBarAutoHide">
       <bool>false</bool>
      </property>
-     <widget class="QWidget" name="tabFlashcardsPage" native="true">
+     <widget class="QWidget" name="tabFlashcardsPage">
       <attribute name="title">
        <string>Flashcards</string>
       </attribute>
@@ -231,7 +231,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tabTasksPage" native="true">
+     <widget class="QWidget" name="tabTasksPage">
       <attribute name="title">
        <string>Tarefas</string>
       </attribute>
@@ -481,6 +481,13 @@
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_21">
+             <item>
+              <widget class="QPushButton" name="btnPomodoroRefresh">
+               <property name="text">
+                <string>Refresh</string>
+               </property>
+              </widget>
+             </item>
              <item>
               <widget class="QComboBox" name="qCBoxPomodoro"/>
              </item>

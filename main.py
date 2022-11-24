@@ -163,6 +163,8 @@ class MainWindow(QMainWindow):
             widgets.stackedWidget.setCurrentWidget(widgets.seeProgressPage)
             UIFunctions.resetStyle(self, btnName)
             self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet()))
+            widgets.newPomodoroPage.updateTimeInDB()
+            widgets.seeProgressPage.getTotalTime()
 
         # SHOW FLASHCARDS PAGE
         if btnName == "btn_flashcards_page":
