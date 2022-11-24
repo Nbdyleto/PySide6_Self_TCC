@@ -22,6 +22,13 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         self.cardsTotal = 1
         self.studedCards = 1
 
+        # Study Progress:
+        self.badEmojiCount, self.okEmojiCount, self.goodEmojiCount = 0, 0, 0
+        self.hintsBadPercent = 0
+        self.hintsOkPercent = 0
+        self.hintsGoodPercent = 0
+
+
     def setupConnections(self):
         # Main Page Connections
         widgets.btnAddDecks.clicked.connect(self.addNewDeck)
@@ -34,11 +41,11 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.btnRevealAnswer.clicked.connect(lambda: widgets.btnBadFeedback.setVisible(True))
         widgets.btnRevealAnswer.clicked.connect(lambda: widgets.btnOkFeedback.setVisible(True))
         widgets.btnRevealAnswer.clicked.connect(lambda: widgets.btnGoodFeedback.setVisible(True))
-        widgets.btnBadFeedback.clicked.connect(lambda: self.nextFlashcard(value=10))
+        widgets.btnBadFeedback.clicked.connect(lambda: self.nextFlashcard(emoji='bad'))
         widgets.btnBadFeedback.clicked.connect(lambda: widgets.btnRevealAnswer.setVisible(True))
-        widgets.btnOkFeedback.clicked.connect(lambda: self.nextFlashcard(value=40))
+        widgets.btnOkFeedback.clicked.connect(lambda: self.nextFlashcard(emoji='ok'))
         widgets.btnOkFeedback.clicked.connect(lambda: widgets.btnRevealAnswer.setVisible(True))
-        widgets.btnGoodFeedback.clicked.connect(lambda: self.nextFlashcard(value=60))
+        widgets.btnGoodFeedback.clicked.connect(lambda: self.nextFlashcard(emoji='good'))
         widgets.btnGoodFeedback.clicked.connect(lambda: widgets.btnRevealAnswer.setVisible(True))
     
     def setupWidgets(self):
@@ -60,12 +67,10 @@ class MainFlashcardsPage(QtWidgets.QWidget):
 
     def loadDecksInTable(self, showall=True, topicid=-1):
         if showall and topicid == -1:
-            widgets.btnAddDecks.setDisabled(True)
             with DBMainOperations() as db:
                 rowcount = db.getRowCount(tbl='decks')
                 decks = db.getAllRecords(tbl='decks')
         else:
-            widgets.btnAddDecks.setDisabled(False)
             with DBMainOperations() as db:
                 rowcount = db.getRowCount(tbl='decks', whclause=f'topic_id = {topicid}')
                 decks = db.getAllRecords(tbl='decks', whclause=f'topic_id = {topicid}')
@@ -97,7 +102,8 @@ class MainFlashcardsPage(QtWidgets.QWidget):
     def selectTopicInComboBox(self):
         idx = widgets.classComboBox.currentIndex()
         print('IDX É O SEGUINTE', idx)
-        topicname = widgets.classComboBox.currentText()
+        self.topicName = widgets.classComboBox.currentText()
+        topicname = self.topicName
         if idx == 0:    # Show geral
             self.topicID = -1
             self.loadDecksInTable(showall=True, topicid=self.topicID)
@@ -141,11 +147,6 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-media-play.png);")
             btnAction.clicked.connect(lambda: self.loadStudyInfo(deckid=deckid))
             btnAction.setToolTip('Iniciar estudos')
-        else:
-            btnAction.setObjectName(f'btnAddCards{tablerow}')
-            btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-plus.png);")
-            btnAction.clicked.connect(lambda: self.openAddCardsWindow(deckid, deckname))
-            btnAction.setToolTip('Adicionar cards')
 
         btnEditDecks = QtWidgets.QPushButton(widgets.tblDecks)
         btnEditDecks.setMinimumSize(QtCore.QSize(0, 100))
@@ -156,14 +157,15 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         btnEditDecks.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-pencil.png);")
         btnEditDecks.setToolTip('Editar deck')
         btnEditDecks.clicked.connect(lambda: self.editDeck(deckid))
-        btnEditCards = QtWidgets.QPushButton(widgets.tblDecks)
-        btnEditCards.setMinimumSize(QtCore.QSize(0, 100))
-        btnEditCards.setMaximumSize(QtCore.QSize(90, 16777215))
-        btnEditCards.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        btnEditCards.setLayoutDirection(QtCore.Qt.LeftToRight)
-        btnEditCards.setObjectName(f'btnEditCards{tablerow}')
-        btnEditCards.setToolTip('Editar cards')
-        btnEditCards.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-options.png);")
+        btnAddCards = QtWidgets.QPushButton(widgets.tblDecks)
+        btnAddCards.setMinimumSize(QtCore.QSize(0, 100))
+        btnAddCards.setMaximumSize(QtCore.QSize(90, 16777215))
+        btnAddCards.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        btnAddCards.setLayoutDirection(QtCore.Qt.LeftToRight)
+        btnAddCards.setObjectName(f'btnAddCards{tablerow}')
+        btnAddCards.setToolTip('Adicionar cards')
+        btnAddCards.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-library-add.png);")
+        btnAddCards.clicked.connect(lambda: self.openAddCardsWindow(deckid, deckname))
         btnRemoveDeck = QtWidgets.QPushButton(widgets.tblDecks)
         btnRemoveDeck.setMinimumSize(QtCore.QSize(0, 100))
         btnRemoveDeck.setMaximumSize(QtCore.QSize(90, 16777215))
@@ -175,19 +177,25 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         btnRemoveDeck.clicked.connect(lambda: self.removeDeck(deckid))
 
         widgets.tblDecks.setCellWidget(tablerow, 2, btnAction)
-        widgets.tblDecks.setCellWidget(tablerow, 3, btnEditDecks)
-        widgets.tblDecks.setCellWidget(tablerow, 4, btnEditCards)
+        widgets.tblDecks.setCellWidget(tablerow, 3, btnAddCards)
+        widgets.tblDecks.setCellWidget(tablerow, 4, btnEditDecks)
         widgets.tblDecks.setCellWidget(tablerow, 5, btnRemoveDeck)
 
     def addNewDeck(self):
-        newdeck, inputstatus = QtWidgets.QInputDialog.getText(self, "Novo Deck", "Entre com o nome do novo deck:")
-        with DBMainOperations() as db:
-            if inputstatus:
-                qry = 'SELECT * FROM decks ORDER BY deck_id DESC LIMIT 1;'
-                lastid = db.cursor.execute(qry).fetchall()[0][0]+1
-                print('lastid:', lastid)
-                db.populateTbl(tbl='decks', params=(lastid, newdeck, 0, self.topicID))
-        self.loadDecksInTable(showall=False, topicid=self.topicID)
+        if self.topicID == -1:
+            msgBox = QtWidgets.QMessageBox(self)
+            msgBox.setText(f"Adição de deck.")
+            msgBox.setInformativeText("Selecione um tópico na barra para possibilitar a adição de um novo deck")
+            msgBox.show()
+        else:
+            newdeck, inputstatus = QtWidgets.QInputDialog.getText(self, f"Novo Deck em {self.topicName}", "Entre com o nome do novo deck:")
+            with DBMainOperations() as db:
+                if inputstatus:
+                    qry = 'SELECT * FROM decks ORDER BY deck_id DESC LIMIT 1;'
+                    lastid = db.cursor.execute(qry).fetchall()[0][0]+1
+                    print('lastid:', lastid)
+                    db.populateTbl(tbl='decks', params=(lastid, newdeck, 0, self.topicID))
+            self.loadDecksInTable(showall=False, topicid=self.topicID)
     
     def editDeck(self, deckid):
         newvalue, inputstatus = QtWidgets.QInputDialog.getText(self, "Alterar Nome", "Entre com o novo nome do deck:")
@@ -234,7 +242,24 @@ class MainFlashcardsPage(QtWidgets.QWidget):
     def revealAnswer(self):
         widgets.textEditAnswer.setVisible(True)
 
-    def nextFlashcard(self, value=0):
+    def nextFlashcard(self, emoji=None):
+
+        # Study Progress
+        if emoji == "bad":
+            self.badEmojiCount += 1
+        elif emoji == "ok":
+            self.okEmojiCount += 1
+        elif emoji == "good":
+            self.goodEmojiCount += 1
+        else:
+            pass
+        
+        self.hintsBadPercent = (self.badEmojiCount/self.cardsTotal)*100
+        self.hintsOkPercent = (self.okEmojiCount/self.cardsTotal)*100
+        self.hintsGoodPercent = (self.goodEmojiCount/self.cardsTotal)*100
+        
+        print(self.hintsBadPercent, "%, ", self.hintsOkPercent, "%, ", self.hintsGoodPercent, "%, ")
+
         self.studedCards += 1
         widgets.textEditAnswer.setVisible(False)
         widgets.btnRevealAnswer.setVisible(True)
@@ -252,7 +277,11 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             msgBox.setInformativeText("Inicie, caso queira, um novo estudo de flashcards.") # later, put feedback, hints percentage etc.
             msgBox.show()
             widgets.btnBackPage.click()
-        widgets.progressBar.setValue(value)
+            self.badEmojiCount, self.okEmojiCount, self.goodEmojiCount = 0, 0, 0
+            self.hintsBadPercent = 0
+            self.hintsOkPercent = 0
+            self.hintsGoodPercent = 0
+        widgets.progressBar.setValue(self.hintsGoodPercent)
         widgets.lblCardsCount.setText(f'{self.studedCards}/{self.cardsTotal}')
         
     ########################################

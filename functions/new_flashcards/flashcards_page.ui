@@ -32,7 +32,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="StudyPage">
       <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -734,6 +734,85 @@ background-image: none;
               </widget>
              </item>
             </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="editPage">
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QFrame" name="frame_18">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_15">
+          <item>
+           <widget class="QPushButton" name="btnBackStudy">
+            <property name="text">
+             <string>Salvar alterações</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_15">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <item>
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>Deck:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="lblDeckName_2">
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QTableWidget" name="tableWidget">
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
+            </property>
+            <attribute name="horizontalHeaderVisible">
+             <bool>false</bool>
+            </attribute>
+            <column>
+             <property name="text">
+              <string>Front</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>btnEditFront</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Verse</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>btnEditVerse</string>
+             </property>
+            </column>
            </widget>
           </item>
          </layout>
