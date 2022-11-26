@@ -14,7 +14,7 @@ from PySide6 import QtCore, QtGui, QtWidgets
 class Ui_FlashcardsPage(object):
     def setupUi(self, FlashcardsPage):
         FlashcardsPage.setObjectName("FlashcardsPage")
-        FlashcardsPage.resize(647, 448)
+        FlashcardsPage.resize(647, 480)
         self.verticalLayout = QtWidgets.QVBoxLayout(FlashcardsPage)
         self.verticalLayout.setContentsMargins(6, 6, 6, 6)
         self.verticalLayout.setSpacing(9)
@@ -258,17 +258,27 @@ class Ui_FlashcardsPage(object):
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_3.setSpacing(2)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.btnOptions = QtWidgets.QPushButton(self.frame_4)
-        self.btnOptions.setMinimumSize(QtCore.QSize(90, 90))
-        self.btnOptions.setMaximumSize(QtCore.QSize(90, 16777215))
-        self.btnOptions.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.btnOptions.setStyleSheet("background-position: center;  \n"
+        self.btnImport = QtWidgets.QPushButton(self.frame_4)
+        self.btnImport.setMinimumSize(QtCore.QSize(90, 90))
+        self.btnImport.setMaximumSize(QtCore.QSize(90, 16777215))
+        self.btnImport.setStyleSheet("background-position: center;  \n"
 "background-repeat: no-repeat; \n"
 "background-image: url(:/icons/images/icons/cil-options.png);\n"
 "border-radius: 45px;")
-        self.btnOptions.setText("")
-        self.btnOptions.setObjectName("btnOptions")
-        self.horizontalLayout_3.addWidget(self.btnOptions)
+        self.btnImport.setText("")
+        self.btnImport.setObjectName("btnImport")
+        self.horizontalLayout_3.addWidget(self.btnImport)
+        self.btnExport = QtWidgets.QPushButton(self.frame_4)
+        self.btnExport.setMinimumSize(QtCore.QSize(90, 90))
+        self.btnExport.setMaximumSize(QtCore.QSize(90, 16777215))
+        self.btnExport.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btnExport.setStyleSheet("background-position: center;  \n"
+"background-repeat: no-repeat; \n"
+"background-image: url(:/icons/images/icons/cil-options.png);\n"
+"border-radius: 45px;")
+        self.btnExport.setText("")
+        self.btnExport.setObjectName("btnExport")
+        self.horizontalLayout_3.addWidget(self.btnExport)
         self.btnAddDecks = QtWidgets.QPushButton(self.frame_4)
         self.btnAddDecks.setMinimumSize(QtCore.QSize(90, 90))
         self.btnAddDecks.setMaximumSize(QtCore.QSize(90, 16777215))
@@ -376,7 +386,7 @@ class Ui_FlashcardsPage(object):
         self.verticalLayout.addWidget(self.stackedWidget)
 
         self.retranslateUi(FlashcardsPage)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         self.stackedWidgetStudy.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(FlashcardsPage)
 

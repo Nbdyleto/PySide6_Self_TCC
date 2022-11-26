@@ -1,6 +1,7 @@
 import random
 from PySide6 import QtCore, QtGui, QtWidgets
 from functions.db_main_operations import DBMainOperations
+from functions.json_operations import ImportExport
 from functions.new_flashcards.temp_ui_study import Ui_StudyCardsWindow
 from functions.new_flashcards.ui_add_cards import Ui_addCardsWindow
 from functions.new_flashcards.ui_flashcards_page import Ui_FlashcardsPage
@@ -53,6 +54,8 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.btnBackStudy.clicked.connect(lambda: widgets.stackedWidgetStudy.setCurrentWidget(widgets.studyListsPage))
         widgets.btnViewCards.clicked.connect(lambda: widgets.stackedWidgetStudy.setCurrentWidget(widgets.editCardsPage))
         widgets.btnViewCards.clicked.connect(self.loadCardsInTable)
+        # Import/Export
+        widgets.btnExport.clicked.connect(lambda: ImportExport.toJson(topicid=self.topicID))
     
     def setupWidgets(self):
         widgets.stackedWidget.setCurrentIndex(1)
@@ -219,7 +222,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
                     qry = 'SELECT * FROM decks ORDER BY deck_id DESC LIMIT 1;'
                     lastid = db.cursor.execute(qry).fetchall()[0][0]+1
                     print('lastid:', lastid)
-                    db.populateTbl(tbl='decks', params=(lastid, newdeck, 0, self.topicID))
+                    db.populateTbl(tbl='decks', params=(lastid, newdeck, 0, 0, 0, 0, self.topicID))
             self.loadDecksInTable(showall=False, topicid=self.topicID)
     
     def editDeck(self, deckid):

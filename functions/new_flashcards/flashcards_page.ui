@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>647</width>
-    <height>448</height>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,7 +32,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="StudyPage">
       <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -213,7 +213,7 @@ font: 18px;
             <property name="currentIndex">
              <number>1</number>
             </property>
-            <widget class="QWidget" name="studyListsPage" native="true">
+            <widget class="QWidget" name="studyListsPage">
              <layout class="QVBoxLayout" name="verticalLayout_7">
               <item>
                <widget class="QFrame" name="frame_10">
@@ -555,7 +555,32 @@ border-radius: 45px;</string>
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QPushButton" name="btnOptions">
+                 <widget class="QPushButton" name="btnImport">
+                  <property name="minimumSize">
+                   <size>
+                    <width>90</width>
+                    <height>90</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>90</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-position: center;  
+background-repeat: no-repeat; 
+background-image: url(:/icons/images/icons/cil-options.png);
+border-radius: 45px;</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="btnExport">
                   <property name="minimumSize">
                    <size>
                     <width>90</width>
