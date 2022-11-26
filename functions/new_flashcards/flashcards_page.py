@@ -61,6 +61,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.tblDecks.horizontalHeader().setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
         self.loadDecksInTable(showall=True, topicid=-1)
         self.loadTopicsInComboBox()
+        widgets.btnAddDecks.setToolTip('Adicionar deck')
     
     def resetPage(self):
         self.studedCards = 1
@@ -144,7 +145,10 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             hasflashcards = db.hasRecordsInTblFlashcards(id=deckid)
         if hasflashcards:
             btnAction.setObjectName(f'btnStartStudy{tablerow}')
-            btnAction.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-media-play.png);")
+            btnAction.setStyleSheet(u"""
+            QPushButton{background-image: url(:/icons/images/icons/cil-media-play.png);}
+            QToolTip{background-image: none;}
+            """)
             btnAction.clicked.connect(lambda: self.loadStudyInfo(deckid=deckid))
             btnAction.setToolTip('Iniciar estudos')
 
@@ -154,7 +158,10 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         btnEditDecks.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         btnEditDecks.setLayoutDirection(QtCore.Qt.LeftToRight)
         btnEditDecks.setObjectName(f'btnEditDecks{tablerow}')
-        btnEditDecks.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-pencil.png);")
+        btnEditDecks.setStyleSheet(u"""
+        QPushButton{background-image: url(:/icons/images/icons/cil-pencil.png);}
+        QToolTip{background-image: none;}
+        """)
         btnEditDecks.setToolTip('Editar deck')
         btnEditDecks.clicked.connect(lambda: self.editDeck(deckid))
         btnAddCards = QtWidgets.QPushButton(widgets.tblDecks)
@@ -164,7 +171,10 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         btnAddCards.setLayoutDirection(QtCore.Qt.LeftToRight)
         btnAddCards.setObjectName(f'btnAddCards{tablerow}')
         btnAddCards.setToolTip('Adicionar cards')
-        btnAddCards.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-library-add.png);")
+        btnAddCards.setStyleSheet(u"""
+        QPushButton{background-image: url(:/icons/images/icons/cil-library-add.png);}
+        QToolTip{background-image: none;}
+        """)
         btnAddCards.clicked.connect(lambda: self.openAddCardsWindow(deckid, deckname))
         btnRemoveDeck = QtWidgets.QPushButton(widgets.tblDecks)
         btnRemoveDeck.setMinimumSize(QtCore.QSize(0, 100))
@@ -172,7 +182,10 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         btnRemoveDeck.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         btnRemoveDeck.setLayoutDirection(QtCore.Qt.LeftToRight)
         btnRemoveDeck.setObjectName(f'btnRemoveDeck{tablerow}')
-        btnRemoveDeck.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-x-circle.png);")
+        btnRemoveDeck.setStyleSheet(u"""
+        QPushButton{background-image: url(:/icons/images/icons/cil-x-circle.png);}
+        QToolTip{background-image: none;}
+        """)
         btnRemoveDeck.setToolTip('Remover deck')
         btnRemoveDeck.clicked.connect(lambda: self.removeDeck(deckid))
 

@@ -235,10 +235,16 @@ class Ui_FlashcardsPage(object):
         self.btnAddDecks.setMinimumSize(QtCore.QSize(90, 90))
         self.btnAddDecks.setMaximumSize(QtCore.QSize(90, 16777215))
         self.btnAddDecks.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.btnAddDecks.setStyleSheet("background-position: center;  \n"
+        self.btnAddDecks.setStyleSheet("QPushButton{\n"
+"background-position: center;  \n"
 "background-repeat: no-repeat; \n"
 "background-image: url(:/icons/images/icons/cil-plus.png);\n"
-"border-radius: 45px;")
+"border-radius: 45px;\n"
+"}\n"
+"QToolTip{\n"
+"background-repeat: no-repeat; \n"
+"background-image: none;\n"
+"}")
         self.btnAddDecks.setText("")
         self.btnAddDecks.setObjectName("btnAddDecks")
         self.horizontalLayout_3.addWidget(self.btnAddDecks)
@@ -329,10 +335,53 @@ class Ui_FlashcardsPage(object):
         self.verticalLayout_3.addWidget(self.frame_5)
         self.verticalLayout_5.addWidget(self.frame_2)
         self.stackedWidget.addWidget(self.MainPage)
+        self.editPage = QtWidgets.QWidget()
+        self.editPage.setObjectName("editPage")
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.editPage)
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.frame_18 = QtWidgets.QFrame(self.editPage)
+        self.frame_18.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_18.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_18.setObjectName("frame_18")
+        self.verticalLayout_15 = QtWidgets.QVBoxLayout(self.frame_18)
+        self.verticalLayout_15.setObjectName("verticalLayout_15")
+        self.btnBackStudy = QtWidgets.QPushButton(self.frame_18)
+        self.btnBackStudy.setObjectName("btnBackStudy")
+        self.verticalLayout_15.addWidget(self.btnBackStudy)
+        self.frame_15 = QtWidgets.QFrame(self.frame_18)
+        self.frame_15.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_15.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_15.setObjectName("frame_15")
+        self.horizontalLayout_8 = QtWidgets.QHBoxLayout(self.frame_15)
+        self.horizontalLayout_8.setObjectName("horizontalLayout_8")
+        self.label_5 = QtWidgets.QLabel(self.frame_15)
+        self.label_5.setObjectName("label_5")
+        self.horizontalLayout_8.addWidget(self.label_5)
+        self.lblDeckName_2 = QtWidgets.QLabel(self.frame_15)
+        self.lblDeckName_2.setObjectName("lblDeckName_2")
+        self.horizontalLayout_8.addWidget(self.lblDeckName_2)
+        self.verticalLayout_15.addWidget(self.frame_15)
+        self.tableWidget = QtWidgets.QTableWidget(self.frame_18)
+        self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tableWidget.setObjectName("tableWidget")
+        self.tableWidget.setColumnCount(4)
+        self.tableWidget.setRowCount(0)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(3, item)
+        self.tableWidget.horizontalHeader().setVisible(False)
+        self.verticalLayout_15.addWidget(self.tableWidget)
+        self.horizontalLayout_7.addWidget(self.frame_18)
+        self.stackedWidget.addWidget(self.editPage)
         self.verticalLayout.addWidget(self.stackedWidget)
 
         self.retranslateUi(FlashcardsPage)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(FlashcardsPage)
 
     def retranslateUi(self, FlashcardsPage):
@@ -358,6 +407,17 @@ class Ui_FlashcardsPage(object):
         item.setText(_translate("FlashcardsPage", "btn2"))
         item = self.tblDecks.horizontalHeaderItem(4)
         item.setText(_translate("FlashcardsPage", "btn3"))
+        self.btnBackStudy.setText(_translate("FlashcardsPage", "Salvar alterações"))
+        self.label_5.setText(_translate("FlashcardsPage", "Deck:"))
+        self.lblDeckName_2.setText(_translate("FlashcardsPage", "TextLabel"))
+        item = self.tableWidget.horizontalHeaderItem(0)
+        item.setText(_translate("FlashcardsPage", "Front"))
+        item = self.tableWidget.horizontalHeaderItem(1)
+        item.setText(_translate("FlashcardsPage", "btnEditFront"))
+        item = self.tableWidget.horizontalHeaderItem(2)
+        item.setText(_translate("FlashcardsPage", "Verse"))
+        item = self.tableWidget.horizontalHeaderItem(3)
+        item.setText(_translate("FlashcardsPage", "btnEditVerse"))
 
 
 if __name__ == "__main__":

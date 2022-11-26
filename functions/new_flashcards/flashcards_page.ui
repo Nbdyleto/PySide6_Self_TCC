@@ -32,7 +32,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="StudyPage">
       <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -528,10 +528,16 @@ border-radius: 45px;</string>
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">background-position: center;  
+                   <string notr="true">QPushButton{
+background-position: center;  
 background-repeat: no-repeat; 
 background-image: url(:/icons/images/icons/cil-plus.png);
-border-radius: 45px;</string>
+border-radius: 45px;
+}
+QToolTip{
+background-repeat: no-repeat; 
+background-image: none;
+}</string>
                   </property>
                   <property name="text">
                    <string/>
