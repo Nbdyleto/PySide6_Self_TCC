@@ -19,6 +19,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets = self.ui
         self.flashcardsIter = None
         self.topicID = -1
+        self.deckID = -1
         self.cardsTotal = 1
         self.studedCards = 1
 
@@ -35,6 +36,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.classComboBox.currentIndexChanged.connect(self.selectTopicInComboBox)
         # Study Page Connections
         widgets.btnBackPage.clicked.connect(lambda: widgets.stackedWidget.setCurrentWidget(widgets.MainPage))
+        widgets.btnBackPage.clicked.connect(lambda: widgets.stackedWidgetStudy.setCurrentWidget(widgets.studyListsPage))
         widgets.btnBackPage.clicked.connect(self.resetPage)
         widgets.btnRevealAnswer.clicked.connect(self.revealAnswer)
         widgets.btnRevealAnswer.clicked.connect(lambda: widgets.btnRevealAnswer.setVisible(False))
@@ -47,6 +49,10 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.btnOkFeedback.clicked.connect(lambda: widgets.btnRevealAnswer.setVisible(True))
         widgets.btnGoodFeedback.clicked.connect(lambda: self.nextFlashcard(emoji='good'))
         widgets.btnGoodFeedback.clicked.connect(lambda: widgets.btnRevealAnswer.setVisible(True))
+        # Edit Cards Page
+        widgets.btnBackStudy.clicked.connect(lambda: widgets.stackedWidgetStudy.setCurrentWidget(widgets.studyListsPage))
+        widgets.btnViewCards.clicked.connect(lambda: widgets.stackedWidgetStudy.setCurrentWidget(widgets.editCardsPage))
+        widgets.btnViewCards.clicked.connect(self.loadCardsInTable)
     
     def setupWidgets(self):
         widgets.stackedWidget.setCurrentIndex(1)
@@ -62,11 +68,17 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         self.loadDecksInTable(showall=True, topicid=-1)
         self.loadTopicsInComboBox()
         widgets.btnAddDecks.setToolTip('Adicionar deck')
+        widgets.tblEditFlashcards.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        widgets.tblEditFlashcards.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
+        widgets.tblEditFlashcards.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
     
     def resetPage(self):
+        self.loadDecksInTable()
         self.studedCards = 1
+        self.deckID = -1
 
     def loadDecksInTable(self, showall=True, topicid=-1):
+        print("LOADING...")
         if showall and topicid == -1:
             with DBMainOperations() as db:
                 rowcount = db.getRowCount(tbl='decks')
@@ -232,6 +244,8 @@ class MainFlashcardsPage(QtWidgets.QWidget):
     # Study Cards Functions #####################################
 
     def loadStudyInfo(self, deckid):
+        self.deckID = deckid
+        self.loadCardsInTable()
         deckcols = 'deck_name, hits_percentage'
         cardcols = 'card_question, card_answer'
         with DBMainOperations() as db:
@@ -242,15 +256,18 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             self.cardsTotal = len(flashcards)
             random.shuffle(flashcards)
             self.flashcardsIter = iter(flashcards)
-
-        front, verse = next(self.flashcardsIter)
-        widgets.textEditQuestion.setText(f'question: {front}')
-        widgets.textEditAnswer.setText(f'answer: {verse}')
-        widgets.textEditAnswer.setVisible(False)
-        widgets.lblCardsCount.setText(f'{self.studedCards}/{self.cardsTotal}')
-        widgets.lblDeckName.setText(deckname)
-        widgets.progressBar.setValue(deckperc)
-        widgets.stackedWidget.setCurrentWidget(widgets.StudyPage)
+        try:
+            front, verse = next(self.flashcardsIter)
+            widgets.textEditQuestion.setText(f'question: {front}')
+            widgets.textEditAnswer.setText(f'answer: {verse}')
+            widgets.textEditAnswer.setVisible(False)
+            widgets.lblCardsCount.setText(f'{self.studedCards}/{self.cardsTotal}')
+            widgets.lblDeckName.setText(deckname)
+            widgets.progressBar.setValue(deckperc)
+            widgets.stackedWidget.setCurrentWidget(widgets.StudyPage)
+        except:
+            self.resetPage()
+            widgets.stackedWidget.setCurrentWidget(widgets.MainPage)
 
     def revealAnswer(self):
         widgets.textEditAnswer.setVisible(True)
@@ -329,4 +346,49 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         else:
             self.loadDecksInTable(showall=False, topicid=self.topicID)
 
-    
+    ########################################
+    # Edit Cards Functions #####################################
+
+    def loadCardsInTable(self):
+        widgets.tblEditFlashcards.clearContents()
+        deckid = self.deckID
+        try:
+            with DBMainOperations() as db:
+                cards = db.getAllRecords(tbl='flashcards', whclause=f'deck_id = {deckid}')
+                #print(f'{tasks}')
+                widgets.tblEditFlashcards.setRowCount(len(cards))
+            tablerow = 0
+            for row in cards:
+                #print('\n', row)
+                widgets.tblEditFlashcards.setRowHeight(tablerow, 50)
+                cardid, question, answer = row[0], row[1], row[2]
+                btnRemoveCard = self.buttonToPutInRow(tablerow, cardid)
+                widgets.tblEditFlashcards.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(question))
+                widgets.tblEditFlashcards.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(answer))
+                widgets.tblEditFlashcards.setCellWidget(tablerow, 2, btnRemoveCard)
+                tablerow += 1 
+            widgets.tblEditFlashcards.setRowHeight(tablerow, 50)
+        except Exception as e:
+            print('ERROR: ', e)
+
+    def buttonToPutInRow(self, tablerow, cardid):
+        btnRemoveCard = QtWidgets.QPushButton(widgets.tblEditFlashcards)
+        btnRemoveCard.setMinimumSize(QtCore.QSize(0, 100))
+        btnRemoveCard.setMaximumSize(QtCore.QSize(90, 16777215))
+        btnRemoveCard.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        btnRemoveCard.setLayoutDirection(QtCore.Qt.LeftToRight)
+        btnRemoveCard.setObjectName(f'btnRemoveCard{tablerow}')
+        btnRemoveCard.setStyleSheet(u"""
+            background-image: url(:/icons/images/icons/cil-x-circle.png);
+            background-repeat: no-repeat;
+            margin-top: 15px; 
+            border-color: transparent;
+        """)
+        btnRemoveCard.clicked.connect(lambda: self.removeTask(cardid))
+        btnRemoveCard.clicked.connect(lambda: self.loadStudyInfo(deckid=self.deckID))
+        return btnRemoveCard
+
+    def removeTask(self, cardid):
+        with DBMainOperations() as db:
+            db.cursor.execute(f"DELETE from flashcards WHERE card_id={cardid}")
+        self.loadCardsInTable()
