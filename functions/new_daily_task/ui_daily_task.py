@@ -46,17 +46,6 @@ class Ui_DailyTaskPage(object):
         self.verticalLayout_3.setContentsMargins(6, 6, 6, 6)
         self.verticalLayout_3.setSpacing(2)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.btnOrderByTopic = QtWidgets.QPushButton(self.frame_6)
-        self.btnOrderByTopic.setMinimumSize(QtCore.QSize(100, 40))
-        self.btnOrderByTopic.setMaximumSize(QtCore.QSize(150, 16777215))
-        self.btnOrderByTopic.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.btnOrderByTopic.setAutoFillBackground(False)
-        self.btnOrderByTopic.setStyleSheet("background-repeat: no-repeat; \n"
-"border-radius: 20px;\n"
-"text-align: center;\n"
-"font-size: 12px;")
-        self.btnOrderByTopic.setObjectName("btnOrderByTopic")
-        self.verticalLayout_3.addWidget(self.btnOrderByTopic)
         self.frameByTopic = QtWidgets.QFrame(self.frame_6)
         self.frameByTopic.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frameByTopic.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -83,17 +72,6 @@ class Ui_DailyTaskPage(object):
         self.verticalLayout_4.setContentsMargins(6, 6, 6, 6)
         self.verticalLayout_4.setSpacing(2)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.btnOrderByStatus = QtWidgets.QPushButton(self.frame_7)
-        self.btnOrderByStatus.setMinimumSize(QtCore.QSize(100, 40))
-        self.btnOrderByStatus.setMaximumSize(QtCore.QSize(150, 16777215))
-        self.btnOrderByStatus.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.btnOrderByStatus.setAutoFillBackground(False)
-        self.btnOrderByStatus.setStyleSheet("background-repeat: no-repeat; \n"
-"border-radius: 20px;\n"
-"text-align: center;\n"
-"font-size: 12px;")
-        self.btnOrderByStatus.setObjectName("btnOrderByStatus")
-        self.verticalLayout_4.addWidget(self.btnOrderByStatus)
         self.frameByStatus = QtWidgets.QFrame(self.frame_7)
         self.frameByStatus.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frameByStatus.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -185,8 +163,6 @@ class Ui_DailyTaskPage(object):
     def retranslateUi(self, DailyTaskPage):
         _translate = QtCore.QCoreApplication.translate
         DailyTaskPage.setWindowTitle(_translate("DailyTaskPage", "Widget"))
-        self.btnOrderByTopic.setText(_translate("DailyTaskPage", "Tópico"))
-        self.btnOrderByStatus.setText(_translate("DailyTaskPage", "Status"))
         item = self.tblTasks.horizontalHeaderItem(0)
         item.setText(_translate("DailyTaskPage", "Nome"))
         item = self.tblTasks.horizontalHeaderItem(1)

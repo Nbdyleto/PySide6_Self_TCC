@@ -28,8 +28,6 @@ class DTaskMainPage(QtWidgets.QWidget):
         widgets.tblTasks.itemChanged.connect(self.updateDBRecord)
         widgets.tblLists.cellClicked.connect(self.updateStatusOrTopic)
         widgets.qCalendar.selectionChanged.connect(self.updateCalendarDate)
-        widgets.btnOrderByTopic.clicked.connect(self.loadTopicsInList)
-        widgets.btnOrderByStatus.clicked.connect(self.loadStatusInList)
         widgets.listByTopic.itemClicked.connect(self.checkTopicFilter)
         widgets.listByStatus.itemClicked.connect(self.checkStatusFilter)
 
@@ -50,15 +48,13 @@ class DTaskMainPage(QtWidgets.QWidget):
             }
         """)
         self.hideAll()
+        self.loadTopicsInList()
+        self.loadStatusInList()
 
         widgets.tblLists.setVisible(False)
         widgets.tblLists.setColumnCount(1)
         widgets.tblLists.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
 
-        widgets.btnOrderByTopic.clicked.connect(lambda: widgets.frameByTopic.setVisible(True))
-        widgets.btnOrderByTopic.clicked.connect(lambda: widgets.btnOrderByTopic.setEnabled(False))
-        widgets.btnOrderByStatus.clicked.connect(lambda: widgets.frameByStatus.setVisible(True))
-        widgets.btnOrderByStatus.clicked.connect(lambda: widgets.btnOrderByStatus.setEnabled(False))
 
     # LOAD DATA FUNCTIONS
     # ///////////////////////////////////////////////////////////////
@@ -307,6 +303,7 @@ class DTaskMainPage(QtWidgets.QWidget):
         widgets.listByTopic.clear()
         item = QtWidgets.QListWidgetItem()
         item.setText('Geral')
+        widgets.listByTopic.setCurrentItem(item)
         widgets.listByTopic.addItem(item)
         with DBMainOperations() as db:
             topics = db.getAllRecords(tbl='topics', specifcols='topic_name')
