@@ -328,3 +328,5 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             self.loadDecksInTable(showall=True, topicid=-1)
         else:
             self.loadDecksInTable(showall=False, topicid=self.topicID)
+
+    

@@ -9,6 +9,7 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         self.ui = Ui_SeeProgressPage()
         self.ui.setupUi(self)
         self.setupVariables()
+        self.setupConnections()
         self.setupWidgets()
         self.getTotalTime()
         self.setupCharts()
@@ -16,11 +17,23 @@ class SeeProgressMainPage(QtWidgets.QWidget):
     def setupVariables(self):
         global widgets
         widgets = self.ui
+        self.topicID = -1
+
+    def setupConnections(self):
+        widgets.qCBoxFlashcards.currentIndexChanged.connect(self.selectTopicInComboBox)
 
     def setupWidgets(self):
         widgets.tabSeeProgress.setStyleSheet('background-color: rgb(54, 43, 60); color: white; font: 15px;')
         widgets.lblTotalTime.setText(f'00:00:00')
 
+    def setupStatsInWidgets(self):
+        widgets.lblCardsInTotal.setText(self.loadTotalCards(topicid=self.topicID))
+        widgets.lblStudedCards.setText(self.loadTotalStudedCards(topicid=self.topicID))
+        widgets.lblRightCards.setText(self.loadRightCardsTotal(topicid=self.topicID))
+        widgets.lblWrongCards.setText(self.loadWrongCardsTotal(topicid=self.topicID))
+        
+        #LOAD TABLE WITH STATUS: 
+        #self.loadStatusOfDecks(topicid=self.topicID)
 
     def setupCharts(self):
         widgets.lblTotalPomodoros = 0
@@ -119,3 +132,55 @@ class SeeProgressMainPage(QtWidgets.QWidget):
 
         widgets.verticalLayout_21.addWidget(self._chart_view3)
     """
+
+    def loadTopicsInComboBox(self):
+        widgets.qCBoxFlashcards.clear()
+        with DBMainOperations() as db:
+            topics = db.getAllRecords(tbl='topics')
+        tablerow = 0
+        for row in topics:
+            if row[0] == 0:
+                widgets.qCBoxFlashcards.addItem('Geral')
+                continue
+            widgets.qCBoxFlashcards.addItem(row[1])
+            tablerow += 1
+    
+    def selectTopicInComboBox(self):
+        idx = widgets.qCBoxFlashcards.currentIndex()
+        self.topicName = widgets.qCBoxFlashcards.currentText()
+        topicname = self.topicName
+        if idx == 0:    # Show geral
+            self.topicID = -1
+        else:   # Show specific decks
+            with DBMainOperations() as db:
+                self.topicID = db.getAllRecords(tbl='topics', specifcols='topic_id', whclause=f'topic_name = "{topicname}"')[0][0]
+        self.setupStatsInWidgets()
+    
+    ########################################
+    # Statistics Functions #####################################
+
+    def loadTotalCards(self, topicid=-1):
+        totalcards = 0
+        with DBMainOperations() as db:
+            if topicid == -1:
+                qry = """SELECT COUNT(*) FROM flashcards"""
+                totalcards = db.cursor.execute(qry).fetchall()[0][0]
+            else:
+                qry1 = f"""SELECT deck_id FROM decks WHERE topic_id = {topicid}"""
+                decksID = db.cursor.execute(qry1).fetchall()
+                for deckID in decksID:
+                    qry2 = f"""SELECT COUNT(*) FROM flashcards WHERE deck_id = {deckID[0]}"""
+                    totalcards += db.cursor.execute(qry2).fetchall()[0][0]
+        return str(totalcards)
+
+    def loadTotalStudedCards(self, topicid=-1):
+        pass
+
+    def loadRightCardsTotal(self, topicid=-1):
+        pass
+
+    def loadWrongCardsTotal(self, topicid=-1):
+        pass
+    
+    def loadStatusOfDecks(self, topicid=-1):
+        pass
