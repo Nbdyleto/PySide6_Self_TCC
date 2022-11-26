@@ -368,17 +368,17 @@ border-radius: 45px;</string>
                    </attribute>
                    <column>
                     <property name="text">
-                     <string>Front</string>
+                     <string>Frente (questão)</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>Verse</string>
+                     <string>Verso (resposta)</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string> </string>
+                     <string>Remover card</string>
                     </property>
                    </column>
                   </widget>
