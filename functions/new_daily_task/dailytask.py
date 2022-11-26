@@ -21,7 +21,7 @@ class DTaskMainPage(QtWidgets.QWidget):
         self.selectedTask, self.activeCalendar, self.activeTable = None, None, None
 
         self.filterByTopic, self.filterByStatus = False, False
-        self.activeTopicId, self.activeStatus = None, None
+        self.activeTopicID, self.activeStatus = None, None
 
     def setupConnections(self):
         widgets.tblTasks.cellClicked.connect(self.rowClickedFunctions)
@@ -67,7 +67,7 @@ class DTaskMainPage(QtWidgets.QWidget):
         if self.filterByTopic and not self.filterByStatus:
             print("FILTERING JUST BY TOPIC")
             qry = f"""SELECT * FROM TASKS
-                      WHERE (topic_id = {self.activeTopicId})"""
+                      WHERE (topic_id = {self.activeTopicID})"""
         elif self.filterByStatus and not self.filterByTopic:
             print("FILTERING JUST BY STATUS")
             qry = f"""SELECT * FROM TASKS
@@ -76,7 +76,7 @@ class DTaskMainPage(QtWidgets.QWidget):
         elif self.filterByStatus and self.filterByTopic:
             print("FILTERING BY TOPIC AND BY STATUS")
             qry = f"""SELECT * FROM TASKS
-                      WHERE (topic_id = {self.activeTopicId}) AND 
+                      WHERE (topic_id = {self.activeTopicID}) AND 
                             (status = '{self.activeStatus}')"""
             showemptyrow = False
         else:
@@ -103,6 +103,13 @@ class DTaskMainPage(QtWidgets.QWidget):
                 widgets.tblTasks.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(endDate)) #row[4] = end_date
                 widgets.tblTasks.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(topic)) #row[5] = topic_id
                 widgets.tblTasks.setCellWidget(tablerow, 5, btnRemoveTask)
+                # Set bold if is a ended task:
+                for col in range(5):
+                    item = widgets.tblTasks.item(tablerow, col)
+                    font = widgets.tblTasks.item(tablerow, col).font()
+                    font.setBold(True if status == 'Finalizada!' else False)
+                    item.setFont(font)
+
                 tablerow += 1 
             widgets.tblTasks.setRowHeight(tablerow, 50)
         except Exception as e:
@@ -231,7 +238,8 @@ class DTaskMainPage(QtWidgets.QWidget):
                 qry = 'SELECT * FROM tasks ORDER BY task_id DESC LIMIT 1;'
                 lastid = db.cursor.execute(qry).fetchall()[0][0]+1
                 sysdate = QtCore.QDate.currentDate().toString(QtCore.Qt.ISODate)
-                newdata = (lastid, item.text(), "Não Iniciada.", sysdate, sysdate, 0)
+                topicid = (self.activeTopicID if self.activeTopicID != -1 else 0)
+                newdata = (lastid, item.text(), "Não Iniciada.", sysdate, sysdate, topicid)
                 db.populateTbl('tasks', params=newdata)
             print('adding...')
         elif self.selectedTask is not None:
@@ -319,14 +327,14 @@ class DTaskMainPage(QtWidgets.QWidget):
     def checkTopicFilter(self, item):
         if item.text() == 'Geral':
             self.filterByTopic = False
-            self.activeTopicId = -1
+            self.activeTopicID = -1
         elif item.text() == 'Sem tópico':
             self.filterByTopic = True
-            self.activeTopicId = 0
+            self.activeTopicID = 0
         else:
             with DBMainOperations() as db:
                 self.filterByTopic = True
-                self.activeTopicId = db.getAllRecords(tbl='topics', specifcols='topic_id', whclause=f'topic_name = "{item.text()}"')[0][0]
+                self.activeTopicID = db.getAllRecords(tbl='topics', specifcols='topic_id', whclause=f'topic_name = "{item.text()}"')[0][0]
         self.loadDataInTable()
     
     def loadStatusInList(self):
