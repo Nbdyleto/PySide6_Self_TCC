@@ -32,7 +32,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="StudyPage">
       <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -211,7 +211,7 @@ font: 18px;
              <enum>QFrame::Raised</enum>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="studyListsPage">
              <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -230,8 +230,14 @@ font: 18px;
                  <enum>QFrame::Raised</enum>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_8">
-                 <item alignment="Qt::AlignLeft">
+                 <item alignment="Qt::AlignRight">
                   <widget class="QPushButton" name="btnViewCards">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>30</height>
+                    </size>
+                   </property>
                    <property name="text">
                     <string>Visualizar flashcards</string>
                    </property>
@@ -339,8 +345,14 @@ border-radius: 45px;</string>
                  <enum>QFrame::Raised</enum>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_16">
-                 <item alignment="Qt::AlignLeft">
+                 <item alignment="Qt::AlignRight">
                   <widget class="QPushButton" name="btnBackStudy">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>30</height>
+                    </size>
+                   </property>
                    <property name="text">
                     <string>Voltar ao Estudo</string>
                    </property>

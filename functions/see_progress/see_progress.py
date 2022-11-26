@@ -23,7 +23,6 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         widgets.qCBoxFlashcards.currentIndexChanged.connect(self.selectTopicInComboBox)
 
     def setupWidgets(self):
-        widgets.tabSeeProgress.setStyleSheet('background-color: rgb(54, 43, 60); color: white; font: 15px;')
         widgets.lblTotalTime.setText(f'00:00:00')
 
     def setupStatsInWidgets(self):

@@ -114,8 +114,9 @@ class Ui_FlashcardsPage(object):
         self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.frame_10)
         self.verticalLayout_8.setObjectName("verticalLayout_8")
         self.btnViewCards = QtWidgets.QPushButton(self.frame_10)
+        self.btnViewCards.setMinimumSize(QtCore.QSize(0, 30))
         self.btnViewCards.setObjectName("btnViewCards")
-        self.verticalLayout_8.addWidget(self.btnViewCards, 0, QtCore.Qt.AlignLeft)
+        self.verticalLayout_8.addWidget(self.btnViewCards, 0, QtCore.Qt.AlignRight)
         self.textEditQuestion = QtWidgets.QTextEdit(self.frame_10)
         self.textEditQuestion.setEnabled(True)
         self.textEditQuestion.setStyleSheet("background-color: black;\n"
@@ -178,8 +179,9 @@ class Ui_FlashcardsPage(object):
         self.verticalLayout_16 = QtWidgets.QVBoxLayout(self.frame_19)
         self.verticalLayout_16.setObjectName("verticalLayout_16")
         self.btnBackStudy = QtWidgets.QPushButton(self.frame_19)
+        self.btnBackStudy.setMinimumSize(QtCore.QSize(0, 30))
         self.btnBackStudy.setObjectName("btnBackStudy")
-        self.verticalLayout_16.addWidget(self.btnBackStudy, 0, QtCore.Qt.AlignLeft)
+        self.verticalLayout_16.addWidget(self.btnBackStudy, 0, QtCore.Qt.AlignRight)
         self.tblEditFlashcards = QtWidgets.QTableWidget(self.frame_19)
         self.tblEditFlashcards.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tblEditFlashcards.setTabKeyNavigation(False)
@@ -386,8 +388,8 @@ class Ui_FlashcardsPage(object):
         self.verticalLayout.addWidget(self.stackedWidget)
 
         self.retranslateUi(FlashcardsPage)
-        self.stackedWidget.setCurrentIndex(1)
-        self.stackedWidgetStudy.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidgetStudy.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(FlashcardsPage)
 
     def retranslateUi(self, FlashcardsPage):

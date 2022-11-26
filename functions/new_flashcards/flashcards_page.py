@@ -266,9 +266,9 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             widgets.textEditAnswer.setVisible(False)
             widgets.lblCardsCount.setText(f'{self.studedCards}/{self.cardsTotal}')
             widgets.lblDeckName.setText(deckname)
-            widgets.progressBar.setValue(deckperc)
+            widgets.progressBar.setValue(0)
             widgets.stackedWidget.setCurrentWidget(widgets.StudyPage)
-        except:
+        except: # If not exist cards.
             self.resetPage()
             widgets.stackedWidget.setCurrentWidget(widgets.MainPage)
 
@@ -316,7 +316,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             self.hitsBadPercentage = 0
             self.hitsOkPercentage = 0
             self.hitsGoodPercentage = 0
-        widgets.progressBar.setValue(self.hitsGoodPercentage)
+        widgets.progressBar.setValue(self.hitsGoodPercentage + (self.hitsOkPercentage/2.3))
         widgets.lblCardsCount.setText(f'{self.studedCards}/{self.cardsTotal}')
 
     def updateEmojisCountInDB(self):
@@ -325,7 +325,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
                 UPDATE decks SET bad_feedback = bad_feedback + {self.badEmojiCount}, 
                                  ok_feedback = ok_feedback + {self.okEmojiCount},
                                  good_feedback = good_feedback + {self.goodEmojiCount},
-                                 hits_percentage = {round((self.hitsGoodPercentage + (self.hitsOkPercentage/2.5)), 2)}
+                                 hits_percentage = {round((self.hitsGoodPercentage + (self.hitsOkPercentage/2.3)), 2)}
                 WHERE deck_id = {self.deckID} 
             """
             db.cursor.execute(qry)
