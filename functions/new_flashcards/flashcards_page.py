@@ -283,6 +283,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             self.goodEmojiCount += 1
         else:
             pass
+        self.updateEmojisCountInDB()
         
         self.hintsBadPercent = (self.badEmojiCount/self.cardsTotal)*100
         self.hintsOkPercent = (self.okEmojiCount/self.cardsTotal)*100
@@ -313,6 +314,16 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             self.hintsGoodPercent = 0
         widgets.progressBar.setValue(self.hintsGoodPercent)
         widgets.lblCardsCount.setText(f'{self.studedCards}/{self.cardsTotal}')
+
+    def updateEmojisCountInDB(self):
+        with DBMainOperations() as db:
+            qry = f"""
+                UPDATE decks SET bad_feedback = bad_feedback + {self.badEmojiCount}, 
+                                 ok_feedback = ok_feedback + {self.okEmojiCount},
+                                 good_feedback = good_feedback + {self.goodEmojiCount}
+                WHERE deck_id = {self.deckID}. 
+            """
+            db.cursor.execute(qry)
         
     ########################################
     # AddCardsWindow Functions #####################################

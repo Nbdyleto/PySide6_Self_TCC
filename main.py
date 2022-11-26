@@ -43,10 +43,10 @@ class MainWindow(QMainWindow):
 
             ################# FLASHCARDS
 
-            db.populateTbl(tbl='decks', params=(0, "Cálculos Básicos", 0 , 1))
-            db.populateTbl(tbl='decks', params=(1, "Genética", 0, 3))
-            db.populateTbl(tbl='decks', params=(2, "Polaridade", 0, 3))
-            db.populateTbl(tbl='decks', params=(3, "Leis de Newton", 0, 2))
+            db.populateTbl(tbl='decks', params=(0, "Cálculos Básicos", 0, 0, 0, 0, 1))
+            db.populateTbl(tbl='decks', params=(1, "Genética", 0, 0, 0, 0, 3))
+            db.populateTbl(tbl='decks', params=(2, "Polaridade", 0, 0, 0, 0, 3))
+            db.populateTbl(tbl='decks', params=(3, "Leis de Newton", 0, 0, 0, 0, 2))
 
             db.populateTbl(tbl='flashcards', params=(0, "Quantos é 2+3?", "5", 0))
             db.populateTbl(tbl='flashcards', params=(1, "Raiz quadrada de 7", "49", 0))

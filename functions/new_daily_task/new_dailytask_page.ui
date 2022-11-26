@@ -116,37 +116,6 @@
             <property name="bottomMargin">
              <number>6</number>
             </property>
-            <item>
-             <widget class="QPushButton" name="btnOrderByTopic">
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>150</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-              <property name="autoFillBackground">
-               <bool>false</bool>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-repeat: no-repeat; 
-border-radius: 20px;
-text-align: center;
-font-size: 12px;</string>
-              </property>
-              <property name="text">
-               <string>Tópico</string>
-              </property>
-             </widget>
-            </item>
             <item alignment="Qt::AlignHCenter">
              <widget class="QFrame" name="frameByTopic">
               <property name="frameShape">
@@ -223,37 +192,6 @@ font-size: 12px;</string>
             <property name="bottomMargin">
              <number>6</number>
             </property>
-            <item>
-             <widget class="QPushButton" name="btnOrderByStatus">
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>150</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-              <property name="autoFillBackground">
-               <bool>false</bool>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-repeat: no-repeat; 
-border-radius: 20px;
-text-align: center;
-font-size: 12px;</string>
-              </property>
-              <property name="text">
-               <string>Status</string>
-              </property>
-             </widget>
-            </item>
             <item alignment="Qt::AlignHCenter">
              <widget class="QFrame" name="frameByStatus">
               <property name="frameShape">

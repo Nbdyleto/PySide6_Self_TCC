@@ -28,9 +28,12 @@ class SeeProgressMainPage(QtWidgets.QWidget):
 
     def setupStatsInWidgets(self):
         widgets.lblCardsInTotal.setText(self.loadTotalCards(topicid=self.topicID))
-        widgets.lblStudedCards.setText(self.loadTotalStudedCards(topicid=self.topicID))
-        widgets.lblRightCards.setText(self.loadRightCardsTotal(topicid=self.topicID))
-        widgets.lblWrongCards.setText(self.loadWrongCardsTotal(topicid=self.topicID))
+        #widgets.lblStudedCards.setText(self.loadTotalStudedCards(topicid=self.topicID))
+        badcount, okcount, goodcount, studedcards = self.loadFeedbacksCount(topicid=self.topicID)
+        widgets.lblBadFeedbackCount.setText(badcount)
+        widgets.lblOkFeedbackCount.setText(okcount)
+        widgets.lblGoodFeedbackCount.setText(goodcount)
+        widgets.lblStudedCards.setText(studedcards)
         
         #LOAD TABLE WITH STATUS: 
         #self.loadStatusOfDecks(topicid=self.topicID)
@@ -173,14 +176,25 @@ class SeeProgressMainPage(QtWidgets.QWidget):
                     totalcards += db.cursor.execute(qry2).fetchall()[0][0]
         return str(totalcards)
 
-    def loadTotalStudedCards(self, topicid=-1):
-        pass
-
-    def loadRightCardsTotal(self, topicid=-1):
-        pass
-
-    def loadWrongCardsTotal(self, topicid=-1):
-        pass
+    def loadFeedbacksCount(self, topicid=-1):
+        with DBMainOperations() as db:
+            if topicid == -1:
+                qry1 = f"""SELECT SUM(bad_feedback) FROM decks"""
+                qry2 = f"""SELECT SUM(ok_feedback) FROM decks"""
+                qry3 = f"""SELECT SUM(good_feedback) FROM decks"""
+                badcount = db.cursor.execute(qry1).fetchall()[0][0]
+                okcount = db.cursor.execute(qry2).fetchall()[0][0]
+                goodcount = db.cursor.execute(qry3).fetchall()[0][0]
+                studedcards = badcount + okcount + goodcount
+            else:
+                qry1 = f"""SELECT bad_feedback FROM decks WHERE topic_id = {topicid}"""
+                qry2 = f"""SELECT ok_feedback FROM decks WHERE topic_id = {topicid}"""
+                qry3 = f"""SELECT good_feedback FROM decks WHERE topic_id = {topicid}"""
+                badcount = db.cursor.execute(qry1).fetchall()[0][0]
+                okcount = db.cursor.execute(qry2).fetchall()[0][0]
+                goodcount = db.cursor.execute(qry3).fetchall()[0][0]
+                studedcards = badcount + okcount + goodcount
+        return str(badcount), str(okcount), str(goodcount), str(studedcards)
     
     def loadStatusOfDecks(self, topicid=-1):
         pass

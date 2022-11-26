@@ -46,6 +46,9 @@ class DBMainOperations:
             deck_id INTEGUER PRIMARY KEY,
             deck_name VARCHAR(50),
             hits_percentage INTEGUER NOT NULL,
+            bad_feedback INTEGUER NOT NULL,
+            ok_feedback INTEGUER NOT NULL,
+            good_feedback INTEGUER NOT NULL,
             topic_id INTEGUER NOT NULL,
             FOREIGN KEY (topic_id)
                 REFERENCES topics (topic_id)

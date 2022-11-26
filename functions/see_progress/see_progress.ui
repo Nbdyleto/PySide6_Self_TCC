@@ -32,7 +32,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="tabsClosable">
       <bool>false</bool>
@@ -78,28 +78,35 @@
                 <item>
                  <widget class="QLabel" name="label">
                   <property name="text">
-                   <string>Total de Flashcards:</string>
+                   <string>Total de Flashcards</string>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QLabel" name="label_2">
                   <property name="text">
-                   <string>Flashcards Estudados:</string>
+                   <string>Flashcards Revisados</string>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QLabel" name="label_3">
                   <property name="text">
-                   <string>Flashcards Corretos:</string>
+                   <string>Qnt. Desempenho Positivo</string>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QLabel" name="label_4">
                   <property name="text">
-                   <string>Flashcards Incorretos:</string>
+                   <string>Qnt. Desempenho Intermediário</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_7">
+                  <property name="text">
+                   <string>Qnt. Desempenho Baixo</string>
                   </property>
                  </widget>
                 </item>
@@ -130,14 +137,21 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="lblRightCards">
+                 <widget class="QLabel" name="lblGoodFeedbackCount">
                   <property name="text">
                    <string>0</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="lblWrongCards">
+                 <widget class="QLabel" name="lblOkFeedbackCount">
+                  <property name="text">
+                   <string>0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="lblBadFeedbackCount">
                   <property name="text">
                    <string>0</string>
                   </property>
