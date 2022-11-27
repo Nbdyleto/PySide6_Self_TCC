@@ -69,15 +69,15 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         # Filter Variables
         self.filterByTopic, self.filterByDate = False, False
         self.activeTopicId, self.activeDate = None, None
-        # Progress Variables
+        # See Progress Variables
         self.activeTaskTopicID = 0
-        self.activePomodoroID = -1
+        self.setInitialActivePomoID()
         # Settings Variables
         self.autoPause = self.settings.value(autoPauseKey, defaultValue='No')
         self.autoPomo = self.settings.value(autoPomoKey, defaultValue='No')
         self.activeAlarm = self.settings.value(alarmKey, defaultValue='Actived')
-        print('testing setttings 1:')
-        print(f'auto pomo? {self.autoPomo}, auto pause? {self.autoPause}, alarm active? {self.activeAlarm}')
+        #print('testing setttings 1:')
+        #print(f'auto pomo? {self.autoPomo}, auto pause? {self.autoPause}, alarm active? {self.activeAlarm}')
 
     def setupConnections(self):
         widgets.tblTasks.cellDoubleClicked.connect(self.markTaskAsFinished)
@@ -118,8 +118,8 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         widgets.longMinutesSpinBox.setValue(int(self.settings.value(longMinutesKey, 15)))
 
         self.showNumPomodoros(0)
-        print('testing setttings 2:')
-        print(f'auto pomo? {self.autoPomo}, auto pause? {self.autoPause}, alarm active? {self.activeAlarm}')
+        #print('testing setttings 2:')
+        #print(f'auto pomo? {self.autoPomo}, auto pause? {self.autoPause}, alarm active? {self.activeAlarm}')
         self.loadTopicsInList()
         if self.autoPause == 'Yes':
             widgets.rdbtnYesPauseAuto.setChecked(True)
@@ -166,7 +166,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         msgBox.setText("Configurações aplicadas!")
         msgBox.setInformativeText("As configurações estarão ativas a partir do próximo estudo!")
         msgBox.show()
-        print('ALEGRIAA')
+        #print('ALEGRIAA')
         if widgets.rdbtnYesPomoAuto.isChecked():
             self.settings.setValue(autoPomoKey, 'Yes')
         else:
@@ -186,9 +186,9 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.autoPomo = self.settings.value(autoPomoKey, defaultValue='No')
         self.activeAlarm = self.settings.value(alarmKey, defaultValue='Actived')
 
-        print('new pause: ', self.settings.value(autoPauseKey))
-        print('new pomo: ', self.settings.value(autoPomoKey))
-        print('new alarm: ', self.settings.value(alarmKey))
+        #print('new pause: ', self.settings.value(autoPauseKey))
+        #print('new pomo: ', self.settings.value(autoPomoKey))
+        #print('new alarm: ', self.settings.value(alarmKey))
         
 
     # Pomodoro Timer Functions
@@ -216,37 +216,69 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
     def startTimer(self):
         self.allowChangeModeManually = False
         if self.currentMode == Mode.work:
-            self.createPomodoroInDB()
+            self.insertPomodoroInDB()
         try:
             if not self.timer.isActive():
                 self.createTimer()
         except:
             self.createTimer()
 
-    def createPomodoroInDB(self):
+    ################ POMODORO IN DB LOGIC.
+    
+    def setInitialActivePomoID(self):
         with DBMainOperations() as db:
-            try:
-                qry = 'SELECT * FROM topics ORDER BY pomo_id DESC LIMIT 1;'
-                lastid = db.cursor.execute(qry).fetchall()[0][0]+1
-            except:
-                lastid = 0
-            self.activePomodoroID = lastid
-            studydate = QtCore.QDate.currentDate().toString(QtCore.Qt.ISODate)
-            params = (self.activePomodoroID, False, studydate, QtCore.QTime(0, 0, 0).toString(), self.activeTaskTopicID)
-            db.populateTbl(tbl='pomodoroProgress', params=params)
-            toprint = db.getAllRecords(tbl='pomodoroProgress')
-            print('pomo adicionado:', toprint)
+            pomoRows = db.cursor.execute("SELECT COUNT(*) FROM pomodoroProgress").fetchall()[0][0]
+            if pomoRows <= 0: # Table Empty
+                activeid = 0
+            else: 
+                # Get the last id:
+                qry = 'SELECT * FROM pomodoroProgress ORDER BY pomo_id DESC LIMIT 1;'
+                activeid = db.cursor.execute(qry).fetchall()[0][0]+1
+        self.activePomoID = activeid
+
+    def insertPomodoroInDB(self):
+        isExistentInDB = self.pomoIDIsExistentInDB(pomoID=self.activePomoID)
+        print('\n')
+        print(f'pomodoro ID active: {self.activePomoID}')
+        if isExistentInDB: # Not insert, just update the value when timer tick.
+            print("i'm not insert because is (existent in DB) and not a concluded pomodoro!")
+            return
+        elif not isExistentInDB:
+            with DBMainOperations() as db:
+                studydate = QtCore.QDate.currentDate().toString(QtCore.Qt.ISODate)
+                params = (self.activePomoID, False, studydate, QtCore.QTime(0, 0, 0).toString(), 
+                            self.activeTaskTopicID)
+                db.populateTbl(tbl='pomodoroProgress', params=params)
+                toprint = db.getAllRecords(tbl='pomodoroProgress')
+                print('adding new POMO!:', toprint)
+        else:
+            pass
+
+    def pomoIDIsExistentInDB(self, pomoID):
+        with DBMainOperations() as db:
+            exist = db.cursor.execute(f"""
+                        SELECT EXISTS(SELECT 1 FROM pomodoroProgress WHERE pomo_id={pomoID});"""
+                    ).fetchall()[0][0]
+            activeIDexists = True if exist else False
+            return activeIDexists
 
     def updateTimeInDB(self):
         with DBMainOperations() as db:
-            qry = f"UPDATE pomodoroProgress SET total_time = '{self.workTime}' WHERE pomo_id = {self.activePomodoroID};" 
+            qry = f"UPDATE pomodoroProgress SET total_time = '{self.workTime.toString()}' WHERE pomo_id = {self.activePomoID};" 
             db.cursor.execute(qry)
-            print('UPDATING...\n', db.getAllRecords(tbl='pomodoroProgress'))
+            print('UPDATING... minutes: \n', db.getAllRecords(tbl='pomodoroProgress', specifcols='total_time'))
 
     def setCompletedInDB(self):
         with DBMainOperations() as db:
-            qry = f"UPDATE pomodoroProgress SET completed = True WHERE pomo_id = {self.activePomodoroID};"
+            qry = f"UPDATE pomodoroProgress SET completed = True WHERE pomo_id = {self.activePomoID};"
             db.cursor.execute(qry)
+        self.updateTimeInDB()
+        self.activePomoID += 1
+        self.workTime = QtCore.QTime(0, 0, 0, 0)
+        self.restTime = QtCore.QTime(0, 0, 0, 0)
+        self.totalTime = QtCore.QTime(0, 0, 0, 0)
+    
+    ###################
 
     def createTimer(self):
         self.timer = QtCore.QTimer()
@@ -292,10 +324,10 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             print('not enable reset!')
 
     def updateTime(self):
-        self.time = self.time.addSecs(-30)
+        self.time = self.time.addSecs(-1)
         self.totalTime = self.totalTime.addSecs(-1)
-        self.updateTimeInDB()
         if self.currentMode is Mode.work:
+            self.updateTimeInDB()
             self.workTime = self.workTime.addSecs(1)
             self.progressValue += self.workSecondPercent
         elif self.currentMode is Mode.short_rest:
@@ -306,25 +338,24 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             self.progressValue += self.longRestSecondPercent
         else:
             pass 
-
         widgets.progressBar.setValue(self.progressValue)
         self.displayTime()
 
     def maybeChangeMode(self):
-        print("="*50)
-        print(f'current mode: {self.currentMode}\nself.time: {self.time}')
-        print(f'change to long rest? {self.changeToLongRest()}')
-        print(f'current pomodoros {self.currentPomodoros}')
-        print(f'percentage of progress: {self.workSecondPercent} {self.shortRestSecondPercent} {self.longRestSecondPercent}')
-        print("="*50)
-        print(self.currentMode is Mode.work and self.time <= QtCore.QTime(0, 0, 0, 0))
+        #print("="*50)
+        #print(f'current mode: {self.currentMode}\nself.time: {self.time}')
+        #print(f'change to long rest? {self.changeToLongRest()}')
+        #print(f'current pomodoros {self.currentPomodoros}')
+        #print(f'percentage of progress: {self.workSecondPercent} {self.shortRestSecondPercent} {self.longRestSecondPercent}')
+        #print("="*50)
+        #print(self.currentMode is Mode.work and self.time <= QtCore.QTime(0, 0, 0, 0))
         if self.currentMode is Mode.work and self.time <= QtCore.QTime(0, 0, 0, 0) and not self.changeToLongRest():
             if self.activeAlarm == 'Actived':
                 playsound('././sounds/forest-birds.wav')
             self.currentPomodoros += 1
             self.setCompletedInDB()
             self.showNumPomodoros(self.currentPomodoros)
-            print("rest time, change to long rest? ", self.changeToLongRest())
+            #print("rest time, change to long rest? ", self.changeToLongRest())
             if not self.changeToLongRest():
                 self.currentMode = Mode.short_rest
                 self.setButtonsEnabled()
@@ -380,7 +411,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         widgets.lblStudyCount.setText(f'Número de estudos: {value}')
 
     def displayTime(self):
-        print(self.time.toString(self.timeFormat))
+        #print(self.time.toString(self.timeFormat))
         widgets.lcdPomodoroTimer.display(self.time.toString(self.timeFormat))
 
     def showWindowMessage(self, status):
