@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>647</width>
-    <height>480</height>
+    <height>484</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,7 +32,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="StudyPage">
       <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -583,7 +583,7 @@ border-radius: 45px;</string>
                   <property name="styleSheet">
                    <string notr="true">background-position: center;  
 background-repeat: no-repeat; 
-background-image: url(:/icons/images/icons/cil-options.png);
+background-image: url(:/icons/images/icons/cil-vertical-align-bottom.png);
 border-radius: 45px;</string>
                   </property>
                   <property name="text">
@@ -611,7 +611,7 @@ border-radius: 45px;</string>
                   <property name="styleSheet">
                    <string notr="true">background-position: center;  
 background-repeat: no-repeat; 
-background-image: url(:/icons/images/icons/cil-options.png);
+background-image: url(:/icons/images/icons/cil-share-boxed.png);
 border-radius: 45px;</string>
                   </property>
                   <property name="text">

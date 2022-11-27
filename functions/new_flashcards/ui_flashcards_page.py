@@ -14,7 +14,7 @@ from PySide6 import QtCore, QtGui, QtWidgets
 class Ui_FlashcardsPage(object):
     def setupUi(self, FlashcardsPage):
         FlashcardsPage.setObjectName("FlashcardsPage")
-        FlashcardsPage.resize(647, 480)
+        FlashcardsPage.resize(647, 484)
         self.verticalLayout = QtWidgets.QVBoxLayout(FlashcardsPage)
         self.verticalLayout.setContentsMargins(6, 6, 6, 6)
         self.verticalLayout.setSpacing(9)
@@ -265,7 +265,7 @@ class Ui_FlashcardsPage(object):
         self.btnImport.setMaximumSize(QtCore.QSize(90, 16777215))
         self.btnImport.setStyleSheet("background-position: center;  \n"
 "background-repeat: no-repeat; \n"
-"background-image: url(:/icons/images/icons/cil-options.png);\n"
+"background-image: url(:/icons/images/icons/cil-vertical-align-bottom.png);\n"
 "border-radius: 45px;")
         self.btnImport.setText("")
         self.btnImport.setObjectName("btnImport")
@@ -276,7 +276,7 @@ class Ui_FlashcardsPage(object):
         self.btnExport.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btnExport.setStyleSheet("background-position: center;  \n"
 "background-repeat: no-repeat; \n"
-"background-image: url(:/icons/images/icons/cil-options.png);\n"
+"background-image: url(:/icons/images/icons/cil-share-boxed.png);\n"
 "border-radius: 45px;")
         self.btnExport.setText("")
         self.btnExport.setObjectName("btnExport")
@@ -388,7 +388,7 @@ class Ui_FlashcardsPage(object):
         self.verticalLayout.addWidget(self.stackedWidget)
 
         self.retranslateUi(FlashcardsPage)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         self.stackedWidgetStudy.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(FlashcardsPage)
 

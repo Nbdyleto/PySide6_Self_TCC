@@ -55,7 +55,10 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.btnViewCards.clicked.connect(lambda: widgets.stackedWidgetStudy.setCurrentWidget(widgets.editCardsPage))
         widgets.btnViewCards.clicked.connect(self.loadCardsInTable)
         # Import/Export
-        widgets.btnExport.clicked.connect(lambda: ImportExport.toJson(topicid=self.topicID))
+        widgets.btnExport.clicked.connect(lambda: self.verifyTopicSelected())
+        widgets.btnImport.clicked.connect(lambda: ImportExport.toSQLite3())
+        widgets.btnImport.clicked.connect(lambda: self.loadDecksInTable())
+        widgets.btnImport.clicked.connect(lambda: self.loadTopicsInComboBox())
     
     def setupWidgets(self):
         widgets.stackedWidget.setCurrentIndex(1)
@@ -79,6 +82,16 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         self.loadDecksInTable()
         self.studedCards = 1
         self.deckID = -1
+
+    def verifyTopicSelected(self):
+        # widgets.btnExport.clicked.connect(lambda: ImportExport.toJson(topicid=self.topicID))
+        msgBox = QtWidgets.QMessageBox(self)
+        if self.topicID == -1:
+            msgBox.setText(f"Exportar tópico.")
+            msgBox.setInformativeText("Selecione um tópico na barra para possibilitar sua exportação")
+            msgBox.show()
+        else:
+            ImportExport.toJson(topicid=self.topicID)
 
     def loadDecksInTable(self, showall=True, topicid=-1):
         print("LOADING...")

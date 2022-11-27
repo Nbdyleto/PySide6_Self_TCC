@@ -12,7 +12,6 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         self.setupConnections()
         self.setupWidgets()
         self.getTotalTime()
-        self.setupCharts()
 
     def setupVariables(self):
         global widgets
@@ -61,46 +60,26 @@ class SeeProgressMainPage(QtWidgets.QWidget):
                 #qpomo = QtCore.QTime(int(hours), int(mins), int(secs))
         print('')
         print(f'{tothours}:{totmins}:{totsecs}')
-            
-    """
 
-    def setupCharts(self):
-        # flashcards temp
-        series1 = QtCharts.QPieSeries()
-        series1.append('Erros', 1)
-        series1.append('Acertos', 2)
-        slice1 = series1.slices()[1]
-        slice1.setExploded()
-        slice1.setLabelVisible()
-        slice1.setPen(QtGui.QPen(QtCore.Qt.darkGreen, 2))
-        slice1.setBrush(QtCore.Qt.green)
-        chart1 = QtCharts.QChart()
-        chart1.addSeries(series1)
-        chart1.setTitle('Simple piechart example')
-        chart1.legend().show()
-        self._chart_view1 = QtCharts.QChartView(chart1)
-        self._chart_view1.setRenderHint(QtGui.QPainter.Antialiasing)
-
-        widgets.verticalLayout_18.addWidget(self._chart_view1)    # verticalLayout_18: Flashcards Frame
-
-        # tasks temp
-        series2 = QtCharts.QPieSeries()
-        series2.append('Erros', 1)
-        series2.append('Acertos', 2)
-        slice2 = series2.slices()[1]
+    def setupFlashcardsPlot(self):
+        series = QtCharts.QPieSeries()
+        series.append('Desempenho Ótimo', 1)
+        series.append('Desempenho Ok', 2)
+        series.append('Desempenho Abaixo', 3)
+        slice2 = series.slices()[1]
         slice2.setExploded()
         slice2.setLabelVisible()
         slice2.setPen(QtGui.QPen(QtCore.Qt.darkGreen, 2))
         slice2.setBrush(QtCore.Qt.green)
         chart2 = QtCharts.QChart()
-        chart2.addSeries(series2)
+        chart2.addSeries(series)
         chart2.setTitle('Simple piechart example')
         chart2.legend().show()
         self._chart_view2 = QtCharts.QChartView(chart2)
         self._chart_view2.setRenderHint(QtGui.QPainter.Antialiasing)
-
         widgets.verticalLayout_20.addWidget(self._chart_view2)    # verticalLayout_20: Tasks Frame
 
+    def setupPomodoroPlot(self):
         #pomodoro temp
         set0 = QtCharts.QBarSet("Parwiz")
         set1 = QtCharts.QBarSet("Bob")
@@ -133,7 +112,6 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         self._chart_view3.setRenderHint(QtGui.QPainter.Antialiasing)
 
         widgets.verticalLayout_21.addWidget(self._chart_view3)
-    """
 
     def loadTopicsInComboBox(self):
         widgets.qCBoxFlashcards.clear()
