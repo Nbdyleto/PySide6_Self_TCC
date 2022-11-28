@@ -21,7 +21,7 @@ class DTaskMainPage(QtWidgets.QWidget):
         self.selectedTask, self.activeCalendar, self.activeTable = None, None, None
 
         self.filterByTopic, self.filterByStatus = False, False
-        self.activeTopicID, self.activeStatus = None, None
+        self.activeTopicID, self.activeStatus = 0, None
 
     def setupConnections(self):
         widgets.tblTasks.cellClicked.connect(self.rowClickedFunctions)
@@ -155,7 +155,7 @@ class DTaskMainPage(QtWidgets.QWidget):
         if self.isExistentInDB(row):
             widgets.lblSetInfo.setVisible(True)
             if col == 1:
-                self.loadStatusList()
+                self.loadStatusInTable()
             elif col == 2:
                 self.showInitialDate()
             elif col == 3:
@@ -182,6 +182,7 @@ class DTaskMainPage(QtWidgets.QWidget):
 
     def hideAll(self):
         self.activeTable = None
+        widgets.tblLists.setColumnCount(0)
         widgets.tblLists.clearContents()
         widgets.qCalendar.clearMask()
         widgets.lblSetInfo.setVisible(False)
@@ -189,8 +190,9 @@ class DTaskMainPage(QtWidgets.QWidget):
         widgets.tblLists.setVisible(False)
         widgets.lblSetInfo.setVisible(False)
 
-    def loadStatusList(self):
+    def loadStatusInTable(self):
         self.activeTable = 'tblStatus'
+        widgets.tblLists.setColumnCount(1)
         widgets.lblSetInfo.setText('Status:')
         widgets.tblLists.show()
         widgets.tblLists.setObjectName('tblStatus')
@@ -200,6 +202,7 @@ class DTaskMainPage(QtWidgets.QWidget):
         widgets.tblLists.setItem(2, 0, QtWidgets.QTableWidgetItem('Finalizada!'))
     
     def loadTopicsInTable(self):
+        widgets.tblLists.setColumnCount(2)
         self.activeTable = 'tblTopics'
         widgets.tblLists.show()
         widgets.tblLists.setObjectName('tblTopics')
@@ -210,11 +213,55 @@ class DTaskMainPage(QtWidgets.QWidget):
             topics = db.getAllRecords(tbl='topics')
             print(f'topics: {topics}')
         tablerow = 0
+        lastrow = len(topics)
         for row in topics:
             widgets.tblLists.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(row[1]))
+            if tablerow > 0:    # add remove topic button after row 0
+                topicid = row[0]
+                btnRemoveTopic = self.buttonToPutInTopicsRow(tablerow=tablerow, topicid=topicid)
+                widgets.tblLists.setCellWidget(tablerow, 1, btnRemoveTopic)
             tablerow += 1
-        lastrow = len(topics)
         widgets.tblLists.setItem(lastrow, 0, QtWidgets.QTableWidgetItem('Inserir novo tópico...'))
+        widgets.tblLists.setCellWidget(tablerow, 1, QtWidgets.QWidget())
+
+    def buttonToPutInTopicsRow(self, tablerow, topicid):
+        btnRemoveTopic = QtWidgets.QPushButton(widgets.tblLists)
+        btnRemoveTopic.setMinimumSize(QtCore.QSize(0, 100))
+        btnRemoveTopic.setMaximumSize(QtCore.QSize(90, 16777215))
+        btnRemoveTopic.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        btnRemoveTopic.setLayoutDirection(QtCore.Qt.LeftToRight)
+        btnRemoveTopic.setObjectName(f'btnRemoveTopic{tablerow}')
+        btnRemoveTopic.setStyleSheet(u"""
+            background-image: url(:/icons/images/icons/cil-x-circle.png);
+            background-repeat: no-repeat;
+            margin-top: 3px; 
+            border-color: transparent;
+        """)
+        btnRemoveTopic.clicked.connect(lambda: self.removeTopic(topicid=topicid))
+        return btnRemoveTopic
+
+    def removeTopic(self, topicid):
+        msgBox = QtWidgets.QMessageBox(self)
+        msgBox.setWindowTitle(f"Apagar {topicid}")
+        msgBox.setText("Tem plena convicção disso?")
+        msgBox.setInformativeText("Apagar um tópico também apagará as tarefas, flashcards e progresso associados a esse tópico.")
+        msgBox.setStandardButtons(QtWidgets.QMessageBox.Cancel | QtWidgets.QMessageBox.Apply)
+        msgBox.setDefaultButton(QtWidgets.QMessageBox.Cancel)
+        msgBox.show()
+        ret = msgBox.exec()
+
+        if ret == QtWidgets.QMessageBox.Cancel:
+            return
+        else:
+            with DBMainOperations() as db:
+                db.cursor.execute(f"DELETE FROM topics WHERE topic_id={topicid}")
+                db.cursor.execute(f"DELETE FROM tasks WHERE topic_id={topicid}")
+                db.cursor.execute(f"DELETE FROM decks WHERE topic_id={topicid}")
+                db.cursor.execute(f"DELETE FROM pomodoroProgress WHERE topic_id={topicid}")
+            self.filterByTopic, self.filterByStatus = False, False
+            self.loadTopicsInTable()
+            self.loadTopicsInList()
+            self.loadDataInTable()
 
     def showInitialDate(self):
         self.activeCalendar = 'calInitialDate'
@@ -289,6 +336,7 @@ class DTaskMainPage(QtWidgets.QWidget):
                 db.populateTbl(tbl='topics', params=(lastid, newtopic))
         self.hideAll()
         self.loadTopicsInTable()
+        self.loadTopicsInList()
         #self.loadDataInTable()
 
     def updateCalendarDate(self):
