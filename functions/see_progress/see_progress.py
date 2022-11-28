@@ -2,6 +2,7 @@ from PySide6 import QtCore, QtGui, QtWidgets, QtCharts
 from functions.db_main_operations import DBMainOperations
 
 from functions.see_progress.ui_see_progress import Ui_SeeProgressPage
+import datetime
 
 class SeeProgressMainPage(QtWidgets.QWidget):
     def __init__(self):
@@ -11,55 +12,42 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         self.setupVariables()
         self.setupConnections()
         self.setupWidgets()
-        self.getTotalTime()
 
     def setupVariables(self):
         global widgets
         widgets = self.ui
-        self.topicID = -1
+        self.topicFlashcardsID = -1
+        self.topicPomodoroID = -1
 
     def setupConnections(self):
-        widgets.qCBoxFlashcards.currentIndexChanged.connect(self.selectTopicInComboBox)
+        widgets.qCBoxFlashcards.currentIndexChanged.connect(self.selectTopicToFlashcards)
+        widgets.qCBoxPomodoro.currentIndexChanged.connect(self.selectTopicToPomodoro)
+        widgets.btnPomodoroRefresh.clicked.connect(self.setupFlashcardsStats)
+        widgets.btnPomodoroRefresh.clicked.connect(self.setupPomodoroStats)
 
     def setupWidgets(self):
         widgets.lblTotalTime.setText(f'00:00:00')
 
-    def setupStatsInWidgets(self):
-        widgets.lblCardsInTotal.setText(self.loadTotalCards(topicid=self.topicID))
-        #widgets.lblStudedCards.setText(self.loadTotalStudedCards(topicid=self.topicID))
-        badcount, okcount, goodcount, studedcards = self.loadFeedbacksCount(topicid=self.topicID)
+    def setupFlashcardsStats(self):
+        print('\n ID FLASHCARDS É O SEGUINTE: ', self.topicFlashcardsID)
+        widgets.lblCardsInTotal.setText(self.loadTotalCards(topicid=self.topicFlashcardsID))
+        badcount, okcount, goodcount, studedcards = self.loadFeedbacksCount(topicid=self.topicFlashcardsID)
         widgets.lblBadFeedbackCount.setText(badcount)
         widgets.lblOkFeedbackCount.setText(okcount)
         widgets.lblGoodFeedbackCount.setText(goodcount)
         widgets.lblStudedCards.setText(studedcards)
-        
+
+    def setupPomodoroStats(self):   
+        print('\n ID POMODORO É O SEGUINTE: ', self.topicPomodoroID)
+        widgets.lblTotalPomodoros.setText(self.loadTotalPomodoros(topicid=self.topicPomodoroID))
+        widgets.lblTotalTime.setText(self.loadTotalTimePomodoros(topicid=self.topicPomodoroID))
+
         #LOAD TABLE WITH STATUS: 
         #self.loadStatusOfDecks(topicid=self.topicID)
 
     def setupCharts(self):
-        widgets.lblTotalPomodoros = 0
-        widgets.lblTotalTime = 0
-    
+        pass
     ######## POMODORO
-
-    def getTotalTime(self):
-        with DBMainOperations() as db:
-            pomodoros = db.getAllRecords(tbl='pomodoroProgress')
-            #totaltime = QtCore.QTime(0, 0, 0, 0)
-            tothours, totmins, totsecs = 0, 0, 0
-            # pomo[0] = pomo_id
-            # pomo[1] = completed
-            # pomo[2] = study_date
-            # pomo[3] = total_time
-            # pomo[4] = topic_id
-            for pomo in pomodoros:
-                pomosplit = pomo[3].split(':')
-                tothours += int(pomosplit[0])
-                totmins += int(pomosplit[1])
-                totsecs += int(pomosplit[2])
-                #qpomo = QtCore.QTime(int(hours), int(mins), int(secs))
-        print('')
-        print(f'{tothours}:{totmins}:{totsecs}')
 
     def setupFlashcardsPlot(self):
         series = QtCharts.QPieSeries()
@@ -112,8 +100,9 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         self._chart_view3.setRenderHint(QtGui.QPainter.Antialiasing)
 
         widgets.verticalLayout_21.addWidget(self._chart_view3)
-
+    
     def loadTopicsInComboBox(self):
+        widgets.qCBoxPomodoro.clear()
         widgets.qCBoxFlashcards.clear()
         with DBMainOperations() as db:
             topics = db.getAllRecords(tbl='topics')
@@ -121,23 +110,70 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         for row in topics:
             if row[0] == 0:
                 widgets.qCBoxFlashcards.addItem('Geral')
+                widgets.qCBoxPomodoro.addItem('Geral')
                 continue
             widgets.qCBoxFlashcards.addItem(row[1])
+            widgets.qCBoxPomodoro.addItem(row[1])
             tablerow += 1
-    
-    def selectTopicInComboBox(self):
+
+    def selectTopicToFlashcards(self):
         idx = widgets.qCBoxFlashcards.currentIndex()
-        self.topicName = widgets.qCBoxFlashcards.currentText()
-        topicname = self.topicName
-        if idx == 0:    # Show geral
-            self.topicID = -1
+        self.topicFlashcardsName = widgets.qCBoxFlashcards.currentText()
+        topicname = self.topicFlashcardsName
+        if idx <= 0:    # Show geral
+            self.topicFlashcardsID = -1
         else:   # Show specific decks
             with DBMainOperations() as db:
-                self.topicID = db.getAllRecords(tbl='topics', specifcols='topic_id', whclause=f'topic_name = "{topicname}"')[0][0]
-        self.setupStatsInWidgets()
-    
+                self.topicFlashcardsID = db.getAllRecords(tbl='topics', specifcols='topic_id', 
+                                                          whclause=f'topic_name = "{topicname}"')[0][0]
+        self.setupFlashcardsStats()
+        #self.setupFlashcardsPlot()
+
+    def selectTopicToPomodoro(self):
+        idx = widgets.qCBoxPomodoro.currentIndex()
+        self.topicPomodoroName = widgets.qCBoxPomodoro.currentText()
+        topicname = self.topicPomodoroName
+        if idx <= 0:    # Show geral
+            self.topicPomodoroID = -1
+        else:   # Show specific decks
+            with DBMainOperations() as db:
+                self.topicPomodoroID = db.getAllRecords(tbl='topics', specifcols='topic_id', 
+                                                          whclause=f'topic_name = "{topicname}"')[0][0]
+        self.setupPomodoroStats()
+        #self.setupPomodoroPlot()
+
     ########################################
-    # Statistics Functions #####################################
+    # Pomodoro Statistics Functions #####################################
+
+    def loadTotalPomodoros(self, topicid=-1):
+        with DBMainOperations() as db:
+            if topicid <= 0:
+                qry = """SELECT COUNT(*) FROM pomodoroProgress"""
+                totalpomodoro = db.cursor.execute(qry).fetchall()[0][0]
+            else:
+                qry = F"SELECT COUNT(*) FROM pomodoroProgress WHERE topic_id={topicid}"
+                totalpomodoro = db.cursor.execute(qry).fetchall()[0][0]
+        return str(totalpomodoro)
+
+    def loadTotalTimePomodoros(self, topicid=-1):
+        with DBMainOperations() as db:
+            if topicid <= 0:
+                pomodoros = db.getAllRecords(tbl='pomodoroProgress', specifcols='total_time')
+                print('topicos gerais', pomodoros)
+            else: 
+                pomodoros = db.getAllRecords(tbl='pomodoroProgress', specifcols='total_time', whclause=f'topic_id={topicid}')
+                print('topico diferente tio', pomodoros)
+            #totaltime = QtCore.QTime(0, 0, 0, 0)
+            mysum = datetime.timedelta()
+            for pomo in pomodoros:
+                (h, m, s) = pomo[0].split(':')  #pomo[0] = total_time
+                d = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
+                mysum += d
+        return str(mysum)
+
+
+    ########################################
+    # Flashcards Statistics Functions #####################################
 
     def loadTotalCards(self, topicid=-1):
         totalcards = 0

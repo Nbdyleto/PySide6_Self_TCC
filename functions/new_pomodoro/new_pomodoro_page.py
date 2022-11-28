@@ -264,7 +264,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
 
     def updateTimeInDB(self):
         with DBMainOperations() as db:
-            qry = f"UPDATE pomodoroProgress SET total_time = '{self.workTime.toString()}' WHERE pomo_id = {self.activePomoID};" 
+            qry = f"UPDATE pomodoroProgress SET total_time = '{self.workTime.toString()}', topic_id = '{self.activeTaskTopicID}' WHERE pomo_id = {self.activePomoID};" 
             db.cursor.execute(qry)
             print('UPDATING... minutes: \n', db.getAllRecords(tbl='pomodoroProgress', specifcols='total_time'))
 
@@ -325,7 +325,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
 
     def updateTime(self):
         self.time = self.time.addSecs(-1)
-        self.totalTime = self.totalTime.addSecs(-1)
+        self.totalTime = self.totalTime.addSecs(-15)
         if self.currentMode is Mode.work:
             self.updateTimeInDB()
             self.workTime = self.workTime.addSecs(1)

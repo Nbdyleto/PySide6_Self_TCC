@@ -166,7 +166,8 @@ class MainWindow(QMainWindow):
             #widgets.newPomodoroPage.updateTimeInDB()
             #widgets.seeProgressPage.getTotalTime()
             widgets.seeProgressPage.loadTopicsInComboBox()
-            widgets.seeProgressPage.setupStatsInWidgets()
+            widgets.seeProgressPage.setupFlashcardsStats()
+            widgets.seeProgressPage.setupPomodoroStats()
 
         # SHOW FLASHCARDS PAGE
         if btnName == "btn_flashcards_page":
