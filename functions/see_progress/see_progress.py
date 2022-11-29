@@ -36,6 +36,7 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         widgets.lblOkFeedbackCount.setText(okcount)
         widgets.lblGoodFeedbackCount.setText(goodcount)
         widgets.lblStudedCards.setText(studedcards)
+        self.loadSatisfatoryOrUnsatisfatory(topicid=self.topicFlashcardsID)
 
     def setupPomodoroStats(self):   
         print('\n ID POMODORO É O SEGUINTE: ', self.topicPomodoroID)
@@ -192,22 +193,56 @@ class SeeProgressMainPage(QtWidgets.QWidget):
     def loadFeedbacksCount(self, topicid=-1):
         with DBMainOperations() as db:
             if topicid == -1:
-                qry1 = f"""SELECT SUM(bad_feedback) FROM decks"""
-                qry2 = f"""SELECT SUM(ok_feedback) FROM decks"""
-                qry3 = f"""SELECT SUM(good_feedback) FROM decks"""
-                badcount = db.cursor.execute(qry1).fetchall()[0][0]
-                okcount = db.cursor.execute(qry2).fetchall()[0][0]
-                goodcount = db.cursor.execute(qry3).fetchall()[0][0]
-                studedcards = badcount + okcount + goodcount
+                exist = db.cursor.execute(f"""
+                            SELECT EXISTS(SELECT 1 FROM decks);"""
+                        ).fetchall()[0][0]
             else:
-                qry1 = f"""SELECT bad_feedback FROM decks WHERE topic_id = {topicid}"""
-                qry2 = f"""SELECT ok_feedback FROM decks WHERE topic_id = {topicid}"""
-                qry3 = f"""SELECT good_feedback FROM decks WHERE topic_id = {topicid}"""
-                badcount = db.cursor.execute(qry1).fetchall()[0][0]
-                okcount = db.cursor.execute(qry2).fetchall()[0][0]
-                goodcount = db.cursor.execute(qry3).fetchall()[0][0]
-                studedcards = badcount + okcount + goodcount
-        return str(badcount), str(okcount), str(goodcount), str(studedcards)
-    
-    def loadStatusOfDecks(self, topicid=-1):
-        pass
+                exist = db.cursor.execute(f"""
+                            SELECT EXISTS(SELECT 1 FROM decks WHERE topic_id = {topicid});"""
+                        ).fetchall()[0][0]
+            existAtLeastACard = True if exist == 1 else False
+            if existAtLeastACard:
+                if topicid == -1:
+                    qry1 = f"""SELECT SUM(bad_feedback) FROM decks"""
+                    qry2 = f"""SELECT SUM(ok_feedback) FROM decks"""
+                    qry3 = f"""SELECT SUM(good_feedback) FROM decks"""
+                    badcount = db.cursor.execute(qry1).fetchall()[0][0]
+                    okcount = db.cursor.execute(qry2).fetchall()[0][0]
+                    goodcount = db.cursor.execute(qry3).fetchall()[0][0]
+                    studedcards = badcount + okcount + goodcount
+                else:
+                    qry1 = f"""SELECT bad_feedback FROM decks WHERE topic_id = {topicid}"""
+                    qry2 = f"""SELECT ok_feedback FROM decks WHERE topic_id = {topicid}"""
+                    qry3 = f"""SELECT good_feedback FROM decks WHERE topic_id = {topicid}"""
+                    badcount = db.cursor.execute(qry1).fetchall()[0][0]
+                    okcount = db.cursor.execute(qry2).fetchall()[0][0]
+                    goodcount = db.cursor.execute(qry3).fetchall()[0][0]
+                    studedcards = badcount + okcount + goodcount
+                return str(badcount), str(okcount), str(goodcount), str(studedcards)
+            else:
+                return '0', '0', '0', '0'
+
+    def loadSatisfatoryOrUnsatisfatory(self, topicid=-1):
+
+        with DBMainOperations() as db:
+
+            if topicid == -1:
+                decks = db.getAllRecords(tbl='decks')
+            else:
+                decks = db.getAllRecords(tbl='decks', whclause=f'topic_id = {topicid}')
+            satisfatory, unsatisfatory = [], []
+            for deck in decks:
+                if deck[2] > 50:
+                    satisfatory.append((deck[1], f'{deck[2]}%'))
+                else:
+                    unsatisfatory.append((deck[1], f'{deck[2]}%'))
+        widgets.listSatisfatoryDecks.clear()
+        widgets.listUnsatisfatoryDecks.clear()
+        for deck in satisfatory:
+            item = QtWidgets.QListWidgetItem()
+            item.setText(f'{deck[0]}, {deck[1]}')
+            widgets.listSatisfatoryDecks.addItem(item)
+        for deck in unsatisfatory:
+            item = QtWidgets.QListWidgetItem()
+            item.setText(f'{deck[0]}, {deck[1]}')
+            widgets.listUnsatisfatoryDecks.addItem(item)

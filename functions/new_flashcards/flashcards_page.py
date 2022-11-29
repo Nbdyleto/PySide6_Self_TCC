@@ -128,8 +128,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
 
     def selectTopicInComboBox(self):
         idx = widgets.classComboBox.currentIndex()
-        self.topicName = widgets.classComboBox.currentText()
-        topicname = self.topicName
+        topicname = widgets.classComboBox.currentText()
         if idx == 0:    # Show geral
             self.topicID = -1
             self.loadDecksInTable(showall=True, topicid=self.topicID)
@@ -274,12 +273,13 @@ class MainFlashcardsPage(QtWidgets.QWidget):
     def loadStudyInfo(self, deckid):
         self.deckID = deckid
         self.loadCardsInTable()
-        deckcols = 'deck_name, hits_percentage'
+        deckcols = 'deck_name, hits_percentage, topic_id'
         cardcols = 'card_question, card_answer'
         with DBMainOperations() as db:
             deck = db.getAllRecords(tbl='decks', specifcols=(deckcols), whclause=f'deck_id={deckid}')
             deckcols = [col for col in deck[0]]
-            deckname, deckperc = deckcols[0], deckcols[1]
+            deckname, deckperc, topicid = deckcols[0], deckcols[1], deckcols[2]
+            topicname = db.getAllRecords(tbl='topics', specifcols='topic_name', whclause=f'topic_id={topicid}')[0][0]
             flashcards = db.getAllRecords(tbl='flashcards', specifcols=(cardcols), whclause=f'deck_id={deckid}')
             self.cardsTotal = len(flashcards)
             random.shuffle(flashcards)
@@ -291,6 +291,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             widgets.textEditAnswer.setVisible(False)
             widgets.lblCardsCount.setText(f'{self.studedCards}/{self.cardsTotal}')
             widgets.lblDeckName.setText(deckname)
+            widgets.btnClassName.setText(topicname)
             widgets.progressBar.setValue(0)
             widgets.stackedWidget.setCurrentWidget(widgets.StudyPage)
         except: # If not exist cards.
