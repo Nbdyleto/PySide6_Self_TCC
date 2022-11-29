@@ -69,7 +69,17 @@ class ImportExport:
                 ).fetchall()[0][0]
                 if exists == 0: # not existent, so, populate tbl topics.
                     qry = 'SELECT * FROM decks ORDER BY deck_id DESC LIMIT 1;'
-                    lastDeckID = activeDeckID = db.cursor.execute(qry).fetchall()[0][0]+1
+
+                    exist = db.cursor.execute(f"""
+                        SELECT EXISTS(SELECT 1 FROM decks);"""
+                    ).fetchall()[0][0]
+                    existAtLeastADeck = True if exist == 1 else False
+                    print('existAtLeastADeck:', existAtLeastADeck)
+                    if existAtLeastADeck:
+                        lastDeckID = activeDeckID = db.cursor.execute(qry).fetchall()[0][0]+1
+                    else:
+                        lastDeckID = activeDeckID = 0
+
                     db.populateTbl(tbl='decks', params=(activeDeckID, deckname, 0, 0, 0, 0, activeTopicID))
                 else:
                     activeDeckID = db.getAllRecords(tbl='decks', specifcols='deck_id', 

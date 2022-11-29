@@ -259,7 +259,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             exist = db.cursor.execute(f"""
                         SELECT EXISTS(SELECT 1 FROM pomodoroProgress WHERE pomo_id={pomoID});"""
                     ).fetchall()[0][0]
-            activeIDexists = True if exist else False
+            activeIDexists = True if exist == 1 else False
             return activeIDexists
 
     def updateTimeInDB(self):

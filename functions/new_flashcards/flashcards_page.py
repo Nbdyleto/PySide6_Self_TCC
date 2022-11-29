@@ -81,6 +81,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
     def resetPage(self):
         self.loadDecksInTable()
         self.studedCards = 1
+        self.topicID = -1
         self.deckID = -1
 
     def verifyTopicSelected(self):
@@ -145,6 +146,9 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             self, "Novo Tópico", "Entre com o nome do novo tópico:")
         with DBMainOperations() as db:
             if inputstatus:
+                # not need a exists clause to verify the existence, 
+                # because if all topics are removed,
+                # there are the topic_id 0, that returns "" to topic_name.
                 qry = 'SELECT * FROM topics ORDER BY topic_id DESC LIMIT 1;'
                 lastid = db.cursor.execute(qry).fetchall()[0][0]+1
                 db.populateTbl(tbl='topics', params=(lastid, newtopic))
@@ -226,11 +230,24 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         else:
             newdeck, inputstatus = QtWidgets.QInputDialog.getText(self, f"Novo Deck em {self.topicName}", "Entre com o nome do novo deck:")
             with DBMainOperations() as db:
-                if inputstatus:
-                    qry = 'SELECT * FROM decks ORDER BY deck_id DESC LIMIT 1;'
-                    lastid = db.cursor.execute(qry).fetchall()[0][0]+1
-                    db.populateTbl(tbl='decks', params=(lastid, newdeck, 0, 0, 0, 0, self.topicID))
-            self.loadDecksInTable(showall=False, topicid=self.topicID)
+                exist = db.cursor.execute(f"""
+                        SELECT EXISTS(SELECT 1 FROM decks);"""
+                    ).fetchall()[0][0]
+                existAtLeastADeck = True if exist == 1 else False
+                print('existAtLeastADeck:', existAtLeastADeck)
+                if existAtLeastADeck:
+                    print("ADICIONANDO VALOR PARA TABLE CHEIA")
+                    if inputstatus:
+                        qry = 'SELECT * FROM decks ORDER BY deck_id DESC LIMIT 1;'
+                        lastid = db.cursor.execute(qry).fetchall()[0][0]+1
+                        db.populateTbl(tbl='decks', params=(lastid, newdeck, 0, 0, 0, 0, self.topicID))
+                else:
+                    print("ADICIONANDO UM NOVO VALOR PARA UMA TABELA VAZIA!")
+                    if inputstatus:
+                        lastid = 0
+                        db.populateTbl(tbl='decks', params=(lastid, newdeck, 0, 0, 0, 0, self.topicID))
+
+                self.loadDecksInTable(showall=False, topicid=self.topicID)
     
     def editDeck(self, deckid):
         newvalue, inputstatus = QtWidgets.QInputDialog.getText(self, "Alterar Nome", "Entre com o novo nome do deck:")
