@@ -89,7 +89,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         msgBox = QtWidgets.QMessageBox(self)
         if self.topicID == -1:
             msgBox.setText(f"Exportar tópico.")
-            msgBox.setInformativeText("Selecione um tópico na barra para possibilitar sua exportação")
+            msgBox.setInformativeText("Selecione um tópico na barra geral para possibilitar sua exportação")
             msgBox.show()
         else:
             ImportExport.toJson(topicid=self.topicID)
@@ -224,7 +224,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         if self.topicID == -1:
             msgBox = QtWidgets.QMessageBox(self)
             msgBox.setText(f"Adição de deck.")
-            msgBox.setInformativeText("Selecione um tópico na barra para possibilitar a adição de um novo deck")
+            msgBox.setInformativeText("Selecione um tópico na barra geral para possibilitar a adição de um novo deck")
             msgBox.show()
         else:
             newdeck, inputstatus = QtWidgets.QInputDialog.getText(self, f"Novo Deck em {self.topicName}", "Entre com o nome do novo deck:")
