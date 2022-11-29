@@ -94,7 +94,6 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             ImportExport.toJson(topicid=self.topicID)
 
     def loadDecksInTable(self, showall=True, topicid=-1):
-        print("LOADING...")
         if showall and topicid == -1:
             with DBMainOperations() as db:
                 rowcount = db.getRowCount(tbl='decks')
@@ -113,8 +112,6 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             self.loadWidgetsInRow(tablerow)
             tablerow+=1
 
-        print(decks)
-
     def loadTopicsInComboBox(self):
         widgets.classComboBox.clear()
         with DBMainOperations() as db:
@@ -130,7 +127,6 @@ class MainFlashcardsPage(QtWidgets.QWidget):
 
     def selectTopicInComboBox(self):
         idx = widgets.classComboBox.currentIndex()
-        print('IDX É O SEGUINTE', idx)
         self.topicName = widgets.classComboBox.currentText()
         topicname = self.topicName
         if idx == 0:    # Show geral
@@ -138,7 +134,6 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             self.loadDecksInTable(showall=True, topicid=self.topicID)
         elif idx == widgets.classComboBox.count()-1 and idx != -1: # Add topic
             self.topicID = -1
-            print('last row!')
             self.addNewTopic()
         else:   # Show specific decks
             with DBMainOperations() as db:
@@ -152,7 +147,6 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             if inputstatus:
                 qry = 'SELECT * FROM topics ORDER BY topic_id DESC LIMIT 1;'
                 lastid = db.cursor.execute(qry).fetchall()[0][0]+1
-                print('lastid:', lastid)
                 db.populateTbl(tbl='topics', params=(lastid, newtopic))
                 self.loadTopicsInComboBox()
                 msgBox = QtWidgets.QMessageBox(self)
@@ -235,7 +229,6 @@ class MainFlashcardsPage(QtWidgets.QWidget):
                 if inputstatus:
                     qry = 'SELECT * FROM decks ORDER BY deck_id DESC LIMIT 1;'
                     lastid = db.cursor.execute(qry).fetchall()[0][0]+1
-                    print('lastid:', lastid)
                     db.populateTbl(tbl='decks', params=(lastid, newdeck, 0, 0, 0, 0, self.topicID))
             self.loadDecksInTable(showall=False, topicid=self.topicID)
     
@@ -261,9 +254,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
     # Study Cards Functions #####################################
 
     def loadStudyInfo(self, deckid):
-        print('ID: ', self.deckID)
         self.deckID = deckid
-        print('ID APOS: ', self.deckID)
         self.loadCardsInTable()
         deckcols = 'deck_name, hits_percentage'
         cardcols = 'card_question, card_answer'
@@ -292,8 +283,6 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.textEditAnswer.setVisible(True)
 
     def nextFlashcard(self, emoji=None):
-
-        print('id NEXT: ', self.deckID)
 
         # Study Progress
         if emoji == "bad":
@@ -389,11 +378,9 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         try:
             with DBMainOperations() as db:
                 cards = db.getAllRecords(tbl='flashcards', whclause=f'deck_id = {deckid}')
-                #print(f'{tasks}')
                 widgets.tblEditFlashcards.setRowCount(len(cards))
             tablerow = 0
             for row in cards:
-                #print('\n', row)
                 widgets.tblEditFlashcards.setRowHeight(tablerow, 50)
                 cardid, question, answer = row[0], row[1], row[2]
                 btnRemoveCard = self.buttonToPutInRow(tablerow, cardid)
