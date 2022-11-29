@@ -244,7 +244,8 @@ class MainFlashcardsPage(QtWidgets.QWidget):
 
     def removeDeck(self, deckid):
         with DBMainOperations() as db:
-            db.cursor.execute(f"DELETE from decks WHERE deck_id={deckid}")
+            db.cursor.execute(f"DELETE FROM decks WHERE deck_id={deckid}")
+            db.cursor.execute(f"DELETE FROM flashcards WHERE deck_id={deckid}")
         if self.topicID == -1:
             self.loadDecksInTable(showall=True, topicid=-1)
         else:

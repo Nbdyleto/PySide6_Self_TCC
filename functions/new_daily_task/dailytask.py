@@ -112,6 +112,10 @@ class DTaskMainPage(QtWidgets.QWidget):
 
                 tablerow += 1 
             widgets.tblTasks.setRowHeight(tablerow, 50)
+            ## SET LAST ROW VALUES:
+            lastrow = len(tasks)
+            widgets.tblTasks.setItem(lastrow, 0, QtWidgets.QTableWidgetItem('Duplo clique para inserir...'))
+            widgets.tblTasks.setCellWidget(tablerow, 1, QtWidgets.QWidget())
         except Exception as e:
             print('ERROR: ', e)
 
