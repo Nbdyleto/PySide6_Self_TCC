@@ -12,12 +12,19 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         self.setupVariables()
         self.setupConnections()
         self.setupWidgets()
+        self.setupFlashcardsPlot()
 
     def setupVariables(self):
         global widgets
         widgets = self.ui
         self.topicFlashcardsID = -1
         self.topicPomodoroID = -1
+
+        self._chart_view2 = QtCharts.QChartView()
+        self._chart_view2.setRenderHint(QtGui.QPainter.Antialiasing)
+
+        self._chart_view3 = QtCharts.QChartView()
+        self._chart_view3.setRenderHint(QtGui.QPainter.Antialiasing)
 
     def setupConnections(self):
         widgets.qCBoxFlashcards.currentIndexChanged.connect(self.selectTopicToFlashcards)
@@ -32,10 +39,10 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         print('\n ID FLASHCARDS É O SEGUINTE: ', self.topicFlashcardsID)
         widgets.lblCardsInTotal.setText(self.loadTotalCards(topicid=self.topicFlashcardsID))
         badcount, okcount, goodcount, studedcards = self.loadFeedbacksCount(topicid=self.topicFlashcardsID)
-        widgets.lblBadFeedbackCount.setText(badcount)
-        widgets.lblOkFeedbackCount.setText(okcount)
-        widgets.lblGoodFeedbackCount.setText(goodcount)
-        widgets.lblStudedCards.setText(studedcards)
+        widgets.lblBadFeedbackCount.setText(str(badcount))
+        widgets.lblOkFeedbackCount.setText(str(okcount))
+        widgets.lblGoodFeedbackCount.setText(str(goodcount))
+        widgets.lblStudedCards.setText(str(studedcards))
         self.loadSatisfatoryOrUnsatisfatory(topicid=self.topicFlashcardsID)
 
     def setupPomodoroStats(self):   
@@ -51,24 +58,30 @@ class SeeProgressMainPage(QtWidgets.QWidget):
     ######## POMODORO
 
     def setupFlashcardsPlot(self):
+        widgets.verticalLayout_18.removeWidget(self._chart_view2)
+        print("selecting...")
+        badcount, okcount, goodcount, studedcards = self.loadFeedbacksCount(topicid=self.topicFlashcardsID)
         series = QtCharts.QPieSeries()
-        series.append('Desempenho Ótimo', 1)
-        series.append('Desempenho Ok', 2)
-        series.append('Desempenho Abaixo', 3)
-        slice2 = series.slices()[1]
-        slice2.setExploded()
-        slice2.setLabelVisible()
-        slice2.setPen(QtGui.QPen(QtCore.Qt.darkGreen, 2))
-        slice2.setBrush(QtCore.Qt.green)
+        series.append('Desempenho Abaixo', badcount)
+        series.append('Desempenho Ok', okcount)
+        series.append('Desempenho Ótimo', goodcount)
+        if badcount == 0 and okcount == 0 and goodcount == 0:
+            pass
+        else:
+            slice2 = series.slices()[1]
+            slice2.setExploded()
+            slice2.setPen(QtGui.QPen(QtCore.Qt.darkGreen, 0))
+            slice2.setBrush(QtCore.Qt.green)
         chart2 = QtCharts.QChart()
         chart2.addSeries(series)
         chart2.setTitle('Simple piechart example')
         chart2.legend().show()
         self._chart_view2 = QtCharts.QChartView(chart2)
         self._chart_view2.setRenderHint(QtGui.QPainter.Antialiasing)
-        widgets.verticalLayout_20.addWidget(self._chart_view2)    # verticalLayout_20: Tasks Frame
+        widgets.verticalLayout_18.addWidget(self._chart_view2)    # verticalLayout_20: Tasks Frame
 
     def setupPomodoroPlot(self):
+        widgets.verticalLayout_21.removeWidget(self._chart_view3)
         #pomodoro temp
         set0 = QtCharts.QBarSet("Parwiz")
         set1 = QtCharts.QBarSet("Bob")
@@ -99,7 +112,6 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         chart3.legend().setAlignment(QtCore.Qt.AlignBottom)
         self._chart_view3 = QtCharts.QChartView(chart3)
         self._chart_view3.setRenderHint(QtGui.QPainter.Antialiasing)
-
         widgets.verticalLayout_21.addWidget(self._chart_view3)
     
     def loadTopicsInComboBox(self):
@@ -127,8 +139,8 @@ class SeeProgressMainPage(QtWidgets.QWidget):
             with DBMainOperations() as db:
                 self.topicFlashcardsID = db.getAllRecords(tbl='topics', specifcols='topic_id', 
                                                           whclause=f'topic_name = "{topicname}"')[0][0]
-        self.setupFlashcardsStats()
-        #self.setupFlashcardsPlot()
+            self.setupFlashcardsStats()
+            self.setupFlashcardsPlot()
 
     def selectTopicToPomodoro(self):
         idx = widgets.qCBoxPomodoro.currentIndex()
@@ -140,8 +152,8 @@ class SeeProgressMainPage(QtWidgets.QWidget):
             with DBMainOperations() as db:
                 self.topicPomodoroID = db.getAllRecords(tbl='topics', specifcols='topic_id', 
                                                           whclause=f'topic_name = "{topicname}"')[0][0]
-        self.setupPomodoroStats()
-        #self.setupPomodoroPlot()
+            self.setupPomodoroStats()
+            self.setupPomodoroPlot()
 
     ########################################
     # Pomodoro Statistics Functions #####################################
@@ -218,9 +230,9 @@ class SeeProgressMainPage(QtWidgets.QWidget):
                     okcount = db.cursor.execute(qry2).fetchall()[0][0]
                     goodcount = db.cursor.execute(qry3).fetchall()[0][0]
                     studedcards = badcount + okcount + goodcount
-                return str(badcount), str(okcount), str(goodcount), str(studedcards)
+                return badcount, okcount, goodcount, studedcards
             else:
-                return '0', '0', '0', '0'
+                return 0, 0, 0, 0
 
     def loadSatisfatoryOrUnsatisfatory(self, topicid=-1):
 
