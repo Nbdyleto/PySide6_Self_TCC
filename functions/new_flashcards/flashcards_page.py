@@ -227,7 +227,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             msgBox.setInformativeText("Selecione um tópico na barra geral para possibilitar a adição de um novo deck")
             msgBox.show()
         else:
-            newdeck, inputstatus = QtWidgets.QInputDialog.getText(self, f"Novo Deck em {self.topicName}", "Entre com o nome do novo deck:")
+            newdeck, inputstatus = QtWidgets.QInputDialog.getText(self, f"Novo Deck em {self.topicID}", "Entre com o nome do novo deck:")
             with DBMainOperations() as db:
                 exist = db.cursor.execute(f"""
                         SELECT EXISTS(SELECT 1 FROM decks);"""
@@ -374,7 +374,15 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         verse = widgetsAdd.plainTextEditVerse.toPlainText()
         if front and verse != "":
             with DBMainOperations() as db:
-                lastid = db.cursor.execute('SELECT * FROM flashcards ORDER BY card_id DESC LIMIT 1;').fetchall()[0][0]+1
+                exist = db.cursor.execute(f"""
+                        SELECT EXISTS(SELECT 1 FROM flashcards);"""
+                    ).fetchall()[0][0]
+                existAtLeastACard = True if exist == 1 else False
+                print('existAtLeastACard:', existAtLeastACard)
+                if existAtLeastACard:
+                    lastid = db.cursor.execute('SELECT * FROM flashcards ORDER BY card_id DESC LIMIT 1;').fetchall()[0][0]+1
+                else:
+                    lastid = 0
                 db.populateTbl(tbl='flashcards', params=(lastid, front, verse, deckid))
                 print(f'added: front: {front}, verse: {verse}')
                 widgetsAdd.plainTextEditFront.clear()

@@ -1,15 +1,49 @@
 [
     {
-        "deck_name": "Chupetinha",
-        "topic_name": "Matem\u00e1tica",
+        "deck_name": "ETEC Humanas",
+        "topic_name": "ETEC",
         "flashcards": [
             [
                 "T1",
-                "T1"
+                "T2"
             ],
             [
-                "T2",
-                "T2"
+                "T3",
+                "T3"
+            ],
+            [
+                "T4",
+                "T4"
+            ],
+            [
+                "T5",
+                "T5"
+            ]
+        ]
+    },
+    {
+        "deck_name": "ETEC Exatas",
+        "topic_name": "ETEC",
+        "flashcards": [
+            [
+                "E1",
+                "E1"
+            ],
+            [
+                "E2",
+                "E2"
+            ],
+            [
+                "E3",
+                "E3"
+            ],
+            [
+                "E4",
+                "E4"
+            ],
+            [
+                "E5",
+                "E5"
             ]
         ]
     }

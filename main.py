@@ -36,35 +36,70 @@ class MainWindow(QMainWindow):
             ################# TOPICS
 
             db.populateTbl(tbl='topics', params=(0, ""))
-            db.populateTbl(tbl='topics', params=(1, "Matemática"))
-            db.populateTbl(tbl='topics', params=(2, "Física"))
-            db.populateTbl(tbl='topics', params=(3, "Química"))
-            db.populateTbl(tbl='topics', params=(4, "TCC"))
+            db.populateTbl(tbl='topics', params=(1, "Enem"))
+            db.populateTbl(tbl='topics', params=(2, "Fuvest"))
 
             ################# FLASHCARDS
 
-            db.populateTbl(tbl='decks', params=(0, "Cálculos Básicos", 0, 0, 0, 0, 1))
-            db.populateTbl(tbl='decks', params=(1, "Genética", 0, 0, 0, 0, 3))
-            db.populateTbl(tbl='decks', params=(2, "Polaridade", 0, 0, 0, 0, 3))
-            db.populateTbl(tbl='decks', params=(3, "Leis de Newton", 0, 0, 0, 0, 2))
+            db.populateTbl(tbl='decks', params=(0, "Enem Humanas", 67.3, 10, 3, 5, 1))
+            db.populateTbl(tbl='decks', params=(1, "Enem Exatas", 77.4, 12, 7, 10, 1))
+            db.populateTbl(tbl='decks', params=(2, "Fuvest Humanas", 59.1, 5, 10, 5, 2))
+            db.populateTbl(tbl='decks', params=(3, "Fuvest Exatas", 70.5, 5, 3, 6, 2))
 
-            db.populateTbl(tbl='flashcards', params=(0, "Quantos é 2+3?", "5", 0))
-            db.populateTbl(tbl='flashcards', params=(1, "Raiz quadrada de 7", "49", 0))
-            db.populateTbl(tbl='flashcards', params=(2, "Quantos é 9*7?", "63", 0))
-            
-            db.populateTbl(tbl='flashcards', params=(3, "Qual o maior osso humano?", "Fêmur", 1))
-            db.populateTbl(tbl='flashcards', params=(4, "Quantos ossos possuem o ser humano?", "206", 1))
-
-            db.populateTbl(tbl='flashcards', params=(5, "Qual é a primeira lei de Newton?", "Princípio da Inércia", 3))
-            db.populateTbl(tbl='flashcards', params=(6, "No que consiste a primeira lei?", "Um objeto em repouso ou movimento retilíneo uniforme tende a permanecer nesse estado se a força resultante sobre ele é nula.", 3))
+            db.populateTbl(tbl='flashcards', params=(0, "Antitese pode ser classificada como?", "Uma figura de linguagem", 0))
+            db.populateTbl(tbl='flashcards', params=(1, "Quem foi a pessoa que sancionou a Lei Áurea?", "Princesa Isabel", 0))
+            db.populateTbl(tbl='flashcards', params=(2, "Qual a principal caracteristica do estoicismo?", "o pensamento de que todo o cosmos é regido por uma harmonia que determina todos os acontecimentos.", 0))
+            db.populateTbl(tbl='flashcards', params=(3, 
+                """A caixa-d’água de um edifício terá a forma de um paralelepípedo retângulo reto 
+                com volume igual a 28 080 litros. Em uma maquete que representa o edifício, a caixa-d’água tem 
+                dimensões 2 cm × 3,51 cm × 4 cm. Dado: 1 dm³ = 1 L, A escala usada pelo arquiteto foi: """, "1 : 100", 1))
+            db.populateTbl(tbl='flashcards', params=(4, "Qual o uso adequado da hiperbole?", "Ela é utilizada para passar uma ideia de intensidade por meio de expressões exageradas intencionalmente", 3))
+            db.populateTbl(tbl='flashcards', params=(5, "uais paises faziam parte dos aliados na segunda guerra mundial?", "Os aliados eram Estados Unidos, Inglaterra, França e União sovietica.", 2))
+            db.populateTbl(tbl='flashcards', params=(6, "Diferencie acidos e bases", "Um ácido será toda espécie química que sobre ionização liberando como único cátion o H+ em meio aquoso. Já as bases, sofrem dissociação liberando como único ânion o OH-", 3))
+            db.populateTbl(tbl='flashcards', params=(7, "Qual a função da mitocondria?", "As mitocôndrias são organelas celulares relacionadas com o processo de respiração celular", 1))
 
             ################# TASKS
 
-            db.populateTbl('tasks', params=(0, 'Apresentar TCC', 'Em Progresso...', '2022-10-24', '2022-10-25', 4))
-            db.populateTbl('tasks', params=(1, 'Resolver questões de matemática', 'Não Iniciada.', '2022-10-22', '2022-10-25', 1))
-            db.populateTbl('tasks', params=(2, 'Resolver questões sobre genética', 'Não Iniciada.', '2022-10-22', '2022-10-22', 3))
-            db.populateTbl('tasks', params=(3, 'Desenvolver funcionalidade Pomodoro', 'Em Progresso...', '2022-10-20', '2022-10-27', 4))
-            db.populateTbl('tasks', params=(4, 'Fazer Simulado do ENEM 2020', 'Não Iniciada.', '2022-10-20', '2022-10-25', 0))
+            db.populateTbl(tbl='tasks', params=(0, 'Resolver simulado do ENEM 2019', 'Em Progresso...', '2022-11-24', 
+                               '2022-11-24', 1))
+            db.populateTbl(tbl='tasks', params=(1, 'Resolução de exercícios envolvendo parábola.', 'Finalizada!', '2022-11-24', 
+                               '2022-11-29', 1))
+            db.populateTbl(tbl='tasks', params=(2, 'Estudo e análise de problemas matemáticos', 'Finalizada!', '2022-11-26', 
+                               '2022-11-30', 0))
+            db.populateTbl(tbl='tasks', params=(3, 'Estudo, utilizando pomodoro, envolvendo Biologia Celular', 'Não Iniciada...', '2022-11-29', 
+                               '2022-11-30', 1))
+            db.populateTbl(tbl='tasks', params=(4, 'Realizar uma redação com o tema do ENEM 2022', 'Não Iniciada.', '2022-11-02', 
+                               '2022-11-24', 1))
+            db.populateTbl(tbl='tasks', params=(5, 'Elaborar uma redação que envolva os conteúdos estudados', 'Não Iniciada.', '2022-11-24', 
+                               '2022-11-24', 2))
+            db.populateTbl(tbl='tasks', params=(6, 'Estudo, utilizando pomodoro, envolvendo Redes', 'Não Iniciada...', '2022-11-29', 
+                               '2022-11-30', 0))
+            #db.populateTbl('tasks', params=(0, 'Apresentar TCC', 'Em Progresso...', '2022-10-24', '2022-10-25', 4))
+            #db.populateTbl('tasks', params=(1, 'Resolver questões de matemática', 'Não Iniciada.', '2022-10-22', '2022-10-25', 1))
+            #db.populateTbl('tasks', params=(2, 'Resolver questões sobre genética', 'Não Iniciada.', '2022-10-22', '2022-10-22', 3))
+            #db.populateTbl('tasks', params=(3, 'Desenvolver funcionalidade Pomodoro', 'Em Progresso...', '2022-10-20', '2022-10-27', 4))
+            #db.populateTbl('tasks', params=(4, 'Fazer Simulado do ENEM 2020', 'Não Iniciada.', '2022-10-20', '2022-10-25', 0))
+
+            ################### POMODORO
+            db.populateTbl(tbl='pomodoroProgress', params=(0, True, '25-05-2022', '00:25:00', 2))
+            db.populateTbl(tbl='pomodoroProgress', params=(1, True, '25-05-2022', '00:25:00', 2))
+            db.populateTbl(tbl='pomodoroProgress', params=(2, True, '25-05-2022', '00:25:00', 2))
+            db.populateTbl(tbl='pomodoroProgress', params=(3, True, '25-05-2022', '00:24:30', 2))
+            db.populateTbl(tbl='pomodoroProgress', params=(4, True, '25-05-2022', '00:25:00', 1))
+            db.populateTbl(tbl='pomodoroProgress', params=(5, True, '25-05-2022', '00:21:20', 1))
+            db.populateTbl(tbl='pomodoroProgress', params=(6, True, '25-05-2022', '00:25:20', 1))
+            db.populateTbl(tbl='pomodoroProgress', params=(7, True, '25-05-2022', '00:25:00', 1))
+            db.populateTbl(tbl='pomodoroProgress', params=(8, True, '25-05-2022', '00:22:00', 1))
+            db.populateTbl(tbl='pomodoroProgress', params=(9, True, '25-05-2022', '00:35:00', 1))
+            db.populateTbl(tbl='pomodoroProgress', params=(10, True, '25-05-2022', '00:25:00', 1))
+            db.populateTbl(tbl='pomodoroProgress', params=(11, True, '25-05-2022', '00:25:00', 2))
+            db.populateTbl(tbl='pomodoroProgress', params=(12, True, '25-05-2022', '00:22:00', 1))
+            db.populateTbl(tbl='pomodoroProgress', params=(13, True, '25-05-2022', '00:35:00', 1))
+            db.populateTbl(tbl='pomodoroProgress', params=(14, True, '25-05-2022', '00:25:00', 2))
+            db.populateTbl(tbl='pomodoroProgress', params=(15, True, '25-05-2022', '00:25:00', 1))
+            db.populateTbl(tbl='pomodoroProgress', params=(16, True, '25-05-2022', '00:22:00', 2))
+            db.populateTbl(tbl='pomodoroProgress', params=(17, True, '25-05-2022', '00:35:00', 2))
+            db.populateTbl(tbl='pomodoroProgress', params=(18, True, '25-05-2022', '00:25:00', 1))
 
         QMainWindow.__init__(self)
 

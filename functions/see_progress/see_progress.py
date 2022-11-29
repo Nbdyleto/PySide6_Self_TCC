@@ -13,6 +13,7 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         self.setupConnections()
         self.setupWidgets()
         self.setupFlashcardsPlot()
+        self.setupPomodoroPlot()
 
     def setupVariables(self):
         global widgets
@@ -20,11 +21,11 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         self.topicFlashcardsID = -1
         self.topicPomodoroID = -1
 
-        self._chart_view2 = QtCharts.QChartView()
-        self._chart_view2.setRenderHint(QtGui.QPainter.Antialiasing)
+        self._chart_view2 = None
+        #self._chart_view2.setRenderHint(QtGui.QPainter.Antialiasing)
 
-        self._chart_view3 = QtCharts.QChartView()
-        self._chart_view3.setRenderHint(QtGui.QPainter.Antialiasing)
+        self._chart_view3 = None
+        #self._chart_view3.setRenderHint(QtGui.QPainter.Antialiasing)
 
     def setupConnections(self):
         widgets.qCBoxFlashcards.currentIndexChanged.connect(self.selectTopicToFlashcards)
@@ -139,8 +140,9 @@ class SeeProgressMainPage(QtWidgets.QWidget):
             with DBMainOperations() as db:
                 self.topicFlashcardsID = db.getAllRecords(tbl='topics', specifcols='topic_id', 
                                                           whclause=f'topic_name = "{topicname}"')[0][0]
-            self.setupFlashcardsStats()
+            widgets.verticalLayout_21.removeWidget(self._chart_view2)
             self.setupFlashcardsPlot()
+        self.setupFlashcardsStats()
 
     def selectTopicToPomodoro(self):
         idx = widgets.qCBoxPomodoro.currentIndex()
@@ -152,8 +154,10 @@ class SeeProgressMainPage(QtWidgets.QWidget):
             with DBMainOperations() as db:
                 self.topicPomodoroID = db.getAllRecords(tbl='topics', specifcols='topic_id', 
                                                           whclause=f'topic_name = "{topicname}"')[0][0]
-            self.setupPomodoroStats()
+            
+            widgets.verticalLayout_21.removeWidget(self._chart_view3)
             self.setupPomodoroPlot()
+        self.setupPomodoroStats()
 
     ########################################
     # Pomodoro Statistics Functions #####################################
