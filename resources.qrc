@@ -9,6 +9,10 @@
     <file>images/images/small_SelfBlueLogo.png</file>
     <file>images/images/small_SelfGreenLogo.png</file>
     <file>images/images/initial/bem_vindo.jpg</file>
+    <file>images/images/initial/main_flashcards.jpg</file>
+    <file>images/images/initial/main_tasks.jpg</file>
+    <file>images/images/initial/main_flashcards.jpg</file>
+    <file>images/images/initial/main_pomodoro.jpg</file>
   </qresource>
   <qresource prefix="icons">
     <file>images/icons/cil-3d.png</file>

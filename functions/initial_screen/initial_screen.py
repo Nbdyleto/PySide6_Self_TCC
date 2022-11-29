@@ -24,3 +24,21 @@ class InitialMainPage(QtWidgets.QWidget):
         background-repeat: no-repeat;
         stretch stretch;"""
         )
+        self.ui.widget_2.setStyleSheet(u"""
+        background-image: url(:/images/images/images/initial/main_flashcards.jpg);
+        background-position: center;
+        background-repeat: no-repeat;
+        stretch stretch;"""
+        )
+        self.ui.widget_3.setStyleSheet(u"""
+        background-image: url(:/images/images/images/initial/main_tasks.jpg);
+        background-position: center;
+        background-repeat: no-repeat;
+        stretch stretch;"""
+        )
+        self.ui.widget_4.setStyleSheet(u"""
+        background-image: url(:/images/images/images/initial/main_pomodoro.jpg);
+        background-position: center;
+        background-repeat: no-repeat;
+        stretch stretch;"""
+        )
