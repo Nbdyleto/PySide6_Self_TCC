@@ -8,6 +8,7 @@
     <file>images/images/small_SelfPurpleLogo.png</file>
     <file>images/images/small_SelfBlueLogo.png</file>
     <file>images/images/small_SelfGreenLogo.png</file>
+    <file>images/images/initial/bem_vindo.jpg</file>
   </qresource>
   <qresource prefix="icons">
     <file>images/icons/cil-3d.png</file>

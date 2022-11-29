@@ -11,6 +11,7 @@
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
+from functions.initial_screen.initial_screen import InitialMainPage
 from functions.new_daily_task.dailytask import DTaskMainPage
 from functions.new_flashcards.flashcards_page import MainFlashcardsPage
 from functions.new_pomodoro.new_pomodoro_page import NewPomodoroMainPage
@@ -513,13 +514,10 @@ class Ui_MainWindow(object):
         self.stackedWidget = QStackedWidget(self.pagesContainer)
         self.stackedWidget.setObjectName(u"stackedWidget")
         self.stackedWidget.setStyleSheet(u"background: transparent;")
-        self.home = QWidget()
-        self.home.setObjectName(u"home")
-        #self.home.setStyleSheet(u"background-image: url(:/images/images/images/SelfPurpleLogo.png);\n"
-#"background-position: center;\n"
-#"background-repeat: no-repeat;")
+        
+        # home:
+        self.home = InitialMainPage()
         self.stackedWidget.addWidget(self.home)
-
         # new dailytask:
         self.newDailyTaskPage = DTaskMainPage()
         self.stackedWidget.addWidget(self.newDailyTaskPage)
