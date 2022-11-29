@@ -36,6 +36,21 @@
      </property>
      <widget class="QWidget" name="StudyPage">
       <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item>
         <widget class="QFrame" name="frame_12">
          <property name="minimumSize">
@@ -60,7 +75,7 @@
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_9">
-          <item>
+          <item alignment="Qt::AlignTop">
            <widget class="QFrame" name="frame_13">
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
@@ -76,58 +91,51 @@
                </property>
               </widget>
              </item>
-             <item alignment="Qt::AlignHCenter">
-              <widget class="QPushButton" name="btnClassIcon_2">
-               <property name="minimumSize">
-                <size>
-                 <width>90</width>
-                 <height>90</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>70</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>PushButton</string>
-               </property>
-              </widget>
-             </item>
-             <item alignment="Qt::AlignHCenter">
-              <widget class="QLabel" name="btnClassName">
-               <property name="styleSheet">
-                <string notr="true">font: bold 18px;</string>
-               </property>
-               <property name="text">
-                <string>ClassName</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item alignment="Qt::AlignTop">
-           <widget class="QFrame" name="frame_14">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_11">
              <item>
-              <widget class="QProgressBar" name="progressBar">
-               <property name="value">
-                <number>50</number>
+              <widget class="QFrame" name="frame_9">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
                </property>
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
                </property>
-               <property name="invertedAppearance">
-                <bool>false</bool>
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <item alignment="Qt::AlignHCenter">
+                 <widget class="QLabel" name="btnClassName">
+                  <property name="styleSheet">
+                   <string notr="true">font: italic 18px;</string>
+                  </property>
+                  <property name="text">
+                   <string>ClassName</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item alignment="Qt::AlignTop">
+              <widget class="QFrame" name="frame_14">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
                </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_11">
+                <item>
+                 <widget class="QProgressBar" name="progressBar">
+                  <property name="value">
+                   <number>50</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="invertedAppearance">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </item>
             </layout>
@@ -409,6 +417,21 @@ border-radius: 45px;</string>
      </widget>
      <widget class="QWidget" name="MainPage">
       <layout class="QVBoxLayout" name="verticalLayout_5">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item>
         <widget class="QFrame" name="frame">
          <property name="minimumSize">
@@ -766,12 +789,16 @@ background-image: none;
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">QTableWidget::item{
+                <string notr="true">QTableWidget{
+font: 18px;
+}
+
+QTableWidget::item{
 margin-top: 3px;          
 border-radius: 0px;
 padding-left: 15px;
 text-align: center;
- }
+}
 
 .QPushButton{
 background-position: center; 

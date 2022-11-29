@@ -23,7 +23,9 @@
       <bool>false</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true"/>
+      <string notr="true">QLabel{
+	font: 18px;
+}</string>
      </property>
      <property name="tabPosition">
       <enum>QTabWidget::North</enum>
@@ -174,13 +176,20 @@
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <item>
               <widget class="QLabel" name="label_5">
+               <property name="styleSheet">
+                <string notr="true">font: bold;</string>
+               </property>
                <property name="text">
                 <string>Categorias Satisfatórias:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QListWidget" name="listSatisfatoryDecks"/>
+              <widget class="QListWidget" name="listSatisfatoryDecks">
+               <property name="styleSheet">
+                <string notr="true">font: 18px;</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -196,13 +205,20 @@
             <layout class="QVBoxLayout" name="verticalLayout_6">
              <item>
               <widget class="QLabel" name="label_6">
+               <property name="styleSheet">
+                <string notr="true">font: bold;</string>
+               </property>
                <property name="text">
                 <string>Categorias Insatisfatórias:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QListWidget" name="listUnsatisfatoryDecks"/>
+              <widget class="QListWidget" name="listUnsatisfatoryDecks">
+               <property name="styleSheet">
+                <string notr="true">font: 18px;</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -230,6 +246,9 @@
             <layout class="QVBoxLayout" name="verticalLayout_18">
              <item>
               <widget class="QComboBox" name="qCBoxFlashcards">
+               <property name="styleSheet">
+                <string notr="true">font: 18px;</string>
+               </property>
                <item>
                 <property name="text">
                  <string>Geral</string>
@@ -357,13 +376,20 @@
             <layout class="QVBoxLayout" name="verticalLayout_21">
              <item>
               <widget class="QPushButton" name="btnPomodoroRefresh">
+               <property name="styleSheet">
+                <string notr="true">font: 18px;</string>
+               </property>
                <property name="text">
                 <string>Refresh</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QComboBox" name="qCBoxPomodoro"/>
+              <widget class="QComboBox" name="qCBoxPomodoro">
+               <property name="styleSheet">
+                <string notr="true">font: 18px;</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>

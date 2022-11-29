@@ -291,7 +291,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             widgets.textEditAnswer.setVisible(False)
             widgets.lblCardsCount.setText(f'{self.studedCards}/{self.cardsTotal}')
             widgets.lblDeckName.setText(deckname)
-            widgets.btnClassName.setText(topicname)
+            widgets.btnClassName.setText(f'Tópico de {topicname}')
             widgets.progressBar.setValue(0)
             widgets.stackedWidget.setCurrentWidget(widgets.StudyPage)
         except: # If not exist cards.

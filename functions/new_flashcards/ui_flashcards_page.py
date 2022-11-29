@@ -24,6 +24,8 @@ class Ui_FlashcardsPage(object):
         self.StudyPage = QtWidgets.QWidget()
         self.StudyPage.setObjectName("StudyPage")
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.StudyPage)
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_6.setSpacing(0)
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         self.frame_12 = QtWidgets.QFrame(self.StudyPage)
         self.frame_12.setMinimumSize(QtCore.QSize(250, 0))
@@ -43,17 +45,18 @@ class Ui_FlashcardsPage(object):
         self.btnBackPage = QtWidgets.QPushButton(self.frame_13)
         self.btnBackPage.setObjectName("btnBackPage")
         self.verticalLayout_10.addWidget(self.btnBackPage)
-        self.btnClassIcon_2 = QtWidgets.QPushButton(self.frame_13)
-        self.btnClassIcon_2.setMinimumSize(QtCore.QSize(90, 90))
-        self.btnClassIcon_2.setMaximumSize(QtCore.QSize(70, 16777215))
-        self.btnClassIcon_2.setObjectName("btnClassIcon_2")
-        self.verticalLayout_10.addWidget(self.btnClassIcon_2, 0, QtCore.Qt.AlignHCenter)
-        self.btnClassName = QtWidgets.QLabel(self.frame_13)
-        self.btnClassName.setStyleSheet("font: bold 18px;")
+        self.frame_9 = QtWidgets.QFrame(self.frame_13)
+        self.frame_9.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_9.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_9.setObjectName("frame_9")
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.frame_9)
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.btnClassName = QtWidgets.QLabel(self.frame_9)
+        self.btnClassName.setStyleSheet("font: italic 18px;")
         self.btnClassName.setObjectName("btnClassName")
-        self.verticalLayout_10.addWidget(self.btnClassName, 0, QtCore.Qt.AlignHCenter)
-        self.verticalLayout_9.addWidget(self.frame_13)
-        self.frame_14 = QtWidgets.QFrame(self.frame_12)
+        self.horizontalLayout_7.addWidget(self.btnClassName, 0, QtCore.Qt.AlignHCenter)
+        self.verticalLayout_10.addWidget(self.frame_9)
+        self.frame_14 = QtWidgets.QFrame(self.frame_13)
         self.frame_14.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_14.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_14.setObjectName("frame_14")
@@ -65,7 +68,8 @@ class Ui_FlashcardsPage(object):
         self.progressBar.setInvertedAppearance(False)
         self.progressBar.setObjectName("progressBar")
         self.verticalLayout_11.addWidget(self.progressBar)
-        self.verticalLayout_9.addWidget(self.frame_14, 0, QtCore.Qt.AlignTop)
+        self.verticalLayout_10.addWidget(self.frame_14, 0, QtCore.Qt.AlignTop)
+        self.verticalLayout_9.addWidget(self.frame_13, 0, QtCore.Qt.AlignTop)
         self.horizontalLayout_6.addWidget(self.frame_12)
         self.frame_7 = QtWidgets.QFrame(self.StudyPage)
         self.frame_7.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -207,6 +211,8 @@ class Ui_FlashcardsPage(object):
         self.MainPage = QtWidgets.QWidget()
         self.MainPage.setObjectName("MainPage")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.MainPage)
+        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_5.setSpacing(0)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.frame = QtWidgets.QFrame(self.MainPage)
         self.frame.setMinimumSize(QtCore.QSize(0, 0))
@@ -337,12 +343,16 @@ class Ui_FlashcardsPage(object):
         sizePolicy.setHeightForWidth(self.tblDecks.sizePolicy().hasHeightForWidth())
         self.tblDecks.setSizePolicy(sizePolicy)
         self.tblDecks.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.tblDecks.setStyleSheet("QTableWidget::item{\n"
+        self.tblDecks.setStyleSheet("QTableWidget{\n"
+"font: 18px;\n"
+"}\n"
+"\n"
+"QTableWidget::item{\n"
 "margin-top: 3px;          \n"
 "border-radius: 0px;\n"
 "padding-left: 15px;\n"
 "text-align: center;\n"
-" }\n"
+"}\n"
 "\n"
 ".QPushButton{\n"
 "background-position: center; \n"
@@ -396,7 +406,6 @@ class Ui_FlashcardsPage(object):
         _translate = QtCore.QCoreApplication.translate
         FlashcardsPage.setWindowTitle(_translate("FlashcardsPage", "Widget"))
         self.btnBackPage.setText(_translate("FlashcardsPage", "Voltar"))
-        self.btnClassIcon_2.setText(_translate("FlashcardsPage", "PushButton"))
         self.btnClassName.setText(_translate("FlashcardsPage", "ClassName"))
         self.label_2.setText(_translate("FlashcardsPage", "Deck:"))
         self.lblDeckName.setText(_translate("FlashcardsPage", "DeckName"))

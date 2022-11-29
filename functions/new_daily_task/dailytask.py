@@ -47,13 +47,13 @@ class DTaskMainPage(QtWidgets.QWidget):
                 text-align: center;
             }
         """)
+        
         self.hideAll()
         self.loadTopicsInList()
         self.loadStatusInList()
 
         widgets.tblLists.setVisible(False)
         widgets.tblLists.setColumnCount(1)
-        widgets.tblLists.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
 
 
     # LOAD DATA FUNCTIONS
@@ -169,7 +169,7 @@ class DTaskMainPage(QtWidgets.QWidget):
             else: 
                 self.hideAll()
         else:
-            print('no correspondence in db!')
+            print(f'{row} no correspondence in db!')
 
     def isExistentInDB(self, row):
         self.hideAll()
@@ -197,6 +197,8 @@ class DTaskMainPage(QtWidgets.QWidget):
     def loadStatusInTable(self):
         self.activeTable = 'tblStatus'
         widgets.tblLists.setColumnCount(1)
+        widgets.tblLists.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        widgets.tblLists.setColumnWidth(1,20)
         widgets.lblSetInfo.setText('Status:')
         widgets.tblLists.show()
         widgets.tblLists.setObjectName('tblStatus')
@@ -207,6 +209,8 @@ class DTaskMainPage(QtWidgets.QWidget):
     
     def loadTopicsInTable(self):
         widgets.tblLists.setColumnCount(2)
+        widgets.tblLists.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        widgets.tblLists.setColumnWidth(1,60)
         self.activeTable = 'tblTopics'
         widgets.tblLists.show()
         widgets.tblLists.setObjectName('tblTopics')
@@ -248,6 +252,7 @@ class DTaskMainPage(QtWidgets.QWidget):
         msgBox = QtWidgets.QMessageBox(self)
         msgBox.setWindowTitle(f"Apagar {topicid}")
         msgBox.setText("Tem plena convicção disso?")
+        msgBox.setStyleSheet('font: 15px;')
         msgBox.setInformativeText("Apagar um tópico também apagará as tarefas, flashcards e progresso associados a esse tópico.")
         msgBox.setStandardButtons(QtWidgets.QMessageBox.Cancel | QtWidgets.QMessageBox.Apply)
         msgBox.setDefaultButton(QtWidgets.QMessageBox.Cancel)
