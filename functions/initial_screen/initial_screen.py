@@ -18,7 +18,9 @@ class InitialMainPage(QtWidgets.QWidget):
         #pp = QtGui.QPixmap.fromImage(image)
         #self.ui.label.setPixMap(pp)
         #self.ui.label.setScaledContents(True)
-        self.ui.widget.setStyleSheet(u"background-image: url(:/images/images/images/initial/bem_vindo.jpg);\n")
-        #"background-position: center;\n"
-        #"background-repeat: no-repeat;"
-        #"stretch stretch;")
+        self.ui.widget.setStyleSheet(u"""
+        background-image: url(:/images/images/images/initial/bem_vindo.jpg);
+        background-position: center;
+        background-repeat: no-repeat;
+        stretch stretch;"""
+        )
