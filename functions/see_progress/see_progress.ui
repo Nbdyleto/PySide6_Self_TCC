@@ -34,7 +34,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="tabsClosable">
       <bool>false</bool>
@@ -350,7 +350,27 @@
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_16"/>
+            <layout class="QVBoxLayout" name="verticalLayout_16">
+             <item alignment="Qt::AlignTop">
+              <widget class="QPushButton" name="btnPomodoroRefresh">
+               <property name="minimumSize">
+                <size>
+                 <width>100</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-position: center;  
+background-repeat: no-repeat; 
+border-radius: 25px;
+font: 18px;</string>
+               </property>
+               <property name="text">
+                <string>Atualizar</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
@@ -374,16 +394,6 @@
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_21">
-             <item>
-              <widget class="QPushButton" name="btnPomodoroRefresh">
-               <property name="styleSheet">
-                <string notr="true">font: 18px;</string>
-               </property>
-               <property name="text">
-                <string>Refresh</string>
-               </property>
-              </widget>
-             </item>
              <item>
               <widget class="QComboBox" name="qCBoxPomodoro">
                <property name="styleSheet">

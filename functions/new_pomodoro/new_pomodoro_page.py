@@ -214,9 +214,16 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.resetTimer()
 
     def startTimer(self):
-        self.allowChangeModeManually = False
         if self.currentMode == Mode.work:
+            widgets.btnPomodoro.click()
             self.insertPomodoroInDB()
+        elif self.currentMode == Mode.short_rest:
+            widgets.btnShortRest.click()
+        elif self.currentMode == Mode.long_rest:
+            widgets.btnLongRest.click()
+        else:
+            pass
+        self.allowChangeModeManually = False
         try:
             if not self.timer.isActive():
                 self.createTimer()
@@ -529,18 +536,24 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.loadDataInTable()
 
     def markTaskAsFinished(self, row):
-        item = widgets.tblTasks.item(row, 0)
+        itemname = widgets.tblTasks.item(row, 0)
+        itemtopic = widgets.tblTasks.item(row, 1)
         font = widgets.tblTasks.item(row, 0).font()
-        font.setStrikeOut(False if item.font().strikeOut() else True)
-        item.setFont(font)
+        font.setStrikeOut(False if itemname.font().strikeOut() else True)
+        itemname.setFont(font)
         with DBMainOperations() as db:
-            qry = f"UPDATE tasks SET status = 'Finalizada!' WHERE task_name = '{item.text()}'"
+            qry = f"UPDATE tasks SET status = 'Finalizada!' WHERE task_name = '{itemname.text()}'"
             db.cursor.execute(qry)
+        task = itemname.text() + ' (' + itemtopic.text() + ')'
+        print(task)
+        print(widgets.lblActualTask.text())
+        if task == widgets.lblActualTask.text():
+            widgets.lblActualTask.setText('Selecione uma tarefa na aba "Tarefas" desta página...')
 
     def showTaskInLabel(self, row):
         taskname = widgets.tblTasks.item(row, 0).text()
         topicname = widgets.tblTasks.item(row, 1).text()
-        widgets.lblActualTask.setText(f'{taskname} : {topicname}')
+        widgets.lblActualTask.setText(f'{taskname} ({topicname})')
         with DBMainOperations() as db:
             topicid = db.getAllRecords(tbl='topics', specifcols='topic_id', 
                                         whclause=f'topic_name = "{topicname}"')[0][0]            

@@ -190,6 +190,14 @@ class Ui_SeeProgressPage(object):
         self.frame_16.setObjectName("frame_16")
         self.verticalLayout_16 = QtWidgets.QVBoxLayout(self.frame_16)
         self.verticalLayout_16.setObjectName("verticalLayout_16")
+        self.btnPomodoroRefresh = QtWidgets.QPushButton(self.frame_16)
+        self.btnPomodoroRefresh.setMinimumSize(QtCore.QSize(100, 50))
+        self.btnPomodoroRefresh.setStyleSheet("background-position: center;  \n"
+"background-repeat: no-repeat; \n"
+"border-radius: 25px;\n"
+"font: 18px;")
+        self.btnPomodoroRefresh.setObjectName("btnPomodoroRefresh")
+        self.verticalLayout_16.addWidget(self.btnPomodoroRefresh, 0, QtCore.Qt.AlignTop)
         self.verticalLayout_13.addWidget(self.frame_16)
         self.horizontalLayout_5.addWidget(self.frame_3)
         self.frame_20 = QtWidgets.QFrame(self.tabPomodoroPage)
@@ -204,10 +212,6 @@ class Ui_SeeProgressPage(object):
         self.frameCharts_pomodoro.setObjectName("frameCharts_pomodoro")
         self.verticalLayout_21 = QtWidgets.QVBoxLayout(self.frameCharts_pomodoro)
         self.verticalLayout_21.setObjectName("verticalLayout_21")
-        self.btnPomodoroRefresh = QtWidgets.QPushButton(self.frameCharts_pomodoro)
-        self.btnPomodoroRefresh.setStyleSheet("font: 18px;")
-        self.btnPomodoroRefresh.setObjectName("btnPomodoroRefresh")
-        self.verticalLayout_21.addWidget(self.btnPomodoroRefresh)
         self.qCBoxPomodoro = QtWidgets.QComboBox(self.frameCharts_pomodoro)
         self.qCBoxPomodoro.setStyleSheet("font: 18px;")
         self.qCBoxPomodoro.setObjectName("qCBoxPomodoro")
@@ -218,7 +222,7 @@ class Ui_SeeProgressPage(object):
         self.verticalLayout.addWidget(self.tabSeeProgress)
 
         self.retranslateUi(SeeProgressPage)
-        self.tabSeeProgress.setCurrentIndex(0)
+        self.tabSeeProgress.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(SeeProgressPage)
 
     def retranslateUi(self, SeeProgressPage):
@@ -242,7 +246,7 @@ class Ui_SeeProgressPage(object):
         self.label_11.setText(_translate("SeeProgressPage", "Tempo Total:"))
         self.lblTotalPomodoros.setText(_translate("SeeProgressPage", "0"))
         self.lblTotalTime.setText(_translate("SeeProgressPage", "00:00:00"))
-        self.btnPomodoroRefresh.setText(_translate("SeeProgressPage", "Refresh"))
+        self.btnPomodoroRefresh.setText(_translate("SeeProgressPage", "Atualizar"))
         self.tabSeeProgress.setTabText(self.tabSeeProgress.indexOf(self.tabPomodoroPage), _translate("SeeProgressPage", "Pomodoro"))
 
 

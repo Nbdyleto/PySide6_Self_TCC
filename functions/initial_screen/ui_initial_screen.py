@@ -18,6 +18,8 @@ class Ui_InitialScreen(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout(InitialScreen)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.tabWidget = QtWidgets.QTabWidget(InitialScreen)
+        self.tabWidget.setStyleSheet("font: 18px;\n"
+"")
         self.tabWidget.setObjectName("tabWidget")
         self.tabWelcome = QtWidgets.QWidget()
         self.tabWelcome.setObjectName("tabWelcome")

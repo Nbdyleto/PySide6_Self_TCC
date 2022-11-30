@@ -145,12 +145,20 @@ class MainWindow(QMainWindow):
         widgets.btn_daily_task_page.clicked.connect(self.buttonClick)
 
         # PALLETE BUTTONS
+        self.setUserChangePallete(True)
+        widgets.btnPyJucoPurple.clicked.connect(lambda: self.setUserChangePallete(True))
         widgets.btnPyJucoPurple.clicked.connect(self.changePallete)
+        widgets.btnPyJucoBlue.clicked.connect(lambda: self.setUserChangePallete(True))
         widgets.btnPyJucoBlue.clicked.connect(self.changePallete)
+        widgets.btnPyJucoGreen.clicked.connect(lambda: self.setUserChangePallete(True))
         widgets.btnPyJucoGreen.clicked.connect(self.changePallete)
+        widgets.newPomodoroPage.ui.btnPomodoro.clicked.connect(lambda: self.setUserChangePallete(False))
         widgets.newPomodoroPage.ui.btnPomodoro.clicked.connect(self.changePallete)
+        widgets.newPomodoroPage.ui.btnShortRest.clicked.connect(lambda: self.setUserChangePallete(False))
         widgets.newPomodoroPage.ui.btnShortRest.clicked.connect(self.changePallete)
+        widgets.newPomodoroPage.ui.btnLongRest.clicked.connect(lambda: self.setUserChangePallete(False))
         widgets.newPomodoroPage.ui.btnLongRest.clicked.connect(self.changePallete)
+        
         
         # EXTRA LEFT BOX
         def openCloseLeftBox():
@@ -229,6 +237,9 @@ class MainWindow(QMainWindow):
         # PRINT BTN NAME
         print(f'Button "{btnName}" pressed!')
 
+    def setUserChangePallete(self, value=False):
+        self.userChange = value
+
     def changePallete(self):
         if widgets.newPomodoroPage.allowChangeModeManually:
 
@@ -250,8 +261,12 @@ class MainWindow(QMainWindow):
 
             UIFunctions.resetStyle(self, self.btnSelected.objectName()) # RESET ANOTHERS MENU BUTTONS
             self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet())) # SET SELECTED MENU BUTTON
-            UIFunctions.resetButtonsStyle(self, btn.objectName()) # RESET ANOTHERS POMODORO BUTTONS
-            btn.setStyleSheet(UIFunctions.selectButton(btn.styleSheet())) # SET SELECTED POMODORO BUTTON
+            if not self.userChange: # change color of button selected just in pomodoro, not in pallete menus. 
+                UIFunctions.resetButtonsStyle(self, btn.objectName()) # RESET ANOTHERS POMODORO BUTTONS
+                btn.setStyleSheet(UIFunctions.selectButton(btn.styleSheet())) # SET SELECTED POMODORO BUTTON
+            else:
+                print('nao vo mudar, pois self.userChange: ', self.userChange)
+                UIFunctions.resetButtonsStyle(self, btn.objectName())
 
     # RESIZE EVENTS
     # ///////////////////////////////////////////////////////////////
