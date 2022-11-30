@@ -286,8 +286,8 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             self.flashcardsIter = iter(flashcards)
         try:
             front, verse = next(self.flashcardsIter)
-            widgets.textEditQuestion.setText(f'question: {front}')
-            widgets.textEditAnswer.setText(f'answer: {verse}')
+            widgets.textEditQuestion.setText(f'Frente:\n{front}')
+            widgets.textEditAnswer.setText(f'Verso:\n{verse}')
             widgets.textEditAnswer.setVisible(False)
             widgets.lblCardsCount.setText(f'{self.studedCards}/{self.cardsTotal}')
             widgets.lblDeckName.setText(deckname)
@@ -327,8 +327,8 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.btnGoodFeedback.setVisible(False)
         try:
             front, verse = next(self.flashcardsIter)
-            widgets.textEditQuestion.setText(f'question: {front}')
-            widgets.textEditAnswer.setText(f'answer: {verse}')
+            widgets.textEditQuestion.setText(f'Frente:\n{front}')
+            widgets.textEditAnswer.setText(f'Verso:\n{verse}')
             widgets.textEditAnswer.setVisible(False)
         except Exception:
             msgBox = QtWidgets.QMessageBox(self)

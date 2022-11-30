@@ -20,9 +20,7 @@ class Ui_SeeProgressPage(object):
         self.tabSeeProgress = QtWidgets.QTabWidget(SeeProgressPage)
         self.tabSeeProgress.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.tabSeeProgress.setAutoFillBackground(False)
-        self.tabSeeProgress.setStyleSheet("QLabel{\n"
-"    font: 18px;\n"
-"}")
+        self.tabSeeProgress.setStyleSheet("font: 18px;")
         self.tabSeeProgress.setTabPosition(QtWidgets.QTabWidget.North)
         self.tabSeeProgress.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.tabSeeProgress.setTabsClosable(False)
@@ -222,7 +220,7 @@ class Ui_SeeProgressPage(object):
         self.verticalLayout.addWidget(self.tabSeeProgress)
 
         self.retranslateUi(SeeProgressPage)
-        self.tabSeeProgress.setCurrentIndex(1)
+        self.tabSeeProgress.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(SeeProgressPage)
 
     def retranslateUi(self, SeeProgressPage):

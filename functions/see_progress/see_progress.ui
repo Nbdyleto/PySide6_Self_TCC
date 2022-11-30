@@ -23,9 +23,7 @@
       <bool>false</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">QLabel{
-	font: 18px;
-}</string>
+      <string notr="true">font: 18px;</string>
      </property>
      <property name="tabPosition">
       <enum>QTabWidget::North</enum>
