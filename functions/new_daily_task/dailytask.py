@@ -371,9 +371,9 @@ class DTaskMainPage(QtWidgets.QWidget):
                 lastid = db.cursor.execute(qry).fetchall()[0][0]+1
                 print('lastid:', lastid)
                 db.populateTbl(tbl='topics', params=(lastid, newtopic))
-        self.hideAll()
-        self.loadTopicsInTable()
-        self.loadTopicsInList()
+                self.hideAll()
+                self.loadTopicsInTable()
+                self.loadTopicsInList()
         #self.loadDataInTable()
 
     def updateCalendarDate(self):
