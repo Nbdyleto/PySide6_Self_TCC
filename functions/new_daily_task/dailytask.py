@@ -25,7 +25,7 @@ class DTaskMainPage(QtWidgets.QWidget):
 
     def setupConnections(self):
         widgets.tblTasks.cellClicked.connect(self.rowClickedFunctions)
-        widgets.tblTasks.itemChanged.connect(self.updateDBRecord)
+        widgets.tblTasks.doubleClicked.connect(self.addTask)
         widgets.tblLists.cellClicked.connect(self.updateStatusOrTopic)
         widgets.qCalendar.selectionChanged.connect(self.updateCalendarDate)
         widgets.listByTopic.itemClicked.connect(self.checkTopicFilter)
@@ -117,7 +117,8 @@ class DTaskMainPage(QtWidgets.QWidget):
             ## SET LAST ROW VALUES:
             lastrow = len(tasks)
             widgets.tblTasks.setItem(lastrow, 0, QtWidgets.QTableWidgetItem('Duplo clique para inserir...'))
-            widgets.tblTasks.setCellWidget(tablerow, 1, QtWidgets.QWidget())
+            widgets.tblTasks.setCellWidget(tablerow, 5, QtWidgets.QWidget())
+            widgets.tblTasks.setCellWidget(tablerow, 6, QtWidgets.QWidget())
         except Exception as e:
             print('ERROR: ', e)
 
@@ -199,6 +200,20 @@ class DTaskMainPage(QtWidgets.QWidget):
         else:
             print(f'{row} no correspondence in db!')
 
+    def addTask(self, item):
+        print("ROW CLICADA: ", item.row())
+        if not self.isExistentInDB(item.row()):    # last row
+            with DBMainOperations() as db:
+                newvalue, inputstatus = QtWidgets.QInputDialog.getText(self, "Adicionar tarefa", "Adicione o nome da tarefa. Cuidaremos do resto!")
+                if inputstatus:
+                    qry = 'SELECT * FROM tasks ORDER BY task_id DESC LIMIT 1;'
+                    lastid = db.cursor.execute(qry).fetchall()[0][0]+1
+                    sysdate = QtCore.QDate.currentDate().toString(QtCore.Qt.ISODate)
+                    topicid = (self.activeTopicID if self.activeTopicID != -1 else 0)
+                    newdata = (lastid, newvalue, "Não Iniciada.", sysdate, sysdate, topicid)
+                    db.populateTbl('tasks', params=newdata)
+                    self.loadDataInTable()
+
     def isExistentInDB(self, row):
         self.hideAll()
         with DBMainOperations() as db:
@@ -206,10 +221,12 @@ class DTaskMainPage(QtWidgets.QWidget):
                 taskname = widgets.tblTasks.item(row, 0).text()
                 self.selectedTask = db.getAllRecords(tbl='tasks', specifcols='task_name', 
                                                      whclause=f'task_name = "{taskname}"')[0][0]
-                print(self.selectedTask)
+                print("EXIST!")
+                print('task: ', self.selectedTask)
                 return True
             except Exception:
                 self.selectedTask = ''
+                print("NOT EXIST!")
                 return False
 
     def hideAll(self):
@@ -317,6 +334,7 @@ class DTaskMainPage(QtWidgets.QWidget):
 
     def updateDBRecord(self, item):
         if self.selectedTask == '':
+            print('Not existent in db, so, create new data.')
             # Not existent in db, so, create new data.
             with DBMainOperations() as db:
                 qry = 'SELECT * FROM tasks ORDER BY task_id DESC LIMIT 1;'
@@ -327,6 +345,7 @@ class DTaskMainPage(QtWidgets.QWidget):
                 db.populateTbl('tasks', params=newdata)
             print('adding...')
         elif self.selectedTask is not None:
+            print('Existent in db, so, update old data.')
             # Existent in db, so, update old data.
             oldtask = self.selectedTask
             with DBMainOperations() as db:
