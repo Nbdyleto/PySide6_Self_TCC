@@ -40,6 +40,7 @@ class DTaskMainPage(QtWidgets.QWidget):
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
         widgets.tblTasks.horizontalHeader().setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
+        widgets.tblTasks.horizontalHeader().setSectionResizeMode(6, QtWidgets.QHeaderView.Stretch)
         widgets.tblTasks.setStyleSheet("""
             QTableWidget::item{
                 margin-top: 3px;          
@@ -96,13 +97,14 @@ class DTaskMainPage(QtWidgets.QWidget):
                 taskid, taskname, status = row[0], row[1], row[2]
                 startDate, endDate = self.formatDate(row[3], row[4])
                 topic = self.getTopicName(row[5])
-                btnRemoveTask = self.buttonToPutInRow(tablerow, taskid)
+                btnRemoveTask, btnEditTask = self.buttonToPutInRow(tablerow, taskid)
                 widgets.tblTasks.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(taskname))  #row[1] = task_name
                 widgets.tblTasks.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(status))  #row[2] = status
                 widgets.tblTasks.setItem(tablerow, 2, QtWidgets.QTableWidgetItem(startDate)) #row[3] = start_date
                 widgets.tblTasks.setItem(tablerow, 3, QtWidgets.QTableWidgetItem(endDate)) #row[4] = end_date
                 widgets.tblTasks.setItem(tablerow, 4, QtWidgets.QTableWidgetItem(topic)) #row[5] = topic_id
-                widgets.tblTasks.setCellWidget(tablerow, 5, btnRemoveTask)
+                widgets.tblTasks.setCellWidget(tablerow, 5, btnEditTask)
+                widgets.tblTasks.setCellWidget(tablerow, 6, btnRemoveTask)
                 # Set bold if is a ended task:
                 for col in range(5):
                     item = widgets.tblTasks.item(tablerow, col)
@@ -133,12 +135,38 @@ class DTaskMainPage(QtWidgets.QWidget):
             border-color: transparent;
         """)
         btnRemoveTask.clicked.connect(lambda: self.removeTask(taskid))
-        return btnRemoveTask
+
+        btnEditTask = QtWidgets.QPushButton(widgets.tblTasks)
+        btnEditTask.setMinimumSize(QtCore.QSize(40, 100))
+        btnEditTask.setMaximumSize(QtCore.QSize(90, 16777215))
+        btnEditTask.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        btnEditTask.setLayoutDirection(QtCore.Qt.LeftToRight)
+        btnEditTask.setObjectName(f'btnEditTask{tablerow}')
+        btnEditTask.setStyleSheet(u"""
+        QPushButton{
+            background-image: url(:/icons/images/icons/cil-pencil.png);
+            background-repeat: no-repeat;
+            margin-top: 15px; 
+            border-color: transparent;
+            }
+        QToolTip{background-image: none;}
+        """)
+        btnEditTask.setToolTip('Editar deck')
+        btnEditTask.clicked.connect(lambda: self.editTaskName(taskid))
+        return btnRemoveTask, btnEditTask
 
     def removeTask(self, taskid):
         with DBMainOperations() as db:
             db.cursor.execute(f"DELETE from tasks WHERE task_id={taskid}")
         self.loadDataInTable()
+
+    def editTaskName(self, taskid):
+        with DBMainOperations() as db:
+            taskname = db.getAllRecords(tbl='tasks', specifcols='task_name', whclause=f'task_id == {taskid}')[0][0]
+            newvalue, inputstatus = QtWidgets.QInputDialog.getText(self, "Alterar Nome da Tarefa", f"{taskname}")
+            if inputstatus:
+                db.cursor.execute(f"UPDATE tasks SET task_name = '{newvalue}' WHERE task_id == {taskid}")
+                self.loadDataInTable()
 
     def getTopicName(self, topicid):
         with DBMainOperations() as db:
