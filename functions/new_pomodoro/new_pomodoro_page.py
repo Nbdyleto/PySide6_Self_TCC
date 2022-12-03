@@ -100,10 +100,6 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         widgets.btnResetTimer.clicked.connect(lambda: widgets.btnPauseTimer.setDisabled(True))
         widgets.btnResetTimer.clicked.connect(lambda: widgets.btnResetTimer.setDisabled(False))
 
-        widgets.workMinutesSpinBox.valueChanged.connect(self.updateWorkValue)
-        widgets.shortMinutesSpinBox.valueChanged.connect(self.updateShortRestValue)
-        widgets.longMinutesSpinBox.valueChanged.connect(self.updateLongRestValue)
-
         widgets.listByTopic.itemClicked.connect(self.checkTopicFilter)
 
         widgets.btnSaveSettings.clicked.connect(self.updateSettings)
@@ -167,6 +163,9 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         msgBox.setInformativeText("As configurações estarão ativas a partir do próximo estudo!")
         msgBox.show()
         #print('ALEGRIAA')
+        self.updateWorkValue()
+        self.updateShortRestValue()
+        self.updateLongRestValue()
         if widgets.rdbtnYesPomoAuto.isChecked():
             self.settings.setValue(autoPomoKey, 'Yes')
         else:
