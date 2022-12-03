@@ -206,8 +206,15 @@ class DTaskMainPage(QtWidgets.QWidget):
             with DBMainOperations() as db:
                 newvalue, inputstatus = QtWidgets.QInputDialog.getText(self, "Adicionar tarefa", "Adicione o nome da tarefa. Cuidaremos do resto!")
                 if inputstatus:
-                    qry = 'SELECT * FROM tasks ORDER BY task_id DESC LIMIT 1;'
-                    lastid = db.cursor.execute(qry).fetchall()[0][0]+1
+                    exist = db.cursor.execute(f"""
+                        SELECT EXISTS(SELECT 1 FROM tasks);"""
+                    ).fetchall()[0][0]
+                    existAtLeastATask = True if exist == 1 else False
+                    if existAtLeastATask:
+                        qry = 'SELECT * FROM tasks ORDER BY task_id DESC LIMIT 1;'
+                        lastid = db.cursor.execute(qry).fetchall()[0][0]+1
+                    else:
+                        lastid = 0
                     sysdate = QtCore.QDate.currentDate().toString(QtCore.Qt.ISODate)
                     topicid = (self.activeTopicID if self.activeTopicID != -1 else 0)
                     newdata = (lastid, newvalue, "Não Iniciada.", sysdate, sysdate, topicid)
