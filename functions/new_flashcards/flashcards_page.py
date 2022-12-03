@@ -20,6 +20,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets = self.ui
         self.flashcardsIter = None
         self.topicID = -1
+        self.topicName = None
         self.deckID = -1
         self.cardsTotal = 1
         self.studedCards = 1
@@ -82,6 +83,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         self.loadDecksInTable()
         self.studedCards = 1
         self.topicID = -1
+        self.topicName = None
         self.deckID = -1
 
     def verifyTopicSelected(self):
@@ -131,6 +133,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         topicname = widgets.classComboBox.currentText()
         if idx == 0:    # Show geral
             self.topicID = -1
+            self.topicName = None
             self.loadDecksInTable(showall=True, topicid=self.topicID)
         elif idx == widgets.classComboBox.count()-1 and idx != -1: # Add topic
             self.topicID = -1
@@ -138,6 +141,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         else:   # Show specific decks
             with DBMainOperations() as db:
                 self.topicID = db.getAllRecords(tbl='topics', specifcols='topic_id', whclause=f'topic_name = "{topicname}"')[0][0]
+                self.topicName = db.getAllRecords(tbl='topics', specifcols='topic_name', whclause=f'topic_name = "{topicname}"')[0][0]
             self.loadDecksInTable(showall=False, topicid=self.topicID)
 
     def addNewTopic(self):
@@ -223,11 +227,12 @@ class MainFlashcardsPage(QtWidgets.QWidget):
     def addNewDeck(self):
         if self.topicID == -1:
             msgBox = QtWidgets.QMessageBox(self)
-            msgBox.setText(f"Adição de deck.")
-            msgBox.setInformativeText("Selecione um tópico na barra geral para possibilitar a adição de um novo deck")
+            msgBox.setText(f"Primeiramente selecione um tópico!")
+            msgBox.setWindowTitle(f"Adição de deck")
+            msgBox.setInformativeText("Selecione um tópico na barra geral para possibilitar a adição de um novo deck.")
             msgBox.show()
         else:
-            newdeck, inputstatus = QtWidgets.QInputDialog.getText(self, f"Novo Deck em {self.topicID}", "Entre com o nome do novo deck:")
+            deckname, inputstatus = QtWidgets.QInputDialog.getText(self, f"Novo Deck em {self.topicName}", "Entre com o nome do novo deck:")
             with DBMainOperations() as db:
                 exist = db.cursor.execute(f"""
                         SELECT EXISTS(SELECT 1 FROM decks);"""
@@ -237,16 +242,31 @@ class MainFlashcardsPage(QtWidgets.QWidget):
                 if existAtLeastADeck:
                     print("ADICIONANDO VALOR PARA TABLE CHEIA")
                     if inputstatus:
-                        qry = 'SELECT * FROM decks ORDER BY deck_id DESC LIMIT 1;'
-                        lastid = db.cursor.execute(qry).fetchall()[0][0]+1
-                        db.populateTbl(tbl='decks', params=(lastid, newdeck, 0, 0, 0, 0, self.topicID))
+                        if not self.isDeckExistentInDB(deckname=deckname):
+                            qry = 'SELECT * FROM decks ORDER BY deck_id DESC LIMIT 1;'
+                            lastid = db.cursor.execute(qry).fetchall()[0][0]+1
+                            db.populateTbl(tbl='decks', params=(lastid, deckname, 0, 0, 0, 0, self.topicID))
+                        else:
+                            msgBox = QtWidgets.QMessageBox(self)
+                            msgBox.setWindowTitle(f"Ledo engano...")
+                            msgBox.setText("Deck existente!")
+                            msgBox.setInformativeText("Já existe um deck com esse nome! Crie novamente, diferenciando-os.")
+                            msgBox.show()
                 else:
                     print("ADICIONANDO UM NOVO VALOR PARA UMA TABELA VAZIA!")
                     if inputstatus:
                         lastid = 0
-                        db.populateTbl(tbl='decks', params=(lastid, newdeck, 0, 0, 0, 0, self.topicID))
+                        db.populateTbl(tbl='decks', params=(lastid, deckname, 0, 0, 0, 0, self.topicID))
 
                 self.loadDecksInTable(showall=False, topicid=self.topicID)
+
+    def isDeckExistentInDB(self, deckname=None):
+        with DBMainOperations() as db:
+            exist = db.cursor.execute(f"""
+                    SELECT EXISTS(SELECT 1 FROM decks WHERE deck_name = "{deckname}");"""
+            ).fetchall()[0][0]
+            existAtLeastADeck = True if exist == 1 else False
+            return existAtLeastADeck
     
     def editDeck(self, deckid):
         newvalue, inputstatus = QtWidgets.QInputDialog.getText(self, "Alterar Nome", "Entre com o novo nome do deck:")

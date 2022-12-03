@@ -25,7 +25,7 @@ class DTaskMainPage(QtWidgets.QWidget):
 
     def setupConnections(self):
         widgets.tblTasks.cellClicked.connect(self.rowClickedFunctions)
-        widgets.tblTasks.doubleClicked.connect(self.addTask)
+        widgets.tblTasks.doubleClicked.connect(self.addNewTask)
         widgets.tblLists.cellClicked.connect(self.updateStatusOrTopic)
         widgets.qCalendar.selectionChanged.connect(self.updateCalendarDate)
         widgets.listByTopic.itemClicked.connect(self.checkTopicFilter)
@@ -185,7 +185,7 @@ class DTaskMainPage(QtWidgets.QWidget):
     # ///////////////////////////////////////////////////////////////
 
     def rowClickedFunctions(self, row, col):
-        if self.isExistentInDB(row):
+        if self.isTaskExistentInDB(row):
             widgets.lblSetInfo.setVisible(True)
             if col == 1:
                 self.loadStatusInTable()
@@ -200,41 +200,66 @@ class DTaskMainPage(QtWidgets.QWidget):
         else:
             print(f'{row} no correspondence in db!')
 
-    def addTask(self, item):
+    def addNewTask(self, item):
         print("ROW CLICADA: ", item.row())
-        if not self.isExistentInDB(item.row()):    # last row
+        if not self.isTaskExistentInDB(item.row()):    # last row
             with DBMainOperations() as db:
                 newvalue, inputstatus = QtWidgets.QInputDialog.getText(self, "Adicionar tarefa", "Adicione o nome da tarefa. Cuidaremos do resto!")
                 if inputstatus:
-                    exist = db.cursor.execute(f"""
-                        SELECT EXISTS(SELECT 1 FROM tasks);"""
-                    ).fetchall()[0][0]
-                    existAtLeastATask = True if exist == 1 else False
-                    if existAtLeastATask:
-                        qry = 'SELECT * FROM tasks ORDER BY task_id DESC LIMIT 1;'
-                        lastid = db.cursor.execute(qry).fetchall()[0][0]+1
+                    if self.isTaskExistentInDB(taskname=newvalue):
+                        msgBox = QtWidgets.QMessageBox(self)
+                        msgBox.setWindowTitle(f"Ledo engano...")
+                        msgBox.setText("Tarefa existente!")
+                        msgBox.setInformativeText("Já existe uma tarefa com esse nome! Crie novamente, diferenciando-as.")
+                        msgBox.show()
                     else:
-                        lastid = 0
-                    sysdate = QtCore.QDate.currentDate().toString(QtCore.Qt.ISODate)
-                    topicid = (self.activeTopicID if self.activeTopicID != -1 else 0)
-                    newdata = (lastid, newvalue, "Não Iniciada.", sysdate, sysdate, topicid)
-                    db.populateTbl('tasks', params=newdata)
-                    self.loadDataInTable()
+                        # Not exist a task with same name so, add.
+                        exist = db.cursor.execute(f"""
+                            SELECT EXISTS(SELECT 1 FROM tasks);"""
+                        ).fetchall()[0][0]
+                        existAtLeastATask = True if exist == 1 else False
+                        if existAtLeastATask:
+                            qry = 'SELECT * FROM tasks ORDER BY task_id DESC LIMIT 1;'
+                            lastid = db.cursor.execute(qry).fetchall()[0][0]+1
+                        else:
+                            lastid = 0
+                        sysdate = QtCore.QDate.currentDate().toString(QtCore.Qt.ISODate)
+                        topicid = (self.activeTopicID if self.activeTopicID != -1 else 0)
+                        newdata = (lastid, newvalue, "Não Iniciada.", sysdate, sysdate, topicid)
+                        db.populateTbl('tasks', params=newdata)
+                        self.loadDataInTable()
 
-    def isExistentInDB(self, row):
+    def isTaskExistentInDB(self, row=-1, taskname=None):
         self.hideAll()
         with DBMainOperations() as db:
             try:
-                taskname = widgets.tblTasks.item(row, 0).text()
-                self.selectedTask = db.getAllRecords(tbl='tasks', specifcols='task_name', 
-                                                     whclause=f'task_name = "{taskname}"')[0][0]
-                print("EXIST!")
-                print('task: ', self.selectedTask)
-                return True
+                if row == -1:
+                    taskname = taskname
+                    exist = db.cursor.execute(f"""
+                        SELECT EXISTS(SELECT 1 FROM tasks WHERE task_name = "{taskname}");"""
+                    ).fetchall()[0][0]
+                    existAtLeastATask = True if exist == 1 else False
+                    return existAtLeastATask
+                else:
+                    taskname = widgets.tblTasks.item(row, 0).text()
+                    self.selectedTask = db.getAllRecords(tbl='tasks', specifcols='task_name', 
+                                                        whclause=f'task_name = "{taskname}"')[0][0]
+                    print("EXIST!")
+                    print('task: ', self.selectedTask)
+                    return True
             except Exception:
                 self.selectedTask = ''
                 print("NOT EXIST!")
                 return False
+
+    def isTopicExistentInDB(self, topicname=None):
+        with DBMainOperations() as db:
+            exist = db.cursor.execute(f"""
+                SELECT EXISTS(SELECT 1 FROM topics WHERE topic_name = "{topicname}");"""
+            ).fetchall()[0][0]
+            existAtLeastATopic = True if exist == 1 else False
+            return existAtLeastATopic
+
 
     def hideAll(self):
         self.activeTable = None
@@ -393,13 +418,21 @@ class DTaskMainPage(QtWidgets.QWidget):
             self, "Novo Tópico", "Entre com o nome do novo tópico:")
         with DBMainOperations() as db:
             if inputstatus:
-                qry = 'SELECT * FROM topics ORDER BY topic_id DESC LIMIT 1;'
-                lastid = db.cursor.execute(qry).fetchall()[0][0]+1
-                print('lastid:', lastid)
-                db.populateTbl(tbl='topics', params=(lastid, newtopic))
-                self.hideAll()
-                self.loadTopicsInTable()
-                self.loadTopicsInList()
+                if not self.isTopicExistentInDB(topicname=newtopic):
+                    qry = 'SELECT * FROM topics ORDER BY topic_id DESC LIMIT 1;'
+                    lastid = db.cursor.execute(qry).fetchall()[0][0]+1
+                    print('lastid:', lastid)
+                    db.populateTbl(tbl='topics', params=(lastid, newtopic))
+                    self.hideAll()
+                    self.loadTopicsInTable()
+                    self.loadTopicsInList()
+                else:
+                    msgBox = QtWidgets.QMessageBox(self)
+                    msgBox.setWindowTitle(f"Ledo engano...")
+                    msgBox.setText("Tópico existente!")
+                    msgBox.setInformativeText("Já existe um tópico com esse nome! Crie novamente, diferenciando-os.")
+                    msgBox.show()
+                    
         #self.loadDataInTable()
 
     def updateCalendarDate(self):
