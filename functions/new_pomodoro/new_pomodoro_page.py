@@ -84,18 +84,25 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         widgets.tblTasks.cellDoubleClicked.connect(self.markTaskAsFinished)
         widgets.tblTasks.cellClicked.connect(self.showTaskInLabel)
 
+        widgets.btnPomodoro.clicked.connect(self.verifyIfIsLongRest)
         widgets.btnPomodoro.clicked.connect(lambda: self.updateCurrentMode(Mode.work))
+        widgets.btnPomodoro.clicked.connect(lambda: widgets.btnLongRest.setDisabled(True))
+        widgets.btnShortRest.clicked.connect(self.verifyIfIsLongRest)
         widgets.btnShortRest.clicked.connect(lambda: self.updateCurrentMode(Mode.short_rest))
+        widgets.btnShortRest.clicked.connect(lambda: widgets.btnLongRest.setDisabled(True))
         widgets.btnLongRest.clicked.connect(lambda: self.updateCurrentMode(Mode.long_rest))
+        widgets.btnLongRest.clicked.connect(self.resetTimer())
 
         widgets.btnStartTimer.clicked.connect(self.startTimer)
         widgets.btnStartTimer.clicked.connect(lambda: widgets.btnStartTimer.setDisabled(True))
         widgets.btnStartTimer.clicked.connect(lambda: widgets.btnPauseTimer.setDisabled(False))
         widgets.btnStartTimer.clicked.connect(lambda: widgets.btnResetTimer.setDisabled(False))
+
         widgets.btnPauseTimer.clicked.connect(self.pauseTimer)
         widgets.btnPauseTimer.clicked.connect(lambda: widgets.btnStartTimer.setDisabled(False))
         widgets.btnPauseTimer.clicked.connect(lambda: widgets.btnPauseTimer.setDisabled(True))
         widgets.btnPauseTimer.clicked.connect(lambda: widgets.btnResetTimer.setDisabled(False))
+
         widgets.btnResetTimer.clicked.connect(self.resetTimer)
         widgets.btnResetTimer.clicked.connect(lambda: widgets.btnStartTimer.setDisabled(False))
         widgets.btnResetTimer.clicked.connect(lambda: widgets.btnPauseTimer.setDisabled(True))
@@ -136,6 +143,12 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         else:
             widgets.rdbtnActivedAlarm.setChecked(False)
             widgets.rdbtnDeactivedAlarm.setChecked(True)
+
+    def verifyIfIsLongRest(self):
+        if self.currentMode == Mode.long_rest:
+            self.resetTimer()
+            self.currentPomodoros = 0
+            self.showNumPomodoros(0)
 
     # Settings
 
@@ -339,7 +352,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
 
     def updateTime(self):
         self.time = self.time.addSecs(-1)
-        self.totalTime = self.totalTime.addSecs(-15)
+        self.totalTime = self.totalTime.addSecs(-1)
         if self.currentMode is Mode.work:
             self.updateTimeInDB()
             self.workTime = self.workTime.addSecs(1)
@@ -390,6 +403,8 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             if self.autoPause == 'Yes':
                 self.startTimer()
                 self.setButtonsEnabled()
+            else:
+                self.paused = True
 
         elif self.currentMode is Mode.short_rest and self.time <= QtCore.QTime(0, 0, 0, 0) and not self.changeToLongRest():
             self.showNumPomodoros(self.currentPomodoros)
@@ -402,6 +417,8 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             if self.autoPomo == 'Yes':
                 self.startTimer()
                 self.setButtonsEnabled()
+            else:
+                self.paused = True
         elif self.currentMode is Mode.long_rest and self.time <= QtCore.QTime(0, 0, 0, 0):
             self.showNumPomodoros(0)
             print("back to new pomodoro cycle!")
@@ -410,7 +427,11 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             self.resetTimer()
             widgets.btnLongRest.setDisabled(True)
             widgets.btnPomodoro.click()
-            self.setButtonsEnabled()
+            if self.autoPause == 'Yes':
+                self.startTimer()
+                self.setButtonsEnabled()
+            else:
+                self.paused = True
             
         else:
             pass
