@@ -76,8 +76,9 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.autoPause = self.settings.value(autoPauseKey, defaultValue='No')
         self.autoPomo = self.settings.value(autoPomoKey, defaultValue='No')
         self.activeAlarm = self.settings.value(alarmKey, defaultValue='Actived')
+        self.paused = False
         #print('testing setttings 1:')
-        #print(f'auto pomo? {self.autoPomo}, auto pause? {self.autoPause}, alarm active? {self.activeAlarm}')
+        print(f'auto pomo? {self.autoPomo}, auto pause? {self.autoPause}, alarm active? {self.activeAlarm}')
 
     def setupConnections(self):
         widgets.tblTasks.cellDoubleClicked.connect(self.markTaskAsFinished)
@@ -185,15 +186,16 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         self.autoPomo = self.settings.value(autoPomoKey, defaultValue='No')
         self.activeAlarm = self.settings.value(alarmKey, defaultValue='Actived')
 
-        #print('new pause: ', self.settings.value(autoPauseKey))
-        #print('new pomo: ', self.settings.value(autoPomoKey))
-        #print('new alarm: ', self.settings.value(alarmKey))
+        print('new pause: ', self.settings.value(autoPauseKey))
+        print('new pomo: ', self.settings.value(autoPomoKey))
+        print('new alarm: ', self.settings.value(alarmKey))
         
 
     # Pomodoro Timer Functions
 
     def updateCurrentMode(self, mode):
-        if not self.allowChangeModeManually:
+        print('is paused?', self.paused)
+        if not self.allowChangeModeManually and not self.paused:
             msgBox = QtWidgets.QMessageBox(self)
             msgBox.setText("Pomodoro ainda em andamento...")
             msgBox.setInformativeText("Trocar de estado resetará o atual progresso")
@@ -210,7 +212,10 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
                 self.currentPomodoros = 0
                 self.showNumPomodoros(self.currentPomodoros)
         self.currentMode = mode
-        self.resetTimer()
+        if self.paused:
+            pass
+        else:
+            self.resetTimer()
 
     def startTimer(self):
         if self.currentMode == Mode.work:
@@ -222,6 +227,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             widgets.btnLongRest.click()
         else:
             pass
+        self.paused = False
         self.allowChangeModeManually = False
         try:
             if not self.timer.isActive():
@@ -296,8 +302,10 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
 
     def pauseTimer(self):
         try:
+            self.paused = True
             self.timer.stop()
             self.timer.disconnect()
+            self.allowChangeModeManually = True
         except:
             pass
 
@@ -355,6 +363,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         #print(f'percentage of progress: {self.workSecondPercent} {self.shortRestSecondPercent} {self.longRestSecondPercent}')
         #print("="*50)
         #print(self.currentMode is Mode.work and self.time <= QtCore.QTime(0, 0, 0, 0))
+        
         if self.currentMode is Mode.work and self.time <= QtCore.QTime(0, 0, 0, 0) and not self.changeToLongRest():
             if self.activeAlarm == 'Actived':
                 playsound('././sounds/forest-birds.wav')
@@ -378,8 +387,9 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
                 self.resetTimer()
                 widgets.btnLongRest.setDisabled(False)
                 widgets.btnLongRest.click()
-            if self.autoPause == 'true':
+            if self.autoPause == 'Yes':
                 self.startTimer()
+                self.setButtonsEnabled()
 
         elif self.currentMode is Mode.short_rest and self.time <= QtCore.QTime(0, 0, 0, 0) and not self.changeToLongRest():
             self.showNumPomodoros(self.currentPomodoros)
@@ -389,8 +399,9 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
             self.resetTimer()
             widgets.btnLongRest.setDisabled(True)
             widgets.btnPomodoro.click()
-            if self.autoPomo == 'true':
+            if self.autoPomo == 'Yes':
                 self.startTimer()
+                self.setButtonsEnabled()
         elif self.currentMode is Mode.long_rest and self.time <= QtCore.QTime(0, 0, 0, 0):
             self.showNumPomodoros(0)
             print("back to new pomodoro cycle!")
