@@ -20,6 +20,7 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         self.topicPomodoroID = -1
         self._chart_view2 = None
         self._chart_view3 = None
+        self.childrenPlot = 0
 
     def setupConnections(self):
         widgets.qCBoxFlashcards.currentIndexChanged.connect(self.selectTopicToFlashcards)
@@ -55,6 +56,7 @@ class SeeProgressMainPage(QtWidgets.QWidget):
     ######## POMODORO
 
     def setupFlashcardsPlot(self):
+        oldwidget = self._chart_view2
         print("selecting...")
         badcount, okcount, goodcount, studedcards = self.loadFeedbacksCount(topicid=self.topicFlashcardsID)
         series = QtCharts.QPieSeries()
@@ -76,16 +78,14 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         self._chart_view2.setRenderHint(QtGui.QPainter.Antialiasing)
         self._chart_view2.chart().setTheme(QtCharts.QChart.ChartThemeDark)
 
-        childrenPlot = widgets.verticalLayout_18.findChildren(QtCharts.QChartView)
-        print('childrenplot: ', len(childrenPlot))
-        if len(childrenPlot) == 0:
+        if self.childrenPlot == 0:
             widgets.verticalLayout_18.addWidget(self._chart_view2)
+            self.childrenPlot += 1
         else:
-            try:
-                widgets.verticalLayout_18.replaceWidget(childrenPlot[0], self._chart_view2)    # verticalLayout_20: Tasks Frame
-            except Exception as ex:
-                print('alegriaaaaa', ex)
+            widgets.verticalLayout_18.removeWidget(oldwidget)
+            widgets.verticalLayout_18.addWidget(self._chart_view2)
 
+       
     def setupPomodoroPlot(self):
         widgets.verticalLayout_21.removeWidget(self._chart_view3)
         #pomodoro temp
@@ -146,8 +146,6 @@ class SeeProgressMainPage(QtWidgets.QWidget):
             with DBMainOperations() as db:
                 self.topicFlashcardsID = db.getAllRecords(tbl='topics', specifcols='topic_id', 
                                                           whclause=f'topic_name = "{topicname}"')[0][0]
-            widgets.verticalLayout_21.removeWidget(self._chart_view2)
-            self.setupFlashcardsPlot()
         self.setupFlashcardsStats()
 
     def selectTopicToPomodoro(self):
@@ -162,7 +160,6 @@ class SeeProgressMainPage(QtWidgets.QWidget):
                                                           whclause=f'topic_name = "{topicname}"')[0][0]
             
             widgets.verticalLayout_21.removeWidget(self._chart_view3)
-            self.setupPomodoroPlot()
         self.setupPomodoroStats()
 
     ########################################
