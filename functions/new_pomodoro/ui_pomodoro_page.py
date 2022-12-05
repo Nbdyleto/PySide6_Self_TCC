@@ -230,7 +230,8 @@ class Ui_Widget(object):
         self.horizontalLayout_11.setObjectName("horizontalLayout_11")
         self.workMinutesSpinBox = QtWidgets.QSpinBox(self.workGroupBox)
         self.workMinutesSpinBox.setMaximumSize(QtCore.QSize(65, 16777215))
-        self.workMinutesSpinBox.setMaximum(360)
+        self.workMinutesSpinBox.setMinimum(1)
+        self.workMinutesSpinBox.setMaximum(59)
         self.workMinutesSpinBox.setObjectName("workMinutesSpinBox")
         self.horizontalLayout_11.addWidget(self.workMinutesSpinBox)
         self.horizontalLayout_13.addWidget(self.workGroupBox)
@@ -240,7 +241,8 @@ class Ui_Widget(object):
         self.horizontalLayout_10.setObjectName("horizontalLayout_10")
         self.shortMinutesSpinBox = QtWidgets.QSpinBox(self.shortRestGroupBox)
         self.shortMinutesSpinBox.setMaximumSize(QtCore.QSize(65, 16777215))
-        self.shortMinutesSpinBox.setMaximum(360)
+        self.shortMinutesSpinBox.setMinimum(1)
+        self.shortMinutesSpinBox.setMaximum(59)
         self.shortMinutesSpinBox.setObjectName("shortMinutesSpinBox")
         self.horizontalLayout_10.addWidget(self.shortMinutesSpinBox)
         self.horizontalLayout_13.addWidget(self.shortRestGroupBox)
@@ -250,6 +252,7 @@ class Ui_Widget(object):
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
         self.longMinutesSpinBox = QtWidgets.QSpinBox(self.groupBox_3)
         self.longMinutesSpinBox.setMaximumSize(QtCore.QSize(65, 16777215))
+        self.longMinutesSpinBox.setMinimum(1)
         self.longMinutesSpinBox.setMaximum(360)
         self.longMinutesSpinBox.setObjectName("longMinutesSpinBox")
         self.horizontalLayout_9.addWidget(self.longMinutesSpinBox)
@@ -315,7 +318,7 @@ class Ui_Widget(object):
         self.horizontalLayout.addWidget(self.tabWidget)
 
         self.retranslateUi(Widget)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(Widget)
 
     def retranslateUi(self, Widget):

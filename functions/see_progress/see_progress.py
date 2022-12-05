@@ -12,20 +12,14 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         self.setupVariables()
         self.setupConnections()
         self.setupWidgets()
-        self.setupFlashcardsPlot()
-        self.setupPomodoroPlot()
 
     def setupVariables(self):
         global widgets
         widgets = self.ui
         self.topicFlashcardsID = -1
         self.topicPomodoroID = -1
-
         self._chart_view2 = None
-        #self._chart_view2.setRenderHint(QtGui.QPainter.Antialiasing)
-
         self._chart_view3 = None
-        #self._chart_view3.setRenderHint(QtGui.QPainter.Antialiasing)
 
     def setupConnections(self):
         widgets.qCBoxFlashcards.currentIndexChanged.connect(self.selectTopicToFlashcards)
@@ -45,11 +39,13 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         widgets.lblGoodFeedbackCount.setText(str(goodcount))
         widgets.lblStudedCards.setText(str(studedcards))
         self.loadSatisfatoryOrUnsatisfatory(topicid=self.topicFlashcardsID)
+        self.setupFlashcardsPlot()
 
     def setupPomodoroStats(self):   
         print('\n ID POMODORO É O SEGUINTE: ', self.topicPomodoroID)
         widgets.lblTotalPomodoros.setText(self.loadTotalPomodoros(topicid=self.topicPomodoroID))
         widgets.lblTotalTime.setText(self.loadTotalTimePomodoros(topicid=self.topicPomodoroID))
+        self.setupPomodoroPlot()
 
         #LOAD TABLE WITH STATUS: 
         #self.loadStatusOfDecks(topicid=self.topicID)
@@ -59,7 +55,6 @@ class SeeProgressMainPage(QtWidgets.QWidget):
     ######## POMODORO
 
     def setupFlashcardsPlot(self):
-        widgets.verticalLayout_18.removeWidget(self._chart_view2)
         print("selecting...")
         badcount, okcount, goodcount, studedcards = self.loadFeedbacksCount(topicid=self.topicFlashcardsID)
         series = QtCharts.QPieSeries()
@@ -75,11 +70,21 @@ class SeeProgressMainPage(QtWidgets.QWidget):
             slice2.setBrush(QtCore.Qt.green)
         chart2 = QtCharts.QChart()
         chart2.addSeries(series)
-        chart2.setTitle('Simple piechart example')
+        chart2.setTitle('Rendimento de Estudos: Flashcards')
         chart2.legend().show()
         self._chart_view2 = QtCharts.QChartView(chart2)
         self._chart_view2.setRenderHint(QtGui.QPainter.Antialiasing)
-        widgets.verticalLayout_18.addWidget(self._chart_view2)    # verticalLayout_20: Tasks Frame
+        self._chart_view2.chart().setTheme(QtCharts.QChart.ChartThemeDark)
+
+        childrenPlot = widgets.verticalLayout_18.findChildren(QtCharts.QChartView)
+        print('childrenplot: ', len(childrenPlot))
+        if len(childrenPlot) == 0:
+            widgets.verticalLayout_18.addWidget(self._chart_view2)
+        else:
+            try:
+                widgets.verticalLayout_18.replaceWidget(childrenPlot[0], self._chart_view2)    # verticalLayout_20: Tasks Frame
+            except Exception as ex:
+                print('alegriaaaaa', ex)
 
     def setupPomodoroPlot(self):
         widgets.verticalLayout_21.removeWidget(self._chart_view3)
@@ -102,7 +107,7 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         series3.append(set4)
         chart3 = QtCharts.QChart()
         chart3.addSeries(series3)
-        chart3.setTitle("Percent Example")
+        chart3.setTitle("Rendimento de Estudos: Pomodoro")
         chart3.setAnimationOptions(QtCharts.QChart.SeriesAnimations)
         categories = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
         axis = QtCharts.QBarCategoryAxis()
@@ -113,6 +118,7 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         chart3.legend().setAlignment(QtCore.Qt.AlignBottom)
         self._chart_view3 = QtCharts.QChartView(chart3)
         self._chart_view3.setRenderHint(QtGui.QPainter.Antialiasing)
+        self._chart_view3.chart().setTheme(QtCharts.QChart.ChartThemeDark)
         widgets.verticalLayout_21.addWidget(self._chart_view3)
     
     def loadTopicsInComboBox(self):
@@ -207,6 +213,7 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         return str(totalcards)
 
     def loadFeedbacksCount(self, topicid=-1):
+        print("LOADING FEEDBACKS, TOPICID:", self.topicFlashcardsID)
         with DBMainOperations() as db:
             if topicid == -1:
                 exist = db.cursor.execute(f"""

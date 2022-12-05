@@ -27,7 +27,7 @@
 </string>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tabWidgetPage1">
       <attribute name="title">
@@ -538,8 +538,11 @@ text-align: center;</string>
                      <property name="suffix">
                       <string>m</string>
                      </property>
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
                      <property name="maximum">
-                      <number>360</number>
+                      <number>59</number>
                      </property>
                     </widget>
                    </item>
@@ -563,8 +566,11 @@ text-align: center;</string>
                      <property name="suffix">
                       <string>m</string>
                      </property>
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
                      <property name="maximum">
-                      <number>360</number>
+                      <number>59</number>
                      </property>
                     </widget>
                    </item>
@@ -587,6 +593,9 @@ text-align: center;</string>
                      </property>
                      <property name="suffix">
                       <string>m</string>
+                     </property>
+                     <property name="minimum">
+                      <number>1</number>
                      </property>
                      <property name="maximum">
                       <number>360</number>
