@@ -14,12 +14,10 @@ Ver Progresso e Rendimento do Estudo;
 Este é um aplicativo para auxiliar autodidatas em sua jornada de estudos.
 
 ### Ferramentas
-* Gerencie o excesso de informações que te atrapalha nos estudos.
-* Ferramenta pomodoro para organizar blocos de estudos/atividades.
-* FlashCards: Método de memorização com cartões, organize você mesmo da forma que mais for confortável!
-* Habit Tracker: Visualize o seu progresso (veja através de um gráfico).
-* Calendário com avisos para revisão diária.
-* Filtro de tela para calibrar o impacto da luz azul e sua influência no ciclo circadiano.
+* Ferramenta Pomodoro para organizar blocos de estudos/atividades.
+* Método de memorização com cartões; organize você mesmo da forma que mais for confortável!
+* Gerencie suas tarefas com um Acompanhador de Tarefas que as dispõe de maneira organizada.
+* Paletas de Cores adaptativas, pensadas de maneira a ornar com os blocos de estudo.
 
 ### Telas do programa 
 Capturas de telas do programa, veja logo abaixo:

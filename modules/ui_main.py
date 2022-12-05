@@ -313,30 +313,17 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_11.addWidget(self.btn_share)
 
-        self.btn_more = QPushButton(self.extraTopMenu)
-        self.btn_more.setObjectName(u"btn_more")
-        sizePolicy.setHeightForWidth(self.btn_more.sizePolicy().hasHeightForWidth())
-        self.btn_more.setSizePolicy(sizePolicy)
-        self.btn_more.setMinimumSize(QSize(0, 45))
-        self.btn_more.setFont(font)
-        self.btn_more.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_more.setLayoutDirection(Qt.LeftToRight)
-        self.btn_more.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-layers.png);")
+        self.btn_git_hub = QPushButton(self.extraTopMenu)
+        self.btn_git_hub.setObjectName(u"btn_git_hub")
+        sizePolicy.setHeightForWidth(self.btn_git_hub.sizePolicy().hasHeightForWidth())
+        self.btn_git_hub.setSizePolicy(sizePolicy)
+        self.btn_git_hub.setMinimumSize(QSize(0, 45))
+        self.btn_git_hub.setFont(font)
+        self.btn_git_hub.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_git_hub.setLayoutDirection(Qt.LeftToRight)
+        self.btn_git_hub.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-layers.png);")
 
-        self.verticalLayout_11.addWidget(self.btn_more)
-
-        self.btn_adjustments = QPushButton(self.extraTopMenu)
-        self.btn_adjustments.setObjectName(u"btn_adjustments")
-        sizePolicy.setHeightForWidth(self.btn_adjustments.sizePolicy().hasHeightForWidth())
-        self.btn_adjustments.setSizePolicy(sizePolicy)
-        self.btn_adjustments.setMinimumSize(QSize(0, 45))
-        self.btn_adjustments.setFont(font)
-        self.btn_adjustments.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_adjustments.setLayoutDirection(Qt.LeftToRight)
-        self.btn_adjustments.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-equalizer.png);")
-
-        self.verticalLayout_11.addWidget(self.btn_adjustments)
-
+        self.verticalLayout_11.addWidget(self.btn_git_hub)
 
         self.verticalLayout_12.addWidget(self.extraTopMenu, 0, Qt.AlignTop)
 
@@ -1035,8 +1022,7 @@ class Ui_MainWindow(object):
 #endif // QT_CONFIG(tooltip)
         self.extraCloseColumnBtn.setText("")
         self.btn_share.setText(QCoreApplication.translate("MainWindow", u"Nosso Site", None))
-        self.btn_adjustments.setText(QCoreApplication.translate("MainWindow", u"Ajustes", None))
-        self.btn_more.setText(QCoreApplication.translate("MainWindow", u"Contribua (GitHub)", None))
+        self.btn_git_hub.setText(QCoreApplication.translate("MainWindow", u"Contribua (GitHub)", None))
         self.textEdit.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"

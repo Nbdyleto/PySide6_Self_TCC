@@ -10,6 +10,7 @@ import modules.resources_rc as resources_rc
 import sys
 import os
 import platform
+import webbrowser
 
 from functions.db_main_operations import DBMainOperations
 
@@ -143,6 +144,8 @@ class MainWindow(QMainWindow):
         widgets.btn_flashcards_page.clicked.connect(self.buttonClick)
         widgets.btn_pomodoro_page.clicked.connect(self.buttonClick)
         widgets.btn_daily_task_page.clicked.connect(self.buttonClick)
+        widgets.btn_share.clicked.connect(lambda: webbrowser.open('https://github.com/Nbdyleto/PySide6_Self_TCC'))
+        widgets.btn_git_hub.clicked.connect(lambda: webbrowser.open('https://github.com/Nbdyleto/PySide6_Self_TCC/issues'))
 
         # PALLETE BUTTONS
         self.setUserChangePallete(True)
@@ -222,7 +225,7 @@ class MainWindow(QMainWindow):
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
             self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet())) 
             widgets.newPomodoroPage.loadDataInTable()
-            widgets.newPomodoroPage.loadTopicsInList()
+            #widgets.newPomodoroPage.loadTopicsInList()
 
         # SHOW DAILY TASK PAGE
         if btnName == "btn_daily_task_page":
