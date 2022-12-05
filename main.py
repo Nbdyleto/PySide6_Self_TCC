@@ -54,7 +54,7 @@ class MainWindow(QMainWindow):
                 com volume igual a 28 080 litros. Em uma maquete que representa o edifício, a caixa-d’água tem 
                 dimensões 2 cm × 3,51 cm × 4 cm. Dado: 1 dm³ = 1 L, A escala usada pelo arquiteto foi: """, "1 : 100", 1))
             db.populateTbl(tbl='flashcards', params=(4, "Qual o uso adequado da hiperbole?", "Ela é utilizada para passar uma ideia de intensidade por meio de expressões exageradas intencionalmente", 3))
-            db.populateTbl(tbl='flashcards', params=(5, "uais paises faziam parte dos aliados na segunda guerra mundial?", "Os aliados eram Estados Unidos, Inglaterra, França e União sovietica.", 2))
+            db.populateTbl(tbl='flashcards', params=(5, "Quais paises faziam parte dos aliados na segunda guerra mundial?", "Os aliados eram Estados Unidos, Inglaterra, França e União sovietica.", 2))
             db.populateTbl(tbl='flashcards', params=(6, "Diferencie acidos e bases", "Um ácido será toda espécie química que sobre ionização liberando como único cátion o H+ em meio aquoso. Já as bases, sofrem dissociação liberando como único ânion o OH-", 3))
             db.populateTbl(tbl='flashcards', params=(7, "Qual a função da mitocondria?", "As mitocôndrias são organelas celulares relacionadas com o processo de respiração celular", 1))
 
@@ -252,12 +252,17 @@ class MainWindow(QMainWindow):
             if btnName == "btnPomodoro" or btnName == "btnPyJucoBlue":
                 UIFunctions.theme(self, self.blueFile, True)
                 AppFunctions.setThemeBlue(self)
+                widgets.newFlashcardsPage.palleteFile = self.blueFile
+
             if btnName == "btnShortRest" or btnName == "btnPyJucoGreen":
                 UIFunctions.theme(self, self.greenFile, True)
                 AppFunctions.setThemeGreen(self)
+                widgets.newFlashcardsPage.palleteFile = self.greenFile
+
             if btnName == "btnLongRest" or btnName == "btnPyJucoPurple":
                 UIFunctions.theme(self, self.purpleFile, True)
                 AppFunctions.setThemePurple(self)
+                widgets.newFlashcardsPage.palleteFile = self.purpleFile
 
             UIFunctions.resetStyle(self, self.btnSelected.objectName()) # RESET ANOTHERS MENU BUTTONS
             self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet())) # SET SELECTED MENU BUTTON

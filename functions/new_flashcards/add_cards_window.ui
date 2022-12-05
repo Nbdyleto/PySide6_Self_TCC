@@ -9,12 +9,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>250</height>
+    <width>551</width>
+    <height>340</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>500</width>
+    <height>250</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>addCardsWindow</string>
+   <string>Adicionar Flashcards</string>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>
@@ -34,7 +40,7 @@
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: bold 15px;</string>
+       <string notr="true">font: bold 18px;</string>
       </property>
       <property name="text">
        <string>DeckName</string>
@@ -44,30 +50,43 @@
     <item>
      <widget class="QFrame" name="frame_3">
       <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::NoFrame</enum>
       </property>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
+      </property>
+      <property name="lineWidth">
+       <number>1</number>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QFrame" name="frame">
          <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
+          <enum>QFrame::NoFrame</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
+         <property name="lineWidth">
+          <number>1</number>
+         </property>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
            <widget class="QLabel" name="label">
+            <property name="styleSheet">
+             <string notr="true">font: 18px;</string>
+            </property>
             <property name="text">
              <string>Frente (pergunta)</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPlainTextEdit" name="plainTextEditFront"/>
+           <widget class="QPlainTextEdit" name="plainTextEditFront">
+            <property name="styleSheet">
+             <string notr="true">font: 18px;</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -75,21 +94,31 @@
        <item>
         <widget class="QFrame" name="frame_2">
          <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
+          <enum>QFrame::NoFrame</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
+         <property name="lineWidth">
+          <number>1</number>
+         </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
            <widget class="QLabel" name="label_2">
+            <property name="styleSheet">
+             <string notr="true">font: 18px;</string>
+            </property>
             <property name="text">
              <string>Verso (resposta)</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPlainTextEdit" name="plainTextEditVerse"/>
+           <widget class="QPlainTextEdit" name="plainTextEditVerse">
+            <property name="styleSheet">
+             <string notr="true">font: 18px;</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -97,23 +126,27 @@
       </layout>
      </widget>
     </item>
-    <item>
-     <widget class="QFrame" name="frame_4">
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QPushButton" name="btnAddCardInDeck">
+      <property name="minimumSize">
+       <size>
+        <width>220</width>
+        <height>35</height>
+       </size>
       </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QPushButton" name="btnAddCardInDeck">
-         <property name="text">
-          <string>Adicionar Card</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <property name="styleSheet">
+       <string notr="true">background-repeat: no-repeat; 
+border-radius: 15px;
+text-align: center;
+font: bold 18px;
+border: 2px solid #1D211F;</string>
+      </property>
+      <property name="text">
+       <string>Adicionar Card</string>
+      </property>
      </widget>
     </item>
    </layout>

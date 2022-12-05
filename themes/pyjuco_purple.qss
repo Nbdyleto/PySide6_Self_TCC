@@ -3,6 +3,10 @@ QWidget{
 	font: 10pt "Times-new-roman";
 }
 
+QMainWindow {
+	background-color: rgb(45, 37, 51);
+}
+
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 Tooltip */
 QToolTip {

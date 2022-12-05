@@ -31,6 +31,9 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         self.hitsOkPercentage = 0
         self.hitsGoodPercentage = 0
 
+        # Pallete
+        self.palleteFile = "themes/pyjuco_purple.qss"
+
 
     def setupConnections(self):
         # Main Page Connections
@@ -388,7 +391,10 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgetsAdd = self.ui_addCards
         widgetsAdd.lblDeckName.setText(deckname)
         widgetsAdd.btnAddCardInDeck.clicked.connect(lambda: self.addCardsInDeck(deckid))
-    
+
+        str = open(self.palleteFile, 'r').read()
+        self.addCardsWindow.setStyleSheet(str)
+
     def addCardsInDeck(self, deckid):
         front = widgetsAdd.plainTextEditFront.toPlainText()
         verse = widgetsAdd.plainTextEditVerse.toPlainText()
@@ -409,7 +415,9 @@ class MainFlashcardsPage(QtWidgets.QWidget):
                 widgetsAdd.plainTextEditVerse.clear()
         else:
             retrymsg = QtWidgets.QMessageBox(self.addCardsWindow)
+            retrymsg.setWindowTitle('Falta de informações...')
             retrymsg.setText('Coloque informações na carta! (frente e verso)')
+            retrymsg.setStyleSheet('background-color: black;')
             retrymsg.show()
         if self.topicID == -1:
             self.loadDecksInTable(showall=True, topicid=-1)
