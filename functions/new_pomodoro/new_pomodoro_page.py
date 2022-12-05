@@ -108,7 +108,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         widgets.btnResetTimer.clicked.connect(lambda: widgets.btnPauseTimer.setDisabled(True))
         widgets.btnResetTimer.clicked.connect(lambda: widgets.btnResetTimer.setDisabled(False))
 
-        widgets.listByTopic.itemClicked.connect(self.checkTopicFilter)
+        #widgets.listByTopic.itemClicked.connect(self.checkTopicFilter)
 
         widgets.btnSaveSettings.clicked.connect(self.updateSettings)
 
@@ -122,9 +122,7 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         widgets.longMinutesSpinBox.setValue(int(self.settings.value(longMinutesKey, 15)))
 
         self.showNumPomodoros(0)
-        #print('testing setttings 2:')
-        #print(f'auto pomo? {self.autoPomo}, auto pause? {self.autoPause}, alarm active? {self.activeAlarm}')
-        self.loadTopicsInList()
+        #self.loadTopicsInList()
         if self.autoPause == 'Yes':
             widgets.rdbtnYesPauseAuto.setChecked(True)
             widgets.rdbtnNoPauseAuto.setChecked(False)
@@ -509,7 +507,32 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         with DBMainOperations() as db:
             name = db.getAllRecords(tbl='topics', whclause=f'topic_id = "{topicid}"')[0][1] # get topic_name
         return name
-    
+
+    def markTaskAsFinished(self, row):
+        itemname = widgets.tblTasks.item(row, 0)
+        itemtopic = widgets.tblTasks.item(row, 1)
+        font = widgets.tblTasks.item(row, 0).font()
+        font.setStrikeOut(False if itemname.font().strikeOut() else True)
+        itemname.setFont(font)
+        with DBMainOperations() as db:
+            qry = f"UPDATE tasks SET status = 'Finalizada!' WHERE task_name = '{itemname.text()}'"
+            db.cursor.execute(qry)
+        task = itemname.text() + ' (' + itemtopic.text() + ')'
+        print(task)
+        print(widgets.lblActualTask.text())
+        if task == widgets.lblActualTask.text():
+            widgets.lblActualTask.setText('Selecione uma tarefa na aba "Tarefas" desta página...')
+
+    def showTaskInLabel(self, row):
+        taskname = widgets.tblTasks.item(row, 0).text()
+        topicname = widgets.tblTasks.item(row, 1).text()
+        widgets.lblActualTask.setText(f'{taskname} ({topicname})')
+        with DBMainOperations() as db:
+            topicid = db.getAllRecords(tbl='topics', specifcols='topic_id', 
+                                        whclause=f'topic_name = "{topicname}"')[0][0]            
+        self.activeTaskTopicID = topicid
+        
+    """
     # ORDER BY FUNCTIONS
     # ///////////////////////////////////////////////////////////////
 
@@ -566,26 +589,4 @@ class NewPomodoroMainPage(QtWidgets.QWidget):
         
         self.loadDataInTable()
 
-    def markTaskAsFinished(self, row):
-        itemname = widgets.tblTasks.item(row, 0)
-        itemtopic = widgets.tblTasks.item(row, 1)
-        font = widgets.tblTasks.item(row, 0).font()
-        font.setStrikeOut(False if itemname.font().strikeOut() else True)
-        itemname.setFont(font)
-        with DBMainOperations() as db:
-            qry = f"UPDATE tasks SET status = 'Finalizada!' WHERE task_name = '{itemname.text()}'"
-            db.cursor.execute(qry)
-        task = itemname.text() + ' (' + itemtopic.text() + ')'
-        print(task)
-        print(widgets.lblActualTask.text())
-        if task == widgets.lblActualTask.text():
-            widgets.lblActualTask.setText('Selecione uma tarefa na aba "Tarefas" desta página...')
-
-    def showTaskInLabel(self, row):
-        taskname = widgets.tblTasks.item(row, 0).text()
-        topicname = widgets.tblTasks.item(row, 1).text()
-        widgets.lblActualTask.setText(f'{taskname} ({topicname})')
-        with DBMainOperations() as db:
-            topicid = db.getAllRecords(tbl='topics', specifcols='topic_id', 
-                                        whclause=f'topic_name = "{topicname}"')[0][0]            
-        self.activeTaskTopicID = topicid
+    """

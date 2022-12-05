@@ -531,7 +531,7 @@ QTabBar::tab {
 	padding: 10px;
 }
 QTabBar::tab:selected {
-	background: gray;
+	background: rgb(194, 119, 250);
 }
 QTabWidget::pane {
 	background-color: rgb(39, 32, 43);

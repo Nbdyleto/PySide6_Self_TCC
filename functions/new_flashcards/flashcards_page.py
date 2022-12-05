@@ -272,7 +272,7 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             return existAtLeastADeck
     
     def editDeck(self, deckid):
-        newvalue, inputstatus = QtWidgets.QInputDialog.getText(self, "Alterar Nome", "Entre com o novo nome do deck:")
+        newvalue, inputstatus = QtWidgets.QInputDialog.getText(self, "Alteração de Nome", "Alterar nome do deck para:")
         with DBMainOperations() as db:
             if inputstatus:
                 db.cursor.execute(f"UPDATE decks SET deck_name = '{newvalue}' WHERE deck_id == {deckid}")

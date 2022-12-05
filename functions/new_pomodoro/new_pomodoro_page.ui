@@ -27,7 +27,7 @@
 </string>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tabWidgetPage1">
       <attribute name="title">
@@ -382,67 +382,6 @@ text-align: center;</string>
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_10">
-          <item>
-           <widget class="QFrame" name="frame_9">
-            <property name="maximumSize">
-             <size>
-              <width>250</width>
-              <height>190</height>
-             </size>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
-             <item>
-              <widget class="QFrame" name="frame_2">
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_7">
-                <item>
-                 <widget class="QPushButton" name="pushButton">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>120</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>200</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">background-repeat: no-repeat; 
-border-radius: 20px;
-font: 18px;
-</string>
-                  </property>
-                  <property name="text">
-                   <string>Ordenar por Tópico</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QListWidget" name="listByTopic"/>
-                </item>
-               </layout>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
           <item>
            <widget class="QFrame" name="frame_7">
             <property name="minimumSize">
