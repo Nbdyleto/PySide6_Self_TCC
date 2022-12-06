@@ -21,11 +21,11 @@
 </string>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
-     <widget class="QWidget" name="tabWelcome">
+     <widget class="QWidget" name="tabFlashcards">
       <attribute name="title">
-       <string>Boas Vindas!</string>
+       <string>Flashcards</string>
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
@@ -33,9 +33,9 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tabFlashcards">
+     <widget class="QWidget" name="tabTaskTracker">
       <attribute name="title">
-       <string>Flashcards</string>
+       <string>Tarefas</string>
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
@@ -43,9 +43,9 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tabTasks">
+     <widget class="QWidget" name="tabPomodoro">
       <attribute name="title">
-       <string>Tarefas</string>
+       <string>Pomodoro</string>
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_4">
        <item>
@@ -53,9 +53,9 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tabPomodoro">
+     <widget class="QWidget" name="tabSeeProgress">
       <attribute name="title">
-       <string>Pomodoro</string>
+       <string>Ver Progresso</string>
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_5">
        <item>

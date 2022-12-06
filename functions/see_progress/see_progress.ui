@@ -32,7 +32,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="tabsClosable">
       <bool>false</bool>
@@ -267,8 +267,14 @@
        <string>Pomodoro</string>
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_5">
-       <item>
+       <item alignment="Qt::AlignHCenter">
         <widget class="QFrame" name="frame_3">
+         <property name="minimumSize">
+          <size>
+           <width>500</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -276,6 +282,13 @@
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_13">
+          <item>
+           <widget class="QComboBox" name="qCBoxPomodoro">
+            <property name="styleSheet">
+             <string notr="true">font: 18px;</string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QFrame" name="frame_15">
             <property name="frameShape">
@@ -365,37 +378,6 @@ font: 18px;</string>
                </property>
                <property name="text">
                 <string>Atualizar</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QFrame" name="frame_20">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_19">
-          <item>
-           <widget class="QFrame" name="frameCharts_pomodoro">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_21">
-             <item>
-              <widget class="QComboBox" name="qCBoxPomodoro">
-               <property name="styleSheet">
-                <string notr="true">font: 18px;</string>
                </property>
               </widget>
              </item>

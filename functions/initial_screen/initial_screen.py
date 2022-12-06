@@ -19,25 +19,25 @@ class InitialMainPage(QtWidgets.QWidget):
         #self.ui.label.setPixMap(pp)
         #self.ui.label.setScaledContents(True)
         self.ui.widget.setStyleSheet(u"""
-        background-image: url(:/images/images/images/initial/bem_vindo.jpg);
+        border-image: url(:/images/images/images/initial/Flashcards.png);
         background-position: center;
         background-repeat: no-repeat;
         stretch stretch;"""
         )
         self.ui.widget_2.setStyleSheet(u"""
-        background-image: url(:/images/images/images/initial/main_flashcards.jpg);
+        border-image: url(:/images/images/images/initial/Tarefas.png);
         background-position: center;
         background-repeat: no-repeat;
         stretch stretch;"""
         )
         self.ui.widget_3.setStyleSheet(u"""
-        background-image: url(:/images/images/images/initial/main_tasks.jpg);
+        border-image: url(:/images/images/images/initial/Pomodoro.png);
         background-position: center;
         background-repeat: no-repeat;
         stretch stretch;"""
         )
         self.ui.widget_4.setStyleSheet(u"""
-        background-image: url(:/images/images/images/initial/main_pomodoro.jpg);
+        border-image: url(:/images/images/images/initial/Ver_Progresso.png);
         background-position: center;
         background-repeat: no-repeat;
         stretch stretch;"""

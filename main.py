@@ -92,15 +92,6 @@ class MainWindow(QMainWindow):
             db.populateTbl(tbl='pomodoroProgress', params=(7, True, '25-05-2022', '00:25:00', 1))
             db.populateTbl(tbl='pomodoroProgress', params=(8, True, '25-05-2022', '00:22:00', 1))
             db.populateTbl(tbl='pomodoroProgress', params=(9, True, '25-05-2022', '00:35:00', 1))
-            db.populateTbl(tbl='pomodoroProgress', params=(10, True, '25-05-2022', '00:25:00', 1))
-            db.populateTbl(tbl='pomodoroProgress', params=(11, True, '25-05-2022', '00:25:00', 2))
-            db.populateTbl(tbl='pomodoroProgress', params=(12, True, '25-05-2022', '00:22:00', 1))
-            db.populateTbl(tbl='pomodoroProgress', params=(13, True, '25-05-2022', '00:35:00', 1))
-            db.populateTbl(tbl='pomodoroProgress', params=(14, True, '25-05-2022', '00:25:00', 2))
-            db.populateTbl(tbl='pomodoroProgress', params=(15, True, '25-05-2022', '00:25:00', 1))
-            db.populateTbl(tbl='pomodoroProgress', params=(16, True, '25-05-2022', '00:22:00', 2))
-            db.populateTbl(tbl='pomodoroProgress', params=(17, True, '25-05-2022', '00:35:00', 2))
-            db.populateTbl(tbl='pomodoroProgress', params=(18, True, '25-05-2022', '00:25:00', 1))
 
         QMainWindow.__init__(self)
 

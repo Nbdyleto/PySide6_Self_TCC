@@ -47,7 +47,7 @@ class SeeProgressMainPage(QtWidgets.QWidget):
         print('\n ID POMODORO É O SEGUINTE: ', self.topicPomodoroID)
         widgets.lblTotalPomodoros.setText(self.loadTotalPomodoros(topicid=self.topicPomodoroID))
         widgets.lblTotalTime.setText(self.loadTotalTimePomodoros(topicid=self.topicPomodoroID))
-        self.setupPomodoroPlot()
+        #self.setupPomodoroPlot()
 
         #LOAD TABLE WITH STATUS: 
         #self.loadStatusOfDecks(topicid=self.topicID)

@@ -1,6 +1,6 @@
 QWidget{
 	color: rgb(221, 221, 221);
-	font: 10pt "Times-new-roman";
+	font: 10pt "Segoe UI";
 }
 
 QMainWindow {
