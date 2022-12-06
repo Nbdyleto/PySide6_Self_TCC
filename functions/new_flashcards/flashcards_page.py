@@ -81,6 +81,30 @@ class MainFlashcardsPage(QtWidgets.QWidget):
         widgets.tblEditFlashcards.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
         widgets.tblEditFlashcards.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
         widgets.tblEditFlashcards.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
+
+        widgets.btnExport.setToolTip('Exportar')
+        widgets.btnExport.setStyleSheet("QPushButton{\n"
+"background-position: center;  \n"
+"background-repeat: no-repeat; \n"
+"background-image: url(:/icons/images/icons/cil-share-boxed.png);\n"
+"border-radius: 45px;\n"
+"}\n"
+"QToolTip{\n"
+"background-repeat: no-repeat; \n"
+"background-image: none;\n"
+"}")
+        widgets.btnImport.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        widgets.btnImport.setToolTip('Importar')
+        widgets.btnImport.setStyleSheet("QPushButton{\n"
+"background-position: center;  \n"
+"background-repeat: no-repeat; \n"
+"background-image: url(:/icons/images/icons/cil-vertical-align-bottom.png);\n"
+"border-radius: 45px;\n"
+"}\n"
+"QToolTip{\n"
+"background-repeat: no-repeat; \n"
+"background-image: none;\n"
+"}")
     
     def resetPage(self):
         self.loadDecksInTable()

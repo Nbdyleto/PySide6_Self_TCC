@@ -318,7 +318,7 @@ class Ui_Widget(object):
         self.horizontalLayout.addWidget(self.tabWidget)
 
         self.retranslateUi(Widget)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Widget)
 
     def retranslateUi(self, Widget):
