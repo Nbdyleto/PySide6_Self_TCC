@@ -207,7 +207,7 @@ class Ui_SeeProgressPage(object):
         self.verticalLayout.addWidget(self.tabSeeProgress)
 
         self.retranslateUi(SeeProgressPage)
-        self.tabSeeProgress.setCurrentIndex(1)
+        self.tabSeeProgress.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(SeeProgressPage)
 
     def retranslateUi(self, SeeProgressPage):
