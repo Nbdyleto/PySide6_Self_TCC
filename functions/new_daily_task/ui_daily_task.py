@@ -104,7 +104,7 @@ class Ui_DailyTaskPage(object):
         self.tblTasks.verticalHeader().setHighlightSections(False)
         self.horizontalLayout_4.addWidget(self.tblTasks)
         self.specialFrame = QtWidgets.QFrame(self.frame_2)
-        self.specialFrame.setMaximumSize(QtCore.QSize(270, 250))
+        self.specialFrame.setMaximumSize(QtCore.QSize(320, 250))
         self.specialFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.specialFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.specialFrame.setObjectName("specialFrame")

@@ -167,7 +167,7 @@ class DTaskMainPage(QtWidgets.QWidget):
             newvalue, inputstatus = QtWidgets.QInputDialog.getText(self, "Alterar Nome da Tarefa", f"{taskname}")
             if inputstatus:
                 db.cursor.execute(f"UPDATE tasks SET task_name = '{newvalue}' WHERE task_id == {taskid}")
-                self.loadDataInTable()
+        self.loadDataInTable()
 
     def getTopicName(self, topicid):
         with DBMainOperations() as db:
@@ -363,30 +363,6 @@ class DTaskMainPage(QtWidgets.QWidget):
 
     # UPDATE IN DB FUNCTIONS
     # ///////////////////////////////////////////////////////////////
-
-    def updateDBRecord(self, item):
-        if self.selectedTask == '':
-            print('Not existent in db, so, create new data.')
-            # Not existent in db, so, create new data.
-            with DBMainOperations() as db:
-                qry = 'SELECT * FROM tasks ORDER BY task_id DESC LIMIT 1;'
-                lastid = db.cursor.execute(qry).fetchall()[0][0]+1
-                sysdate = QtCore.QDate.currentDate().toString(QtCore.Qt.ISODate)
-                topicid = (self.activeTopicID if self.activeTopicID != -1 else 0)
-                newdata = (lastid, item.text(), "Não Iniciada.", sysdate, sysdate, topicid)
-                db.populateTbl('tasks', params=newdata)
-            print('adding...')
-        elif self.selectedTask is not None:
-            print('Existent in db, so, update old data.')
-            # Existent in db, so, update old data.
-            oldtask = self.selectedTask
-            with DBMainOperations() as db:
-                db.cursor.execute(f"UPDATE tasks SET task_name = '{item.text()}' WHERE task_name = '{oldtask}'")
-            print('changing...')
-        else:
-            return
-        self.selectedTask = None
-        self.loadDataInTable()
 
     def updateStatusOrTopic(self, row):
         # verify if clicked row is the last row.

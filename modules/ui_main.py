@@ -1009,7 +1009,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.titleLeftApp.setText(QCoreApplication.translate("MainWindow", u"SELF", None))
         self.titleLeftDescription.setText(QCoreApplication.translate("MainWindow", u"Produtividade e Foco", None))
-        self.toggleButton.setText(QCoreApplication.translate("MainWindow", u"Hide", None))
+        self.toggleButton.setText(QCoreApplication.translate("MainWindow", u"Minimizar", None))
         self.btn_home.setText(QCoreApplication.translate("MainWindow", u"Principal", None))
         self.btn_progress_page.setText(QCoreApplication.translate("MainWindow", u"Ver Progresso", None))
         self.btn_flashcards_page.setText(QCoreApplication.translate("MainWindow", u"Flashcards", None))

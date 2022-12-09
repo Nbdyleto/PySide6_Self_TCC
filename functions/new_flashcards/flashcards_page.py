@@ -176,18 +176,34 @@ class MainFlashcardsPage(QtWidgets.QWidget):
             self, "Novo Tópico", "Entre com o nome do novo tópico:")
         with DBMainOperations() as db:
             if inputstatus:
+                if not self.isTopicExistentInDB(topicname=newtopic):
+                    qry = 'SELECT * FROM topics ORDER BY topic_id DESC LIMIT 1;'
+                    lastid = db.cursor.execute(qry).fetchall()[0][0]+1
+                    db.populateTbl(tbl='topics', params=(lastid, newtopic))
+                    msgBox = QtWidgets.QMessageBox(self)
+                    msgBox.setText(f"O tópico '{newtopic}' foi adicionado!")
+                    msgBox.setInformativeText("Selecione-o e adicione novos decks.")
+                    self.loadTopicsInComboBox()
+                    msgBox.show()
+                else:
+                    msgBox = QtWidgets.QMessageBox(self)
+                    msgBox.setWindowTitle(f"Ledo engano...")
+                    msgBox.setText("Tópico existente!")
+                    msgBox.setInformativeText("Já existe um tópico com esse nome! Crie novamente, diferenciando-os.")
+                    self.loadTopicsInComboBox()
+                    msgBox.show()
+                    
                 # not need a exists clause to verify the existence, 
                 # because if all topics are removed,
                 # there are the topic_id 0, that returns "" to topic_name.
-                qry = 'SELECT * FROM topics ORDER BY topic_id DESC LIMIT 1;'
-                lastid = db.cursor.execute(qry).fetchall()[0][0]+1
-                db.populateTbl(tbl='topics', params=(lastid, newtopic))
-                self.loadTopicsInComboBox()
-                msgBox = QtWidgets.QMessageBox(self)
-                msgBox.setText(f"O tópico '{newtopic}' foi adicionado!")
-                msgBox.setInformativeText("Selecione-o e adicione novos decks.")
-                msgBox.show()
-
+    
+    def isTopicExistentInDB(self, topicname=None):
+        with DBMainOperations() as db:
+            exist = db.cursor.execute(f"""
+                SELECT EXISTS(SELECT 1 FROM topics WHERE topic_name = "{topicname}");"""
+            ).fetchall()[0][0]
+            existAtLeastATopic = True if exist == 1 else False
+            return existAtLeastATopic
 
     def loadWidgetsInRow(self, tablerow):
         btnAction = QtWidgets.QPushButton(widgets.tblDecks)

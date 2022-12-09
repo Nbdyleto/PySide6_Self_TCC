@@ -1,49 +1,25 @@
 [
     {
-        "deck_name": "ETEC Humanas",
-        "topic_name": "ETEC",
+        "deck_name": "Fuvest Humanas",
+        "topic_name": "Fuvest",
         "flashcards": [
             [
-                "T1",
-                "T2"
-            ],
-            [
-                "T3",
-                "T3"
-            ],
-            [
-                "T4",
-                "T4"
-            ],
-            [
-                "T5",
-                "T5"
+                "Quais paises faziam parte dos aliados na segunda guerra mundial?",
+                "Os aliados eram Estados Unidos, Inglaterra, Fran\u00e7a e Uni\u00e3o sovietica."
             ]
         ]
     },
     {
-        "deck_name": "ETEC Exatas",
-        "topic_name": "ETEC",
+        "deck_name": "Fuvest Exatas",
+        "topic_name": "Fuvest",
         "flashcards": [
             [
-                "E1",
-                "E1"
+                "Qual o uso adequado da hiperbole?",
+                "Ela \u00e9 utilizada para passar uma ideia de intensidade por meio de express\u00f5es exageradas intencionalmente"
             ],
             [
-                "E2",
-                "E2"
-            ],
-            [
-                "E3",
-                "E3"
-            ],
-            [
-                "E4",
-                "E4"
-            ],
-            [
-                "E5",
-                "E5"
+                "Diferencie acidos e bases",
+                "Um \u00e1cido ser\u00e1 toda esp\u00e9cie qu\u00edmica que sobre ioniza\u00e7\u00e3o liberando como \u00fanico c\u00e1tion o H+ em meio aquoso. J\u00e1 as bases, sofrem dissocia\u00e7\u00e3o liberando como \u00fanico \u00e2nion o OH-"
             ]
         ]
     }

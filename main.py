@@ -224,6 +224,7 @@ class MainWindow(QMainWindow):
             UIFunctions.resetStyle(self, btnName) # RESET ANOTHERS BUTTONS SELECTED
             self.btnSelected.setStyleSheet(UIFunctions.selectMenu(self.btnSelected.styleSheet()))
             widgets.newDailyTaskPage.loadDataInTable()
+            widgets.newDailyTaskPage.loadTopicsInList()
             widgets.newDailyTaskPage.hideAll()
 
         # PRINT BTN NAME
